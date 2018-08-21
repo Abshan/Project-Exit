@@ -1,2 +1,2 @@
 # Project-Exit
-this is a small university project we are working on.
+This is a small university project we are working on.
