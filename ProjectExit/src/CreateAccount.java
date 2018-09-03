@@ -107,9 +107,9 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel5.setText("STOCK");
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Desktop\\AUXANO-Logo2.png")); // NOI18N
+        jLabel14.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\Logo\\AUXANO-Logo2.png")); // NOI18N
 
-        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Desktop\\lgoutS.png")); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\Logo\\lgoutS.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
