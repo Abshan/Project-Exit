@@ -168,7 +168,7 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel9.setText("P.O. NUMBER:");
 
-        jButton3.setText("SAVE");
+        jButton3.setText("Create");
 
         jButton5.setText("CLEAR");
 

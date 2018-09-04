@@ -254,7 +254,7 @@ public class Sales extends javax.swing.JFrame {
             jTable3.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
 
-        jButton3.setText("SAVE");
+        jButton3.setText("Create");
 
         jButton5.setText("CLEAR");
 
