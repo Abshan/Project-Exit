@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 import javax.swing.DefaultCellEditor;
+import Models.SalesModel;
 /**
  *
  * @author it16350342

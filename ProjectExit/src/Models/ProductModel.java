@@ -11,13 +11,13 @@ package Models;
  */
 public class ProductModel {
     
-    public int prodId;
-    public String brandName;
-    public String prodName;
-    public float WSPrice;
-    public float MRPrice;
-    public String prodSize;
-    public String prodCat;
+    private int prodId;
+    private String brandName;
+    private String prodName;
+    private float WSPrice;
+    private float MRPrice;
+    private String prodSize;
+    private String prodCat;
 
     public ProductModel(int prodId, String brandName, String prodName, float WSPrice, float MRPrice, String prodSize, String prodCat) {
         this.prodId = prodId;

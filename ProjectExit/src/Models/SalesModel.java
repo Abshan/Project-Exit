@@ -11,14 +11,14 @@ package Models;
  */
 public class SalesModel {
     
-    public int SONo;
-    public String cusName;
-    public String cusPhone;
-    public String reqDate;
-    public String repName;
-    public String region;
-    public String orderCreator;
-    public String status;
+    private int SONo;
+    private String cusName;
+    private String cusPhone;
+    private String reqDate;
+    private String repName;
+    private String region;
+    private String orderCreator;
+    private String status;
 
     public SalesModel(int SONo, String cusName, String cusPhone, String reqDate, String repName, String region, String orderCreator, String status) {
         this.SONo = SONo;

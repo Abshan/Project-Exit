@@ -11,12 +11,12 @@ package Models;
  */
 public class PurchaseModel {
     
-    public int PONo;
-    public String vendorName;
-    public String batchNo;
-    public String purchaseDate;
-    public String manufacDate;
-    public String expiryDate;
+    private int PONo;
+    private String vendorName;
+    private String batchNo;
+    private String purchaseDate;
+    private String manufacDate;
+    private String expiryDate;
 
     public PurchaseModel(int PONo, String vendorName, String batchNo, String purchaseDate, String manufacDate, String expiryDate) {
         

@@ -11,12 +11,12 @@ package Models;
  */
 public class UserModel {
     
-    public int userID;
-    public String userName;
-    public String email;
-    public String nic;
-    public String password;
-    public String role;
+    private int userID;
+    private String userName;
+    private String email;
+    private String nic;
+    private String password;
+    private String role;
 
     public UserModel(int userID, String userName, String email, String nic, String password, String role) {
         this.userID = userID;
