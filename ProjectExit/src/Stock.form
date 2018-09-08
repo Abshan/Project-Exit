@@ -661,7 +661,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="FILTERBBY:"/>
+                        <Property name="text" type="java.lang.String" value="FILTER BY:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="jComboBox1">

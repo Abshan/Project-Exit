@@ -11,16 +11,12 @@ import javax.swing.*;
  * @author User
  */
 public class CreateAccount extends javax.swing.JFrame {
-public static CreateAccount[] Table;
-    int index;
-   
+  
     /**
      * Creates new form createAccount
      */
     public CreateAccount() {
         initComponents();
-        Table = new CreateAccount[1000];
-        index = 0;
     }
 
     /**
@@ -599,7 +595,7 @@ public static CreateAccount[] Table;
      {
          if(txtUserID.getText()==null|| txtUserName.getText()==null||txtEmail.getText()==null||txtNIC.getText()==null||txtPassword.getText()==null||txtConfirmPassword.getText()==null)
          {
-             JOptionPane.showMessageDialog(rootPane, "fucked");
+             JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
          }
           if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
          {
@@ -638,7 +634,6 @@ public static CreateAccount[] Table;
         txtPassword.setText("");
         txtConfirmPassword.setText("");
         
-        JOptionPane.showMessageDialog(rootPane, "Successfully Cancelled");
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -658,7 +653,6 @@ public static CreateAccount[] Table;
         txtPasswordMan.setText("");
         
         
-        JOptionPane.showMessageDialog(rootPane, "Successfully Cancelled");
 
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed

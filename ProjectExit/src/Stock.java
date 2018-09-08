@@ -307,7 +307,7 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel7.setText("SEARCH:");
 
-        jLabel8.setText("FILTERBBY:");
+        jLabel8.setText("FILTER BY:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LOW IN STOCK", " " }));
 
