@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 import Models.PurchaseModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import javax.swing.JOptionPane;
 /**
  *
  * @author User
@@ -16,6 +19,31 @@ public class Purchase extends javax.swing.JFrame {
     public Purchase() {
         initComponents();
     }
+    
+    public Connection getConnection()
+    {
+        String username = "root";
+        String password = "root";
+        String dbName = "ProjectExit_DB";
+        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
+        
+        
+        String jdbcUrl = String.format("jdbc:mysql://google/"+dbName+
+                "?cloudSqlInstance="+instanceName+"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user="+username+
+                "&password="+password+"&useSSL=false");
+
+        try {
+         
+        Connection con = DriverManager.getConnection(jdbcUrl, username, password);
+        return con;
+        
+        } catch (Exception e) {
+            
+         JOptionPane.showMessageDialog(null,"Connection to DataBase Failed");
+         return null;
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,6 +198,11 @@ public class Purchase extends javax.swing.JFrame {
         });
 
         jButton5.setText("CLEAR");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("BATCH NUMBER:");
 
@@ -493,6 +526,10 @@ public class Purchase extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

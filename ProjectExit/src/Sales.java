@@ -5,6 +5,9 @@
  */
 import javax.swing.DefaultCellEditor;
 import Models.SalesModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import javax.swing.JOptionPane;
 /**
  *
  * @author it16350342
@@ -16,6 +19,26 @@ public class Sales extends javax.swing.JFrame {
      */
     public Sales() {
         initComponents();
+    }
+    
+    public Connection getConnection()
+    {
+        String username = "root";
+        String password = "root";
+        String dbName = "ProjectExit_DB";
+        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
+        String jdbcUrl = String.format("jdbc:mysql://google/"+dbName+"?cloudSqlInstance="+instanceName+"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user="+username+"&password="+password+"&useSSL=false");
+
+        try {
+         
+        Connection con = DriverManager.getConnection(jdbcUrl, username, password);
+        return con;
+        
+        } catch (Exception e) {
+            
+         JOptionPane.showMessageDialog(null,"Connection to DataBase Failed");
+         return null;
+        }
     }
 
     /**
