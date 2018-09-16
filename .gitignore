@@ -1,2 +1,5 @@
 /ProjectExit/build/
 /ProjectExit/nbproject/private/
+*.xml
+*.properties
+*.properties
