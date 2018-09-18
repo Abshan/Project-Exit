@@ -23,11 +23,14 @@ public class Sales extends javax.swing.JFrame {
     
     public Connection getConnection()
     {
-        String username = "root";
+        String username = "auxano";
         String password = "root";
         String dbName = "ProjectExit_DB";
         String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-        String jdbcUrl = String.format("jdbc:mysql://google/"+dbName+"?cloudSqlInstance="+instanceName+"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user="+username+"&password="+password+"&useSSL=false");
+        
+        String jdbcUrl = String.format("jdbc:mysql://google/"+dbName+
+                "?cloudSqlInstance="+instanceName+"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user="+username+
+                "&password="+password+"&useSSL=false");
 
         try {
          
@@ -248,32 +251,34 @@ public class Sales extends javax.swing.JFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ITEM", "DESCRIPTION", "ORDERED", "RATE", "AMOUNT", "STATUS"
+                "ITEM", "ORDERED", "RATE", "AMOUNT", "STATUS"
             }
         ));
+        jTable3.setColumnSelectionAllowed(true);
         jScrollPane4.setViewportView(jTable3);
+        jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }

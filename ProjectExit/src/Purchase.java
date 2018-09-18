@@ -22,7 +22,7 @@ public class Purchase extends javax.swing.JFrame {
     
     public Connection getConnection()
     {
-        String username = "root";
+        String username = "auxano";
         String password = "root";
         String dbName = "ProjectExit_DB";
         String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
