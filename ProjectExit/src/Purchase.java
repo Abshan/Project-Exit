@@ -102,6 +102,8 @@ public class Purchase extends javax.swing.JFrame {
         jLabel40 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -413,19 +415,26 @@ public class Purchase extends javax.swing.JFrame {
                     .addGroup(jPanel22Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton15))
-                    .addGroup(jPanel22Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel22Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
+                            .addGroup(jPanel22Layout.createSequentialGroup()
                                 .addComponent(jLabel39)
-                                .addGap(50, 50, 50)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel40)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel17)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel38)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel22Layout.createSequentialGroup()
+                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel38)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel22Layout.setVerticalGroup(
@@ -438,7 +447,9 @@ public class Purchase extends javax.swing.JFrame {
                     .addComponent(jLabel39)
                     .addComponent(jLabel40)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -614,6 +625,8 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker6;
