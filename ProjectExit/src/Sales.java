@@ -28,14 +28,14 @@ public class Sales extends javax.swing.JFrame {
         String dbName = "ProjectExit_DB";
         String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
         
-        String jdbcUrl = String.format("jdbc:mysql://google/"+dbName+
-                "?cloudSqlInstance="+instanceName+"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user="+username+
-                "&password="+password+"&useSSL=false");
+        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
+        + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",dbName,instanceName);
+
 
         try {
          
-        Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-        return con;
+        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+        return connection;
         
         } catch (Exception e) {
             
