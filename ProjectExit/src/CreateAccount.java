@@ -419,33 +419,30 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel41)
-                            .addComponent(jLabel23))
-                        .addGap(251, 251, 251))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(txtUserIDMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(txtEmailMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtUserNameMan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel42)
                                     .addComponent(jLabel12))
                                 .addGap(25, 25, 25))
-                            .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addGap(18, 18, 18)))
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel41)
+                                    .addComponent(jLabel23))
+                                .addGap(26, 26, 26)))
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbRoleMan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtNICMan)
-                            .addComponent(txtPasswordMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtPasswordMan, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(txtEmailMan))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
@@ -593,19 +590,36 @@ public class CreateAccount extends javax.swing.JFrame {
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
      try
      {
-         if(txtUserID.getText()==null|| txtUserName.getText()==null||txtEmail.getText()==null||txtNIC.getText()==null||txtPassword.getText()==null||txtConfirmPassword.getText()==null)
+         if((txtUserID.getText().equals(""))||(txtUserName.getText().equals(""))||txtEmail.getText().equals("")||txtNIC.getText().equals("")||txtPassword.getText().equals("")||txtConfirmPassword.getText().equals(""))
          {
              JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
          }
-          if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
+         
+         if (!(txtEmail.getText().equals("")))
+         {
+             String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+             if(!(txtEmail.getText().matches(regex)))
+             {
+                 JOptionPane.showMessageDialog(rootPane, "Please enter a valid email address.");
+             }           
+         }
+         
+         if(!(txtNIC.getText().equals("")))
+         {
+               String NICregex="[0-9]{9}[x|X|v|V]$";
+               if(!(txtNIC.getText().matches(NICregex)))
+                 JOptionPane.showMessageDialog(rootPane, "enter valid NIC");                 
+                         
+         }
+             
+         
+              
+         if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
          {
                 JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
-         }
+         } 
          else
-                 {
-                    
-                      
-             
+                 {            
                       String UserID=txtUserID.getText();
                       String UserName =txtUserName.getText();
                       String Email=txtEmail.getText();
@@ -621,7 +635,7 @@ public class CreateAccount extends javax.swing.JFrame {
          
      }
      catch(Exception e){
-         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
+       //  JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
          }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCreateActionPerformed
