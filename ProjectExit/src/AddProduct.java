@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 import Models.ProductModel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 /**
  *
  * @author User
@@ -82,13 +82,13 @@ public class AddProduct extends javax.swing.JFrame {
         txtQuantity1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblPurchase = new javax.swing.JLabel();
+        lblSales = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        lblStock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -527,20 +527,40 @@ public class AddProduct extends javax.swing.JFrame {
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("USER");
-        jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblUser.setText("USER");
+        lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUserMouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("PRODUCTS");
         jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
 
-        jLabel3.setText("PURCHASE");
-        jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblPurchase.setText("PURCHASE");
+        lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPurchaseMouseClicked(evt);
+            }
+        });
 
-        jLabel4.setText("SALES");
-        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblSales.setText("SALES");
+        lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSalesMouseClicked(evt);
+            }
+        });
 
-        jLabel5.setText("STOCK");
-        jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblStock.setText("STOCK");
+        lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -550,11 +570,11 @@ public class AddProduct extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblPurchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -564,15 +584,15 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel1)
+                .addComponent(lblUser)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lblPurchase)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(lblSales)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(lblStock)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7)
                 .addContainerGap())
@@ -661,8 +681,8 @@ public class AddProduct extends javax.swing.JFrame {
             if(result==false){
             try{
                 int PID = Integer.parseInt(ProductID);
-                double MRP = Double.parseDouble(MaxRP);
-                double WSP = Double.parseDouble(WholesaleP);
+                float MRP = Float.parseFloat(MaxRP);
+                float WSP = Float.parseFloat(WholesaleP);
                 int qty = Integer.parseInt(Quantity);
                 result = true;                
             }
@@ -684,6 +704,30 @@ public class AddProduct extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Please fill all the fields.");
         }
     }//GEN-LAST:event_btnAddProductActionPerformed
+
+    private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+        CreateAccount frame = new CreateAccount();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblUserMouseClicked
+
+    private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        Purchase frame = new Purchase();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblPurchaseMouseClicked
+
+    private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
+        Sales frame = new Sales();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblSalesMouseClicked
+
+    private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        Stock frame = new Stock();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblStockMouseClicked
 
     /**
      * @param args the command line arguments
@@ -715,6 +759,7 @@ public class AddProduct extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new AddProduct().setVisible(true);
             }
@@ -731,7 +776,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkDrugs;
     private javax.swing.JComboBox<String> drpCategory;
     private javax.swing.JButton jButton7;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -742,18 +786,15 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -770,6 +811,10 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblPurchase;
+    private javax.swing.JLabel lblSales;
+    private javax.swing.JLabel lblStock;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JTable tblManageProduct;
     private javax.swing.JTextField txtBrandName;
     private javax.swing.JTextField txtBrandName1;

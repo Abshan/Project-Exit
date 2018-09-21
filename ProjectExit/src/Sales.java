@@ -59,11 +59,11 @@ public class Sales extends javax.swing.JFrame {
         jComboBox9 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        lblProducts = new javax.swing.JLabel();
+        lblPurchase = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblStock = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -154,24 +154,40 @@ public class Sales extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("USER");
-        jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblUser.setText("USER");
+        lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUserMouseClicked(evt);
+            }
+        });
 
-        jLabel2.setText("PRODUCTS");
-        jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblProducts.setText("PRODUCTS");
+        lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblProductsMouseClicked(evt);
+            }
+        });
 
-        jLabel3.setText("PURCHASE");
-        jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblPurchase.setText("PURCHASE");
+        lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPurchaseMouseClicked(evt);
+            }
+        });
 
         jLabel4.setText("SALES");
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 51), null, null));
 
-        jLabel5.setText("STOCK");
-        jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel28.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\Logo\\AUXANO-Logo2.png")); // NOI18N
-
-        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\Logo\\lgoutS.png")); // NOI18N
+        lblStock.setText("STOCK");
+        lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -181,11 +197,11 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPurchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -195,15 +211,15 @@ public class Sales extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel1)
+                .addComponent(lblUser)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(lblProducts)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lblPurchase)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(lblStock)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7)
                 .addContainerGap())
@@ -810,6 +826,30 @@ public class Sales extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+        CreateAccount frame = new CreateAccount();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblUserMouseClicked
+
+    private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        AddProduct frame = new AddProduct();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblProductsMouseClicked
+
+    private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        Purchase frame = new Purchase();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblPurchaseMouseClicked
+
+    private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        Stock frame = new Stock();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblStockMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -861,7 +901,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JComboBox<String> jComboBox9;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -871,7 +910,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -882,7 +920,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -890,7 +927,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -929,5 +965,9 @@ public class Sales extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
+    private javax.swing.JLabel lblProducts;
+    private javax.swing.JLabel lblPurchase;
+    private javax.swing.JLabel lblStock;
+    private javax.swing.JLabel lblUser;
     // End of variables declaration//GEN-END:variables
 }
