@@ -306,6 +306,11 @@ public class Stock extends javax.swing.JFrame {
         jLabel8.setText("FILTER BY:");
 
         drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LOW IN STOCK", " " }));
+        drpFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drpFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -412,6 +417,10 @@ public class Stock extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void drpFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drpFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_drpFilterActionPerformed
 
     /**
      * @param args the command line arguments
