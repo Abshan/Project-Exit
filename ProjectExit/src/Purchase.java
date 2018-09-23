@@ -269,7 +269,7 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel8.setText("SUM:");
 
         sum.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -788,10 +788,6 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;
@@ -825,16 +821,13 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
-    private org.jdesktop.swingx.JXDatePicker pd;
-    private javax.swing.JTextField pn;
-    private javax.swing.JLabel sum;
-    private javax.swing.JTextField vn;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker6;
     private javax.swing.JLabel lblProducts;
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
+    private org.jdesktop.swingx.JXDatePicker pd;
+    private javax.swing.JTextField pn;
+    private javax.swing.JLabel sum;
+    private javax.swing.JTextField vn;
     // End of variables declaration//GEN-END:variables
 }
