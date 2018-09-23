@@ -789,8 +789,11 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private javax.swing.JLabel jLabel1;
 =======
+=======
+>>>>>>> 67d30b3ebadb0378ee5ff1d0feffca8d3bfff4e0
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -841,6 +844,9 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
+<<<<<<< HEAD
+>>>>>>> 67d30b3ebadb0378ee5ff1d0feffca8d3bfff4e0
+=======
 >>>>>>> 67d30b3ebadb0378ee5ff1d0feffca8d3bfff4e0
     // End of variables declaration//GEN-END:variables
 }
