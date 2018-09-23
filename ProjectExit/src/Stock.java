@@ -316,7 +316,7 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NUMBER", "PRODUCT NAME", "MANF DATE", "EXP DATE", "QUANITYT"
+                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "SIZE", "EXP DATE", "MANF DATE", "QUANITYT", "AMOUNT"
             }
         ));
         jScrollPane1.setViewportView(tblViewStock);
