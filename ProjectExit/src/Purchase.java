@@ -751,7 +751,7 @@ public class Purchase extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -788,13 +788,10 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-<<<<<<< HEAD
     private javax.swing.JLabel jLabel1;
-=======
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
->>>>>>> 67d30b3ebadb0378ee5ff1d0feffca8d3bfff4e0
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;
@@ -828,12 +825,10 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
-<<<<<<< HEAD
     private org.jdesktop.swingx.JXDatePicker pd;
     private javax.swing.JTextField pn;
     private javax.swing.JLabel sum;
     private javax.swing.JTextField vn;
-=======
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker6;
@@ -841,6 +836,5 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
->>>>>>> 67d30b3ebadb0378ee5ff1d0feffca8d3bfff4e0
     // End of variables declaration//GEN-END:variables
 }
