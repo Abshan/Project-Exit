@@ -5,6 +5,8 @@
  */
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.swing.*;
 /**
  *
@@ -17,6 +19,29 @@ public class CreateAccount extends javax.swing.JFrame {
      */
     public CreateAccount() {
         initComponents();
+    }
+    
+    public Connection getConnection()
+    {
+        String username = "auxano";
+        String password = "root";
+        String dbName = "ProjectExit_DB";
+        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
+        
+        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
+        + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",dbName,instanceName);
+
+
+        try {
+         
+        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+        return connection;
+        
+        } catch (Exception e) {
+            
+         JOptionPane.showMessageDialog(null,"Connection to DataBase Failed");
+         return null;
+        }
     }
 
     /**
@@ -59,7 +84,7 @@ public class CreateAccount extends javax.swing.JFrame {
         txtUserID = new javax.swing.JTextField();
         txtConfirmPassword = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        cmbRole = new javax.swing.JComboBox<String>();
+        cmbRole = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -80,11 +105,11 @@ public class CreateAccount extends javax.swing.JFrame {
         txtDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txtNICMan = new javax.swing.JTextField();
         txtPasswordMan = new javax.swing.JTextField();
-        cmbRoleMan = new javax.swing.JComboBox<String>();
+        cmbRoleMan = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtSearchMan = new javax.swing.JTextField();
@@ -99,15 +124,35 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel2.setText("PRODUCTS");
         jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("PURCHASE");
         jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel4.setText("SALES");
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel5.setText("STOCK");
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -200,7 +245,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel13.setText("ROLE:");
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -363,6 +408,11 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel42.setText("NIC NUMBER:");
 
         btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("DELETE");
 
@@ -385,7 +435,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
 
         jLabel8.setText("PASSOWORD:");
 
@@ -395,7 +445,7 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN" }));
+        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
 
         jLabel12.setText("ROLE:");
 
@@ -419,33 +469,30 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel41)
-                            .addComponent(jLabel23))
-                        .addGap(251, 251, 251))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(txtUserIDMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(txtEmailMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtUserNameMan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel42)
                                     .addComponent(jLabel12))
                                 .addGap(25, 25, 25))
-                            .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addGap(18, 18, 18)))
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel41)
+                                    .addComponent(jLabel23))
+                                .addGap(26, 26, 26)))
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbRoleMan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtNICMan)
-                            .addComponent(txtPasswordMan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtPasswordMan, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(txtEmailMan))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
@@ -473,7 +520,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(txtSearchMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -488,10 +535,10 @@ public class CreateAccount extends javax.swing.JFrame {
                             .addComponent(jLabel41)
                             .addComponent(txtEmailMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel42)
-                            .addComponent(txtNICMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNICMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPasswordMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
@@ -580,6 +627,7 @@ public class CreateAccount extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserIDManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserIDManActionPerformed
@@ -593,19 +641,36 @@ public class CreateAccount extends javax.swing.JFrame {
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
      try
      {
-         if(txtUserID.getText()==null|| txtUserName.getText()==null||txtEmail.getText()==null||txtNIC.getText()==null||txtPassword.getText()==null||txtConfirmPassword.getText()==null)
+         if((txtUserID.getText().equals(""))||(txtUserName.getText().equals(""))||txtEmail.getText().equals("")||txtNIC.getText().equals("")||txtPassword.getText().equals("")||txtConfirmPassword.getText().equals(""))
          {
              JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
          }
-          if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
+         
+         if (!(txtEmail.getText().equals("")))
+         {
+             String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+             if(!(txtEmail.getText().matches(regex)))
+             {
+                 JOptionPane.showMessageDialog(rootPane, "Please enter a valid email address.");
+             }           
+         }
+         
+         if(!(txtNIC.getText().equals("")))
+         {
+               String NICregex="[0-9]{9}[x|X|v|V]$";
+               if(!(txtNIC.getText().matches(NICregex)))
+                 JOptionPane.showMessageDialog(rootPane, "enter valid NIC");                 
+                         
+         }
+             
+         
+              
+         if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
          {
                 JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
-         }
+         } 
          else
-                 {
-                    
-                      
-             
+                 {            
                       String UserID=txtUserID.getText();
                       String UserName =txtUserName.getText();
                       String Email=txtEmail.getText();
@@ -621,7 +686,7 @@ public class CreateAccount extends javax.swing.JFrame {
          
      }
      catch(Exception e){
-         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
+       //  JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
          }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCreateActionPerformed
@@ -656,6 +721,54 @@ public class CreateAccount extends javax.swing.JFrame {
 
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+        
+        Connection con = getConnection();
+       // String que1 = " upd"
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+       
+        AddProduct proframe = new AddProduct();
+        proframe.setVisible(true);
+        this.dispose();
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+
+        Purchase purframe = new Purchase();
+        purframe.setVisible(true);
+        this.dispose();
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        
+        Sales salframe = new Sales();
+        salframe.setVisible(true);
+        this.dispose();
+        
+                
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        
+        Stock stoframe = new Stock();
+        stoframe.setVisible(true);
+        this.dispose();
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
