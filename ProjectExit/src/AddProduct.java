@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 import Models.ProductModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.swing.*;
 /**
  *
@@ -16,6 +18,27 @@ public class AddProduct extends javax.swing.JFrame {
      */
     public AddProduct() {
         initComponents();
+    }
+    
+    public Connection getConnection() {
+        String username = "auxano";
+        String password = "root";
+        String dbName = "ProjectExit_DB";
+        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
+
+        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
+                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
+
+        try {
+
+            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
+            return con;
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
+            return null;
+        }
     }
 
     /**
