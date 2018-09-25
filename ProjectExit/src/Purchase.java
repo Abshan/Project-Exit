@@ -231,7 +231,15 @@ public class Purchase extends javax.swing.JFrame {
             new String [] {
                 "BATCH NO", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable9MouseClicked(evt);
@@ -430,23 +438,21 @@ public class Purchase extends javax.swing.JFrame {
 
         jTable8.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"123456", "Auxano", "22-10-2018", "75000.00"}
             },
             new String [] {
-                "P.O. ID", "BATCH NO.", "ITEM", "SIZE", "QUANTITY", "M.F. DATE", "EXP DATE", "AMOUNT"
+                "P.O NUMBER", "VENDOR NAME", "PURCHASE DATE", "AMOUNT"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane9.setViewportView(jTable8);
-        if (jTable8.getColumnModel().getColumnCount() > 0) {
-            jTable8.getColumnModel().getColumn(0).setHeaderValue("P.O. ID");
-            jTable8.getColumnModel().getColumn(1).setHeaderValue("BATCH NO.");
-            jTable8.getColumnModel().getColumn(2).setHeaderValue("ITEM");
-            jTable8.getColumnModel().getColumn(3).setHeaderValue("SIZE");
-            jTable8.getColumnModel().getColumn(4).setHeaderValue("QUANTITY");
-            jTable8.getColumnModel().getColumn(5).setHeaderValue("M.F. DATE");
-            jTable8.getColumnModel().getColumn(6).setHeaderValue("EXP DATE");
-            jTable8.getColumnModel().getColumn(7).setHeaderValue("AMOUNT");
-        }
 
         jButton15.setText("GENERATE PURCHASE REPORT");
 
@@ -457,7 +463,7 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel40.setText("TO");
 
-        jLabel17.setText("SEARCH  BY  P.O. ID:");
+        jLabel17.setText("SEARCH  BY  P.O NUMBER:");
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
