@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 //Check changes
 /**
  *
@@ -23,6 +24,10 @@ public class Sales extends javax.swing.JFrame {
     public Sales() {
         initComponents();
     }
+    
+    public int count;
+    
+    SalesItemsAdd addItems = new SalesItemsAdd();
     
     public Connection getConnection()
     {
@@ -88,7 +93,7 @@ public class Sales extends javax.swing.JFrame {
         txtUser = new javax.swing.JTextField();
         cmbSalesRep = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblCreateSO = new javax.swing.JTable();
         btnCreate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -102,6 +107,9 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR = new javax.swing.JLabel();
         lblErrorR = new javax.swing.JLabel();
         lblErrorOS = new javax.swing.JLabel();
+        btnAddTab = new javax.swing.JButton();
+        btnEditTab = new javax.swing.JButton();
+        btnDeleteTab = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -122,6 +130,7 @@ public class Sales extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jComboBox7 = new javax.swing.JComboBox<>();
+        btnViewTab = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -273,7 +282,10 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel8.setText("ORDER CREATED BY:");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
+        cmbSalesRep.setSelectedIndex(-1);
+
+        tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -281,11 +293,11 @@ public class Sales extends javax.swing.JFrame {
                 "ITEM", "ORDERED", "RATE", "AMOUNT", "STATUS"
             }
         ));
-        jTable3.setColumnSelectionAllowed(true);
-        jScrollPane4.setViewportView(jTable3);
-        jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
+        tblCreateSO.setColumnSelectionAllowed(true);
+        jScrollPane4.setViewportView(tblCreateSO);
+        tblCreateSO.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblCreateSO.getColumnModel().getColumnCount() > 0) {
+            tblCreateSO.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
 
         btnCreate.setText("Create");
@@ -311,6 +323,17 @@ public class Sales extends javax.swing.JFrame {
 
         cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH ", "EAST", "WEST" }));
         cmbRegion.setSelectedIndex(-1);
+
+        btnAddTab.setText("Add");
+        btnAddTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTabActionPerformed(evt);
+            }
+        });
+
+        btnEditTab.setText("Edit");
+
+        btnDeleteTab.setText("Delete");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -369,14 +392,19 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDeleteTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                    .addComponent(btnEditTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                    .addComponent(btnAddTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105))
+                .addGap(102, 102, 102))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,7 +451,16 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblErrorRD))))
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnAddTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 40, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -537,6 +574,8 @@ public class Sales extends javax.swing.JFrame {
 
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH" }));
 
+        btnViewTab.setText("View");
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
@@ -561,7 +600,9 @@ public class Sales extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(13, 13, 13)))
-                        .addContainerGap(91, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnViewTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -591,9 +632,15 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jXDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
                     .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(btnViewTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1067,15 +1114,31 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added!");
 
             txtSONumber.setText("");
+            lblErrorSON.setText("");
             txtCustomerName.setText("");
+            lblErrorCN.setText("");
             txtCustomerPhone.setText("");
+            lblErrorCP.setText("");
             cmbOrderStatus.setSelectedIndex(-1);
+            lblErrorOS.setText("");
             cmbRegion.setSelectedIndex(-1);
+            lblErrorR.setText("");
             cmbSalesRep.setSelectedIndex(-1);
+            lblErrorSR.setText("");
             dpReqDate.setDate(null);
+            lblErrorRD.setText("");
         }
         
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnAddTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTabActionPerformed
+        // TODO add your handling code here:
+        
+        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+        
+//        count = 
+        
+    }//GEN-LAST:event_btnAddTabActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1114,8 +1177,12 @@ public class Sales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddTab;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDeleteTab;
+    private javax.swing.JButton btnEditTab;
+    private javax.swing.JButton btnViewTab;
     private javax.swing.JComboBox<String> cmbOrderStatus;
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
@@ -1180,7 +1247,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField2;
@@ -1199,6 +1265,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JTable tblCreateSO;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     private javax.swing.JTextField txtSONumber;
