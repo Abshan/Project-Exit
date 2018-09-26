@@ -5,8 +5,10 @@
  */
 import javax.swing.DefaultCellEditor;
 import Models.SalesModel;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Date;
 import javax.swing.JOptionPane;
 //Check changes
 /**
@@ -73,26 +75,33 @@ public class Sales extends javax.swing.JFrame {
         jPanel17 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        txtCustomerName = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        txtCustomerPhone = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        txtSONumber = new javax.swing.JTextField();
+        dpReqDate = new org.jdesktop.swingx.JXDatePicker();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        txtUser = new javax.swing.JTextField();
+        cmbSalesRep = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbOrderStatus = new javax.swing.JComboBox<>();
         jLabel31 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        cmbRegion = new javax.swing.JComboBox<>();
+        lblErrorSON = new javax.swing.JLabel();
+        lblErrorCN = new javax.swing.JLabel();
+        lblErrorCP = new javax.swing.JLabel();
+        lblErrorRD = new javax.swing.JLabel();
+        lblErrorSR = new javax.swing.JLabel();
+        lblErrorR = new javax.swing.JLabel();
+        lblErrorOS = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -264,7 +273,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel8.setText("ORDER CREATED BY:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH", "PRAVEEN" }));
+        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH", "PRAVEEN" }));
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -300,114 +309,139 @@ public class Sales extends javax.swing.JFrame {
             jTable3.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
 
-        jButton3.setText("Create");
+        btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("CLEAR");
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("ORDER STATUS:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "CONFIRMED" }));
+        cmbOrderStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "CONFIRMED" }));
 
         jLabel31.setText("REGION:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kandy" }));
+        cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kandy" }));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane4)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jLabel33)
-                                    .addGap(25, 25, 25)
-                                    .addComponent(jTextField12))
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addComponent(jLabel34)
-                                            .addGap(42, 42, 42)
-                                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel15)
-                                                .addComponent(jLabel9))
-                                            .addGap(32, 32, 32)
-                                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jTextField5)
-                                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGap(0, 0, Short.MAX_VALUE)))
-                            .addGap(97, 97, 97)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jLabel13)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel7)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                            .addComponent(jLabel8)
-                                            .addGap(62, 62, 62))
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addComponent(jLabel31)
-                                            .addGap(133, 133, 133)))
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jComboBox2, 0, 210, Short.MAX_VALUE)
-                                        .addComponent(jTextField13)
-                                        .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                .addContainerGap(802, Short.MAX_VALUE)
+                .addComponent(btnCreate)
+                .addGap(18, 18, 18)
+                .addComponent(btnClear)
                 .addContainerGap(91, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane4)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel33)
+                                .addGap(25, 25, 25)
+                                .addComponent(txtCustomerPhone))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel34)
+                                .addGap(42, 42, 42)
+                                .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel9))
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCustomerName)
+                                    .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrorSON)
+                            .addComponent(lblErrorCN)
+                            .addComponent(lblErrorCP)
+                            .addComponent(lblErrorRD))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(62, 62, 62))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel31)
+                                        .addGap(133, 133, 133)))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cmbSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtUser)
+                                    .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblErrorSR)
+                    .addComponent(lblErrorR)
+                    .addComponent(lblErrorOS))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(cmbSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblErrorSR))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblErrorSON)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel31)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErrorCN)
+                            .addComponent(lblErrorR))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8)
-                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel33)
-                                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtCustomerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblErrorCP)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel34)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton5))
-                        .addGap(26, 26, 26))))
+                            .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErrorRD)
+                            .addComponent(lblErrorOS))))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreate)
+                    .addComponent(btnClear))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -870,6 +904,190 @@ public class Sales extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblStockMouseClicked
 
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        
+        txtSONumber.setText("");
+        lblErrorSON.setText("");
+
+        txtCustomerName.setText("");
+        lblErrorCN.setText("");
+
+        txtCustomerPhone.setText("");
+        lblErrorCP.setText("");
+
+        cmbOrderStatus.setSelectedIndex(-1);
+        lblErrorOS.setText("");
+
+        cmbRegion.setSelectedIndex(-1);
+        lblErrorR.setText("");
+
+        cmbSalesRep.setSelectedIndex(-1);
+        lblErrorSR.setText("");
+
+        dpReqDate.setDate(null);
+        lblErrorRD.setText("");
+        
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        
+        //         int doublecheck = 0;
+//         String PNo = txtCustomerPhone.getText();
+//
+//         if(txtSONumber.getText() == "" || txtCustomerName.getText() == "" || PNo == ""|| dpReqDate.getDate() == null || cmbSalesRep.getSelectedItem() == ""  || cmbRegion.getSelectedItem() == "" || cmbOrderStatus.getSelectedItem() == "")
+//         {
+//             JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
+//             doublecheck = 1;
+//
+//         }
+//
+//
+//             else if( PNo.length() !=10  && doublecheck == 0)
+//         {
+//             JOptionPane.showMessageDialog(rootPane, "Invalid Pnone Number");
+//             int pnum = Integer.parseInt(PNo);
+//         }
+//
+//
+//
+//
+//         else
+//         {
+//             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
+//
+//             txtSONumber.setText("");
+//             txtCustomerName.setText("");
+//             txtCustomerPhone.setText("");
+//             cmbOrderStatus.setSelectedIndex(-1);
+//             cmbRegion.setSelectedIndex(-1);
+//             cmbSalesRep.setSelectedIndex(-1);
+//             dpReqDate.setDate(null);
+//         }
+//
+//
+//     }
+//     catch(HeadlessException | NumberFormatException e){
+//         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
+//        }
+
+        int check = 0;
+
+        try {
+            if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
+                int soNumber = Integer.parseInt(txtSONumber.getText());
+                check++;
+            } else {
+
+                 lblErrorSON.setText("*Invalid");
+            }
+        } catch (HeadlessException | NumberFormatException e) {
+
+            lblErrorSON.setText("*Invalid");
+        }
+
+
+        try {
+            if ((!"".equals(txtCustomerName.getText()))) {
+                String customerName = txtCustomerName.getText();
+                check++;
+            } else {
+
+                lblErrorCN.setText("*Invalid");
+            }
+        } catch (HeadlessException e) {
+
+            lblErrorCN.setText("*Invalid");
+        }
+
+
+        try {
+            if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
+                int customerPhone = Integer.parseInt(txtCustomerPhone.getText());
+                check++;
+            } else {
+
+                lblErrorCP.setText("*Invalid");
+
+            }
+        } catch (HeadlessException | NumberFormatException e) {
+
+            lblErrorCP.setText("*Invalid");
+
+        }
+
+
+        try {
+            if (dpReqDate.getDate() != null) {
+                Date requiredDate = dpReqDate.getDate();
+                check++;
+            } else {
+
+                lblErrorRD.setText("*Invalid");
+            }
+        } catch (HeadlessException e) {
+
+            lblErrorRD.setText("*Invalid");
+        }
+
+
+        try {
+            if (cmbSalesRep.getSelectedItem()!= null) {
+                String salesRep = (String) cmbSalesRep.getSelectedItem();
+                check++;
+            } else {
+
+                lblErrorSR.setText("*Invalid");
+            }
+        } catch (HeadlessException e) {
+
+            lblErrorSR.setText("*Invalid");
+        }
+
+
+        try {
+            if (cmbRegion.getSelectedItem()!= null) {
+                String region = (String) cmbRegion.getSelectedItem();
+                check++;
+            } else {
+
+                lblErrorR.setText("*Invalid");
+            }
+        } catch (HeadlessException e) {
+
+            lblErrorR.setText("*Invalid");
+        }
+
+
+        try {
+            if (cmbOrderStatus.getSelectedItem()!= null) {
+                String orderStatus = (String) cmbOrderStatus.getSelectedItem();
+                check++;
+            } else {
+
+                lblErrorOS.setText("*Invalid");
+            }
+        } catch (HeadlessException e) {
+
+            lblErrorOS.setText("*Invalid");
+        }
+
+        if (check == 7) {
+
+            JOptionPane.showMessageDialog(rootPane, "Information Successfully Added!");
+
+            txtSONumber.setText("");
+            txtCustomerName.setText("");
+            txtCustomerPhone.setText("");
+            cmbOrderStatus.setSelectedIndex(-1);
+            cmbRegion.setSelectedIndex(-1);
+            cmbSalesRep.setSelectedIndex(-1);
+            dpReqDate.setDate(null);
+        }
+        
+    }//GEN-LAST:event_btnCreateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -907,16 +1125,17 @@ public class Sales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JComboBox<String> cmbOrderStatus;
+    private javax.swing.JComboBox<String> cmbRegion;
+    private javax.swing.JComboBox<String> cmbSalesRep;
+    private org.jdesktop.swingx.JXDatePicker dpReqDate;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox7;
@@ -975,19 +1194,25 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
+    private javax.swing.JLabel lblErrorCN;
+    private javax.swing.JLabel lblErrorCP;
+    private javax.swing.JLabel lblErrorOS;
+    private javax.swing.JLabel lblErrorR;
+    private javax.swing.JLabel lblErrorRD;
+    private javax.swing.JLabel lblErrorSON;
+    private javax.swing.JLabel lblErrorSR;
     private javax.swing.JLabel lblProducts;
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JTextField txtCustomerName;
+    private javax.swing.JTextField txtCustomerPhone;
+    private javax.swing.JTextField txtSONumber;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
