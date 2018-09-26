@@ -60,7 +60,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("CONFIRM ACCOUNT"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("EDIT ITEM"));
 
         jLabel2.setText("BATCH NO:");
 
