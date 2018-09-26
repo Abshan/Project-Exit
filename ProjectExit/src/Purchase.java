@@ -611,7 +611,7 @@ public class Purchase extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
 
-        //count = jTable9.getRowCount();
+        count = jTable9.getRowCount();
         addProduct.setVisible(true);
         addProduct.pack();
         addProduct.setLocationRelativeTo(null);
@@ -630,7 +630,7 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        //index = jTable9.getSelectedRow();
+        index = jTable9.getSelectedRow();
         if (jTable9.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a Row Edit");
         } else {
@@ -656,7 +656,7 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        
 
         if (jTable9.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the row you want to delete!");
@@ -770,7 +770,10 @@ public class Purchase extends javax.swing.JFrame {
         } else {
 
             DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-            //order = (int) model.getValueAt(jTable8.getSelectedRow(), 0);
+            String num = model.getValueAt(jTable8.getSelectedRow(), 0).toString();
+            
+            viewOrder.jLabel10.setText(num);
+            
             
 
             viewOrder.setVisible(true);

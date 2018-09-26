@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +22,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
      */
     public PurchaseItemsView() {
         initComponents();
+
     }
 
     public Connection getConnection() {
@@ -37,23 +39,12 @@ public class PurchaseItemsView extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(jdbcUrl, username, password);
             return con;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
             return null;
         }
     }
-    
-    
-    
-    
-    
-    /*int index = Purchase.jTable8.getSelectedRow();
-    
-    DefaultTableModel model = (DefaultTableModel) Purchase.jTable8.getModel();
-    */
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -209,8 +200,6 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -249,17 +238,17 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    public static javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
+    public static javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    public static javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public static javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
