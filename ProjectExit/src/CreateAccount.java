@@ -84,7 +84,7 @@ public class CreateAccount extends javax.swing.JFrame {
         txtUserID = new javax.swing.JTextField();
         txtConfirmPassword = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        cmbRole = new javax.swing.JComboBox<>();
+        cmbRole = new javax.swing.JComboBox<String>();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -105,11 +105,11 @@ public class CreateAccount extends javax.swing.JFrame {
         txtDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jLabel8 = new javax.swing.JLabel();
         txtNICMan = new javax.swing.JTextField();
         txtPasswordMan = new javax.swing.JTextField();
-        cmbRoleMan = new javax.swing.JComboBox<>();
+        cmbRoleMan = new javax.swing.JComboBox<String>();
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtSearchMan = new javax.swing.JTextField();
@@ -245,7 +245,12 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel13.setText("ROLE:");
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
+        cmbRole.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRoleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -435,7 +440,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
 
         jLabel8.setText("PASSOWORD:");
 
@@ -445,7 +450,7 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
+        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN" }));
 
         jLabel12.setText("ROLE:");
 
@@ -639,55 +644,54 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordManActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-     try
-     {
-         if((txtUserID.getText().equals(""))||(txtUserName.getText().equals(""))||txtEmail.getText().equals("")||txtNIC.getText().equals("")||txtPassword.getText().equals("")||txtConfirmPassword.getText().equals(""))
-         {
-             JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
-         }
-         
-         if (!(txtEmail.getText().equals("")))
-         {
-             String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-             if(!(txtEmail.getText().matches(regex)))
-             {
-                 JOptionPane.showMessageDialog(rootPane, "Please enter a valid email address.");
-             }           
-         }
-         
-         if(!(txtNIC.getText().equals("")))
-         {
-               String NICregex="[0-9]{9}[x|X|v|V]$";
-               if(!(txtNIC.getText().matches(NICregex)))
-                 JOptionPane.showMessageDialog(rootPane, "enter valid NIC");                 
+     boolean email = false;
+     boolean NICCheck = false;
+     boolean pass = false;
+     
+        try {
+            if ((txtUserID.getText().equals("")) || (txtUserName.getText().equals("")) || txtEmail.getText().equals("") || txtNIC.getText().equals("") || txtPassword.getText().equals("") || txtConfirmPassword.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
+            } else {
+                if (!(txtEmail.getText().equals(""))) {
+                    String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+                    if (!(txtEmail.getText().matches(regex))) {
+                        JOptionPane.showMessageDialog(rootPane, "Please enter a valid email address.");
+                    } else {
+                        email = true;
+                    }
+                }
+
+                if (!(txtNIC.getText().equals(""))) {
+                    String NICregex = "[0-9]{9}[x|X|v|V]$";
+                    if (!(txtNIC.getText().matches(NICregex))) {
+                        JOptionPane.showMessageDialog(rootPane, "enter valid NIC");
+                    } else {
+                        NICCheck = true;
+                    }
+                }
+
+                if (!(txtPassword.getText().equals(txtConfirmPassword.getText()))) {
+                    JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
+                } else {
+                    pass = true;
+                }
+            }
+
+            if ((pass == true) && (email == true) && (NICCheck == true)) {
+
+                String UserID = txtUserID.getText();
+                String UserName = txtUserName.getText();
+                String Email = txtEmail.getText();
+                String NIC = txtNIC.getText();
+                String Password = txtPassword.getText();
+                String ConfirmPassword = txtConfirmPassword.getText();
+
+                JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
+            }
+        } catch (Exception e) {
+        }
                          
-         }
-             
          
-              
-         if(!(txtPassword.getText().equals(txtConfirmPassword.getText())))
-         {
-                JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
-         } 
-         else
-                 {            
-                      String UserID=txtUserID.getText();
-                      String UserName =txtUserName.getText();
-                      String Email=txtEmail.getText();
-                      String NIC=txtNIC.getText();
-                      String Password= txtPassword.getText();
-                      String ConfirmPassword=txtConfirmPassword.getText();
-                        
-                      
-                      JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-                     
-                 }
-        
-         
-     }
-     catch(Exception e){
-       //  JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
-         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -769,6 +773,10 @@ public class CreateAccount extends javax.swing.JFrame {
         
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void cmbRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbRoleActionPerformed
 
     /**
      * @param args the command line arguments
