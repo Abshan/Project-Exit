@@ -289,7 +289,7 @@
                               <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="26" max="32767" attributes="0"/>
+                              <EmptySpace pref="22" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -410,7 +410,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="lblErrorSR" pref="34" max="32767" attributes="0"/>
+                                      <Component id="lblErrorSR" max="32767" attributes="0"/>
                                       <Component id="lblErrorR" alignment="0" max="32767" attributes="0"/>
                                       <Component id="lblErrorOS" alignment="0" max="32767" attributes="0"/>
                                   </Group>
@@ -432,7 +432,7 @@
                                   <Component id="btnCreate" min="-2" pref="90" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="btnClear" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -491,25 +491,27 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                           <Component id="btnAddTab" pref="30" max="32767" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="btnEditTab" min="-2" pref="30" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="btnDeleteTab" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="77" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                          <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="btnCreate" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                       <Component id="btnClear" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -580,12 +582,11 @@
                             <Component class="javax.swing.JTable" name="tblCreateSO">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="5" rowCount="0">
+                                  <Table columnCount="4" rowCount="0">
                                     <Column editable="true" title="ITEM" type="java.lang.Object"/>
-                                    <Column editable="true" title="ORDERED" type="java.lang.Object"/>
+                                    <Column editable="true" title="QUANTITY" type="java.lang.Object"/>
                                     <Column editable="true" title="RATE" type="java.lang.Object"/>
-                                    <Column editable="true" title="AMOUNT" type="java.lang.Object"/>
-                                    <Column editable="true" title="STATUS" type="java.lang.Object"/>
+                                    <Column editable="true" title="SUB TOTAL" type="java.lang.Float"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -595,11 +596,6 @@
                                       <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                         <Connection code="new DefaultCellEditor(jComboBox9)" type="code"/>
                                       </Editor>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -688,18 +684,39 @@
                           </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorSON">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCN">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCP">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorRD">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorSR">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorR">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorOS">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="*Invalid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnAddTab">
                           <Properties>

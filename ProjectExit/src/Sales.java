@@ -23,10 +23,16 @@ public class Sales extends javax.swing.JFrame {
      */
     public Sales() {
         initComponents();
+        lblErrorSON.setVisible(false);
+        lblErrorCN.setVisible(false);
+        lblErrorCP.setVisible(false);
+        lblErrorRD.setVisible(false);
+        lblErrorSR.setVisible(false);
+        lblErrorR.setVisible(false);
+        lblErrorOS.setVisible(false);
     }
     
     public int count;
-    
     SalesItemsAdd addItems = new SalesItemsAdd();
     
     public Connection getConnection()
@@ -290,9 +296,17 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ITEM", "ORDERED", "RATE", "AMOUNT", "STATUS"
+                "ITEM", "QUANTITY", "RATE", "SUB TOTAL"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         tblCreateSO.setColumnSelectionAllowed(true);
         jScrollPane4.setViewportView(tblCreateSO);
         tblCreateSO.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -323,6 +337,20 @@ public class Sales extends javax.swing.JFrame {
 
         cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH ", "EAST", "WEST" }));
         cmbRegion.setSelectedIndex(-1);
+
+        lblErrorSON.setText("*Invalid");
+
+        lblErrorCN.setText("*Invalid");
+
+        lblErrorCP.setText("*Invalid");
+
+        lblErrorRD.setText("*Invalid");
+
+        lblErrorSR.setText("*Invalid");
+
+        lblErrorR.setText("*Invalid");
+
+        lblErrorOS.setText("*Invalid");
 
         btnAddTab.setText("Add");
         btnAddTab.addActionListener(new java.awt.event.ActionListener() {
@@ -386,7 +414,7 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblErrorSR, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(lblErrorSR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblErrorR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblErrorOS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -404,7 +432,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(102, 102, 102))
+                .addGap(103, 103, 103))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,22 +478,23 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(jLabel34)
                             .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblErrorRD))))
-                .addGap(29, 29, 29)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(35, 35, 35)
                         .addComponent(btnAddTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 40, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addGap(0, 77, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -491,7 +520,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -944,25 +973,33 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         txtSONumber.setText("");
-        lblErrorSON.setText("");
+//        lblErrorSON.setText("");
 
         txtCustomerName.setText("");
-        lblErrorCN.setText("");
+//        lblErrorCN.setText("");
 
         txtCustomerPhone.setText("");
-        lblErrorCP.setText("");
+//        lblErrorCP.setText("");
 
         cmbOrderStatus.setSelectedIndex(-1);
-        lblErrorOS.setText("");
+//        lblErrorOS.setText("");
 
         cmbRegion.setSelectedIndex(-1);
-        lblErrorR.setText("");
+//        lblErrorR.setText("");
 
         cmbSalesRep.setSelectedIndex(-1);
-        lblErrorSR.setText("");
+//        lblErrorSR.setText("");
 
         dpReqDate.setDate(null);
-        lblErrorRD.setText("");
+//        lblErrorRD.setText("");
+
+        lblErrorSON.setVisible(false);
+        lblErrorCN.setVisible(false);
+        lblErrorCP.setVisible(false);
+        lblErrorRD.setVisible(false);
+        lblErrorSR.setVisible(false);
+        lblErrorR.setVisible(false);
+        lblErrorOS.setVisible(false);
         
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -1014,13 +1051,14 @@ public class Sales extends javax.swing.JFrame {
             if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
                 int soNumber = Integer.parseInt(txtSONumber.getText());
                 check++;
+                lblErrorSON.setVisible(false);
             } else {
 
-                 lblErrorSON.setText("*Invalid");
+                 lblErrorSON.setVisible(true);
             }
         } catch (HeadlessException | NumberFormatException e) {
 
-            lblErrorSON.setText("*Invalid");
+            lblErrorSON.setVisible(true);
         }
 
 
@@ -1028,13 +1066,14 @@ public class Sales extends javax.swing.JFrame {
             if ((!"".equals(txtCustomerName.getText()))) {
                 String customerName = txtCustomerName.getText();
                 check++;
+                lblErrorCN.setVisible(false);
             } else {
 
-                lblErrorCN.setText("*Invalid");
+                lblErrorCN.setVisible(true);
             }
         } catch (HeadlessException e) {
 
-            lblErrorCN.setText("*Invalid");
+            lblErrorCN.setVisible(true);
         }
 
 
@@ -1042,14 +1081,15 @@ public class Sales extends javax.swing.JFrame {
             if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
                 int customerPhone = Integer.parseInt(txtCustomerPhone.getText());
                 check++;
+                lblErrorCP.setVisible(false);
             } else {
 
-                lblErrorCP.setText("*Invalid");
+                lblErrorCP.setVisible(true);
 
             }
         } catch (HeadlessException | NumberFormatException e) {
 
-            lblErrorCP.setText("*Invalid");
+            lblErrorCP.setVisible(true);
 
         }
 
@@ -1058,13 +1098,14 @@ public class Sales extends javax.swing.JFrame {
             if (dpReqDate.getDate() != null) {
                 Date requiredDate = dpReqDate.getDate();
                 check++;
+                lblErrorRD.setVisible(false);
             } else {
 
-                lblErrorRD.setText("*Invalid");
+                lblErrorRD.setVisible(true);
             }
         } catch (HeadlessException e) {
 
-            lblErrorRD.setText("*Invalid");
+            lblErrorRD.setVisible(true);
         }
 
 
@@ -1072,13 +1113,14 @@ public class Sales extends javax.swing.JFrame {
             if (cmbSalesRep.getSelectedItem()!= null) {
                 String salesRep = (String) cmbSalesRep.getSelectedItem();
                 check++;
+                lblErrorSR.setVisible(false);
             } else {
 
-                lblErrorSR.setText("*Invalid");
+                lblErrorSR.setVisible(true);
             }
         } catch (HeadlessException e) {
 
-            lblErrorSR.setText("*Invalid");
+            lblErrorSR.setVisible(true);
         }
 
 
@@ -1086,13 +1128,14 @@ public class Sales extends javax.swing.JFrame {
             if (cmbRegion.getSelectedItem()!= null) {
                 String region = (String) cmbRegion.getSelectedItem();
                 check++;
+                lblErrorR.setVisible(false);
             } else {
 
-                lblErrorR.setText("*Invalid");
+                lblErrorR.setVisible(true);
             }
         } catch (HeadlessException e) {
 
-            lblErrorR.setText("*Invalid");
+            lblErrorR.setVisible(true);
         }
 
 
@@ -1100,13 +1143,14 @@ public class Sales extends javax.swing.JFrame {
             if (cmbOrderStatus.getSelectedItem()!= null) {
                 String orderStatus = (String) cmbOrderStatus.getSelectedItem();
                 check++;
+                lblErrorOS.setVisible(false);
             } else {
 
-                lblErrorOS.setText("*Invalid");
+                lblErrorOS.setVisible(true);
             }
         } catch (HeadlessException e) {
 
-            lblErrorOS.setText("*Invalid");
+            lblErrorOS.setVisible(true);
         }
 
         if (check == 7) {
@@ -1136,7 +1180,19 @@ public class Sales extends javax.swing.JFrame {
         
         DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
         
-//        count = 
+        count = tblCreateSO.getRowCount();
+        addItems.setVisible(true);
+        addItems.pack();
+        addItems.setLocationRelativeTo(null);
+
+        addItems.txtBatchNo.setText("");
+        addItems.txtItemName.setText("");
+//        addItems.txtMDd.setText("");
+//        addItems.txtMDm.setText("");
+//        addItems.txtMDy.setText("");
+//        addItems.txtEDd.setText("");
+//        addItems.txtEDm.setText("");
+//        addItems.txtEDy.setText("");
         
     }//GEN-LAST:event_btnAddTabActionPerformed
 
