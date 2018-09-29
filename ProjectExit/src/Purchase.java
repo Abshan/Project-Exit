@@ -779,7 +779,7 @@ public class Purchase extends javax.swing.JFrame {
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
 
-        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        //DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
 
         String query = "SELECT * FROM purchase_tab";
 
