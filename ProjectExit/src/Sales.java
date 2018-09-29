@@ -11,7 +11,9 @@ import java.sql.DriverManager;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Models.DatabaseConnection;
 //Check changes
+
 /**
  *
  * @author it16350342
@@ -19,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Sales extends javax.swing.JFrame {
 
     /**
-     * Creates new form 
+     * Creates new form
      */
     public Sales() {
         initComponents();
@@ -31,32 +33,10 @@ public class Sales extends javax.swing.JFrame {
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
     }
-    
+    DatabaseConnection dbConnect = new DatabaseConnection();
+
     public int count;
     SalesItemsAdd addItems = new SalesItemsAdd();
-    
-    public Connection getConnection()
-    {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-        
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-        + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",dbName,instanceName);
-
-
-        try {
-         
-        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-        return connection;
-        
-        } catch (Exception e) {
-            
-         JOptionPane.showMessageDialog(null,"Connection to DataBase Failed");
-         return null;
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -971,7 +951,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-        
+
         txtSONumber.setText("");
 //        lblErrorSON.setText("");
 
@@ -1000,12 +980,12 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR.setVisible(false);
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
-        
+
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        
+
         //         int doublecheck = 0;
 //         String PNo = txtCustomerPhone.getText();
 //
@@ -1044,7 +1024,6 @@ public class Sales extends javax.swing.JFrame {
 //     catch(HeadlessException | NumberFormatException e){
 //         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
 //        }
-
         int check = 0;
 
         try {
@@ -1054,13 +1033,12 @@ public class Sales extends javax.swing.JFrame {
                 lblErrorSON.setVisible(false);
             } else {
 
-                 lblErrorSON.setVisible(true);
+                lblErrorSON.setVisible(true);
             }
         } catch (HeadlessException | NumberFormatException e) {
 
             lblErrorSON.setVisible(true);
         }
-
 
         try {
             if ((!"".equals(txtCustomerName.getText()))) {
@@ -1075,7 +1053,6 @@ public class Sales extends javax.swing.JFrame {
 
             lblErrorCN.setVisible(true);
         }
-
 
         try {
             if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
@@ -1093,7 +1070,6 @@ public class Sales extends javax.swing.JFrame {
 
         }
 
-
         try {
             if (dpReqDate.getDate() != null) {
                 Date requiredDate = dpReqDate.getDate();
@@ -1108,9 +1084,8 @@ public class Sales extends javax.swing.JFrame {
             lblErrorRD.setVisible(true);
         }
 
-
         try {
-            if (cmbSalesRep.getSelectedItem()!= null) {
+            if (cmbSalesRep.getSelectedItem() != null) {
                 String salesRep = (String) cmbSalesRep.getSelectedItem();
                 check++;
                 lblErrorSR.setVisible(false);
@@ -1123,9 +1098,8 @@ public class Sales extends javax.swing.JFrame {
             lblErrorSR.setVisible(true);
         }
 
-
         try {
-            if (cmbRegion.getSelectedItem()!= null) {
+            if (cmbRegion.getSelectedItem() != null) {
                 String region = (String) cmbRegion.getSelectedItem();
                 check++;
                 lblErrorR.setVisible(false);
@@ -1138,9 +1112,8 @@ public class Sales extends javax.swing.JFrame {
             lblErrorR.setVisible(true);
         }
 
-
         try {
-            if (cmbOrderStatus.getSelectedItem()!= null) {
+            if (cmbOrderStatus.getSelectedItem() != null) {
                 String orderStatus = (String) cmbOrderStatus.getSelectedItem();
                 check++;
                 lblErrorOS.setVisible(false);
@@ -1172,14 +1145,14 @@ public class Sales extends javax.swing.JFrame {
             dpReqDate.setDate(null);
             lblErrorRD.setText("");
         }
-        
+
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnAddTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTabActionPerformed
         // TODO add your handling code here:
-        
+
         DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
-        
+
         count = tblCreateSO.getRowCount();
         addItems.setVisible(true);
         addItems.pack();
@@ -1193,7 +1166,7 @@ public class Sales extends javax.swing.JFrame {
 //        addItems.txtEDd.setText("");
 //        addItems.txtEDm.setText("");
 //        addItems.txtEDy.setText("");
-        
+
     }//GEN-LAST:event_btnAddTabActionPerformed
 
     /**

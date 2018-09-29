@@ -8,6 +8,7 @@ import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import Models.DatabaseConnection;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Purchase extends javax.swing.JFrame {
     PurchaseItemsEdit editProduct = new PurchaseItemsEdit();
     PurchaseItemsAdd addProduct = new PurchaseItemsAdd();
     PurchaseItemsView viewOrder = new PurchaseItemsView();
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     public int getSum() {
         int rowsCount = jTable9.getRowCount();
@@ -45,27 +48,6 @@ public class Purchase extends javax.swing.JFrame {
             sum = sum + Integer.parseInt(jTable9.getValueAt(i, 4).toString());
         }
         return sum;
-    }
-
-    public Connection getConnection() {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
-
-        try {
-
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-            return con;
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
-            return null;
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -193,6 +175,12 @@ public class Purchase extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addContainerGap())
         );
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
@@ -441,7 +429,16 @@ public class Purchase extends javax.swing.JFrame {
 
         jTable8.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"123456", "Auxano", "22-10-2018", "75000.00"}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "P.O NUMBER", "VENDOR NAME", "PURCHASE DATE", "AMOUNT"
@@ -656,7 +653,6 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
 
         if (jTable9.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the row you want to delete!");
@@ -674,7 +670,7 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
-        Connection con = getConnection();
+        Connection con = dbConnect.getConnection();
         Statement st;
         ResultSet rs;
 
@@ -764,17 +760,14 @@ public class Purchase extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
 
-        
         if (jTable8.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the Purchase Order you want to view");
         } else {
 
             DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
             String num = model.getValueAt(jTable8.getSelectedRow(), 0).toString();
-            
+
             viewOrder.jLabel10.setText(num);
-            
-            
 
             viewOrder.setVisible(true);
             viewOrder.pack();
@@ -782,6 +775,27 @@ public class Purchase extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
+
+        String query = "SELECT * FROM purchase_tab";
+        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+
+        try {
+            PreparedStatement pst = con.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+
+            while (rst.next()) {
+                int pn = rst.getInt("purNo");
+                model.setValueAt(pn, 0, 0);
+            }
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
      * @param args the command line arguments

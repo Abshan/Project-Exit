@@ -7,6 +7,8 @@ import Models.ProductModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
+import Models.DatabaseConnection;
+
 /**
  *
  * @author User
@@ -19,27 +21,7 @@ public class AddProduct extends javax.swing.JFrame {
     public AddProduct() {
         initComponents();
     }
-    
-    public Connection getConnection() {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
-
-        try {
-
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-            return con;
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
-            return null;
-        }
-    }
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -694,37 +676,32 @@ public class AddProduct extends javax.swing.JFrame {
         String Quantity = txtQuantity.getText();
         String MaxRP = txtMRP.getText();
         String WholesaleP = txtWholesalePrice.getText();
-        
+
         if (!((chkCosmetics.isSelected()) || (chkDrugs.isSelected()))) {
             JOptionPane.showMessageDialog(rootPane, "Please select a Product Category.");
         }
-                
-        if(!((ProductID.equals(""))||(BrandName.equals(""))||(ProductName.equals(""))||(Quantity.equals(""))||(MaxRP.equals(""))||(WholesaleP.equals("")))){
+
+        if (!((ProductID.equals("")) || (BrandName.equals("")) || (ProductName.equals("")) || (Quantity.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
             boolean result = false;
-            
-            if(result==false){
-            try{
-                int PID = Integer.parseInt(ProductID);
-                float MRP = Float.parseFloat(MaxRP);
-                float WSP = Float.parseFloat(WholesaleP);
-                int qty = Integer.parseInt(Quantity);
-                result = true;                
+
+            if (result == false) {
+                try {
+                    int PID = Integer.parseInt(ProductID);
+                    float MRP = Float.parseFloat(MaxRP);
+                    float WSP = Float.parseFloat(WholesaleP);
+                    int qty = Integer.parseInt(Quantity);
+                    result = true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
+                }
+
+                if ((Integer.parseInt(ProductID) <= 0) || (Double.parseDouble(MaxRP) <= 0.0) || (Double.parseDouble(WholesaleP) <= 0.0) || (Integer.parseInt(Quantity) <= 0)) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
+                } else if (result == true) {
+                    JOptionPane.showMessageDialog(rootPane, "Product Added Successfully!");
+                }
             }
-            catch(NumberFormatException e)
-            {
-                JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
-            }
-            
-            if((Integer.parseInt(ProductID)<=0)||(Double.parseDouble(MaxRP)<=0.0)||(Double.parseDouble(WholesaleP)<=0.0)||(Integer.parseInt(Quantity)<=0)){
-                JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
-            }
-            
-            else if(result==true){
-                JOptionPane.showMessageDialog(rootPane, "Product Added Successfully!");
-            }
-          }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Please fill all the fields.");
         }
     }//GEN-LAST:event_btnAddProductActionPerformed

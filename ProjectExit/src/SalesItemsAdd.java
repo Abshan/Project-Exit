@@ -1,6 +1,7 @@
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Models.DatabaseConnection;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +21,8 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     public SalesItemsAdd() {
         initComponents();
     }
+    
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
      * This method is called from within the constructor to initialize the form.

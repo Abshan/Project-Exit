@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author User
@@ -20,27 +19,6 @@ public class PurchaseReport extends javax.swing.JFrame {
      */
     public PurchaseReport() {
         initComponents();
-    }
-    
-    public Connection getConnection() {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
-
-        try {
-
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-            return con;
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
-            return null;
-        }
     }
 
     /**

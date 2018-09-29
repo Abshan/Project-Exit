@@ -2,13 +2,13 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
+import Models.DatabaseConnection;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author it16350342
@@ -21,27 +21,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
-    
-    public Connection getConnection() {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
-
-        try {
-
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-            return con;
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
-            return null;
-        }
-    }
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
      * This method is called from within the constructor to initialize the form.

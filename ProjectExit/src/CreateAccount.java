@@ -9,41 +9,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import Models.DatabaseConnection;
+
 /**
  *
  * @author User
  */
 public class CreateAccount extends javax.swing.JFrame {
-  
+
     /**
      * Creates new form createAccount
      */
     public CreateAccount() {
         initComponents();
     }
-    
-    public Connection getConnection()
-    {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-        
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-        + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",dbName,instanceName);
-
-
-        try {
-         
-        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-        return connection;
-        
-        } catch (Exception e) {
-            
-         JOptionPane.showMessageDialog(null,"Connection to DataBase Failed");
-         return null;
-        }
-    }
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -665,10 +645,10 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordManActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-     boolean email = false;
-     boolean NICCheck = false;
-     boolean pass = false;
-     
+        boolean email = false;
+        boolean NICCheck = false;
+        boolean pass = false;
+
         try {
             if ((txtUserID.getText().equals("")) || (txtUserName.getText().equals("")) || txtEmail.getText().equals("") || txtNIC.getText().equals("") || txtPassword.getText().equals("") || txtConfirmPassword.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
@@ -711,87 +691,72 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-                         
-         
+
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-       txtUserID.setText("");
+        txtUserID.setText("");
         txtUserName.setText("");
         txtEmail.setText("");
         txtNIC.setText("");
         txtPassword.setText("");
         txtConfirmPassword.setText("");
-        
+
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtSearchManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchManageActionPerformed
-     
-        
 
 // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         model.setRowCount(0);
-        if(tblDetailsTable.getSelectedRow()==-1)
-       {
-           if(tblDetailsTable.getRowCount()==0)
-           {
-               JOptionPane.showMessageDialog(rootPane, "Table is empty");
-           }
-       
-           
-       
-       }
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+            }
+
+        }
         txtUserIDMan.setText("");
         txtUserNameMan.setText("");
         txtEmailMan.setText("");
         txtNICMan.setText("");
         txtPasswordMan.setText("");
-        
-        
 
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-      //tblDetailsTable model =(tblDetailsTable) tbl
-       if(tblDetailsTable.getSelectedRow()==-1)
-       {
-           if(tblDetailsTable.getRowCount()==0)
-           {
-               JOptionPane.showMessageDialog(rootPane, "Table is empty");
-           }
-           else
-           {
-               JOptionPane.showMessageDialog(rootPane, "You must select a row");
-           }
-       }
-      DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
-      
-      model.setValueAt(txtUserIDMan.getText(),tblDetailsTable.getSelectedRow(),0);
-      model.setValueAt(txtUserNameMan.getText(),tblDetailsTable.getSelectedRow(),1);
-      model.setValueAt(txtEmailMan.getText(),tblDetailsTable.getSelectedRow(),2);
-      model.setValueAt(txtNICMan.getText(),tblDetailsTable.getSelectedRow(),3);
-      model.setValueAt(txtPasswordMan.getText(),tblDetailsTable.getSelectedRow(),4);
-      
-        //Connection con = getConnection();
-       // String que1 = " upd"
-        
+        //tblDetailsTable model =(tblDetailsTable) tbl
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "You must select a row");
+            }
+        }
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
 
+        model.setValueAt(txtUserIDMan.getText(), tblDetailsTable.getSelectedRow(), 0);
+        model.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
+        model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
+        model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
+        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
+
+        //Connection con = getConnection();
+        // String que1 = " upd"
 // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-       
+
         AddProduct proframe = new AddProduct();
         proframe.setVisible(true);
         this.dispose();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -800,27 +765,25 @@ public class CreateAccount extends javax.swing.JFrame {
         Purchase purframe = new Purchase();
         purframe.setVisible(true);
         this.dispose();
-        
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        
+
         Sales salframe = new Sales();
         salframe.setVisible(true);
         this.dispose();
-        
-                
-        
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        
+
         Stock stoframe = new Stock();
         stoframe.setVisible(true);
         this.dispose();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel5MouseClicked
 
@@ -829,7 +792,7 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbRoleActionPerformed
 
     private void txtSearchManageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchManageKeyTyped
-        String[] data = {"A","B","C","D","E","F"};
+        String[] data = {"A", "B", "C", "D", "E", "F"};
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         model.addRow(data);//hard coded
     }//GEN-LAST:event_txtSearchManageKeyTyped
@@ -839,63 +802,53 @@ public class CreateAccount extends javax.swing.JFrame {
         int row = tblDetailsTable.getSelectedRow();
         String v1 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
         txtUserIDMan.setText(v1);
-        
+
         String v2 = tblDetailsTable.getModel().getValueAt(row, 1).toString();
         txtUserNameMan.setText(v2);
-        
+
         String v3 = tblDetailsTable.getModel().getValueAt(row, 2).toString();
         txtEmailMan.setText(v3);
-        
+
         String v4 = tblDetailsTable.getModel().getValueAt(row, 3).toString();
         txtNICMan.setText(v4);
-        
+
         String v5 = tblDetailsTable.getModel().getValueAt(row, 4).toString();
         txtPasswordMan.setText(v5);
-        
-       // String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
-       // txtrole.setText(v6);
-        
+
+        // String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
+        // txtrole.setText(v6);
+
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       DefaultTableModel model=(DefaultTableModel) tblDetailsTable.getModel();
-       if(tblDetailsTable.getSelectedRow()==-1)
-       {
-           if(tblDetailsTable.getRowCount()==0)
-           {
-               JOptionPane.showMessageDialog(rootPane, "Table is empty");
-           }
-           else
-           {
-               JOptionPane.showMessageDialog(rootPane, "You must select a row");
-           }
-       }
-       else
-       {
-           model.removeRow(tblDetailsTable.getSelectedRow());
-           
-       }
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "You must select a row");
+            }
+        } else {
+            model.removeRow(tblDetailsTable.getSelectedRow());
+
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
-        if(tblDetailsTable.getSelectedRow()==-1)
-       {
-           if(tblDetailsTable.getRowCount()==0)
-           {
-               JOptionPane.showMessageDialog(rootPane, "Table is empty");
-           }
-           else
-           {
-               JOptionPane.showMessageDialog(rootPane, "You must select a row");
-           }
-       }
-      DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
-      
-      model.setValueAt(txtUserIDMan.getText(),tblDetailsTable.getSelectedRow(),0);
-      model.setValueAt(txtUserNameMan.getText(),tblDetailsTable.getSelectedRow(),1);
-      model.setValueAt(txtEmailMan.getText(),tblDetailsTable.getSelectedRow(),2);
-      model.setValueAt(txtNICMan.getText(),tblDetailsTable.getSelectedRow(),3);
-      model.setValueAt(txtPasswordMan.getText(),tblDetailsTable.getSelectedRow(),4);
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "You must select a row");
+            }
+        }
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+
+        model.setValueAt(txtUserIDMan.getText(), tblDetailsTable.getSelectedRow(), 0);
+        model.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
+        model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
+        model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
+        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
     }//GEN-LAST:event_btnUpdateKeyPressed
 
     /**

@@ -25,27 +25,6 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
     }
 
-    public Connection getConnection() {
-        String username = "auxano";
-        String password = "root";
-        String dbName = "ProjectExit_DB";
-        String instanceName = "seismic-envoy-216605:asia-southeast1:cloud-sql-project-exit";
-
-        String jdbcUrl = String.format("jdbc:mysql://google/%s?cloudSqlInstance=%s"
-                + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false", dbName, instanceName);
-
-        try {
-
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-            return con;
-
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, "Connection to DataBase Failed");
-            return null;
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
