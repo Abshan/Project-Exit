@@ -85,7 +85,7 @@ public class CreateAccount extends javax.swing.JFrame {
         txtUserID = new javax.swing.JTextField();
         txtConfirmPassword = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        cmbRole = new javax.swing.JComboBox<String>();
+        cmbRole = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -106,11 +106,11 @@ public class CreateAccount extends javax.swing.JFrame {
         tblDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txtNICMan = new javax.swing.JTextField();
         txtPasswordMan = new javax.swing.JTextField();
-        cmbRoleMan = new javax.swing.JComboBox<String>();
+        cmbRoleMan = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtSearchManage = new javax.swing.JTextField();
@@ -246,7 +246,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel13.setText("ROLE:");
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
         cmbRole.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbRoleActionPerformed(evt);
@@ -419,8 +419,18 @@ public class CreateAccount extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
+        btnUpdate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnUpdateKeyPressed(evt);
+            }
+        });
 
         btnDelete.setText("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         tblDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -446,7 +456,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
 
         jLabel8.setText("PASSOWORD:");
 
@@ -456,7 +466,7 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
+        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
 
         jLabel12.setText("ROLE:");
 
@@ -725,7 +735,18 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-
+        DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
+        model.setRowCount(0);
+        if(tblDetailsTable.getSelectedRow()==-1)
+       {
+           if(tblDetailsTable.getRowCount()==0)
+           {
+               JOptionPane.showMessageDialog(rootPane, "Table is empty");
+           }
+       
+           
+       
+       }
         txtUserIDMan.setText("");
         txtUserNameMan.setText("");
         txtEmailMan.setText("");
@@ -738,9 +759,27 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-      //  tblDetailsTable model =(tblDetailsTable) tbl
-        
-        Connection con = getConnection();
+      //tblDetailsTable model =(tblDetailsTable) tbl
+       if(tblDetailsTable.getSelectedRow()==-1)
+       {
+           if(tblDetailsTable.getRowCount()==0)
+           {
+               JOptionPane.showMessageDialog(rootPane, "Table is empty");
+           }
+           else
+           {
+               JOptionPane.showMessageDialog(rootPane, "You must select a row");
+           }
+       }
+      DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
+      
+      model.setValueAt(txtUserIDMan.getText(),tblDetailsTable.getSelectedRow(),0);
+      model.setValueAt(txtUserNameMan.getText(),tblDetailsTable.getSelectedRow(),1);
+      model.setValueAt(txtEmailMan.getText(),tblDetailsTable.getSelectedRow(),2);
+      model.setValueAt(txtNICMan.getText(),tblDetailsTable.getSelectedRow(),3);
+      model.setValueAt(txtPasswordMan.getText(),tblDetailsTable.getSelectedRow(),4);
+      
+        //Connection con = getConnection();
        // String que1 = " upd"
         
 
@@ -817,6 +856,47 @@ public class CreateAccount extends javax.swing.JFrame {
        // txtrole.setText(v6);
         
     }//GEN-LAST:event_tblDetailsTableMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+       DefaultTableModel model=(DefaultTableModel) tblDetailsTable.getModel();
+       if(tblDetailsTable.getSelectedRow()==-1)
+       {
+           if(tblDetailsTable.getRowCount()==0)
+           {
+               JOptionPane.showMessageDialog(rootPane, "Table is empty");
+           }
+           else
+           {
+               JOptionPane.showMessageDialog(rootPane, "You must select a row");
+           }
+       }
+       else
+       {
+           model.removeRow(tblDetailsTable.getSelectedRow());
+           
+       }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
+        if(tblDetailsTable.getSelectedRow()==-1)
+       {
+           if(tblDetailsTable.getRowCount()==0)
+           {
+               JOptionPane.showMessageDialog(rootPane, "Table is empty");
+           }
+           else
+           {
+               JOptionPane.showMessageDialog(rootPane, "You must select a row");
+           }
+       }
+      DefaultTableModel model =(DefaultTableModel) tblDetailsTable.getModel();
+      
+      model.setValueAt(txtUserIDMan.getText(),tblDetailsTable.getSelectedRow(),0);
+      model.setValueAt(txtUserNameMan.getText(),tblDetailsTable.getSelectedRow(),1);
+      model.setValueAt(txtEmailMan.getText(),tblDetailsTable.getSelectedRow(),2);
+      model.setValueAt(txtNICMan.getText(),tblDetailsTable.getSelectedRow(),3);
+      model.setValueAt(txtPasswordMan.getText(),tblDetailsTable.getSelectedRow(),4);
+    }//GEN-LAST:event_btnUpdateKeyPressed
 
     /**
      * @param args the command line arguments
