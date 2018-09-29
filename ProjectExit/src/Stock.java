@@ -349,6 +349,12 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel7.setText("SEARCH:");
 
+        txtSearchStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchStockKeyTyped(evt);
+            }
+        });
+
         jLabel8.setText("FILTER BY:");
 
         drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LOW IN STOCK", " " }));
@@ -492,6 +498,10 @@ public class Stock extends javax.swing.JFrame {
         frame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblSalesMouseClicked
+
+    private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchStockKeyTyped
 
     /**
      * @param args the command line arguments
