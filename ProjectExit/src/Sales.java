@@ -36,6 +36,9 @@ public class Sales extends javax.swing.JFrame {
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public int count;
+    public int index;
+    
+    SalesItemsEdit editItems = new SalesItemsEdit();
     SalesItemsAdd addItems = new SalesItemsAdd();
 
     /**
@@ -264,7 +267,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel9.setText("S.O. NUMBER:");
 
-        jLabel7.setText("SALES REPRESENTATIVE;");
+        jLabel7.setText("SALES REPRESENTATIVE:");
 
         jLabel8.setText("ORDER CREATED BY:");
 
@@ -278,18 +281,8 @@ public class Sales extends javax.swing.JFrame {
             new String [] {
                 "ITEM", "QUANTITY", "RATE", "SUB TOTAL"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        tblCreateSO.setColumnSelectionAllowed(true);
+        ));
         jScrollPane4.setViewportView(tblCreateSO);
-        tblCreateSO.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblCreateSO.getColumnModel().getColumnCount() > 0) {
             tblCreateSO.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
@@ -340,8 +333,18 @@ public class Sales extends javax.swing.JFrame {
         });
 
         btnEditTab.setText("Edit");
+        btnEditTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditTabActionPerformed(evt);
+            }
+        });
 
         btnDeleteTab.setText("Delete");
+        btnDeleteTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTabActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -349,23 +352,17 @@ public class Sales extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel33)
+                    .addComponent(jLabel34))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel33)
-                        .addGap(25, 25, 25)
-                        .addComponent(txtCustomerPhone))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel34)
-                        .addGap(42, 42, 42)
-                        .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel9))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCustomerName)
-                            .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(txtCustomerPhone)
+                    .addComponent(txtCustomerName)
+                    .addComponent(txtSONumber, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblErrorCP)
@@ -953,25 +950,12 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         txtSONumber.setText("");
-//        lblErrorSON.setText("");
-
         txtCustomerName.setText("");
-//        lblErrorCN.setText("");
-
         txtCustomerPhone.setText("");
-//        lblErrorCP.setText("");
-
         cmbOrderStatus.setSelectedIndex(-1);
-//        lblErrorOS.setText("");
-
         cmbRegion.setSelectedIndex(-1);
-//        lblErrorR.setText("");
-
         cmbSalesRep.setSelectedIndex(-1);
-//        lblErrorSR.setText("");
-
         dpReqDate.setDate(null);
-//        lblErrorRD.setText("");
 
         lblErrorSON.setVisible(false);
         lblErrorCN.setVisible(false);
@@ -980,50 +964,13 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR.setVisible(false);
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
+        
+//        tblCreateSO.clearSelection();
+      
 
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-
-        //         int doublecheck = 0;
-//         String PNo = txtCustomerPhone.getText();
-//
-//         if(txtSONumber.getText() == "" || txtCustomerName.getText() == "" || PNo == ""|| dpReqDate.getDate() == null || cmbSalesRep.getSelectedItem() == ""  || cmbRegion.getSelectedItem() == "" || cmbOrderStatus.getSelectedItem() == "")
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
-//             doublecheck = 1;
-//
-//         }
-//
-//
-//             else if( PNo.length() !=10  && doublecheck == 0)
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Invalid Pnone Number");
-//             int pnum = Integer.parseInt(PNo);
-//         }
-//
-//
-//
-//
-//         else
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-//
-//             txtSONumber.setText("");
-//             txtCustomerName.setText("");
-//             txtCustomerPhone.setText("");
-//             cmbOrderStatus.setSelectedIndex(-1);
-//             cmbRegion.setSelectedIndex(-1);
-//             cmbSalesRep.setSelectedIndex(-1);
-//             dpReqDate.setDate(null);
-//         }
-//
-//
-//     }
-//     catch(HeadlessException | NumberFormatException e){
-//         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
-//        }
         int check = 0;
 
         try {
@@ -1131,19 +1078,19 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added!");
 
             txtSONumber.setText("");
-            lblErrorSON.setText("");
+//            lblErrorSON.setText("");
             txtCustomerName.setText("");
-            lblErrorCN.setText("");
+//            lblErrorCN.setText("");
             txtCustomerPhone.setText("");
-            lblErrorCP.setText("");
+//            lblErrorCP.setText("");
             cmbOrderStatus.setSelectedIndex(-1);
-            lblErrorOS.setText("");
+//            lblErrorOS.setText("");
             cmbRegion.setSelectedIndex(-1);
-            lblErrorR.setText("");
+//            lblErrorR.setText("");
             cmbSalesRep.setSelectedIndex(-1);
-            lblErrorSR.setText("");
+//            lblErrorSR.setText("");
             dpReqDate.setDate(null);
-            lblErrorRD.setText("");
+//            lblErrorRD.setText("");
         }
 
     }//GEN-LAST:event_btnCreateActionPerformed
@@ -1160,7 +1107,7 @@ public class Sales extends javax.swing.JFrame {
 
         addItems.txtBatchNo.setText("");
         addItems.txtItemName.setText("");
-//        addItems.txtMDd.setText("");
+        addItems.txtQuantity.setText("");
 //        addItems.txtMDm.setText("");
 //        addItems.txtMDy.setText("");
 //        addItems.txtEDd.setText("");
@@ -1168,6 +1115,49 @@ public class Sales extends javax.swing.JFrame {
 //        addItems.txtEDy.setText("");
 
     }//GEN-LAST:event_btnAddTabActionPerformed
+
+    private void btnEditTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTabActionPerformed
+        // TODO add your handling code here:
+        
+        index = tblCreateSO.getSelectedRow();
+        if (tblCreateSO.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a Row to Edit");
+        } else {
+
+            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+            editItems.txtItemName.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 0).toString());
+            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
+//            editItems.d1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(0, 2));
+//            editItems.m1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(3, 5));
+//            editItems.y1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(6, 10));
+//
+//            editItems.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(0, 2));
+//            editItems.m2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(3, 5));
+//            editItems.y2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(6, 10));
+            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
+            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(),3).toString());
+
+            editItems.setVisible(true);
+            editItems.pack();
+            editItems.setLocationRelativeTo(null);
+        }
+        
+    }//GEN-LAST:event_btnEditTabActionPerformed
+
+    private void btnDeleteTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTabActionPerformed
+        // TODO add your handling code here:
+        
+        if (tblCreateSO.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select the row you want to delete!");
+        } else {
+            
+//            if(JOptionPane.showConfirmDialog,"Are you sure you want to delete?")==true){                        //fix delete ocnfirmation message
+            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+            model.removeRow(tblCreateSO.getSelectedRow());
+//            }
+        }
+        
+    }//GEN-LAST:event_btnDeleteTabActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1294,7 +1284,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JTable tblCreateSO;
+    public static javax.swing.JTable tblCreateSO;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     private javax.swing.JTextField txtSONumber;
