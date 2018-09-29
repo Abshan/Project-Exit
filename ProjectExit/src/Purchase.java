@@ -779,19 +779,14 @@ public class Purchase extends javax.swing.JFrame {
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
 
-        Connection con = dbConnect.getConnection();
-
-        String query = "SELECT * FROM purchase_tab";
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
 
+        String query = "SELECT * FROM purchase_tab";
+
         try {
+            Connection con = dbConnect.getConnection();
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-
-            while (rst.next()) {
-                int pn = rst.getInt("purNo");
-                model.setValueAt(pn, 0, 0);
-            }
 
         } catch (Exception e) {
         }
