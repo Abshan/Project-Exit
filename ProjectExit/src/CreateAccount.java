@@ -8,6 +8,7 @@ import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author User
@@ -102,7 +103,7 @@ public class CreateAccount extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtDetailsTable = new javax.swing.JTable();
+        tblDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<String>();
@@ -112,7 +113,7 @@ public class CreateAccount extends javax.swing.JFrame {
         cmbRoleMan = new javax.swing.JComboBox<String>();
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtSearchMan = new javax.swing.JTextField();
+        txtSearchManage = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         jTextField3.setText("jTextField3");
@@ -421,7 +422,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         btnDelete.setText("DELETE");
 
-        txtDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
+        tblDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -429,7 +430,12 @@ public class CreateAccount extends javax.swing.JFrame {
                 "USER ID", "USER NAME", "EMAIL", "NIC NUMBER", "PASSWORD", "ROLE"
             }
         ));
-        jScrollPane1.setViewportView(txtDetailsTable);
+        tblDetailsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDetailsTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblDetailsTable);
 
         btnClear.setText("CLEAR");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
@@ -450,15 +456,20 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN" }));
+        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
 
         jLabel12.setText("ROLE:");
 
         jLabel11.setText("SEARCH:");
 
-        txtSearchMan.addActionListener(new java.awt.event.ActionListener() {
+        txtSearchManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchManActionPerformed(evt);
+                txtSearchManageActionPerformed(evt);
+            }
+        });
+        txtSearchManage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchManageKeyTyped(evt);
             }
         });
 
@@ -503,7 +514,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearchMan, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(255, 255, 255))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -524,7 +535,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(txtSearchMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
@@ -706,12 +717,12 @@ public class CreateAccount extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void txtSearchManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchManActionPerformed
+    private void txtSearchManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchManageActionPerformed
      
         
 
 // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchManActionPerformed
+    }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
 
@@ -727,7 +738,7 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
+      //  tblDetailsTable model =(tblDetailsTable) tbl
         
         Connection con = getConnection();
        // String que1 = " upd"
@@ -777,6 +788,35 @@ public class CreateAccount extends javax.swing.JFrame {
     private void cmbRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbRoleActionPerformed
+
+    private void txtSearchManageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchManageKeyTyped
+        String[] data = {"A","B","C","D","E","F"};
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        model.addRow(data);//hard coded
+    }//GEN-LAST:event_txtSearchManageKeyTyped
+
+    private void tblDetailsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailsTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        int row = tblDetailsTable.getSelectedRow();
+        String v1 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
+        txtUserIDMan.setText(v1);
+        
+        String v2 = tblDetailsTable.getModel().getValueAt(row, 1).toString();
+        txtUserNameMan.setText(v2);
+        
+        String v3 = tblDetailsTable.getModel().getValueAt(row, 2).toString();
+        txtEmailMan.setText(v3);
+        
+        String v4 = tblDetailsTable.getModel().getValueAt(row, 3).toString();
+        txtNICMan.setText(v4);
+        
+        String v5 = tblDetailsTable.getModel().getValueAt(row, 4).toString();
+        txtPasswordMan.setText(v5);
+        
+       // String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
+       // txtrole.setText(v6);
+        
+    }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -863,15 +903,15 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tblDetailsTable;
     private javax.swing.JTextField txtConfirmPassword;
-    private javax.swing.JTable txtDetailsTable;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailMan;
     private javax.swing.JTextField txtNIC;
     private javax.swing.JTextField txtNICMan;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPasswordMan;
-    private javax.swing.JTextField txtSearchMan;
+    private javax.swing.JTextField txtSearchManage;
     private javax.swing.JTextField txtUserID;
     private javax.swing.JTextField txtUserIDMan;
     private javax.swing.JTextField txtUserName;
