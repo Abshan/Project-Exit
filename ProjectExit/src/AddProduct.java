@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
 import Models.DatabaseConnection;
+import java.sql.*;
 
 /**
  *
@@ -18,11 +19,14 @@ public class AddProduct extends javax.swing.JFrame {
     /**
      * Creates new form AddToInventory
      */
+    DatabaseConnection dbConnect = new DatabaseConnection();
     public AddProduct() {
         initComponents();
-    }
-    DatabaseConnection dbConnect = new DatabaseConnection();
-
+        ButtonGroup ProductType = new ButtonGroup();
+        ProductType.add(rdoCosmetics);
+        ProductType.add(rdoDrugs);
+        }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +36,10 @@ public class AddProduct extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -52,11 +60,11 @@ public class AddProduct extends javax.swing.JFrame {
         btnAddProduct = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
-        chkDrugs = new javax.swing.JCheckBox();
-        chkCosmetics = new javax.swing.JCheckBox();
-        txtQuantity = new javax.swing.JTextField();
+        txtSize = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtProductID = new javax.swing.JTextField();
+        rdoDrugs = new javax.swing.JRadioButton();
+        rdoCosmetics = new javax.swing.JRadioButton();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -84,7 +92,7 @@ public class AddProduct extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         drpCategory = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtQuantity1 = new javax.swing.JTextField();
+        txtSize1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
@@ -132,7 +140,7 @@ public class AddProduct extends javax.swing.JFrame {
 
         jLabel33.setText("MAXIMUM RETAIL PRICE:");
 
-        jLabel34.setText("QUANTITY:");
+        jLabel34.setText("SIZE");
 
         btnAddProduct.setText("ADD PRODUCT");
         btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -152,16 +160,11 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel35.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel35.setText("PRODUCT CATEGORY");
 
-        chkDrugs.setText("DRUGS");
-
-        chkCosmetics.setText("COSMETICS");
-        chkCosmetics.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkCosmeticsActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("PRODUCT ID:");
+
+        rdoDrugs.setText("Drugs");
+
+        rdoCosmetics.setText("Cosmetics");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -188,13 +191,13 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtWholesalePrice)
                             .addComponent(txtProductName)
                             .addComponent(txtBrandName)
-                            .addComponent(txtQuantity)
+                            .addComponent(txtSize)
                             .addComponent(txtProductID))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkDrugs)
                     .addComponent(jLabel35)
-                    .addComponent(chkCosmetics))
+                    .addComponent(rdoDrugs)
+                    .addComponent(rdoCosmetics))
                 .addGap(273, 273, 273))
         );
         jPanel6Layout.setVerticalGroup(
@@ -224,7 +227,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtMRP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34))
                         .addGap(27, 27, 27)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -233,9 +236,9 @@ public class AddProduct extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(chkDrugs)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chkCosmetics)))
+                        .addComponent(rdoDrugs)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rdoCosmetics)))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
 
@@ -358,6 +361,12 @@ public class AddProduct extends javax.swing.JFrame {
 
         jLabel11.setText("SEARCH PRODUCT:");
 
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+        });
+
         jLabel12.setText("CATEGORY:");
 
         btnClear.setText("CLEAR");
@@ -374,7 +383,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("QUANTITY:");
+        jLabel7.setText("SIZE");
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -392,10 +401,10 @@ public class AddProduct extends javax.swing.JFrame {
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnClear))
+                                .addGap(26, 26, 26)
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel18Layout.createSequentialGroup()
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,7 +417,7 @@ public class AddProduct extends javax.swing.JFrame {
                                         .addComponent(txtBrandName1)
                                         .addComponent(txtProductName1)
                                         .addComponent(txtProductID1)
-                                        .addComponent(txtQuantity1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                                        .addComponent(txtSize1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel42)
@@ -457,7 +466,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(jLabel12))))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtQuantity1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSize1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -627,11 +636,6 @@ public class AddProduct extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chkCosmeticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCosmeticsActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_chkCosmeticsActionPerformed
-
     private void drpCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drpCategoryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_drpCategoryActionPerformed
@@ -654,9 +658,9 @@ public class AddProduct extends javax.swing.JFrame {
         txtProductName.setText(" ");
         txtWholesalePrice.setText(" ");
         txtMRP.setText(" ");
-        txtQuantity.setText(" ");
-        chkDrugs.setSelected(false);
-        chkCosmetics.setSelected(false);
+        txtSize.setText(" ");
+        rdoCosmetics.setSelected(false);
+        rdoDrugs.setSelected(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -665,40 +669,61 @@ public class AddProduct extends javax.swing.JFrame {
         txtProductName1.setText(" ");
         txtWholesalePrice1.setText(" ");
         txtMRP1.setText(" ");
-        txtQuantity1.setText(" ");
+        txtSize1.setText(" ");
         txtSearch.setText(" ");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        String ProductID = txtProductID.getText();
+        //String ProductID = txtProductID.getText();
         String BrandName = txtBrandName.getText();
         String ProductName = txtProductName.getText();
-        String Quantity = txtQuantity.getText();
+        String Size = txtSize.getText();
         String MaxRP = txtMRP.getText();
+
         String WholesaleP = txtWholesalePrice.getText();
 
-        if (!((chkCosmetics.isSelected()) || (chkDrugs.isSelected()))) {
-            JOptionPane.showMessageDialog(rootPane, "Please select a Product Category.");
-        }
+        int PID = 0, s = 0;
+        double MRP = 0, WSP = 0;
 
-        if (!((ProductID.equals("")) || (BrandName.equals("")) || (ProductName.equals("")) || (Quantity.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
+        String Category = "";
+
+        if (!(/*(ProductID.equals(""))||*/ (BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
             boolean result = false;
+
+            if (!((rdoCosmetics.isSelected()) || (rdoDrugs.isSelected()))) {
+                JOptionPane.showMessageDialog(rootPane, "Please select the product category.");
+            } else {
+                if (rdoCosmetics.isSelected()) {
+                    Category = "Cosmetics";
+                } else if (rdoDrugs.isSelected()) {
+                    Category = "Drugs";
+                }
+            }
 
             if (result == false) {
                 try {
-                    int PID = Integer.parseInt(ProductID);
-                    float MRP = Float.parseFloat(MaxRP);
-                    float WSP = Float.parseFloat(WholesaleP);
-                    int qty = Integer.parseInt(Quantity);
+                    //PID = Integer.parseInt(ProductID);
+                    MRP = Double.parseDouble(MaxRP);
+                    WSP = Double.parseDouble(WholesaleP);
+                    s = Integer.parseInt(Size);
                     result = true;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if ((Integer.parseInt(ProductID) <= 0) || (Double.parseDouble(MaxRP) <= 0.0) || (Double.parseDouble(WholesaleP) <= 0.0) || (Integer.parseInt(Quantity) <= 0)) {
+                if (/*(PID <= 0) ||*/ (MRP <= 0.0) || (WSP <= 0.0) || (s <= 0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
-                    JOptionPane.showMessageDialog(rootPane, "Product Added Successfully!");
+                    String query;
+                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + s + "'," + WSP + "," + MRP + ",'" + Category + "')";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
+                        JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
                 }
             }
         } else {
@@ -729,6 +754,12 @@ public class AddProduct extends javax.swing.JFrame {
         frame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblStockMouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        String search = txtSearch.getText();
+        
+        
+    }//GEN-LAST:event_txtSearchKeyTyped
 
     /**
      * @param args the command line arguments
@@ -773,8 +804,10 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JCheckBox chkCosmetics;
-    private javax.swing.JCheckBox chkDrugs;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> drpCategory;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel10;
@@ -816,6 +849,8 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JRadioButton rdoCosmetics;
+    private javax.swing.JRadioButton rdoDrugs;
     private javax.swing.JTable tblManageProduct;
     private javax.swing.JTextField txtBrandName;
     private javax.swing.JTextField txtBrandName1;
@@ -825,9 +860,9 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtProductID1;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtProductName1;
-    private javax.swing.JTextField txtQuantity;
-    private javax.swing.JTextField txtQuantity1;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSize;
+    private javax.swing.JTextField txtSize1;
     private javax.swing.JTextField txtWholesalePrice;
     private javax.swing.JTextField txtWholesalePrice1;
     // End of variables declaration//GEN-END:variables

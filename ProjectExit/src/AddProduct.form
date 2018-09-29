@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup2">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup3">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup4">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -219,16 +229,16 @@
                                               <Component id="txtWholesalePrice" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtProductName" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtBrandName" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtQuantity" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="txtSize" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtProductID" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                                   <EmptySpace pref="58" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="chkDrugs" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel35" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkCosmetics" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoDrugs" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoCosmetics" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="273" max="-2" attributes="0"/>
                               </Group>
@@ -266,7 +276,7 @@
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="txtQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtSize" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -278,9 +288,9 @@
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel35" min="-2" pref="26" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="chkDrugs" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="chkCosmetics" min="-2" max="-2" attributes="0"/>
+                                          <Component id="rdoDrugs" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="rdoCosmetics" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace pref="129" max="32767" attributes="0"/>
@@ -319,7 +329,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel34">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="QUANTITY:"/>
+                            <Property name="text" type="java.lang.String" value="SIZE"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnAddProduct">
@@ -349,20 +359,7 @@
                             <Property name="text" type="java.lang.String" value="PRODUCT CATEGORY"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="chkDrugs">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="DRUGS"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JCheckBox" name="chkCosmetics">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="COSMETICS"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkCosmeticsActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="txtQuantity">
+                        <Component class="javax.swing.JTextField" name="txtSize">
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel9">
                           <Properties>
@@ -370,6 +367,16 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtProductID">
+                        </Component>
+                        <Component class="javax.swing.JRadioButton" name="rdoDrugs">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Drugs"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JRadioButton" name="rdoCosmetics">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Cosmetics"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -526,10 +533,10 @@
                                           <Group type="103" groupAlignment="1" attributes="0">
                                               <Group type="102" attributes="0">
                                                   <Component id="btnDelete" min="-2" pref="116" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btnUpdate" min="-2" pref="84" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btnClear" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                  <Component id="btnUpdate" min="-2" pref="112" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                  <Component id="btnClear" min="-2" pref="107" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Group type="102" alignment="0" attributes="0">
@@ -544,7 +551,7 @@
                                                           <Component id="txtBrandName1" alignment="0" max="32767" attributes="0"/>
                                                           <Component id="txtProductName1" alignment="0" max="32767" attributes="0"/>
                                                           <Component id="txtProductID1" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="txtQuantity1" pref="223" max="32767" attributes="0"/>
+                                                          <Component id="txtSize1" pref="223" max="32767" attributes="0"/>
                                                       </Group>
                                                       <EmptySpace max="32767" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -613,7 +620,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="txtQuantity1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtSize1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -755,6 +762,9 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtSearch">
+                          <Events>
+                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyTyped"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel12">
                           <Properties>
@@ -787,10 +797,10 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel7">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="QUANTITY:"/>
+                            <Property name="text" type="java.lang.String" value="SIZE"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="txtQuantity1">
+                        <Component class="javax.swing.JTextField" name="txtSize1">
                         </Component>
                       </SubComponents>
                     </Container>
