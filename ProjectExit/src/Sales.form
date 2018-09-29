@@ -586,11 +586,11 @@
                                     <Column editable="true" title="ITEM" type="java.lang.Object"/>
                                     <Column editable="true" title="QUANTITY" type="java.lang.Object"/>
                                     <Column editable="true" title="RATE" type="java.lang.Object"/>
-                                    <Column editable="true" title="SUB TOTAL" type="java.lang.Float"/>
+                                    <Column editable="true" title="SUB TOTAL" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                                  <TableColumnModel selectionModel="1">
+                                  <TableColumnModel selectionModel="0">
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -615,13 +615,13 @@
                                     </Column>
                                   </TableColumnModel>
                                 </Property>
-                                <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                 </Property>
                               </Properties>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Sales_jTable3"/>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                               </AuxValues>
                             </Component>
                           </SubComponents>

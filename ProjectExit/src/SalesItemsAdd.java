@@ -156,7 +156,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        DefaultTableModel model = (DefaultTableModel) Purchase.jTable9.getModel();
+        DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
 
         String batchNo = txtBatchNo.getText();
         String itemName = txtItemName.getText();
@@ -164,11 +164,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 //        String exp = txtEDd.getText() + "-" + txtEDm.getText() + "-" + txtEDy.getText();
         String quantity = txtQuantity.getText();
 
-        if ((batchNo != "") && (itemName != "") /*&& (manf != "") && (exp != "")*/ && (quantity != "")) {       /*STILL WORKING ON THIS*/
+        if ((batchNo != "") && (itemName != "") /*&& (manf != "") && (exp != "")*/ && (quantity != "")) {       
 
-            model.addRow(new Object[]{txtItemName.getText(), txtQuantity.getText(),
-                10 + "-" + (quantity)});
-
+            model.addRow(new Object[]{txtItemName.getText(), txtQuantity.getText(),       //Replace RATE and QUANTITY 
+                txtBatchNo.getText(), txtQuantity.getText()});                            //Change data type in table if have to 
+                                                                                          //FIX CLEAR BUTTON TO CLEAR TABLE ALSO
         JOptionPane.showMessageDialog(rootPane, "Added");
 
         dispose();

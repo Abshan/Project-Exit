@@ -278,18 +278,8 @@ public class Sales extends javax.swing.JFrame {
             new String [] {
                 "ITEM", "QUANTITY", "RATE", "SUB TOTAL"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        tblCreateSO.setColumnSelectionAllowed(true);
+        ));
         jScrollPane4.setViewportView(tblCreateSO);
-        tblCreateSO.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblCreateSO.getColumnModel().getColumnCount() > 0) {
             tblCreateSO.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
@@ -953,25 +943,12 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         txtSONumber.setText("");
-//        lblErrorSON.setText("");
-
         txtCustomerName.setText("");
-//        lblErrorCN.setText("");
-
         txtCustomerPhone.setText("");
-//        lblErrorCP.setText("");
-
         cmbOrderStatus.setSelectedIndex(-1);
-//        lblErrorOS.setText("");
-
         cmbRegion.setSelectedIndex(-1);
-//        lblErrorR.setText("");
-
         cmbSalesRep.setSelectedIndex(-1);
-//        lblErrorSR.setText("");
-
         dpReqDate.setDate(null);
-//        lblErrorRD.setText("");
 
         lblErrorSON.setVisible(false);
         lblErrorCN.setVisible(false);
@@ -980,50 +957,13 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR.setVisible(false);
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
+        
+//        tblCreateSO.clearSelection();
+      
 
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-
-        //         int doublecheck = 0;
-//         String PNo = txtCustomerPhone.getText();
-//
-//         if(txtSONumber.getText() == "" || txtCustomerName.getText() == "" || PNo == ""|| dpReqDate.getDate() == null || cmbSalesRep.getSelectedItem() == ""  || cmbRegion.getSelectedItem() == "" || cmbOrderStatus.getSelectedItem() == "")
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
-//             doublecheck = 1;
-//
-//         }
-//
-//
-//             else if( PNo.length() !=10  && doublecheck == 0)
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Invalid Pnone Number");
-//             int pnum = Integer.parseInt(PNo);
-//         }
-//
-//
-//
-//
-//         else
-//         {
-//             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-//
-//             txtSONumber.setText("");
-//             txtCustomerName.setText("");
-//             txtCustomerPhone.setText("");
-//             cmbOrderStatus.setSelectedIndex(-1);
-//             cmbRegion.setSelectedIndex(-1);
-//             cmbSalesRep.setSelectedIndex(-1);
-//             dpReqDate.setDate(null);
-//         }
-//
-//
-//     }
-//     catch(HeadlessException | NumberFormatException e){
-//         JOptionPane.showMessageDialog(rootPane, "Please enter correct values.");
-//        }
         int check = 0;
 
         try {
@@ -1160,7 +1100,7 @@ public class Sales extends javax.swing.JFrame {
 
         addItems.txtBatchNo.setText("");
         addItems.txtItemName.setText("");
-//        addItems.txtMDd.setText("");
+        addItems.txtQuantity.setText("");
 //        addItems.txtMDm.setText("");
 //        addItems.txtMDy.setText("");
 //        addItems.txtEDd.setText("");
@@ -1294,7 +1234,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JTable tblCreateSO;
+    public static javax.swing.JTable tblCreateSO;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     private javax.swing.JTextField txtSONumber;
