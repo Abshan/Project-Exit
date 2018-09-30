@@ -1,5 +1,8 @@
 
 import Models.DatabaseConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -62,6 +65,8 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +113,10 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         jLabel12.setText("PROD ID:");
 
         jTextField4.setEditable(false);
+
+        jLabel14.setText("CURRENT AMOUNT :");
+
+        jLabel15.setText("jLabel15");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -169,7 +178,11 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                                             .addComponent(jLabel13)))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jTextField2)
-                                        .addGap(74, 74, 74)))))))
+                                        .addGap(74, 74, 74))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addGap(16, 16, 16)
+                                        .addComponent(jLabel15)))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(89, 89, 89))
@@ -221,7 +234,11 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(55, 55, 55))
         );
@@ -276,20 +293,39 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int index = Purchase.jTable9.getSelectedRow();
+        double sum = 0;
 
         String batchNo = jTextField1.getText();
+        String prodid = jTextField4.getText();
         String itemName = jTextField2.getText();
         String manf = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
         String exp = y2.getText() + "-" + m2.getText() + "-" + d2.getText();
         String quantity = jTextField3.getText();
+        
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select wsp from products_tab where prodName =? ";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, jTextField2.getText());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                sum = rs.getDouble("wsp");
+            }
+
+        } catch (Exception e) {
+        }
+        double tot = sum * Double.parseDouble(jTextField3.getText());
 
         if ((batchNo != "") && (itemName != "") && (manf != "") && (exp != "") && (quantity != "")) {
 
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(batchNo, index, 0);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(itemName, index, 1);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 2);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 3);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(quantity, index, 4);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(prodid, index, 1);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(itemName, index, 2);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 3);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 4);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(quantity, index, 5);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(tot, index, 6);
 
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
@@ -353,6 +389,8 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    public static javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

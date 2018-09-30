@@ -1,10 +1,17 @@
 
+import Models.PurchaseModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Models.DatabaseConnection;
+import Models.PurchaseItemsModel;
+import java.sql.PreparedStatement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,7 +29,49 @@ public class PurchaseItemsView extends javax.swing.JFrame {
      */
     public PurchaseItemsView() {
         initComponents();
+        ShowPurchaseList();
 
+    }
+    DatabaseConnection dbConnect = new DatabaseConnection();
+
+    public ArrayList<PurchaseItemsModel> getPurcahaseList() {
+        ArrayList<PurchaseItemsModel> purchaseList = new ArrayList<PurchaseItemsModel>();
+        Connection con = dbConnect.getConnection();
+        //String query = "SELECT batchNo, prodID, prodName, manfDate, expDate, quantity, price FROM purchaseItems_tab where purNo=? ";
+        String query = "SELECT * FROM purchaseItems_tab where purNo=? ";
+
+        try {
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, jTextField2.getText());
+            ResultSet rs = pst.executeQuery();
+            PurchaseItemsModel purchases;
+
+            while (rs.next()) {
+                purchases = new PurchaseItemsModel(rs.getInt("batchNo"), rs.getInt("prodID"), rs.getString("prodName"), rs.getString("manfDate"), rs.getString("expDate"), Integer.parseInt(rs.getString("quantity")), Double.parseDouble(rs.getString("price")));
+                purchaseList.add(purchases);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return purchaseList;
+    }
+
+    public void ShowPurchaseList() {
+        ArrayList<PurchaseItemsModel> list = getPurcahaseList();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        Object[] row = new Object[7];
+        for (int i = 1; i < list.size(); i++) {
+            row[0] = list.get(i).getBatchNo();
+            row[1] = list.get(i).getProdID();
+            row[2] = list.get(i).getProdName();
+            row[3] = list.get(i).getManfDate();
+            row[4] = list.get(i).getExpDate();
+            row[5] = list.get(i).getQuantity();
+            row[6] = list.get(i).getPrice();
+
+            model.addRow(row);
+        }
     }
 
     /**
@@ -41,13 +90,13 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,7 +107,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NUMBER", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY"
+                "BATCH NUMBER", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -67,11 +116,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
         jLabel3.setText("VENDOR NAME:");
 
-        jLabel5.setText("jLabel5");
-
         jLabel6.setText("PURCHASE DATE:");
-
-        jLabel7.setText("jLabel7");
 
         jLabel8.setText("SUM:");
 
@@ -79,7 +124,16 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
         jButton1.setText("CLOSE");
 
-        jLabel10.setText("jLabel10");
+        jTextField1.setEditable(false);
+
+        jTextField2.setEditable(false);
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jTextField3.setEditable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -109,11 +163,11 @@ public class PurchaseItemsView extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel10))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -121,27 +175,31 @@ public class PurchaseItemsView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(32, 32, 32)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel10))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1)
-                .addGap(26, 26, 26))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 51, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton1)
+                        .addGap(26, 26, 26))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -178,6 +236,10 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,17 +279,17 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    public static javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    public static javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    public static javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    public static javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
+    public javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTextField2;
+    public javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

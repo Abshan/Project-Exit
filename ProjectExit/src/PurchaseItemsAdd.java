@@ -36,8 +36,8 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             ResultSet rs;
             PreparedStatement pst = con.prepareStatement(query1);
             rs = pst.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 String itemN = rs.getString("prodName");
                 jComboBox1.addItem(itemN);
             }
@@ -257,27 +257,29 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         String exp = y2.getText() + "-" + m2.getText() + "-" + d2.getText();
         String quantity = jTextField3.getText();
         int pid = 0;
+        double price = 0;
 
         try {
             Connection con = dbConnect.getConnection();
 
-            String query = "select prodID from products_tab where prodName =? ";
+            String query = "select prodID, wsp from products_tab where prodName =? ";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, jComboBox1.getSelectedItem().toString());
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 pid = rs.getInt("prodID");
+                price = rs.getDouble("wsp");
             }
 
         } catch (Exception e) {
         }
 
-        if ((batchNo != "") && (itemName != "") && (manf != "") && (exp != "") && (quantity != "") && (pid != 0)) {
+        if ((batchNo != "") && (itemName != "") && (manf != "") && (exp != "") && (quantity != "") && (pid != 0) && (price != 0)) {
 
             model.addRow(new Object[]{jTextField1.getText(), pid, jComboBox1.getSelectedItem().toString(),
                 y1.getText() + "-" + m1.getText() + "-" + d1.getText(),
                 y2.getText() + "-" + m2.getText() + "-" + d2.getText(),
-                jTextField3.getText()});
+                jTextField3.getText(), price * Double.parseDouble(jTextField3.getText())});
 
             JOptionPane.showMessageDialog(rootPane, "Added");
 

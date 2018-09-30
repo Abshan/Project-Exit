@@ -37,6 +37,7 @@ public class Purchase extends javax.swing.JFrame {
     public Purchase() {
         initComponents();
         sum.setText(Double.toString(getSum()));
+        ShowPurchases();
     }
 
     public int index;
@@ -48,27 +49,25 @@ public class Purchase extends javax.swing.JFrame {
         int rowsCount = jTable9.getRowCount();
         double sum = 0;
         for (int i = 0; i < rowsCount; i++) {
-            sum = sum + Double.parseDouble(jTable9.getValueAt(i, 5).toString());
+            sum = sum + (Double.parseDouble(jTable9.getValueAt(i, 6).toString()));
         }
         return sum;
     }
-    
-    public ArrayList<PurchaseModel> getOrderList()
-    {
+
+    public ArrayList<PurchaseModel> getOrderList() {
         ArrayList<PurchaseModel> orderList = new ArrayList<PurchaseModel>();
         Connection con = dbConnect.getConnection();
         String query = "SELECT * FROM purchase_tab";
-        
+
         Statement st;
         ResultSet rs;
         try {
             st = con.createStatement();
             rs = st.executeQuery(query);
             PurchaseModel purchase;
-            
-            while(rs.next())
-            {
-                purchase = new PurchaseModel(rs.getInt("purNo"), rs.getString("vendorName"), rs.getString("purchaseDate"), Double.parseDouble("amount"));
+
+            while (rs.next()) {
+                purchase = new PurchaseModel(rs.getInt("purNo"), rs.getString("vendorName"), rs.getString("purchaseDate"), Double.parseDouble(rs.getString("amount")));
                 orderList.add(purchase);
             }
         } catch (Exception e) {
@@ -76,20 +75,18 @@ public class Purchase extends javax.swing.JFrame {
         }
         return orderList;
     }
-    
-    public void ShowPurchases()
-    {
+
+    public void ShowPurchases() {
         ArrayList<PurchaseModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-        
+
         Object[] row = new Object[4];
-        for (int i = 0; i < list.size(); i++) 
-        {
+        for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).getPurNo();
             row[1] = list.get(i).getVendorName();
             row[2] = list.get(i).getPurchaseDate();
             row[3] = list.get(i).getAmount();
-            
+
             model.addRow(row);
         }
     }
@@ -264,11 +261,11 @@ public class Purchase extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY"
+                "BATCH NO", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false
+                false, true, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -679,6 +676,7 @@ public class Purchase extends javax.swing.JFrame {
             editProduct.m2.setText(model.getValueAt(jTable9.getSelectedRow(), 4).toString().substring(5, 7));
             editProduct.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 4).toString().substring(8, 10));
             editProduct.jTextField3.setText(model.getValueAt(jTable9.getSelectedRow(), 5).toString());
+            editProduct.jLabel15.setText(model.getValueAt(jTable9.getSelectedRow(), 6).toString());
 
             editProduct.setVisible(true);
             editProduct.pack();
@@ -708,42 +706,54 @@ public class Purchase extends javax.swing.JFrame {
 
         Date dat = pd.getDate();                                                //Getting the date from the date picker
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
-        String date = df.format(dat);                                           //Assigning the date format to the selected Date
+        String date = df.format(dat).toString();    //Assigning the date format to the selected Date
 
         int pno = Integer.parseInt(pn.getText());
         String ven = vn.getText();
 
+        
         int rows = jTable9.getRowCount();
-        double Sum = getSum();
+        String Sum = "22.5";
+       
 
         try {
 
             Connection con = dbConnect.getConnection();
             Statement st;
+            Statement st1;
             st = con.createStatement();
+            st1 = con.createStatement();
 
-            String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES('" + pno + "','" + ven + "','" + date + "','" + sum + "')";
+            String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES('" + pno + "','" + ven + "','" + date + "','" + Sum + "')";
             int execute = st.executeUpdate(Query);
 
             for (int row = 0; row < rows; row++) {
 
-                Integer batchNO = (Integer) jTable9.getValueAt(row, 0);
-                Integer pId = (Integer) jTable9.getValueAt(row, 1);
-                String itemName = (String) jTable9.getValueAt(row, 2);
-                Date manfDate = (Date) jTable9.getValueAt(row, 3);
-                Date expDate = (Date) jTable9.getValueAt(row, 4);
-                Integer quantity = (Integer) jTable9.getValueAt(row, 5);
+                int batchNO = Integer.parseInt(jTable9.getValueAt(row, 0).toString());
+                int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
+                String itemName = jTable9.getValueAt(row, 2).toString();
+                String manfDate = jTable9.getValueAt(row, 3).toString();
+                String expDate = jTable9.getValueAt(row, 4).toString();
+                int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
+                double price = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
 
-                String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES('" + pno + "','" + batchNO + "','" + pId + "','" + itemName + "','" + manfDate + "','" + expDate + "','" + quantity + "')";
+                String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, price) VALUES('" + pno + "','" + batchNO + "','" + pId + "','" + itemName + "','" + manfDate + "','" + expDate + "','" + quantity + "','" + price + "')";
                 String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
 
-                int execute2 = st.executeUpdate(Query2);
+                int execute2 = st1.executeUpdate(Query2);
                 int execute3 = st.executeUpdate(Query3);
             }
 
             JOptionPane.showMessageDialog(null, "Succefully Created");
+            
+            pn.setText("");
+            vn.setText("");
+            pd.setDate(null);
+            DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
+            model.setRowCount(0);
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Something went wrong with the connection");
+            JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -779,9 +789,13 @@ public class Purchase extends javax.swing.JFrame {
         } else {
 
             DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-            String num = model.getValueAt(jTable8.getSelectedRow(), 0).toString();
+            //String num = model.getValueAt(jTable8.getSelectedRow(), 0).toString();
 
-            viewOrder.jLabel10.setText(num);
+            viewOrder.jTextField1.setText(model.getValueAt(jTable8.getSelectedRow(), 0).toString());
+            viewOrder.jTextField2.setText(model.getValueAt(jTable8.getSelectedRow(), 1).toString());
+            viewOrder.jTextField3.setText(model.getValueAt(jTable8.getSelectedRow(), 2).toString());
+            viewOrder.jLabel9.setText(model.getValueAt(jTable8.getSelectedRow(), 3).toString());
+            
 
             viewOrder.setVisible(true);
             viewOrder.pack();
@@ -791,8 +805,8 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-   
-        ShowPurchases();
+
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
