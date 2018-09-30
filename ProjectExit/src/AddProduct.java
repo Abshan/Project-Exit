@@ -660,19 +660,29 @@ public class AddProduct extends javax.swing.JFrame {
         String MRP = txtMRP1.getText();
         String Category = drpCategory.getSelectedItem().toString();
         
-        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"";
+        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             int execute = st.executeUpdate(query);
-            JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
+            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
                     }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        String ProdID = txtProductID1.getText();
+        
+        String query = "DELETE FROM products_tab WHERE prodID="+ProdID+";";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+                    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

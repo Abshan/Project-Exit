@@ -482,7 +482,7 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
-        // TODO add your handling code here:
+        String search = txtSearchStock.getText();
     }//GEN-LAST:event_txtSearchStockKeyTyped
 
     /**
