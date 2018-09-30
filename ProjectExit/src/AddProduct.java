@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import javax.swing.*;
 import Models.DatabaseConnection;
 import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -357,6 +358,11 @@ public class AddProduct extends javax.swing.JFrame {
                 "PRODUCT ID", "BRAND NAME", "PRODUCT NAME", "WSP", "MRP", "SIZE", "CATEGORY"
             }
         ));
+        tblManageProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblManageProductMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblManageProduct);
 
         jLabel11.setText("SEARCH PRODUCT:");
@@ -671,6 +677,8 @@ public class AddProduct extends javax.swing.JFrame {
         txtMRP1.setText(" ");
         txtSize1.setText(" ");
         txtSearch.setText(" ");
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        model.setRowCount(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
@@ -732,9 +740,10 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        CreateAccount frame = new CreateAccount();
-        frame.setVisible(true);
-        this.dispose();
+        //if(role.equals("ADMIN")){
+            CreateAccount frame = new CreateAccount();
+            frame.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
@@ -757,9 +766,45 @@ public class AddProduct extends javax.swing.JFrame {
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         String search = txtSearch.getText();
+        String[] results = new String[7];
         
-        
+        String query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%"+search+"%';";
+        try{
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            while(rs.next()){
+                results[0] = rs.getString("prodID");
+                results[1] = rs.getString("brandName");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("size");
+                results[4] = rs.getString("wsp");
+                results[5] = rs.getString("mrp");
+                results[6] = rs.getString("category");
+                
+                DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+            
+                model.addRow(results);
+            }
+                       
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void tblManageProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblManageProductMouseClicked
+        int row = tblManageProduct.getSelectedRow();
+        
+        txtProductID1.setText(tblManageProduct.getValueAt(row, 0).toString());
+        txtBrandName1.setText(tblManageProduct.getValueAt(row, 1).toString());
+        txtProductName1.setText(tblManageProduct.getValueAt(row, 2).toString());
+        txtSize1.setText(tblManageProduct.getValueAt(row, 3).toString());
+        txtWholesalePrice1.setText(tblManageProduct.getValueAt(row, 4).toString());
+        txtMRP1.setText(tblManageProduct.getValueAt(row, 5).toString());
+        
+    }//GEN-LAST:event_tblManageProductMouseClicked
 
     /**
      * @param args the command line arguments
