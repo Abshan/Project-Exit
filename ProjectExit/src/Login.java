@@ -2,7 +2,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
-import Models.DatabaseConnection;
+import Models.*;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -41,7 +41,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -67,7 +67,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField1.setText("jPasswordField1");
+        txtPassword.setText("jPasswordField1");
 
         jLabel5.setForeground(new java.awt.Color(0, 102, 255));
         jLabel5.setText("Forgot Password?");
@@ -92,7 +92,7 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(btnChangePassword)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtUsername)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(90, 90, 90))
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,7 +107,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(jLabel5)
                 .addGap(36, 36, 36)
@@ -135,7 +135,12 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        String query = "SELECT role FROM user_tab WHERE userName='"+txtUsername.getText()+"';";
+        String un = txtUsername.getText();
+        String pass = txtPassword.getText();
+        
+        String userName="", password="";
+        
+        String query = "SELECT role FROM user_tab WHERE userName='"+un+"';";
         
         try{
             Connection con = dbConnect.getConnection();
@@ -143,12 +148,20 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery(query);
             
             while(rs.next()){
-                role = rs.getString("role");
+                userName = rs.getString("userName");
+                password = rs.getString("password");
             }
         }
             catch(Exception e){
                     JOptionPane.showMessageDialog(null, e);
                     }
+        
+        if((un.equals(userName))&&(password.equals(pass)))
+        {
+            AddProduct frame = new AddProduct();
+            frame.setVisible(true);
+            this.dispose();
+        }
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -200,7 +213,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

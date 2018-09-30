@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.text.SimpleDateFormat;
+
 //Check changes
 
 /**
@@ -559,13 +561,13 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "S.O. NUMBER", "ORDER DATE", "CUSTOMER", "SALES MANAGER", "REGION", "TOTAL", "STATUS"
+                "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
             }
         ));
         jScrollPane5.setViewportView(tblReviewSales);
         if (tblReviewSales.getColumnModel().getColumnCount() > 0) {
             tblReviewSales.getColumnModel().getColumn(1).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(3).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jLabel12.setText("SEARCH:");
@@ -578,6 +580,11 @@ public class Sales extends javax.swing.JFrame {
         jLabel16.setText("TO");
 
         jButton6.setText("Update");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Delete");
 
@@ -976,6 +983,8 @@ public class Sales extends javax.swing.JFrame {
         lblErrorOS.setVisible(false);
         
 //        tblCreateSO.clearSelection();
+
+        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel(); model.setRowCount(0);
       
 
     }//GEN-LAST:event_btnClearActionPerformed
@@ -1085,22 +1094,21 @@ public class Sales extends javax.swing.JFrame {
 
         if (check == 7) {
 
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date soDate = new Date();
+            
             JOptionPane.showMessageDialog(rootPane, "Information Successfully Added!");
-
+                   
+            
+        
             txtSONumber.setText("");
-//            lblErrorSON.setText("");
             txtCustomerName.setText("");
-//            lblErrorCN.setText("");
             txtCustomerPhone.setText("");
-//            lblErrorCP.setText("");
             cmbOrderStatus.setSelectedIndex(-1);
-//            lblErrorOS.setText("");
             cmbRegion.setSelectedIndex(-1);
-//            lblErrorR.setText("");
             cmbSalesRep.setSelectedIndex(-1);
-//            lblErrorSR.setText("");
             dpReqDate.setDate(null);
-//            lblErrorRD.setText("");
+
         }
 
     }//GEN-LAST:event_btnCreateActionPerformed
@@ -1161,10 +1169,13 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Select the row you want to delete!");
         } else {
             
-//            if(JOptionPane.showConfirmDialog,"Are you sure you want to delete?")==true){                        //fix delete ocnfirmation message
-            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
-            model.removeRow(tblCreateSO.getSelectedRow());
-//            }
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
+            if (dialogResult == 0) {
+                DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+                model.removeRow(tblCreateSO.getSelectedRow());
+            } 
+            
         }
         
     }//GEN-LAST:event_btnDeleteTabActionPerformed
@@ -1188,6 +1199,13 @@ public class Sales extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnViewTabActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

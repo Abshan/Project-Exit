@@ -974,9 +974,9 @@
                                   <Table columnCount="7" rowCount="0">
                                     <Column editable="true" title="S.O. NUMBER" type="java.lang.Object"/>
                                     <Column editable="true" title="ORDER DATE" type="java.lang.Object"/>
+                                    <Column editable="true" title="REQUIRED DATE" type="java.lang.Object"/>
                                     <Column editable="true" title="CUSTOMER" type="java.lang.Object"/>
                                     <Column editable="true" title="SALES MANAGER" type="java.lang.Object"/>
-                                    <Column editable="true" title="REGION" type="java.lang.Object"/>
                                     <Column editable="true" title="TOTAL" type="java.lang.Object"/>
                                     <Column editable="true" title="STATUS" type="java.lang.Object"/>
                                   </Table>
@@ -998,12 +998,12 @@
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                       <Title/>
                                       <Editor/>
                                       <Renderer/>
@@ -1063,6 +1063,9 @@
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Update"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="jButton4">
                           <Properties>
