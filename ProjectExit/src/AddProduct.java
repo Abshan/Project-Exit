@@ -21,13 +21,14 @@ public class AddProduct extends javax.swing.JFrame {
      * Creates new form AddToInventory
      */
     DatabaseConnection dbConnect = new DatabaseConnection();
+
     public AddProduct() {
         initComponents();
         ButtonGroup ProductType = new ButtonGroup();
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
-        }
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -651,11 +652,37 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_txtProductID1ActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        String ProductID = txtProductID1.getText();
+        String BrandName = txtBrandName1.getText();
+        String ProductName = txtProductName1.getText();
+        String Size = txtSize1.getText();
+        String WSP = txtWholesalePrice1.getText();
+        String MRP = txtMRP1.getText();
+        String Category = drpCategory.getSelectedItem().toString();
+        
+        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+                    }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        String ProdID = txtProductID1.getText();
+        
+        String query = "DELETE FROM products_tab WHERE prodID="+ProdID+";";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+                    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -695,7 +722,7 @@ public class AddProduct extends javax.swing.JFrame {
 
         String Category = "";
 
-        if (!(/*(ProductID.equals(""))||*/ (BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
+        if (!(/*(ProductID.equals(""))||*/(BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
             boolean result = false;
 
             if (!((rdoCosmetics.isSelected()) || (rdoDrugs.isSelected()))) {
@@ -719,7 +746,7 @@ public class AddProduct extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/ (MRP <= 0.0) || (WSP <= 0.0) || (s <= 0)) {
+                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0) || (s <= 0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
@@ -741,9 +768,9 @@ public class AddProduct extends javax.swing.JFrame {
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
         //if(role.equals("ADMIN")){
-            CreateAccount frame = new CreateAccount();
-            frame.setVisible(true);
-            this.dispose();
+        CreateAccount frame = new CreateAccount();
+        frame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
@@ -767,14 +794,14 @@ public class AddProduct extends javax.swing.JFrame {
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         String search = txtSearch.getText();
         String[] results = new String[7];
-        
-        String query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%"+search+"%';";
-        try{
+
+        String query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+        try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 results[0] = rs.getString("prodID");
                 results[1] = rs.getString("brandName");
                 results[2] = rs.getString("prodName");
@@ -782,28 +809,30 @@ public class AddProduct extends javax.swing.JFrame {
                 results[4] = rs.getString("wsp");
                 results[5] = rs.getString("mrp");
                 results[6] = rs.getString("category");
-                
+
                 DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-            
+
                 model.addRow(results);
             }
-                       
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void tblManageProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblManageProductMouseClicked
         int row = tblManageProduct.getSelectedRow();
-        
+
+        String cat = tblManageProduct.getValueAt(row, 6).toString();
+
         txtProductID1.setText(tblManageProduct.getValueAt(row, 0).toString());
         txtBrandName1.setText(tblManageProduct.getValueAt(row, 1).toString());
         txtProductName1.setText(tblManageProduct.getValueAt(row, 2).toString());
         txtSize1.setText(tblManageProduct.getValueAt(row, 3).toString());
         txtWholesalePrice1.setText(tblManageProduct.getValueAt(row, 4).toString());
         txtMRP1.setText(tblManageProduct.getValueAt(row, 5).toString());
-        
+        drpCategory.setSelectedItem(cat);
+
     }//GEN-LAST:event_tblManageProductMouseClicked
 
     /**
