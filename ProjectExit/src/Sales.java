@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 //Check changes
@@ -43,6 +45,7 @@ public class Sales extends javax.swing.JFrame {
     SalesItemsView viewItems = new SalesItemsView();
     SalesItemsEdit editItems = new SalesItemsEdit();
     SalesItemsAdd addItems = new SalesItemsAdd();
+    SalesReviewWindow reviewSales = new SalesReviewWindow();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,6 +105,10 @@ public class Sales extends javax.swing.JFrame {
         btnAddTab = new javax.swing.JButton();
         btnEditTab = new javax.swing.JButton();
         btnDeleteTab = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblQtySum = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblSum = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -112,16 +119,16 @@ public class Sales extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblReviewSales = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSearchSONum = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
+        dpFrom = new org.jdesktop.swingx.JXDatePicker();
         jLabel16 = new javax.swing.JLabel();
-        jXDatePicker3 = new org.jdesktop.swingx.JXDatePicker();
-        jButton6 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        dpTo = new org.jdesktop.swingx.JXDatePicker();
+        btnUpdateSales = new javax.swing.JButton();
+        btnDeleteSales = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox<>();
+        cmbSearchSalesRep = new javax.swing.JComboBox<>();
         btnViewTab = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -349,6 +356,14 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("TOTAL QUANTITY:");
+
+        lblQtySum.setText("jLabel3");
+
+        jLabel2.setText("TOTAL AMOUNT:");
+
+        lblSum.setText("jLabel3");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -409,9 +424,19 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblQtySum)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblSum))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(103, 103, 103))
         );
         jPanel6Layout.setVerticalGroup(
@@ -461,16 +486,22 @@ public class Sales extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(btnAddTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(btnAddTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 77, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblQtySum)
+                    .addComponent(jLabel2)
+                    .addComponent(lblSum))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -500,7 +531,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -558,7 +589,7 @@ public class Sales extends javax.swing.JFrame {
 
         tblReviewSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"4556", "2018-08-06", "2018-10-06", "Kudu Gedara", "Jayasena", "65000", "AWAITING FULLFILMENT"}
             },
             new String [] {
                 "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
@@ -572,25 +603,49 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel12.setText("SEARCH:");
 
+        txtSearchSONum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchSONumActionPerformed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel10.setText("FILTER BY DATE");
 
         jLabel11.setText("DATE:");
 
-        jLabel16.setText("TO");
-
-        jButton6.setText("Update");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        dpFrom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                dpFromActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Delete");
+        jLabel16.setText("TO");
+
+        dpTo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dpToActionPerformed(evt);
+            }
+        });
+
+        btnUpdateSales.setText("Update");
+        btnUpdateSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateSalesActionPerformed(evt);
+            }
+        });
+
+        btnDeleteSales.setText("Delete");
+        btnDeleteSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSalesActionPerformed(evt);
+            }
+        });
 
         jLabel17.setText("SALES REP:");
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH" }));
+        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
+        cmbSearchSalesRep.setSelectedIndex(-1);
 
         btnViewTab.setText("View");
         btnViewTab.addActionListener(new java.awt.event.ActionListener() {
@@ -611,17 +666,17 @@ public class Sales extends javax.swing.JFrame {
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dpFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jXDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dpTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(114, 114, 114))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnUpdateSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnDeleteSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(13, 13, 13)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnViewTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
@@ -634,8 +689,8 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(198, 198, 198))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -645,16 +700,16 @@ public class Sales extends javax.swing.JFrame {
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)
-                    .addComponent(jXDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
@@ -665,8 +720,8 @@ public class Sales extends javax.swing.JFrame {
                         .addComponent(btnViewTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnUpdateSales, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteSales, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
 
@@ -768,15 +823,18 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel26.setText("TO");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
+        jComboBox3.setSelectedIndex(-1);
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING PAYMENT", "CONFIRMED", "CANCELED", "RETURNED" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
+        jComboBox5.setSelectedIndex(-1);
 
         jLabel32.setText("FILTER BY STATUS:");
 
         jLabel35.setText("SALES REP:");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH" }));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
+        jComboBox6.setSelectedIndex(-1);
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -991,113 +1049,139 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         int check = 0;
+        
+        int soNumber;
+        String customerName;
+        int customerPhone;
+        String requiredDate;
+        String salesRep;
+        String region;
+        String orderStatus;     
 
-        try {
-            if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
-                int soNumber = Integer.parseInt(txtSONumber.getText());
+//        try {
+//            if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
+                soNumber = Integer.parseInt(txtSONumber.getText());
                 check++;
-                lblErrorSON.setVisible(false);
-            } else {
-
-                lblErrorSON.setVisible(true);
-            }
-        } catch (HeadlessException | NumberFormatException e) {
-
-            lblErrorSON.setVisible(true);
-        }
-
-        try {
-            if ((!"".equals(txtCustomerName.getText()))) {
-                String customerName = txtCustomerName.getText();
+//                lblErrorSON.setVisible(false);
+//            } else {
+//
+//                lblErrorSON.setVisible(true);
+//            }
+//        } catch (HeadlessException | NumberFormatException e) {
+//
+//            lblErrorSON.setVisible(true);
+//        }
+//
+//
+//        try {
+//            if ((!"".equals(txtCustomerName.getText()))) {
+                customerName = txtCustomerName.getText();
                 check++;
-                lblErrorCN.setVisible(false);
-            } else {
-
-                lblErrorCN.setVisible(true);
-            }
-        } catch (HeadlessException e) {
-
-            lblErrorCN.setVisible(true);
-        }
-
-        try {
-            if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
-                int customerPhone = Integer.parseInt(txtCustomerPhone.getText());
+//                lblErrorCN.setVisible(false);
+//            } else {
+//
+//                lblErrorCN.setVisible(true);
+//            }
+//        } catch (HeadlessException e) {
+//
+//            lblErrorCN.setVisible(true);
+//        }
+//
+//        try {
+//            if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
+                customerPhone = Integer.parseInt(txtCustomerPhone.getText());
                 check++;
-                lblErrorCP.setVisible(false);
-            } else {
-
-                lblErrorCP.setVisible(true);
-
-            }
-        } catch (HeadlessException | NumberFormatException e) {
-
-            lblErrorCP.setVisible(true);
-
-        }
-
-        try {
-            if (dpReqDate.getDate() != null) {
-                Date requiredDate = dpReqDate.getDate();
+//                lblErrorCP.setVisible(false);
+//            } else {
+//
+//                lblErrorCP.setVisible(true);
+//
+//            }
+//        } catch (HeadlessException | NumberFormatException e) {
+//
+//            lblErrorCP.setVisible(true);
+//
+//        }
+//
+//        try {
+//            if (dpReqDate.getDate() != null) {
+                Date requiredDatetemp = dpReqDate.getDate();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                requiredDate = df.format(requiredDatetemp);
                 check++;
-                lblErrorRD.setVisible(false);
-            } else {
-
-                lblErrorRD.setVisible(true);
-            }
-        } catch (HeadlessException e) {
-
-            lblErrorRD.setVisible(true);
-        }
-
-        try {
-            if (cmbSalesRep.getSelectedItem() != null) {
-                String salesRep = (String) cmbSalesRep.getSelectedItem();
+//                lblErrorRD.setVisible(false);
+//            } else {
+//
+//                lblErrorRD.setVisible(true);
+//            }
+//        } catch (HeadlessException e) {
+//
+//            lblErrorRD.setVisible(true);
+//        }
+//
+//        try {
+//            if (cmbSalesRep.getSelectedItem() != null) {
+                salesRep = (String) cmbSalesRep.getSelectedItem();
                 check++;
-                lblErrorSR.setVisible(false);
-            } else {
-
-                lblErrorSR.setVisible(true);
-            }
-        } catch (HeadlessException e) {
-
-            lblErrorSR.setVisible(true);
-        }
-
-        try {
-            if (cmbRegion.getSelectedItem() != null) {
-                String region = (String) cmbRegion.getSelectedItem();
+//                lblErrorSR.setVisible(false);
+//            } else {
+//
+//                lblErrorSR.setVisible(true);
+//            }
+//        } catch (HeadlessException e) {
+//
+//            lblErrorSR.setVisible(true);
+//        }
+//
+//        try {
+//            if (cmbRegion.getSelectedItem() != null) {
+                region = (String) cmbRegion.getSelectedItem();
                 check++;
-                lblErrorR.setVisible(false);
-            } else {
-
-                lblErrorR.setVisible(true);
-            }
-        } catch (HeadlessException e) {
-
-            lblErrorR.setVisible(true);
-        }
-
-        try {
-            if (cmbOrderStatus.getSelectedItem() != null) {
-                String orderStatus = (String) cmbOrderStatus.getSelectedItem();
+//                lblErrorR.setVisible(false);
+//            } else {
+//
+//                lblErrorR.setVisible(true);
+//            }
+//        } catch (HeadlessException e) {
+//
+//            lblErrorR.setVisible(true);
+//        }
+//
+//        try {
+//            if (cmbOrderStatus.getSelectedItem() != null) {
+                orderStatus = (String) cmbOrderStatus.getSelectedItem();
                 check++;
-                lblErrorOS.setVisible(false);
-            } else {
+//                lblErrorOS.setVisible(false);
+//            } else {
+//
+//                lblErrorOS.setVisible(true);
+//            }
+//        } catch (HeadlessException e) {
+//
+//            lblErrorOS.setVisible(true);
+//        }
 
-                lblErrorOS.setVisible(true);
-            }
-        } catch (HeadlessException e) {
-
-            lblErrorOS.setVisible(true);
-        }
-
+        String orderCreatedBy = "SalesMana";
+        Double total = 69420.0;
+        
+        
         if (check == 7) {
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date soDate = new Date();
             
-            JOptionPane.showMessageDialog(rootPane, "Information Successfully Added!");
+            String query;
+                    query = "INSERT INTO sales_tab(soNumber,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + customerName + "','" + customerPhone + "','" + requiredDate + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
+                        JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+            
+            JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
                    
             
         
@@ -1139,7 +1223,7 @@ public class Sales extends javax.swing.JFrame {
         
         index = tblCreateSO.getSelectedRow();
         if (tblCreateSO.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Select a Row to Edit");
+            JOptionPane.showMessageDialog(rootPane, "Select a row to edit!");
         } else {
 
             DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
@@ -1166,7 +1250,7 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         if (tblCreateSO.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Select the row you want to delete!");
+            JOptionPane.showMessageDialog(rootPane, "Select a row delete!");
         } else {
             
             int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -1184,11 +1268,20 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
         
          if (tblReviewSales.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Select the Purchase Order you want to view");
+            JOptionPane.showMessageDialog(rootPane, "Select a row to view!");
         } else {
 
             DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
             String num = model.getValueAt(tblReviewSales.getSelectedRow(), 0).toString();
+            
+            viewItems.lblSONum.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 0).toString());
+            viewItems.lblDateOfOrder.setText(model.getValueAt(tblReviewSales.getSelectedRow(),1).toString());
+            viewItems.lblRequiredDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(),2).toString());
+            viewItems.lblCustomerName.setText(model.getValueAt(tblReviewSales.getSelectedRow(),3).toString());
+            viewItems.lblSalesManager.setText(model.getValueAt(tblReviewSales.getSelectedRow(),4).toString());
+            viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(),5).toString());
+            viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(),6).toString());
+            
 
 //            viewItems..setText(num);
 
@@ -1200,12 +1293,72 @@ public class Sales extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnViewTabActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnUpdateSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSalesActionPerformed
         // TODO add your handling code here:
         
+        index = tblReviewSales.getSelectedRow();
+        if (tblReviewSales.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a row to update!");
+        } else {
+
+            DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+//            reviewSales.dpReqDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(),2).toString());
+            
+            reviewSales.y1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(0, 4));
+            reviewSales.m1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(5, 7));
+            reviewSales.d1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(8, 10));
+            reviewSales.cmbStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(),6).toString());
+
+
+            reviewSales.setVisible(true);
+            reviewSales.pack();
+            reviewSales.setLocationRelativeTo(null);
+        }
         
+    }//GEN-LAST:event_btnUpdateSalesActionPerformed
+
+    private void btnDeleteSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSalesActionPerformed
+        // TODO add your handling code here:
         
-    }//GEN-LAST:event_jButton6ActionPerformed
+        if (tblReviewSales.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a row to delete!");
+        } else {
+            
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
+            if (dialogResult == 0) {
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                model.removeRow(tblReviewSales.getSelectedRow());
+            } 
+            
+        }
+        
+    }//GEN-LAST:event_btnDeleteSalesActionPerformed
+
+    private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
+        // TODO add your handling code here:
+        
+        Date dateFilterFromTemp = dpFrom.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateFilterFrom = df.format(dateFilterFromTemp);
+
+    }//GEN-LAST:event_dpFromActionPerformed
+
+    private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
+        // TODO add your handling code here:
+        
+        Date dateFilterToTemp = dpTo.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateFilterTo = df.format(dateFilterToTemp);
+        
+    }//GEN-LAST:event_dpToActionPerformed
+
+    private void txtSearchSONumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchSONumActionPerformed
+        // TODO add your handling code here:
+        
+        String searchSONumber = txtSearchSONum.getText();
+        
+    }//GEN-LAST:event_txtSearchSONumActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1247,22 +1400,25 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton btnAddTab;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDeleteSales;
     private javax.swing.JButton btnDeleteTab;
     private javax.swing.JButton btnEditTab;
+    private javax.swing.JButton btnUpdateSales;
     private javax.swing.JButton btnViewTab;
     private javax.swing.JComboBox<String> cmbOrderStatus;
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
+    private javax.swing.JComboBox<String> cmbSearchSalesRep;
+    private org.jdesktop.swingx.JXDatePicker dpFrom;
     private org.jdesktop.swingx.JXDatePicker dpReqDate;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
+    private org.jdesktop.swingx.JXDatePicker dpTo;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JComboBox<String> jComboBox9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1272,6 +1428,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1315,9 +1472,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable5;
-    private javax.swing.JTextField jTextField2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
     private javax.swing.JLabel lblErrorCN;
@@ -1329,13 +1483,16 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrorSR;
     private javax.swing.JLabel lblProducts;
     private javax.swing.JLabel lblPurchase;
+    private javax.swing.JLabel lblQtySum;
     private javax.swing.JLabel lblStock;
+    private javax.swing.JLabel lblSum;
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;
-    private javax.swing.JTextField txtCustomerName;
+    public javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
-    private javax.swing.JTextField txtSONumber;
+    public javax.swing.JTextField txtSONumber;
+    private javax.swing.JTextField txtSearchSONum;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

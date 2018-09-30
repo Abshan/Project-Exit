@@ -1,3 +1,9 @@
+
+import java.awt.HeadlessException;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,8 +21,14 @@ public class SalesReviewWindow extends javax.swing.JFrame {
      */
     public SalesReviewWindow() {
         initComponents();
+        
+        lblErrorOS.setVisible(false);
+        lblErrorRD.setVisible(false);
+        dpReqDate.setVisible(false);
     }
 
+   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,8 +44,16 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
+        lblErrorOS = new javax.swing.JLabel();
+        lblErrorRD = new javax.swing.JLabel();
+        dpReqDate = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        m1 = new javax.swing.JTextField();
+        d1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        y1 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +75,16 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lblErrorOS.setText("*Invalid");
+
+        lblErrorRD.setText("*Invalid");
+
+        jLabel8.setText("-");
+
+        jLabel7.setText("-");
+
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel6.setText("DD-MM-YYYY");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -66,35 +95,64 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 .addComponent(btnSave)
                 .addGap(20, 20, 20))
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(117, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblErrorRD)
+                        .addGap(105, 105, 105))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jXDatePicker2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(137, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(lblErrorOS))
+                        .addGap(114, 114, 114))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(134, 134, 134)
+                .addGap(50, 50, 50)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(34, 34, 34)
+                    .addComponent(lblErrorRD)
+                    .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel6))
+                .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                    .addComponent(lblErrorOS)
+                    .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addComponent(btnSave)
                 .addGap(23, 23, 23))
         );
@@ -113,7 +171,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,7 +184,9 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,22 +194,22 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
-        int index = Sales.tblCreateSO.getSelectedRow();
+//        int check =0;
+         
+        int index = Sales.tblReviewSales.getSelectedRow();
 
-        String batchNo = txtBatchNo.getText();
-        String itemName = txtItemName.getText();
-        //        String manf = d1.getText() + "-" + m1.getText() + "-" + y1.getText();
-        //        String exp = d2.getText() + "-" + m2.getText() + "-" + y2.getText();
-        String quantity = txtQuantity.getText();
+        String reqDate = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
+        String orderStatus = (String) cmbStatus.getText();
 
-        if ((batchNo != "") && (itemName != "") && /*(manf != "") && (exp != "") &&*/ (quantity != "")) {
+//        Date reqd ;
 
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(batchNo, index, 2);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(itemName, index, 0);
-            //            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 2);
-            //            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 3);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 1);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 3);
+
+        if ((reqDate != "")&&(orderStatus !="")) {
+            
+            DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
+                      
+            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate,index, 2);
+            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
 
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
@@ -203,12 +263,20 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JTextField cmbStatus;
+    public javax.swing.JTextField d1;
+    public javax.swing.JTextField dpReqDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
+    private javax.swing.JLabel lblErrorOS;
+    private javax.swing.JLabel lblErrorRD;
+    public javax.swing.JTextField m1;
+    public javax.swing.JTextField y1;
     // End of variables declaration//GEN-END:variables
 }

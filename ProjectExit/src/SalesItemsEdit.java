@@ -166,9 +166,11 @@ public class SalesItemsEdit extends javax.swing.JFrame {
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(batchNo, index, 2);
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 3);
 
+            dispose();
+            
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
-            dispose();
+            
 
         } else {
 
