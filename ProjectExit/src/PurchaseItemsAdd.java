@@ -258,6 +258,24 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         String quantity = jTextField3.getText();
         int pid = 0;
         double price = 0;
+        
+        if(manf.substring(0, 4)!="2017" || manf.substring(0, 4)!="2018" ){
+            JOptionPane.showMessageDialog(null, "Enter a correct year");
+        }else if(Integer.parseInt(manf.substring(5, 7)) < 0 && Integer.parseInt(manf.substring(5, 7)) > 13){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }else if(Integer.parseInt(manf.substring(8, 10)) < 0 && Integer.parseInt(manf.substring(8, 10)) > 31){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }
+        
+        if(exp.substring(0, 4)!="2017" || exp.substring(0, 4)!="2018" ){
+            JOptionPane.showMessageDialog(null, "Enter a correct year");
+        }else if(Integer.parseInt(exp.substring(5, 7)) < 0 && Integer.parseInt(exp.substring(5, 7)) > 13){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }else if(Integer.parseInt(exp.substring(8, 10)) < 0 && Integer.parseInt(exp.substring(8, 10)) > 31){
+            JOptionPane.showMessageDialog(null, "Enter correct day");
+        }
+        
+        if(quantity)
 
         try {
             Connection con = dbConnect.getConnection();

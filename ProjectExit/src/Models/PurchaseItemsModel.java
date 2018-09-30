@@ -11,6 +11,7 @@ package Models;
  */
 public class PurchaseItemsModel {
 
+    private int purNo;
     private int batchNo;
     private int prodID;
     private String prodName;
@@ -19,7 +20,8 @@ public class PurchaseItemsModel {
     private int quantity;
     private double price;
 
-    public PurchaseItemsModel(int batchNo, int prodID, String prodName, String manfDate, String expDate, int quantity, double price) {
+    public PurchaseItemsModel(int purNo, int batchNo, int prodID, String prodName, String manfDate, String expDate, int quantity, double price) {
+        this.purNo = purNo;
         this.batchNo = batchNo;
         this.prodID = prodID;
         this.prodName = prodName;
@@ -27,6 +29,10 @@ public class PurchaseItemsModel {
         this.expDate = expDate;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public int getPurNo() {
+        return purNo;
     }
 
     public int getBatchNo() {

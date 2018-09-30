@@ -30,24 +30,25 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     public PurchaseItemsView() {
         initComponents();
         ShowPurchaseList();
-
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public ArrayList<PurchaseItemsModel> getPurcahaseList() {
         ArrayList<PurchaseItemsModel> purchaseList = new ArrayList<PurchaseItemsModel>();
         Connection con = dbConnect.getConnection();
-        //String query = "SELECT batchNo, prodID, prodName, manfDate, expDate, quantity, price FROM purchaseItems_tab where purNo=? ";
-        String query = "SELECT * FROM purchaseItems_tab where purNo=? ";
+        String Query = "SELECT * FROM purchaseItems_tab WHERE purNo = '" + jTextField2.getText() + "' ";
+
+        Statement st;
+        ResultSet rs;
 
         try {
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, jTextField2.getText());
-            ResultSet rs = pst.executeQuery();
+            st = con.createStatement();
+            rs = st.executeQuery(Query);
             PurchaseItemsModel purchases;
 
             while (rs.next()) {
-                purchases = new PurchaseItemsModel(rs.getInt("batchNo"), rs.getInt("prodID"), rs.getString("prodName"), rs.getString("manfDate"), rs.getString("expDate"), Integer.parseInt(rs.getString("quantity")), Double.parseDouble(rs.getString("price")));
+                purchases = new PurchaseItemsModel(Integer.parseInt(rs.getString("purNo")), Integer.parseInt(rs.getString("batchNo")), Integer.parseInt(rs.getString("prodID")), rs.getString("prodName"), rs.getString("manfDate"), rs.getString("expDate"), Integer.parseInt(rs.getString("quantity")), Double.parseDouble(rs.getString("price")));
                 purchaseList.add(purchases);
             }
         } catch (Exception e) {
@@ -60,15 +61,16 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         ArrayList<PurchaseItemsModel> list = getPurcahaseList();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        Object[] row = new Object[7];
-        for (int i = 1; i < list.size(); i++) {
-            row[0] = list.get(i).getBatchNo();
-            row[1] = list.get(i).getProdID();
-            row[2] = list.get(i).getProdName();
-            row[3] = list.get(i).getManfDate();
-            row[4] = list.get(i).getExpDate();
-            row[5] = list.get(i).getQuantity();
-            row[6] = list.get(i).getPrice();
+        Object[] row = new Object[8];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getPurNo();
+            row[1] = list.get(i).getBatchNo();
+            row[2] = list.get(i).getProdID();
+            row[3] = list.get(i).getProdName();
+            row[4] = list.get(i).getManfDate();
+            row[5] = list.get(i).getExpDate();
+            row[6] = list.get(i).getQuantity();
+            row[7] = list.get(i).getPrice();
 
             model.addRow(row);
         }
@@ -107,7 +109,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NUMBER", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
+                "P.O NUMBER", "BATCH NUMBER", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -123,6 +125,11 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         jLabel9.setText("jLabel9");
 
         jButton1.setText("CLOSE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setEditable(false);
 
@@ -235,11 +242,17 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

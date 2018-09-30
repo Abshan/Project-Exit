@@ -26,7 +26,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-    
+
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
@@ -295,6 +295,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         int index = Purchase.jTable9.getSelectedRow();
         double sum = 0;
 
+        
         String batchNo = jTextField1.getText();
         String prodid = jTextField4.getText();
         String itemName = jTextField2.getText();
@@ -302,6 +303,22 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         String exp = y2.getText() + "-" + m2.getText() + "-" + d2.getText();
         String quantity = jTextField3.getText();
         
+        if(manf.substring(0, 4)!="2017" || manf.substring(0, 4)!="2018" ){
+            JOptionPane.showMessageDialog(null, "Enter a correct year");
+        }else if(Integer.parseInt(manf.substring(5, 7)) < 0 && Integer.parseInt(manf.substring(5, 7)) > 13){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }else if(Integer.parseInt(manf.substring(8, 10)) < 0 && Integer.parseInt(manf.substring(8, 10)) > 31){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }
+        
+        if(exp.substring(0, 4)!="2017" || exp.substring(0, 4)!="2018" ){
+            JOptionPane.showMessageDialog(null, "Enter a correct year");
+        }else if(Integer.parseInt(exp.substring(5, 7)) < 0 && Integer.parseInt(exp.substring(5, 7)) > 13){
+            JOptionPane.showMessageDialog(null, "Enter correct month");
+        }else if(Integer.parseInt(exp.substring(8, 10)) < 0 && Integer.parseInt(exp.substring(8, 10)) > 31){
+            JOptionPane.showMessageDialog(null, "Enter correct day");
+        }
+
         try {
             Connection con = dbConnect.getConnection();
 
@@ -317,12 +334,15 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         }
         double tot = sum * Double.parseDouble(jTextField3.getText());
 
-        if ((batchNo != "") && (itemName != "") && (manf != "") && (exp != "") && (quantity != "")) {
+        if ((batchNo == "") && (manf == "") && (exp == "") && (quantity == "")) {
+
+            JOptionPane.showMessageDialog(null, "Fill in the balnks");
+        } else {
 
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(batchNo, index, 0);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(prodid, index, 1);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(itemName, index, 2);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 3);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(man, index, 3);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 4);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(quantity, index, 5);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(tot, index, 6);
@@ -330,11 +350,6 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
             dispose();
-
-        } else {
-
-            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
-
         }
 
 
