@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
@@ -482,18 +484,18 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel42)
-                                    .addComponent(jLabel12))
+                                .addComponent(jLabel42)
                                 .addGap(25, 25, 25))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18))
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel41)
                                     .addComponent(jLabel23))
-                                .addGap(26, 26, 26)))
+                                .addGap(26, 26, 26))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbRoleMan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtNICMan)
@@ -526,7 +528,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -541,19 +543,21 @@ public class CreateAccount extends javax.swing.JFrame {
                             .addComponent(jLabel41)
                             .addComponent(txtEmailMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel42)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNICMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel42)
+                            .addComponent(txtNICMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPasswordMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbRoleMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(74, 74, 74)
+                            .addComponent(jLabel12)
+                            .addComponent(cmbRoleMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(101, 101, 101))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)))
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
@@ -792,9 +796,32 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbRoleActionPerformed
 
     private void txtSearchManageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchManageKeyTyped
-        String[] data = {"A", "B", "C", "D", "E", "F"};
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-        model.addRow(data);//hard coded
+        String search = txtSearchManage.getText();
+        String[] results = new String[6];
+        
+        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '"+search+"%';";
+        try{
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            while(rs.next()){
+                results[0] = rs.getString("userID");
+                results[1] = rs.getString("userName");
+                results[2] = rs.getString("email");
+                results[3] = rs.getString("nic");
+                results[4] = rs.getString("password");
+                results[5] = rs.getString("role");
+                
+                DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+            
+                model.addRow(results);
+            }
+                       
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_txtSearchManageKeyTyped
 
     private void tblDetailsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailsTableMouseClicked
@@ -821,17 +848,14 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-        if (tblDetailsTable.getSelectedRow() == -1) {
-            if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty");
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "You must select a row");
-            }
-        } else {
-            model.removeRow(tblDetailsTable.getSelectedRow());
-
-        }
+        int row = tblDetailsTable.getSelectedRow();
+        
+        txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
+        txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
+        txtEmailMan.setText(tblDetailsTable.getValueAt(row, 2).toString());
+        txtNICMan.setText(tblDetailsTable.getValueAt(row, 3).toString());
+        txtPasswordMan.setText(tblDetailsTable.getValueAt(row, 4).toString());
+        cmbRoleMan.setSelectedItem(tblDetailsTable.getValueAt(row, 5).toString());
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
