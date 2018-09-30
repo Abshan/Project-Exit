@@ -56,7 +56,7 @@ public class SalesItemsView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("PURCHASE ORDER VIEW"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("SALES ORDER VIEW"));
 
         tblViewSalesOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
