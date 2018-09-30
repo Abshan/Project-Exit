@@ -18,6 +18,7 @@ public class UserModel {
     private String password;
     private String role;
     public static String loginName;
+    public static String userRole;
 
     public UserModel(int userID, String userName, String email, String nic, String password, String role) {
         this.userID = userID;
