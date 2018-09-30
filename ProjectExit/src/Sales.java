@@ -38,6 +38,7 @@ public class Sales extends javax.swing.JFrame {
     public int count;
     public int index;
     
+    SalesItemsView viewItems = new SalesItemsView();
     SalesItemsEdit editItems = new SalesItemsEdit();
     SalesItemsAdd addItems = new SalesItemsAdd();
 
@@ -107,7 +108,7 @@ public class Sales extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblReviewSales = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -553,15 +554,19 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblReviewSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "S.O. NUMBER", "CUSTOMER", "DATE", "ITEM", "REGION", "ORDERED", "RATE", "AMOUNT", "STATUS"
+                "S.O. NUMBER", "ORDER DATE", "CUSTOMER", "SALES MANAGER", "REGION", "TOTAL", "STATUS"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblReviewSales);
+        if (tblReviewSales.getColumnModel().getColumnCount() > 0) {
+            tblReviewSales.getColumnModel().getColumn(1).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jLabel12.setText("SEARCH:");
 
@@ -581,6 +586,11 @@ public class Sales extends javax.swing.JFrame {
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAGATH" }));
 
         btnViewTab.setText("View");
+        btnViewTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewTabActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -1159,6 +1169,26 @@ public class Sales extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnDeleteTabActionPerformed
 
+    private void btnViewTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTabActionPerformed
+        // TODO add your handling code here:
+        
+         if (tblReviewSales.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select the Purchase Order you want to view");
+        } else {
+
+            DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+            String num = model.getValueAt(tblReviewSales.getSelectedRow(), 0).toString();
+
+//            viewItems..setText(num);
+
+            viewItems.setVisible(true);
+            viewItems.pack();
+            viewItems.setLocationRelativeTo(null);
+
+        }
+        
+    }//GEN-LAST:event_btnViewTabActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1266,7 +1296,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
@@ -1285,6 +1314,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
+    public static javax.swing.JTable tblReviewSales;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     private javax.swing.JTextField txtSONumber;
