@@ -243,8 +243,6 @@ public class SalesItemsView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.getAccessibleContext().setAccessibleName("SALES ORDER VIEW");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,17 +317,17 @@ public class SalesItemsView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblCustomerName;
-    private javax.swing.JLabel lblCustomerPhone;
-    private javax.swing.JLabel lblDateOfOrder;
-    private javax.swing.JLabel lblOrderStatus;
+    public javax.swing.JLabel lblCustomerName;
+    public javax.swing.JLabel lblCustomerPhone;
+    public javax.swing.JLabel lblDateOfOrder;
+    public javax.swing.JLabel lblOrderStatus;
     private javax.swing.JLabel lblQtySum;
-    private javax.swing.JLabel lblRegion;
-    private javax.swing.JLabel lblRequiredDate;
+    public javax.swing.JLabel lblRegion;
+    public javax.swing.JLabel lblRequiredDate;
     public javax.swing.JLabel lblSONum;
-    private javax.swing.JLabel lblSalesManager;
-    private javax.swing.JLabel lblSalesRep;
-    private javax.swing.JLabel lblSum;
+    public javax.swing.JLabel lblSalesManager;
+    public javax.swing.JLabel lblSalesRep;
+    public javax.swing.JLabel lblSum;
     public static javax.swing.JTable tblViewSalesOrder;
     // End of variables declaration//GEN-END:variables
 }

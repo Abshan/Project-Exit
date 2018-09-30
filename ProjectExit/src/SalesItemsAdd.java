@@ -168,9 +168,12 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             model.addRow(new Object[]{txtItemName.getText(), txtQuantity.getText(),       //Replace RATE and QUANTITY 
                 txtBatchNo.getText(), txtQuantity.getText()});                            //Change data type in table if have to 
                                                                                           //FIX CLEAR BUTTON TO CLEAR TABLE ALSO
+        
+        dispose();
+                                                                                          
         JOptionPane.showMessageDialog(rootPane, "Added");
 
-        dispose();
+        
 
         } else {
 
