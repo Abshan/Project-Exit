@@ -2,6 +2,9 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,9 +23,32 @@ public class SalesItemsAdd extends javax.swing.JFrame {
      */
     public SalesItemsAdd() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        getItems();
     }
     
     DatabaseConnection dbConnect = new DatabaseConnection();
+    
+    public void getItems() {
+
+        try {
+            Connection con = dbConnect.getConnection();
+            String qury = "select * from products_tab";
+            ResultSet rs;
+            PreparedStatement pst = con.prepareStatement(qury);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String itemName = rs.getString("prodName");
+                txtItemName.addItem(itemName);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,10 +65,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtBatchNo = new javax.swing.JTextField();
-        txtItemName = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
+        btnCancek = new javax.swing.JButton();
+        txtItemName = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,7 +79,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         jLabel3.setText("ITEM NAME:");
 
-        btnSave.setText("SAVE");
+        btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -66,14 +93,17 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         jLabel9.setText("QUANTITY:");
 
+        btnCancek.setText("Cancel");
+        btnCancek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancekActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(89, 89, 89))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -89,19 +119,25 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtBatchNo)
                             .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-                            .addComponent(txtItemName, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(txtItemName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(254, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(108, 108, 108)
+                .addGap(107, 107, 107)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -109,9 +145,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -158,28 +196,50 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
 
         String batchNo = txtBatchNo.getText();
-        String itemName = txtItemName.getText();
-//        String manf = txtMDd.getText() + "-" + txtMDm.getText() + "-" + txtMDy.getText();
-//        String exp = txtEDd.getText() + "-" + txtEDm.getText() + "-" + txtEDy.getText();
-        String quantity = txtQuantity.getText();
-
-        if ((batchNo != "") && (itemName != "") /*&& (manf != "") && (exp != "")*/ && (quantity != "")) {       
-
-            model.addRow(new Object[]{txtItemName.getText(), txtQuantity.getText(),       //Replace RATE and QUANTITY 
-                txtBatchNo.getText(), txtQuantity.getText()});                            //Change data type in table if have to 
-                                                                                          //FIX CLEAR BUTTON TO CLEAR TABLE ALSO
+        String itemName = txtItemName.getSelectedItem().toString();
+        int quantity = Integer.parseInt(txtQuantity.getText());
+        int pid = 0;
+        int realpid = 0;
         
-        dispose();
-                                                                                          
-        JOptionPane.showMessageDialog(rootPane, "Added");
+        try {
+            Connection con = dbConnect.getConnection();
 
-        
+            String query = "select mrp, prodID from products_tab where prodName =? ";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, txtItemName.getSelectedItem().toString());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                pid = rs.getInt("mrp");
+                realpid = rs.getInt("prodID");
+            }
+        } catch (Exception e) {
+        }       
+       
+        int subT = pid * quantity;
+
+        if ((batchNo != "") && (itemName != "") && (quantity != 0)) {
+
+            model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getText(), txtQuantity.getText(),
+                pid, subT});
+
+            dispose();
+
+            JOptionPane.showMessageDialog(rootPane, "Added!");
+
+
 
         } else {
 
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancekActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCancekActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +277,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancek;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -225,7 +286,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     public javax.swing.JTextField txtBatchNo;
-    public javax.swing.JTextField txtItemName;
+    public javax.swing.JComboBox<String> txtItemName;
     public javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

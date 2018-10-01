@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,11 +38,31 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR.setVisible(false);
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
+        lblQtySum.setText(Double.toString(getTotalQuantity()));
+        lblTotalAmt.setText(Double.toString(getTotalAmount()));
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public int count;
     public int index;
+    
+    public int getTotalQuantity(){
+        int rowcount = tblCreateSO.getRowCount();
+        int total = 0;
+        for(int i = 0; i < rowcount; i++){
+            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 2).toString());
+        }
+        return total;
+    }
+    
+    public int getTotalAmount(){
+        int rowcount = tblCreateSO.getRowCount();
+        int total = 0;
+        for(int i = 0; i < rowcount; i++){
+            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 4).toString());
+        }
+        return total;
+    }
     
     SalesItemsView viewItems = new SalesItemsView();
     SalesItemsEdit editItems = new SalesItemsEdit();
@@ -108,7 +130,7 @@ public class Sales extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblQtySum = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        lblSum = new javax.swing.JLabel();
+        lblTotalAmt = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -289,12 +311,20 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ITEM", "QUANTITY", "RATE", "SUB TOTAL"
+                "ITEM CODE", "ITEM", "BATCH NO", "QUANTITY", "RATE", "SUB TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, false, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(tblCreateSO);
         if (tblCreateSO.getColumnModel().getColumnCount() > 0) {
-            tblCreateSO.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox9));
+            tblCreateSO.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(jComboBox9));
         }
 
         btnCreate.setText("Create");
@@ -362,7 +392,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel2.setText("TOTAL AMOUNT:");
 
-        lblSum.setText("jLabel3");
+        lblTotalAmt.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -432,7 +462,7 @@ public class Sales extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(lblSum))
+                        .addComponent(lblTotalAmt))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -500,7 +530,7 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(lblQtySum)
                     .addComponent(jLabel2)
-                    .addComponent(lblSum))
+                    .addComponent(lblTotalAmt))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1049,19 +1079,20 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         int check = 0;
-        
+
         int soNumber;
         String customerName;
         int customerPhone;
         String requiredDate;
         String salesRep;
         String region;
-        String orderStatus;     
+        String orderStatus;
+        String orderDate;
 
 //        try {
 //            if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
-                soNumber = Integer.parseInt(txtSONumber.getText());
-                check++;
+        soNumber = Integer.parseInt(txtSONumber.getText());
+        check++;
 //                lblErrorSON.setVisible(false);
 //            } else {
 //
@@ -1075,8 +1106,8 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if ((!"".equals(txtCustomerName.getText()))) {
-                customerName = txtCustomerName.getText();
-                check++;
+        customerName = txtCustomerName.getText();
+        check++;
 //                lblErrorCN.setVisible(false);
 //            } else {
 //
@@ -1089,8 +1120,8 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
-                customerPhone = Integer.parseInt(txtCustomerPhone.getText());
-                check++;
+        customerPhone = Integer.parseInt(txtCustomerPhone.getText());
+        check++;
 //                lblErrorCP.setVisible(false);
 //            } else {
 //
@@ -1105,10 +1136,10 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if (dpReqDate.getDate() != null) {
-                Date requiredDatetemp = dpReqDate.getDate();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                requiredDate = df.format(requiredDatetemp);
-                check++;
+        Date requiredDatetemp = dpReqDate.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        requiredDate = df.format(requiredDatetemp);
+        check++;
 //                lblErrorRD.setVisible(false);
 //            } else {
 //
@@ -1121,8 +1152,8 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if (cmbSalesRep.getSelectedItem() != null) {
-                salesRep = (String) cmbSalesRep.getSelectedItem();
-                check++;
+        salesRep = (String) cmbSalesRep.getSelectedItem();
+        check++;
 //                lblErrorSR.setVisible(false);
 //            } else {
 //
@@ -1135,8 +1166,8 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if (cmbRegion.getSelectedItem() != null) {
-                region = (String) cmbRegion.getSelectedItem();
-                check++;
+        region = (String) cmbRegion.getSelectedItem();
+        check++;
 //                lblErrorR.setVisible(false);
 //            } else {
 //
@@ -1149,8 +1180,8 @@ public class Sales extends javax.swing.JFrame {
 //
 //        try {
 //            if (cmbOrderStatus.getSelectedItem() != null) {
-                orderStatus = (String) cmbOrderStatus.getSelectedItem();
-                check++;
+        orderStatus = (String) cmbOrderStatus.getSelectedItem();
+        check++;
 //                lblErrorOS.setVisible(false);
 //            } else {
 //
@@ -1162,29 +1193,46 @@ public class Sales extends javax.swing.JFrame {
 //        }
 
         String orderCreatedBy = "SalesMana";
-        Double total = 69420.0;
-        
-        
-        if (check == 7) {
+        String total = lblTotalAmt.getText().toString();
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        if (check == 7) {
+            
             Date soDate = new Date();
+            orderDate = df.format(soDate);
+
+            int rows = tblCreateSO.getRowCount();
             
-            String query;
-                    query = "INSERT INTO sales_tab(soNumber,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + customerName + "','" + customerPhone + "','" + requiredDate + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
-                    try {
-                        Connection con = dbConnect.getConnection();
-                        Statement st = con.createStatement();
-                        int execute = st.executeUpdate(query);
-                        JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e);
-                    }
             
-            JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
-                   
-            
-        
+            try {
+
+ 
+                
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + requiredDate + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                int execute = st.executeUpdate(query);
+                
+
+                for (int row = 0; row < rows; row++) {
+                    
+                    String itemCode = tblCreateSO.getValueAt(row, 0).toString();
+                    String itemName = tblCreateSO.getValueAt(row, 1).toString();
+                    String batchNum = tblCreateSO.getValueAt(row, 2).toString();
+                    int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
+                    double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
+                    double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());                  
+
+                    String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
+//                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
+                    int execute2 = st.executeUpdate(Query2);
+//                    int execute3 = st.executeUpdate(Query3);
+                }
+
+                JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem connecting to db");
+            }
+
             txtSONumber.setText("");
             txtCustomerName.setText("");
             txtCustomerPhone.setText("");
@@ -1192,6 +1240,7 @@ public class Sales extends javax.swing.JFrame {
             cmbRegion.setSelectedIndex(-1);
             cmbSalesRep.setSelectedIndex(-1);
             dpReqDate.setDate(null);
+            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel(); model.setRowCount(0);
 
         }
 
@@ -1208,13 +1257,9 @@ public class Sales extends javax.swing.JFrame {
         addItems.setLocationRelativeTo(null);
 
         addItems.txtBatchNo.setText("");
-        addItems.txtItemName.setText("");
+        addItems.txtItemName.setSelectedIndex(-1);
         addItems.txtQuantity.setText("");
-//        addItems.txtMDm.setText("");
-//        addItems.txtMDy.setText("");
-//        addItems.txtEDd.setText("");
-//        addItems.txtEDm.setText("");
-//        addItems.txtEDy.setText("");
+
 
     }//GEN-LAST:event_btnAddTabActionPerformed
 
@@ -1228,7 +1273,8 @@ public class Sales extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
             editItems.txtItemName.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 0).toString());
-            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
+            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
+            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
 //            editItems.d1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(0, 2));
 //            editItems.m1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(3, 5));
 //            editItems.y1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(6, 10));
@@ -1236,8 +1282,7 @@ public class Sales extends javax.swing.JFrame {
 //            editItems.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(0, 2));
 //            editItems.m2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(3, 5));
 //            editItems.y2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(6, 10));
-            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
-            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(),3).toString());
+//            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
 
             editItems.setVisible(true);
             editItems.pack();
@@ -1485,7 +1530,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblQtySum;
     private javax.swing.JLabel lblStock;
-    private javax.swing.JLabel lblSum;
+    private javax.swing.JLabel lblTotalAmt;
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;

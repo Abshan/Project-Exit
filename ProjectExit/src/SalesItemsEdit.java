@@ -2,6 +2,9 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +23,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
      */
     public SalesItemsEdit() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -43,6 +47,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
+        btnCanecl = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,7 +57,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
         jLabel3.setText("ITEM NAME:");
 
-        btnSave.setText("SAVE");
+        btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -66,14 +71,17 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
         jLabel9.setText("QUANTITY:");
 
+        btnCanecl.setText("Cancel");
+        btnCanecl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCaneclActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(89, 89, 89))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -95,6 +103,12 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                                 .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(262, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCanecl, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,9 +127,11 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCanecl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -157,18 +173,36 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
         String batchNo = txtBatchNo.getText();
         String itemName = txtItemName.getText();
-        String quantity = txtQuantity.getText();
+        int quantity = Integer.parseInt(txtQuantity.getText());
+        int pid = 0;
+        
+        try {
+            Connection con = dbConnect.getConnection();
 
-        if ((batchNo != "") && (itemName != "") && /*(manf != "") && (exp != "") &&*/ (quantity != "")) {
+            String query = "select mrp from products_tab where prodName =? ";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, txtItemName.getText().toString());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                pid = rs.getInt("mrp");
+            }
+
+        } catch (Exception e) {
+        }
+        
+        int subT = pid*quantity;
+
+        if ((batchNo != "") && (itemName != "") && /*(manf != "") && (exp != "") &&*/ (quantity != 0)) {
 
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(itemName, index, 0);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 1);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(batchNo, index, 2);
-            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 3);
+            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(batchNo, index, 1);
+            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 2);
+            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(pid, index, 3);
+            ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(subT, index, 4);
 
             dispose();
             
-            JOptionPane.showMessageDialog(rootPane, "Saved");
+            JOptionPane.showMessageDialog(rootPane, "Updated!");
 
             
 
@@ -183,6 +217,13 @@ public class SalesItemsEdit extends javax.swing.JFrame {
     private void btnSaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSaveKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveKeyPressed
+
+    private void btnCaneclActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaneclActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCaneclActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,6 +261,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCanecl;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
