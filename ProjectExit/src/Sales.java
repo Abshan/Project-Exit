@@ -520,8 +520,7 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -619,7 +618,7 @@ public class Sales extends javax.swing.JFrame {
 
         tblReviewSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"4556", "2018-08-06", "2018-10-06", "Kudu Gedara", "Jayasena", "65000", "AWAITING FULLFILMENT"}
+                {"4556", "2018-08-06", "2018-10-06", "D House", "Jayasena", "65000", "AWAITING FULLFILMENT"}
             },
             new String [] {
                 "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
