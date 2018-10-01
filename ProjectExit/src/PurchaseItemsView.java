@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
-import Models.PurchaseItemsModel;
 import java.sql.PreparedStatement;
 
 /*
@@ -29,50 +28,36 @@ public class PurchaseItemsView extends javax.swing.JFrame {
      */
     public PurchaseItemsView() {
         initComponents();
-        ShowPurchaseList();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        fillTab();
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
-    public ArrayList<PurchaseItemsModel> getPurcahaseList() {
-        ArrayList<PurchaseItemsModel> purchaseList = new ArrayList<PurchaseItemsModel>();
-        Connection con = dbConnect.getConnection();
-        String Query = "SELECT * FROM purchaseItems_tab WHERE purNo = '" + jTextField2.getText() + "' ";
+    public void fillTab() {
 
-        Statement st;
-        ResultSet rs;
-
+        String[] results = new String[8];
+        String query = "select * from purchaseItems_tab b purchase_tab a where purNo LIKE '" + jTextField1.getText().toString() + "' ";
         try {
-            st = con.createStatement();
-            rs = st.executeQuery(Query);
-            PurchaseItemsModel purchases;
+            
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
-                purchases = new PurchaseItemsModel(Integer.parseInt(rs.getString("purNo")), Integer.parseInt(rs.getString("batchNo")), Integer.parseInt(rs.getString("prodID")), rs.getString("prodName"), rs.getString("manfDate"), rs.getString("expDate"), Integer.parseInt(rs.getString("quantity")), Double.parseDouble(rs.getString("price")));
-                purchaseList.add(purchases);
+                results[0] = rs.getString("purNo");
+                results[1] = rs.getString("batchNo");
+                results[2] = rs.getString("prodID");
+                results[3] = rs.getString("prodName");
+                results[4] = rs.getString("manfDate");
+                results[5] = rs.getString("expDate");
+                results[6] = rs.getString("quantity");
+                results[7] = rs.getString("price");
+
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                model.addRow(results);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return purchaseList;
-    }
-
-    public void ShowPurchaseList() {
-        ArrayList<PurchaseItemsModel> list = getPurcahaseList();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-        Object[] row = new Object[8];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getPurNo();
-            row[1] = list.get(i).getBatchNo();
-            row[2] = list.get(i).getProdID();
-            row[3] = list.get(i).getProdName();
-            row[4] = list.get(i).getManfDate();
-            row[5] = list.get(i).getExpDate();
-            row[6] = list.get(i).getQuantity();
-            row[7] = list.get(i).getPrice();
-
-            model.addRow(row);
         }
     }
 
@@ -109,10 +94,13 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "P.O NUMBER", "BATCH NUMBER", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
+                "P.O NUMBER", "BATCH NUMBER", "PROD ID", "PROD NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jLabel2.setText("P.O NUMBER:");
 
@@ -132,6 +120,11 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         });
 
         jTextField1.setEditable(false);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.setEditable(false);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +183,6 @@ public class PurchaseItemsView extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 51, Short.MAX_VALUE)
@@ -254,6 +246,10 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -300,7 +296,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTable jTable1;
+    public javax.swing.JTable jTable1;
     public javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
     public javax.swing.JTextField jTextField3;
