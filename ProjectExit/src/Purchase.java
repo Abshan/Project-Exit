@@ -181,6 +181,12 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
 
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -704,6 +710,7 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
+        
         Date dat = pd.getDate();                                                //Getting the date from the date picker
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
         String date = df.format(dat).toString();    //Assigning the date format to the selected Date
@@ -716,6 +723,11 @@ public class Purchase extends javax.swing.JFrame {
         String Sum = "22.5";
        
 
+        if(pn == null && date==null && ven==""){
+            JOptionPane.showMessageDialog(null, "Please fill in the blanks!");
+        }else if(rows==-1){
+            JOptionPane.showMessageDialog(null, "No items have been added to the purchase order");
+        }else{
         try {
 
             Connection con = dbConnect.getConnection();
@@ -727,7 +739,8 @@ public class Purchase extends javax.swing.JFrame {
             String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES('" + pno + "','" + ven + "','" + date + "','" + Sum + "')";
             int execute = st.executeUpdate(Query);
 
-            for (int row = 0; row < rows; row++) {
+            
+            for (int row = 0; row < rows; row++){
 
                 int batchNO = Integer.parseInt(jTable9.getValueAt(row, 0).toString());
                 int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
@@ -754,6 +767,7 @@ public class Purchase extends javax.swing.JFrame {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -808,6 +822,16 @@ public class Purchase extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        UserModel.loginName="";
+        UserModel.userRole="";
+        
+        Login frame = new Login();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

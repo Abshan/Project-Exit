@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -258,25 +263,23 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         String quantity = jTextField3.getText();
         int pid = 0;
         double price = 0;
-        
-        if(manf.substring(0, 4)!="2017" || manf.substring(0, 4)!="2018" ){
-            JOptionPane.showMessageDialog(null, "Enter a correct year");
-        }else if(Integer.parseInt(manf.substring(5, 7)) < 0 && Integer.parseInt(manf.substring(5, 7)) > 13){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
-        }else if(Integer.parseInt(manf.substring(8, 10)) < 0 && Integer.parseInt(manf.substring(8, 10)) > 31){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
-        }
-        
-        if(exp.substring(0, 4)!="2017" || exp.substring(0, 4)!="2018" ){
-            JOptionPane.showMessageDialog(null, "Enter a correct year");
-        }else if(Integer.parseInt(exp.substring(5, 7)) < 0 && Integer.parseInt(exp.substring(5, 7)) > 13){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
-        }else if(Integer.parseInt(exp.substring(8, 10)) < 0 && Integer.parseInt(exp.substring(8, 10)) > 31){
-            JOptionPane.showMessageDialog(null, "Enter correct day");
-        }
-        
-        if(quantity)
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1, date2;
+        try {
+            date1 = sdf.parse(manf);
+            date2 = sdf.parse(exp);
+
+            if (date1.after(date2));
+            {
+                JOptionPane.showMessageDialog(null, "Expiry date is set before manufacturing date, please correct it!");
+            }
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
+        }
+
+        //dif(Integer.parseInt(quantity)) 
         try {
             Connection con = dbConnect.getConnection();
 

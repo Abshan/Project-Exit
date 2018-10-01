@@ -3,6 +3,9 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -295,7 +298,6 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         int index = Purchase.jTable9.getSelectedRow();
         double sum = 0;
 
-        
         String batchNo = jTextField1.getText();
         String prodid = jTextField4.getText();
         String itemName = jTextField2.getText();
@@ -303,21 +305,21 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         String exp = y2.getText() + "-" + m2.getText() + "-" + d2.getText();
         String quantity = jTextField3.getText();
         
-        if(manf.substring(0, 4)!="2017" || manf.substring(0, 4)!="2018" ){
-            JOptionPane.showMessageDialog(null, "Enter a correct year");
-        }else if(Integer.parseInt(manf.substring(5, 7)) < 0 && Integer.parseInt(manf.substring(5, 7)) > 13){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
-        }else if(Integer.parseInt(manf.substring(8, 10)) < 0 && Integer.parseInt(manf.substring(8, 10)) > 31){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1, date2;
+        try {
+            date1 = sdf.parse(manf);
+            date2 = sdf.parse(exp);
+
+            if (date1.after(date2));
+            {
+                JOptionPane.showMessageDialog(null, "Expiry date is set before manufacturing date, please correct it!");
+            }
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
         }
-        
-        if(exp.substring(0, 4)!="2017" || exp.substring(0, 4)!="2018" ){
-            JOptionPane.showMessageDialog(null, "Enter a correct year");
-        }else if(Integer.parseInt(exp.substring(5, 7)) < 0 && Integer.parseInt(exp.substring(5, 7)) > 13){
-            JOptionPane.showMessageDialog(null, "Enter correct month");
-        }else if(Integer.parseInt(exp.substring(8, 10)) < 0 && Integer.parseInt(exp.substring(8, 10)) > 31){
-            JOptionPane.showMessageDialog(null, "Enter correct day");
-        }
+
 
         try {
             Connection con = dbConnect.getConnection();
@@ -342,7 +344,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(batchNo, index, 0);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(prodid, index, 1);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(itemName, index, 2);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(man, index, 3);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 3);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 4);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(quantity, index, 5);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(tot, index, 6);
