@@ -756,6 +756,15 @@ public class AddProduct extends javax.swing.JFrame {
                         Statement st = con.createStatement();
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
+                        
+                        txtProductID.setText(" ");
+                        txtBrandName.setText(" ");
+                        txtProductName.setText(" ");
+                        txtWholesalePrice.setText(" ");
+                        txtMRP.setText(" ");
+                        txtSize.setText(" ");
+                        rdoCosmetics.setSelected(false);
+                        rdoDrugs.setSelected(false);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e);
                     }

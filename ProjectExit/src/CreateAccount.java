@@ -690,9 +690,25 @@ public class CreateAccount extends javax.swing.JFrame {
                 String NIC = txtNIC.getText();
                 String Password = txtPassword.getText();
                 String ConfirmPassword = txtConfirmPassword.getText();
+                String role = cmbRole.getSelectedItem().toString();
+                
+                String query = "INSERT INTO user_tab(userName,email,nic,password,role) VALUES('" + UserName + "','" + Email + "','" + NIC + "','" + Password + "','" + role + "');";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
+                        JOptionPane.showMessageDialog(rootPane, "User Added Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
 
-                JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-            }
+                    txtUserID.setText("");
+                    txtUserName.setText("");
+                    txtEmail.setText("");
+                    txtNIC.setText("");
+                    txtPassword.setText("");
+                    txtConfirmPassword.setText("");
+                }
         } catch (Exception e) {
         }
 
@@ -711,7 +727,8 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtSearchManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchManageActionPerformed
-
+            
+        
 // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
@@ -724,31 +741,49 @@ public class CreateAccount extends javax.swing.JFrame {
             }
 
         }
-        txtUserIDMan.setText("");
-        txtUserNameMan.setText("");
-        txtEmailMan.setText("");
-        txtNICMan.setText("");
-        txtPasswordMan.setText("");
+            txtUserIDMan.setText("");
+            txtUserNameMan.setText("");
+            txtEmailMan.setText("");
+            txtNICMan.setText("");
+            txtPasswordMan.setText("");
+            txtSearchManage.setText("");
 
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        //tblDetailsTable model =(tblDetailsTable) tbl
+        String UserID = txtUserIDMan.getText();
+        String UserName = txtUserNameMan.getText();
+        String Email = txtEmailMan.getText();
+        String NIC = txtNICMan.getText();
+        String Password = txtPasswordMan.getText();
+        String role = cmbRoleMan.getSelectedItem().toString();
+                
         if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+                JOptionPane.showMessageDialog(rootPane, "Table is empty.");
             } else {
-                JOptionPane.showMessageDialog(rootPane, "You must select a row");
+                JOptionPane.showMessageDialog(rootPane, "You must select a row.");
             }
         }
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        
+        String query = "UPDATE user_tab SET userName='"+UserName+"',email='"+Email+"',nic='"+NIC+"',password='"+Password+"',role='"+role+"' WHERE userID="+UserID+";";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            JOptionPane.showMessageDialog(rootPane, "User Updated Successfully.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+                    }
+        
+        /*DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
 
         model.setValueAt(txtUserIDMan.getText(), tblDetailsTable.getSelectedRow(), 0);
         model.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
         model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
         model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
-        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
+        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);*/
 
         //Connection con = getConnection();
         // String que1 = " upd"
@@ -799,7 +834,7 @@ public class CreateAccount extends javax.swing.JFrame {
         String search = txtSearchManage.getText();
         String[] results = new String[6];
         
-        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '"+search+"%';";
+        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%"+search+"%';";
         try{
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
@@ -848,18 +883,25 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tblDetailsTable.getSelectedRow();
+        String UserID = txtUserIDMan.getText();
         
-        txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
-        txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
-        txtEmailMan.setText(tblDetailsTable.getValueAt(row, 2).toString());
-        txtNICMan.setText(tblDetailsTable.getValueAt(row, 3).toString());
-        txtPasswordMan.setText(tblDetailsTable.getValueAt(row, 4).toString());
-        cmbRoleMan.setSelectedItem(tblDetailsTable.getValueAt(row, 5).toString());
+        String query = "DELETE FROM user_tab WHERE userID="+UserID+";";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            JOptionPane.showMessageDialog(rootPane, "User Deleted Successfully.");
+            
+             DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+                model.removeRow(tblDetailsTable.getSelectedRow());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+                    }
+       
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
-        if (tblDetailsTable.getSelectedRow() == -1) {
+        /*if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Table is empty");
             } else {
@@ -872,7 +914,7 @@ public class CreateAccount extends javax.swing.JFrame {
         model.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
         model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
         model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
-        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
+        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);*/
     }//GEN-LAST:event_btnUpdateKeyPressed
 
     /**
