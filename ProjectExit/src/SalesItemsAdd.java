@@ -70,6 +70,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         txtQuantity = new javax.swing.JTextField();
         btnCancek = new javax.swing.JButton();
         txtItemName = new javax.swing.JComboBox<>();
+        cmbRateSel = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,52 +101,57 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             }
         });
 
+        cmbRateSel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MRP", "WSP" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 571, Short.MAX_VALUE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel1))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
+                        .addGap(158, 158, 158)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel2))
-                        .addGap(27, 27, 27)
+                            .addComponent(jLabel9))
+                        .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtBatchNo)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-                            .addComponent(txtItemName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(254, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                            .addComponent(txtQuantity)
+                            .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(107, 107, 107)
+                .addGap(111, 111, 111)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -197,24 +203,43 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         String batchNo = txtBatchNo.getText();
         String itemName = txtItemName.getSelectedItem().toString();
+        String rateSel = cmbRateSel.getSelectedItem().toString();
         int quantity = Integer.parseInt(txtQuantity.getText());
         int pid = 0;
         int realpid = 0;
-        
-        try {
-            Connection con = dbConnect.getConnection();
 
-            String query = "select mrp, prodID from products_tab where prodName =? ";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, txtItemName.getSelectedItem().toString());
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                pid = rs.getInt("mrp");
-                realpid = rs.getInt("prodID");
+        if (rateSel == "MRP") {
+            try {
+                Connection con = dbConnect.getConnection();
+
+                String query = "select mrp, prodID from products_tab where prodName =? ";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setString(1, txtItemName.getSelectedItem().toString());
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    pid = rs.getInt("mrp");
+                    realpid = rs.getInt("prodID");
+                }
+            } catch (Exception e) {
             }
-        } catch (Exception e) {
-        }       
-       
+        } else {
+
+            try {
+                Connection con = dbConnect.getConnection();
+
+                String query = "select wsp, prodID from products_tab where prodName =? ";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setString(1, txtItemName.getSelectedItem().toString());
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    pid = rs.getInt("wsp");
+                    realpid = rs.getInt("prodID");
+                }
+            } catch (Exception e) {
+            }
+            
+        }
+
         int subT = pid * quantity;
 
         if ((batchNo != "") && (itemName != "") && (quantity != 0)) {
@@ -279,6 +304,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancek;
     private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox<String> cmbRateSel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

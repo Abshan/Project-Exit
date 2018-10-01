@@ -1272,9 +1272,9 @@ public class Sales extends javax.swing.JFrame {
         } else {
 
             DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
-            editItems.txtItemName.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 0).toString());
-            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
-            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
+            editItems.txtItemName.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
+            editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 3).toString());
+            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
 //            editItems.d1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(0, 2));
 //            editItems.m1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(3, 5));
 //            editItems.y1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(6, 10));
