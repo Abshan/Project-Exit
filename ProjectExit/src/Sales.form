@@ -427,7 +427,7 @@
                                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblSum" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblTotalAmt" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="btnCreate" min="-2" pref="90" max="-2" attributes="0"/>
@@ -502,7 +502,6 @@
                                           <Component id="btnEditTab" min="-2" pref="30" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="btnDeleteTab" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace pref="29" max="32767" attributes="0"/>
@@ -514,7 +513,7 @@
                                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblQtySum" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblSum" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblTotalAmt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -598,20 +597,32 @@
                             <Component class="javax.swing.JTable" name="tblCreateSO">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="4" rowCount="0">
+                                  <Table columnCount="6" rowCount="0">
+                                    <Column editable="true" title="ITEM CODE" type="java.lang.Object"/>
                                     <Column editable="true" title="ITEM" type="java.lang.Object"/>
+                                    <Column editable="false" title="BATCH NO" type="java.lang.Object"/>
                                     <Column editable="true" title="QUANTITY" type="java.lang.Object"/>
                                     <Column editable="true" title="RATE" type="java.lang.Object"/>
-                                    <Column editable="true" title="SUB TOTAL" type="java.lang.Object"/>
+                                    <Column editable="false" title="SUB TOTAL" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                   <TableColumnModel selectionModel="0">
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
                                       <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                         <Connection code="new DefaultCellEditor(jComboBox9)" type="code"/>
                                       </Editor>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -773,7 +784,7 @@
                             <Property name="text" type="java.lang.String" value="TOTAL AMOUNT:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblSum">
+                        <Component class="javax.swing.JLabel" name="lblTotalAmt">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="jLabel3"/>
                           </Properties>
