@@ -1039,7 +1039,7 @@
                                       <Data value="2018-10-06"/>
                                     </Column>
                                     <Column editable="true" title="CUSTOMER" type="java.lang.Object">
-                                      <Data value="Kudu Gedara"/>
+                                      <Data value="D House"/>
                                     </Column>
                                     <Column editable="true" title="SALES MANAGER" type="java.lang.Object">
                                       <Data value="Jayasena"/>

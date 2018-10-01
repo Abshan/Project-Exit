@@ -520,8 +520,7 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -619,7 +618,7 @@ public class Sales extends javax.swing.JFrame {
 
         tblReviewSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"4556", "2018-08-06", "2018-10-06", "Kudu Gedara", "Jayasena", "65000", "AWAITING FULLFILMENT"}
+                {"4556", "2018-08-06", "2018-10-06", "D House", "Jayasena", "65000", "AWAITING FULLFILMENT"}
             },
             new String [] {
                 "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
@@ -1402,6 +1401,33 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         String searchSONumber = txtSearchSONum.getText();
+        
+        String[] results = new String[7];   
+        
+        try {
+      
+            String query = "select * from sales_tab where LIKE '%" + searchSONumber + "%';";
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+
+                model.addRow(results);
+            }
+        } catch (Exception e) {
+        }
+
+
+        
         
     }//GEN-LAST:event_txtSearchSONumActionPerformed
 
