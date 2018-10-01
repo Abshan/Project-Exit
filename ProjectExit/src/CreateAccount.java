@@ -834,7 +834,7 @@ public class CreateAccount extends javax.swing.JFrame {
         String search = txtSearchManage.getText();
         String[] results = new String[6];
         
-        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '"+search+"%';";
+        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%"+search+"%';";
         try{
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
