@@ -1403,6 +1403,33 @@ public class Sales extends javax.swing.JFrame {
         
         String searchSONumber = txtSearchSONum.getText();
         
+        String[] results = new String[7];   
+        
+        try {
+      
+            String query = "select * from sales_tab where LIKE '%" + searchSONumber + "%';";
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+
+                model.addRow(results);
+            }
+        } catch (Exception e) {
+        }
+
+
+        
+        
     }//GEN-LAST:event_txtSearchSONumActionPerformed
 
     /**
