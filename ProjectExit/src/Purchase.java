@@ -721,6 +721,15 @@ public class Purchase extends javax.swing.JFrame {
         
         int rows = jTable9.getRowCount();
         String Sum = "22.5";
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1;
+        try {
+            date1 = sdf.parse(date);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
+        }
        
 
         if(pn == null && date==null && ven==""){
