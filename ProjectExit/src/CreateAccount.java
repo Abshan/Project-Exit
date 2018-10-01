@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.sql.Statement;
 
 /**
  *
@@ -686,13 +687,21 @@ public class CreateAccount extends javax.swing.JFrame {
                 String NIC = txtNIC.getText();
                 String Password = txtPassword.getText();
                 String ConfirmPassword = txtConfirmPassword.getText();
+                String Role = cmbRole.getItemAt(cmbRole.getSelectedIndex());
 
-                JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
+                String query = "INSERT INTO user_tab(userName,email,nic,password,role) VALUES('" + UserName + "','" + Email + "','" + NIC + "','" + Password + "','" + Role + "')";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    int execute = st.executeUpdate(query);
+
+                    JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
+                } catch (Exception a) {
+                    JOptionPane.showMessageDialog(null, a);
+                }
             }
         } catch (Exception e) {
         }
-
-// TODO add your handling code here:
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -745,6 +754,7 @@ public class CreateAccount extends javax.swing.JFrame {
         model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
         model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
         model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
+        model.setValueAt(cmbRoleMan.getSelectedItem().toString(), tblDetailsTable.getSelectedRow(), 5);
 
         //Connection con = getConnection();
         // String que1 = " upd"
@@ -830,6 +840,12 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         } else {
             model.removeRow(tblDetailsTable.getSelectedRow());
+
+            txtUserIDMan.setText("");
+            txtUserNameMan.setText("");
+            txtEmailMan.setText("");
+            txtNICMan.setText("");
+            txtPasswordMan.setText("");
 
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
