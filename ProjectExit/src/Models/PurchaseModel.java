@@ -10,73 +10,34 @@ package Models;
  * @author User
  */
 public class PurchaseModel {
-    
-    private int PONo;
+
+    private int purNo;
     private String vendorName;
-    private String batchNo;
     private String purchaseDate;
-    private String manufacDate;
-    private String expiryDate;
+    private double amount;
 
-    public PurchaseModel(int PONo, String vendorName, String batchNo, String purchaseDate, String manufacDate, String expiryDate) {
-        
-        this.PONo = PONo;
+    public PurchaseModel(int purNo, String vendorName, String purchaseDate, double amount) {
+
+        this.purNo = purNo;
         this.vendorName = vendorName;
-        this.batchNo = batchNo;
         this.purchaseDate = purchaseDate;
-        this.manufacDate = manufacDate;
-        this.expiryDate = expiryDate;
+        this.amount = amount;
     }
 
-
-
-    public int getPONo() {
-        return PONo;
-    }
-
-    public void setPONo(int PONo) {
-        this.PONo = PONo;
+    public int getPurNo() {
+        return purNo;
     }
 
     public String getVendorName() {
         return vendorName;
     }
 
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    public String getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo;
-    }
-
     public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
+    public double getAmount() {
+        return amount;
     }
 
-    public String getManufacDate() {
-        return manufacDate;
-    }
-
-    public void setManufacDate(String manufacDate) {
-        this.manufacDate = manufacDate;
-    }
-
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-    
-    
 }

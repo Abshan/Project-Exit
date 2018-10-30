@@ -27,7 +27,7 @@ public class DatabaseConnection {
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Connection to the internet has been terminated!");
             return null;
         }
     }

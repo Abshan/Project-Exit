@@ -156,6 +156,9 @@
         <Component class="javax.swing.JLabel" name="jLabel23">
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -427,26 +430,28 @@
                         <Component class="javax.swing.JTable" name="jTable9">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="5" rowCount="1">
-                                <Column editable="false" title="BATCH NO" type="java.lang.Object">
-                                  <Data value="123456"/>
-                                </Column>
-                                <Column editable="false" title="ITEM NAME" type="java.lang.Object">
-                                  <Data value="Med"/>
-                                </Column>
-                                <Column editable="false" title="MANF DATE" type="java.lang.Object">
-                                  <Data value="24-04-1996"/>
-                                </Column>
-                                <Column editable="false" title="EXP DATE" type="java.lang.Object">
-                                  <Data value="14-05-1992"/>
-                                </Column>
-                                <Column editable="false" title="QUANTITY" type="java.lang.Object">
-                                  <Data value="20"/>
-                                </Column>
+                              <Table columnCount="7" rowCount="0">
+                                <Column editable="false" title="BATCH NO" type="java.lang.Object"/>
+                                <Column editable="true" title="PROD ID" type="java.lang.Object"/>
+                                <Column editable="false" title="ITEM NAME" type="java.lang.Object"/>
+                                <Column editable="false" title="MANF DATE" type="java.lang.Object"/>
+                                <Column editable="false" title="EXP DATE" type="java.lang.Object"/>
+                                <Column editable="false" title="QUANTITY" type="java.lang.Object"/>
+                                <Column editable="true" title="PRICE" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
