@@ -54,8 +54,30 @@ public class Purchase extends javax.swing.JFrame {
         return sum;
     }
 
+    public boolean getValidation(String pidVal) {
+
+        Connection con = dbConnect.getConnection();
+        Statement st;
+        ResultSet rs;
+        Boolean r = false;
+        String req = "SELECT pid FROM purchase_tab where pid = '" + pidVal + "'";
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(req);
+            rs.isBeforeFirst();
+            r = rs.isBeforeFirst();;
+
+            rs.close();
+            st.close();
+            con.close();
+
+        } catch (Exception e) {
+        }
+        return r;
+    }
+
     public ArrayList<PurchaseModel> getOrderList() {
-        
+
         ArrayList<PurchaseModel> orderList = new ArrayList<PurchaseModel>();
         Connection con = dbConnect.getConnection();
         String query = "SELECT * FROM purchase_tab";
@@ -78,7 +100,7 @@ public class Purchase extends javax.swing.JFrame {
     }
 
     public void ShowPurchases() {
-        
+
         ArrayList<PurchaseModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
 
@@ -720,7 +742,6 @@ public class Purchase extends javax.swing.JFrame {
         String ven = vn.getText();
 
         int rows = jTable9.getRowCount();
-        String Sum = "22.5";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1;
