@@ -29,37 +29,11 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     public PurchaseItemsView() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        fillTab();
+        
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
-    public void fillTab() {
-
-        String[] results = new String[8];
-        String query = "select * from purchaseItems_tab b purchase_tab a where purNo LIKE '" + jTextField1.getText().toString() + "' ";
-        try {
-            
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("purNo");
-                results[1] = rs.getString("batchNo");
-                results[2] = rs.getString("prodID");
-                results[3] = rs.getString("prodName");
-                results[4] = rs.getString("manfDate");
-                results[5] = rs.getString("expDate");
-                results[6] = rs.getString("quantity");
-                results[7] = rs.getString("price");
-
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-                model.addRow(results);
-            }
-        } catch (Exception e) {
-        }
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,12 +68,27 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "P.O NUMBER", "BATCH NUMBER", "PROD ID", "PROD NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
+                "P.O. NO", "BATCH NO", "PROD ID", "PROD NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jLabel2.setText("P.O NUMBER:");
@@ -243,7 +232,10 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         dispose();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -296,8 +288,8 @@ public class PurchaseItemsView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTable1;
-    public javax.swing.JTextField jTextField1;
+    public static javax.swing.JTable jTable1;
+    public static javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
     public javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables

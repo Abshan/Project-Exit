@@ -297,6 +297,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
 
         int index = Purchase.jTable9.getSelectedRow();
         double sum = 0;
+        boolean dVal = false;
 
         String batchNo = jTextField1.getText();
         String prodid = jTextField4.getText();
@@ -311,9 +312,9 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             date1 = sdf.parse(manf);
             date2 = sdf.parse(exp);
 
-            if (date1.after(date2));
+            if ((date1.before(date2)) && !(date1.equals(date2)));
             {
-                JOptionPane.showMessageDialog(null, "Expiry date is set before manufacturing date, please correct it!");
+                dVal = true;
             }
 
         } catch (ParseException ex) {
@@ -331,12 +332,16 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             if (rs.next()) {
                 sum = rs.getDouble("wsp");
             }
+            
+            pst.close();
+            rs.close();
+            con.close();
 
         } catch (Exception e) {
         }
         double tot = sum * Double.parseDouble(jTextField3.getText());
 
-        if ((batchNo == "") && (manf == "") && (exp == "") && (quantity == "")) {
+        if ((batchNo == "") && (manf == "") && (exp == "") && (quantity == "") && (dVal == false)) {
 
             JOptionPane.showMessageDialog(null, "Fill in the balnks");
         } else {

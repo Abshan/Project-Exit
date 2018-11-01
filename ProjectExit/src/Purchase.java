@@ -54,13 +54,13 @@ public class Purchase extends javax.swing.JFrame {
         return sum;
     }
 
-    public boolean getValidation(String pidVal) {
+    public boolean getValidation(int pidVal) {
 
         Connection con = dbConnect.getConnection();
         Statement st;
         ResultSet rs;
         Boolean r = false;
-        String req = "SELECT pid FROM purchase_tab where pid = '" + pidVal + "'";
+        String req = "SELECT purNo FROM purchase_tab where purNo = " + pidVal + "";
         try {
             st = con.createStatement();
             rs = st.executeQuery(req);
@@ -103,6 +103,7 @@ public class Purchase extends javax.swing.JFrame {
 
         ArrayList<PurchaseModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        model.setRowCount(0);
 
         Object[] row = new Object[4];
         for (int i = 0; i < list.size(); i++) {
@@ -738,10 +739,12 @@ public class Purchase extends javax.swing.JFrame {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
         String date = df.format(dat).toString();    //Assigning the date format to the selected Date
 
-        int pno = Integer.parseInt(pn.getText());
-        String ven = vn.getText();
+        double Sum = getSum();
+        int pno, p = 0;
 
         int rows = jTable9.getRowCount();
+        String pid = pn.getText();
+        String ven = vn.getText();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1;
@@ -752,10 +755,20 @@ public class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
         }
 
-        if (pn == null && date == null && ven == "") {
-            JOptionPane.showMessageDialog(null, "Please fill in the blanks!");
-        } else if (rows == -1) {
-            JOptionPane.showMessageDialog(null, "No items have been added to the purchase order");
+        try {
+            pno = Integer.parseInt(pid);
+            p = pno;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Purchase Number is Invalid!");
+        }
+
+        if (pid == "" || ven == "" || date == "") {
+            JOptionPane.showMessageDialog(null, "Please fill the blank fields!");
+        } else if (rows == 0) {
+            JOptionPane.showMessageDialog(null, "No Items Have Been Added!");
+        } else if (getValidation(p)) {
+            JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
         } else {
             try {
 
@@ -765,7 +778,7 @@ public class Purchase extends javax.swing.JFrame {
                 st = con.createStatement();
                 st1 = con.createStatement();
 
-                String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES('" + pno + "','" + ven + "','" + date + "','" + Sum + "')";
+                String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES(" + p + ",'" + ven + "','" + date + "'," + Sum + ")";
                 int execute = st.executeUpdate(Query);
 
                 for (int row = 0; row < rows; row++) {
@@ -778,8 +791,8 @@ public class Purchase extends javax.swing.JFrame {
                     int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
                     double price = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
 
-                    String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, price) VALUES('" + pno + "','" + batchNO + "','" + pId + "','" + itemName + "','" + manfDate + "','" + expDate + "','" + quantity + "','" + price + "')";
-                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
+                    String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + price + ")";
+                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
 
                     int execute2 = st1.executeUpdate(Query2);
                     int execute3 = st.executeUpdate(Query3);
@@ -792,6 +805,9 @@ public class Purchase extends javax.swing.JFrame {
                 pd.setDate(null);
                 DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
                 model.setRowCount(0);
+                st.close();
+                st1.close();
+                con.close();
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -826,12 +842,47 @@ public class Purchase extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
 
+        int column = 0;
+
         if (jTable8.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the Purchase Order you want to view");
         } else {
 
+            String[] results = new String[8];
+            int row = jTable8.getSelectedRow();
+            String value = jTable8.getModel().getValueAt(row, column).toString();
+            int n = Integer.parseInt(value);
+
+            String query = "select * from purchaseItems_tab where purNo = " + n + " ";
+            try {
+
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("purNo");
+                    results[1] = rs.getString("batchNo");
+                    results[2] = rs.getString("prodID");
+                    results[3] = rs.getString("prodName");
+                    results[4] = rs.getString("manfDate");
+                    results[5] = rs.getString("expDate");
+                    results[6] = rs.getString("quantity");
+                    results[7] = rs.getString("price");
+
+                    DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
+
+                    model3.addRow(results);
+
+                }
+                st.close();
+                rs.close();
+                con.close();
+            } catch (Exception e) {
+
+            }
+
             DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-            //String num = model.getValueAt(jTable8.getSelectedRow(), 0).toString();
 
             viewOrder.jTextField1.setText(model.getValueAt(jTable8.getSelectedRow(), 0).toString());
             viewOrder.jTextField2.setText(model.getValueAt(jTable8.getSelectedRow(), 1).toString());

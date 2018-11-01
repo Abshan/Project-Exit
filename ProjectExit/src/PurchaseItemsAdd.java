@@ -5,6 +5,7 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -255,7 +256,8 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         DefaultTableModel model = (DefaultTableModel) Purchase.jTable9.getModel();
-
+        Connection con = dbConnect.getConnection();
+        
         String batchNo = jTextField1.getText();
         String itemName = jComboBox1.getSelectedItem().toString();
         String manf = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
@@ -263,6 +265,23 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         String quantity = jTextField3.getText();
         int pid = 0;
         double price = 0;
+        double quan = 0;
+        int bat = 0;
+        boolean datVal = false;
+        boolean qVal = false;
+        boolean bVal = false;
+        
+        try {
+            quan = Double.parseDouble(quantity);
+            qVal = true;
+        } catch (Exception e) {
+        }
+        
+        try {
+            bat = Integer.parseInt(batchNo);
+            bVal = true;
+        } catch (Exception e) {
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1, date2;
@@ -270,20 +289,19 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             date1 = sdf.parse(manf);
             date2 = sdf.parse(exp);
 
-            if (date1.after(date2));
-            {
-                JOptionPane.showMessageDialog(null, "Expiry date is set before manufacturing date, please correct it!");
+            if ((date1.before(date2)) && !(date1.equals(date2))) {
+                datVal = true;
             }
 
         } catch (ParseException ex) {
+            if(!(manf.equals("--") && exp.equals("--"))){
             JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
+            }
         }
 
         //dif(Integer.parseInt(quantity)) 
-        try {
-            Connection con = dbConnect.getConnection();
-
-            String query = "select prodID, wsp from products_tab where prodName =? ";
+        String query = "select prodID, wsp from products_tab where prodName =? ";
+        try {            
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, jComboBox1.getSelectedItem().toString());
             ResultSet rs = pst.executeQuery();
@@ -291,16 +309,21 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 pid = rs.getInt("prodID");
                 price = rs.getDouble("wsp");
             }
+            
+            pst.close();
+            rs.close();
+            con.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "NO VALUES");
         }
 
-        if ((batchNo != "") && (itemName != "") && (manf != "") && (exp != "") && (quantity != "") && (pid != 0) && (price != 0)) {
+        if ((batchNo != "") && (itemName != "") && (manf != "--") && (exp != "--") && (quantity != "") && datVal == true && qVal==true && bVal==true) {
 
-            model.addRow(new Object[]{jTextField1.getText(), pid, jComboBox1.getSelectedItem().toString(),
+            model.addRow(new Object[]{batchNo, pid, itemName,
                 y1.getText() + "-" + m1.getText() + "-" + d1.getText(),
                 y2.getText() + "-" + m2.getText() + "-" + d2.getText(),
-                jTextField3.getText(), price * Double.parseDouble(jTextField3.getText())});
+                jTextField3.getText(), price * quan});
 
             JOptionPane.showMessageDialog(rootPane, "Added");
 
@@ -308,7 +331,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         } else {
 
-            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
+            JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
         }
 
 
