@@ -804,6 +804,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="GENERATE PURCHASE REPORT"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton15ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel38">
                       <Properties>
