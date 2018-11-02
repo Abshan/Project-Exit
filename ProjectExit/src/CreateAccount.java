@@ -96,6 +96,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtSearchManage = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         jTextField3.setText("jTextField3");
@@ -203,6 +204,12 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel15.setText("USER NAME:");
 
         jLabel31.setText("EMAIL");
+
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         jLabel32.setText("NIC NUMBER:");
 
@@ -465,6 +472,13 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
+        btnSearch.setText("SEARCH");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
@@ -507,7 +521,9 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
                         .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(255, 255, 255))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(123, 123, 123))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel18Layout.createSequentialGroup()
@@ -522,12 +538,13 @@ public class CreateAccount extends javax.swing.JFrame {
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
@@ -729,20 +746,7 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-        model.setRowCount(0);
-        if (tblDetailsTable.getSelectedRow() == -1) {
-            if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty");
-            }
-
-        }
-        txtUserIDMan.setText("");
-        txtUserNameMan.setText("");
-        txtEmailMan.setText("");
-        txtNICMan.setText("");
-        txtPasswordMan.setText("");
-
+     
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -826,33 +830,7 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbRoleActionPerformed
 
     private void txtSearchManageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchManageKeyTyped
-        String search = txtSearchManage.getText();
-        String[] results = new String[6];
-        
-        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%"+search+"%';";
-        try{
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            
-            while(rs.next()){
-                results[0] = rs.getString("userID");
-                results[1] = rs.getString("userName");
-                results[2] = rs.getString("email");
-                results[3] = rs.getString("nic");
-                results[4] = rs.getString("password");
-                results[5] = rs.getString("role");
-                
-                DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-            
-                model.addRow(results);
-            }
-                       
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-
+       
     }//GEN-LAST:event_txtSearchManageKeyTyped
 
     private void tblDetailsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailsTableMouseClicked
@@ -919,6 +897,40 @@ public class CreateAccount extends javax.swing.JFrame {
         model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);*/
     }//GEN-LAST:event_btnUpdateKeyPressed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        model.setRowCount(0);
+        String search = txtSearchManage.getText();
+        String[] results = new String[6];
+        
+        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
+        try{
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            while(rs.next()){
+                results[0] = rs.getString("userID");
+                results[1] = rs.getString("userName");
+                results[2] = rs.getString("email");
+                results[3] = rs.getString("nic");
+                results[4] = rs.getString("password");
+                results[5] = rs.getString("role");                             
+            
+                model.addRow(results);
+            }
+                       
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+     
+    
     /**
      * @param args the command line arguments
      */
@@ -960,6 +972,7 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbRole;
     private javax.swing.JComboBox<String> cmbRoleMan;
