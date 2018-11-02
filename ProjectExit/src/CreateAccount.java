@@ -697,6 +697,13 @@ public class CreateAccount extends javax.swing.JFrame {
                     int execute = st.executeUpdate(query);
 
                     JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
+                    
+                    txtUserID.setText("");
+                    txtUserName.setText("");
+                    txtEmail.setText("");
+                    txtNIC.setText("");
+                    txtPassword.setText("");
+                       txtConfirmPassword.setText("");
                 } catch (Exception a) {
                     JOptionPane.showMessageDialog(null, a);
                 }
