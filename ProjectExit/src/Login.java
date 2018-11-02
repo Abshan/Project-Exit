@@ -142,18 +142,22 @@ Connection conn=null;
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
                 String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
+                String[] results = new String[7];
                 
-                Connection conn = dbConnect.getConnection();
-                String query = "select email, password from user_tab where email='"+Email+"' AND password='"+Password+"';";
-                try{
-                    pst=conn.prepareStatement(query);
-                    pst.setString(1,txtEmailLogin.getText());
-                    pst.setString(2,txtPasswordlogin.getText());
-                    rs=pst.executeQuery();
+                String query = "select email, password from user_tab where email='"+Email+"';";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    ResultSet rs = st.executeQuery(query);
                     if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "WELCOME");
-                       
+                         results[0] = rs.getString("email");
+                         results[1] = rs.getString("password");
+    
                     }
+                    if ((txtPasswordlogin.getText().equals(Password)||((txtEmailLogin.getText().equals(Email)))
+                            {
+                                
+                            }
                     else
                     {
                         JOptionPane.showMessageDialog(null,"invalid username or password","access denied", JOptionPane.ERROR_MESSAGE);
