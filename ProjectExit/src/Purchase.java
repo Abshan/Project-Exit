@@ -33,6 +33,7 @@ public class Purchase extends javax.swing.JFrame {
     PurchaseItemsAdd addProduct = new PurchaseItemsAdd();
     PurchaseItemsView viewOrder = new PurchaseItemsView();
     DatabaseConnection dbConnect = new DatabaseConnection();
+    PurchaseReport purReport = new PurchaseReport();
 
     public Purchase() {
         initComponents();
@@ -167,6 +168,7 @@ public class Purchase extends javax.swing.JFrame {
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -518,6 +520,11 @@ public class Purchase extends javax.swing.JFrame {
         jScrollPane9.setViewportView(jTable8);
 
         jButton15.setText("GENERATE PURCHASE REPORT");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jLabel38.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel38.setText("FILTER BY DATE:");
@@ -532,6 +539,13 @@ public class Purchase extends javax.swing.JFrame {
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("SEARCH");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -559,7 +573,9 @@ public class Purchase extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                                 .addComponent(jLabel17)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton6)
@@ -577,11 +593,12 @@ public class Purchase extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7))
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel22Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton15)
                         .addContainerGap())
@@ -685,6 +702,8 @@ public class Purchase extends javax.swing.JFrame {
         addProduct.m2.setText("");
         addProduct.y2.setText("");
         addProduct.jTextField3.setText("");
+        addProduct.pr.setText("");
+        //com
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -911,6 +930,53 @@ public class Purchase extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        purReport.setVisible(true);
+        purReport.pack();
+        purReport.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        if(jTextField1.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Search field is empty!");
+        }
+        try {
+
+                String[] results = new String[8];
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                
+                String query = "select * from purchase_tab where purNo = '" + jTextField1.getText().toString() + "' ";
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("purNo");
+                    results[1] = rs.getString("batchNo");
+                    results[2] = rs.getString("prodID");
+                    results[3] = rs.getString("prodName");
+                    results[4] = rs.getString("manfDate");
+                    results[5] = rs.getString("expDate");
+                    results[6] = rs.getString("quantity");
+                    results[7] = rs.getString("price");
+
+                    DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
+
+                    model3.addRow(results);
+
+                }
+                st.close();
+                rs.close();
+                con.close();
+            } catch (Exception e) {
+
+            }
+        
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -956,6 +1022,7 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;
