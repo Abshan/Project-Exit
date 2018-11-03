@@ -343,7 +343,7 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel8.setText("FILTER BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "HIGHEST TO LOWEST", "LOW IN STOCK", " ", " " }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "HIGHEST TO LOWEST", "LOW IN STOCK FIRST" }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
