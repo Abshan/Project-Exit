@@ -324,6 +324,7 @@ public class Purchase extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable9.getTableHeader().setReorderingAllowed(false);
         jTable9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable9MouseClicked(evt);
@@ -331,6 +332,7 @@ public class Purchase extends javax.swing.JFrame {
         });
         jScrollPane10.setViewportView(jTable9);
         if (jTable9.getColumnModel().getColumnCount() > 0) {
+            jTable9.getColumnModel().getColumn(0).setResizable(false);
             jTable9.getColumnModel().getColumn(1).setResizable(false);
             jTable9.getColumnModel().getColumn(2).setResizable(false);
             jTable9.getColumnModel().getColumn(3).setResizable(false);
@@ -545,6 +547,7 @@ public class Purchase extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable8.getTableHeader().setReorderingAllowed(false);
         jScrollPane9.setViewportView(jTable8);
 
         jButton15.setText("GENERATE PURCHASE REPORT");

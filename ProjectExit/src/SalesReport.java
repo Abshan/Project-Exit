@@ -1,8 +1,24 @@
 
 import Models.DatabaseConnection;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,7 +37,8 @@ public class SalesReport extends javax.swing.JFrame {
     public SalesReport() {
         initComponents();
     }
-    
+
+
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
@@ -36,19 +53,19 @@ public class SalesReport extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        d1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        d2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        sm = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        sp = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        error = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,23 +75,34 @@ public class SalesReport extends javax.swing.JFrame {
 
         jLabel2.setText("TO");
 
-        jLabel3.setText("REGION:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kandy" }));
-
         jLabel4.setText("SALES MANAGER:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JAYASINGHE" }));
+        sm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
 
         jLabel5.setText("SALES REP:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
+        sp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
 
         jButton1.setText("GENERATE REPORT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("CLEAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+
+        error.setForeground(new java.awt.Color(153, 0, 0));
+
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel3.setText("LEAVE BOTH DATES BLANK TO GENERATE FULL REPORT...");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -92,33 +120,33 @@ public class SalesReport extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel1))
-                                    .addGap(73, 73, 73)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jLabel2)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jXDatePicker2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel4)
                                         .addComponent(jLabel5))
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(sm, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE)))))))
+                                            .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(86, 86, 86)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel2)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(error, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,22 +158,21 @@ public class SalesReport extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(error))
+                .addGap(7, 7, 7)
+                .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(74, 74, 74)
+                    .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -159,7 +186,7 @@ public class SalesReport extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,6 +210,155 @@ public class SalesReport extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
+        String man = sm.getSelectedItem().toString();
+        String rep = sp.getSelectedItem().toString();
+        String date1;
+        String date2;
+        boolean result = false;
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        String query = "";
+
+        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab";
+            result = true;
+        }
+
+        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"'";
+            result = true;
+        }
+        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"'";
+            result = true;
+        }
+        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderCreatedBy = '"+man+"'";
+            result = true;
+        }
+        
+        
+        
+        
+        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
+            date1 = df.format(d1.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate > '"+date1+"'";
+            result = true;
+        }
+        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
+            date2 = df.format(d2.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate < '"+date2+"'";
+            result = true;
+        }
+        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
+            date1 = df.format(d1.getDate());
+            date2 = df.format(d2.getDate());
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
+                error.setText("INVALID");
+                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+            }
+            }
+
+        
+        
+        
+        if (d1.getDate() != null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
+            date1 = df.format(d1.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate > '"+date1+"'";
+            result = true;
+        }
+        if (d1.getDate() == null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
+            date2 = df.format(d2.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate < '"+date2+"'";
+            result = true;
+        }
+        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
+            date1 = df.format(d1.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate > '"+date1+"'";
+            result = true;
+        }
+        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
+            date2 = df.format(d2.getDate());
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate < '"+date2+"'";
+            result = true;
+        }
+        
+        
+        
+        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
+            date1 = df.format(d1.getDate());
+            date2 = df.format(d2.getDate());
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
+                error.setText("INVALID");
+                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+            }
+            }
+        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
+            date1 = df.format(d1.getDate());
+            date2 = df.format(d2.getDate());
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
+                error.setText("INVALID");
+                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+            }
+            }
+        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
+            date1 = df.format(d1.getDate());
+            date2 = df.format(d2.getDate());
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND salesRep = '"+rep+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
+                error.setText("INVALID");
+                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+            }
+            }
+        
+        
+        if(result == true){
+        try {
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\salesReport.jrxml"));
+            JasperDesign jd = JRXmlLoader.load(in);
+            String sql = query;
+            JRDesignQuery newQuery = new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint j = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer jv = new JasperViewer(j, false);
+            jv.viewReport(j, false);
+            con.close();
+            result = false;
+            error.setText("");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        d1.setDate(null);
+        d2.setDate(null);
+        sm.setSelectedIndex(0);
+        sp.setSelectedIndex(0);
+        error.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,11 +396,11 @@ public class SalesReport extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker d1;
+    private org.jdesktop.swingx.JXDatePicker d2;
+    private javax.swing.JLabel error;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -234,7 +410,7 @@ public class SalesReport extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
+    private javax.swing.JComboBox<String> sm;
+    private javax.swing.JComboBox<String> sp;
     // End of variables declaration//GEN-END:variables
 }
