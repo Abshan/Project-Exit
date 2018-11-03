@@ -107,7 +107,7 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtSize1 = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnGenerateProdList = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
@@ -369,7 +369,7 @@ public class AddProduct extends javax.swing.JFrame {
 
             },
             new String [] {
-                "PRODUCT ID", "BRAND NAME", "PRODUCT NAME", "WSP", "MRP", "SIZE", "CATEGORY"
+                "PRODUCT ID", "BRAND NAME", "PRODUCT NAME", "SIZE", "MRP", "WSP", "CATEGORY"
             }
         ));
         tblManageProduct.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -396,7 +396,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
-        drpCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DRUGS", "COSMETICS" }));
+        drpCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Drugs", "Cosmetics" }));
         drpCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 drpCategoryActionPerformed(evt);
@@ -412,10 +412,10 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("GENERATE PRODUCT LIST");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerateProdList.setText("GENERATE PRODUCT LIST");
+        btnGenerateProdList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnGenerateProdListActionPerformed(evt);
             }
         });
 
@@ -459,7 +459,7 @@ public class AddProduct extends javax.swing.JFrame {
                                         .addComponent(txtWholesalePrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(drpCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel18Layout.createSequentialGroup()
-                                    .addComponent(jButton1)
+                                    .addComponent(btnGenerateProdList)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(26, 26, 26)
@@ -512,7 +512,7 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(btnGenerateProdList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnUpdate)
@@ -701,10 +701,45 @@ public class AddProduct extends javax.swing.JFrame {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             int execute = st.executeUpdate(query);
-            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-                    }
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        model.setRowCount(0);
+        String search = txtSearch.getText();
+        String[] results = new String[7];
+
+        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query1);
+
+            while (rs.next()) {
+                results[0] = rs.getString("prodID");
+                results[1] = rs.getString("brandName");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("size");
+                results[4] = rs.getString("wsp");
+                results[5] = rs.getString("mrp");
+                results[6] = rs.getString("category");
+
+                model.addRow(results);
+              }
+            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        txtProductID1.setText(" ");
+        txtBrandName1.setText(" ");
+        txtProductName1.setText(" ");
+        txtWholesalePrice1.setText(" ");
+        txtMRP1.setText(" ");
+        txtSize1.setText(" ");
+        txtSearch.setText(" ");
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -715,10 +750,45 @@ public class AddProduct extends javax.swing.JFrame {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             int execute = st.executeUpdate(query);
-            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
                     }
+        
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        model.setRowCount(0);
+        String search = txtSearch.getText();
+        String[] results = new String[7];
+
+        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query1);
+
+            while (rs.next()) {
+                results[0] = rs.getString("prodID");
+                results[1] = rs.getString("brandName");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("size");
+                results[4] = rs.getString("wsp");
+                results[5] = rs.getString("mrp");
+                results[6] = rs.getString("category");
+
+                model.addRow(results);
+              }
+            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        txtProductID1.setText(" ");
+        txtBrandName1.setText(" ");
+        txtProductName1.setText(" ");
+        txtWholesalePrice1.setText(" ");
+        txtMRP1.setText(" ");
+        txtSize1.setText(" ");
+        txtSearch.setText(" ");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -856,12 +926,20 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_tblManageProductMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String search = txtSearch.getText();
+        String query = "";
+        if(search.equals("")||search.equals(null)){
+            query = "SELECT * FROM products_tab;";
+        }
+        else
+        {
+            query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+        }
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         model.setRowCount(0);
-        String search = txtSearch.getText();
+        
         String[] results = new String[7];
 
-        String query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
@@ -878,13 +956,20 @@ public class AddProduct extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
+            
+            if(results[6].equals("Drugs")){
+                drpCategory.setSelectedItem("Drugs");
+            }
+            else if(results[6].equals("COSMETICS")){
+                drpCategory.setSelectedItem("Cosmetics");
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGenerateProdListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateProdListActionPerformed
         // TODO add your handling code here:
         Connection con = dbConnect.getConnection();
         try {
@@ -903,7 +988,7 @@ public class AddProduct extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnGenerateProdListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -947,6 +1032,7 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnGenerateProdList;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -954,7 +1040,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> drpCategory;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
