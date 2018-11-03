@@ -677,13 +677,11 @@
                     <Component class="javax.swing.JComboBox" name="drpFilter">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="6">
+                          <StringArray count="4">
                             <StringItem index="0" value="NONE"/>
                             <StringItem index="1" value="NEWEST TO OLDEST"/>
                             <StringItem index="2" value="HIGHEST TO LOWEST"/>
-                            <StringItem index="3" value="LOW IN STOCK"/>
-                            <StringItem index="4" value=" "/>
-                            <StringItem index="5" value=" "/>
+                            <StringItem index="3" value="LOW IN STOCK FIRST"/>
                           </StringArray>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
