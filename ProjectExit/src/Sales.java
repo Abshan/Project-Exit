@@ -905,6 +905,11 @@ public class Sales extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jTable5);
 
         jButton8.setText("GENERATE SALES REPORT");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("SALES MANAGER:");
 
@@ -1494,10 +1499,14 @@ public class Sales extends javax.swing.JFrame {
             
 
             String query = "DELETE FROM sales_tab WHERE soNumber=" +SONum+ ";";
+            String query2 = "DELETE FROM salesItems_tab WHERE soNumber=" +SONum+ ";";
             try {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
+                Statement st2 = con.createStatement();
+                int execute2 = st2.executeUpdate(query2);
                 int execute = st.executeUpdate(query);
+                
                 JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -1714,6 +1723,10 @@ public class Sales extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
