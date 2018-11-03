@@ -3,10 +3,13 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+=======
+>>>>>>> parent of 4859ffb... salesReport!
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,7 @@ public class SalesReport extends javax.swing.JFrame {
     }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
     
 >>>>>>> parent of b6c8bba... Sales Report!
@@ -61,26 +65,10 @@ public class SalesReport extends javax.swing.JFrame {
     }
     
     public void fillCombo1() {
+=======
+>>>>>>> parent of 4859ffb... salesReport!
 
-        try {
-            Connection con = dbConnect.getConnection();
-            String query1 = "select * from sales_tab";
-            ResultSet rs;
-            PreparedStatement pst = con.prepareStatement(query1);
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                String itemN = rs.getString("prodName");
-                sp.addItem(itemN);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-    }*/
-    
-    
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -263,120 +251,123 @@ public class SalesReport extends javax.swing.JFrame {
         }
 
         if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"'";
             result = true;
         }
         if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"'";
             result = true;
         }
         if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderCreatedBy = '" + man + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderCreatedBy = '"+man+"'";
             result = true;
         }
-
+        
+        
+        
+        
         if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
             date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate > '" + date1 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate > '"+date1+"'";
             result = true;
         }
         if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
             date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate < '" + date2 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate < '"+date2+"'";
             result = true;
         }
         if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
             date1 = df.format(d1.getDate());
             date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
                 error.setText("INVALID");
                 JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
             }
-        }
+            }
 
+        
+        
+        
         if (d1.getDate() != null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
             date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate > '" + date1 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate > '"+date1+"'";
             result = true;
         }
         if (d1.getDate() == null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
             date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate < '" + date2 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate < '"+date2+"'";
             result = true;
         }
         if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
             date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate > '" + date1 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate > '"+date1+"'";
             result = true;
         }
         if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
             date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate < '" + date2 + "'";
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate < '"+date2+"'";
             result = true;
         }
-
+        
+        
+        
         if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
             date1 = df.format(d1.getDate());
             date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '"+rep+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
                 error.setText("INVALID");
                 JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
             }
-        }
+            }
         if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
             date1 = df.format(d1.getDate());
             date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
                 error.setText("INVALID");
                 JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
             }
-        }
+            }
         if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
             date1 = df.format(d1.getDate());
             date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
+            if(d1.getDate().before(d2.getDate())){
+            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '"+man+"' AND salesRep = '"+rep+"' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+            result = true;
+            }else{
                 error.setText("INVALID");
                 JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
             }
-        }
-
-        if (result == true) {
-            try {
-                InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\salesReport.jrxml"));
-                JasperDesign jd = JRXmlLoader.load(in);
-                String sql = query;
-                JRDesignQuery newQuery = new JRDesignQuery();
-                newQuery.setText(sql);
-                jd.setQuery(newQuery);
-                JasperReport jr = JasperCompileManager.compileReport(jd);
-                JasperPrint j = JasperFillManager.fillReport(jr, null, con);
-                JasperViewer jv = new JasperViewer(j, false);
-                jv.viewReport(j, false);
-                con.close();
-                result = false;
-                error.setText("");
-                query = "";
-                d1.setDate(null);
-                d2.setDate(null);
-                sm.setSelectedIndex(0);
-                sp.setSelectedIndex(0);
-                con.close();
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
             }
+        
+        
+        if(result == true){
+        try {
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\salesReport.jrxml"));
+            JasperDesign jd = JRXmlLoader.load(in);
+            String sql = query;
+            JRDesignQuery newQuery = new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint j = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer jv = new JasperViewer(j, false);
+            jv.viewReport(j, false);
+            con.close();
+            result = false;
+            error.setText("");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -387,7 +378,6 @@ public class SalesReport extends javax.swing.JFrame {
         sm.setSelectedIndex(0);
         sp.setSelectedIndex(0);
         error.setText("");
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
 =======

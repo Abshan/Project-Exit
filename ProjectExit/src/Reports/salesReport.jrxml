@@ -93,28 +93,28 @@
 				<text><![CDATA[CUS NAME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="353" y="0" width="74" height="20" uuid="d834243e-4952-4e8c-84c4-78627e776d1c"/>
+				<reportElement x="353" y="0" width="81" height="20" uuid="d834243e-4952-4e8c-84c4-78627e776d1c"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[SALES MAN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="441" y="0" width="71" height="20" uuid="b83287ca-eb8a-47be-ab28-0cdfe3d41939"/>
+				<reportElement x="453" y="0" width="76" height="20" uuid="b83287ca-eb8a-47be-ab28-0cdfe3d41939"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[SALES REP]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="532" y="0" width="58" height="20" uuid="16a66b1c-da2f-40b4-a1b6-3511aa0ec1fe"/>
+				<reportElement x="557" y="0" width="58" height="20" uuid="16a66b1c-da2f-40b4-a1b6-3511aa0ec1fe"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[REGION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="604" y="0" width="122" height="20" uuid="94565b52-dc38-46c0-8b03-4f2072034776"/>
+				<reportElement x="634" y="0" width="87" height="20" uuid="94565b52-dc38-46c0-8b03-4f2072034776"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -151,19 +151,19 @@
 				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="353" y="0" width="74" height="20" uuid="23e399b2-8a0b-49d4-a95d-604fcf14e015"/>
+				<reportElement x="353" y="0" width="81" height="20" uuid="23e399b2-8a0b-49d4-a95d-604fcf14e015"/>
 				<textFieldExpression><![CDATA[$F{orderCreatedBy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="441" y="0" width="71" height="20" uuid="27d2cfdd-e2ba-4b61-8605-687d16b43520"/>
+				<reportElement x="453" y="0" width="76" height="20" uuid="27d2cfdd-e2ba-4b61-8605-687d16b43520"/>
 				<textFieldExpression><![CDATA[$F{salesRep}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="532" y="0" width="58" height="20" uuid="bb7fb5d0-54cc-42e1-94f1-d5bbe2858aa7"/>
+				<reportElement x="557" y="0" width="58" height="20" uuid="bb7fb5d0-54cc-42e1-94f1-d5bbe2858aa7"/>
 				<textFieldExpression><![CDATA[$F{region}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="604" y="0" width="122" height="20" uuid="38546801-47e8-4049-bb3a-5948e8b95bfb"/>
+				<reportElement x="634" y="0" width="87" height="20" uuid="38546801-47e8-4049-bb3a-5948e8b95bfb"/>
 				<textFieldExpression><![CDATA[$F{orderStatus}]]></textFieldExpression>
 			</textField>
 			<textField>
