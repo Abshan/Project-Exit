@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-=======
->>>>>>> parent of 4859ffb... salesReport!
 =======
 >>>>>>> parent of 4859ffb... salesReport!
 import java.text.DateFormat;
@@ -42,7 +39,6 @@ public class SalesReport extends javax.swing.JFrame {
 <<<<<<< HEAD
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
     
 >>>>>>> parent of b6c8bba... Sales Report!
@@ -69,8 +65,6 @@ public class SalesReport extends javax.swing.JFrame {
     }
     
     public void fillCombo1() {
-=======
->>>>>>> parent of 4859ffb... salesReport!
 =======
 >>>>>>> parent of 4859ffb... salesReport!
 
