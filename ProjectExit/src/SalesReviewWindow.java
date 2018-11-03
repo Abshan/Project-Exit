@@ -1,6 +1,9 @@
 
+import Models.DatabaseConnection;
 import java.awt.HeadlessException;
 import java.util.Date;
+import java.sql.Connection;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +22,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
     /**
      * Creates new form SalesReviewWindow
      */
+    
+        DatabaseConnection dbConnect = new DatabaseConnection();
     public SalesReviewWindow() {
         initComponents();
         
@@ -26,6 +31,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         lblErrorRD.setVisible(false);
         dpReqDate.setVisible(false);
     }
+    
+//      SalesReviewWindow reviewSales = new SalesReviewWindow();
 
    
     
@@ -200,6 +207,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
         String reqDate = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
         String orderStatus = (String) cmbStatus.getText();
+        String sonumb =  dpReqDate.getText();
 
 //        Date reqd ;
 
@@ -207,9 +215,20 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         if ((reqDate != "")&&(orderStatus !="")) {
             
             DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
-                      
+//                      
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate,index, 2);
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
+
+            String query = "UPDATE sales_tab SET orderStatus='"+orderStatus+"' WHERE soNumber="+sonumb+";";
+
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                int execute = st.executeUpdate(query);
+                JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
 
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
@@ -220,6 +239,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
 
         }
+
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnSaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSaveKeyPressed
