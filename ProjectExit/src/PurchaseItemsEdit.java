@@ -3,8 +3,10 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -70,6 +72,11 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        berror = new javax.swing.JLabel();
+        qerror = new javax.swing.JLabel();
+        uerror = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +89,12 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         jLabel4.setText("MANF DATE:");
 
         jLabel5.setText("EXP DATE:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.setEditable(false);
 
@@ -121,6 +134,14 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
 
         jLabel15.setText("jLabel15");
 
+        jLabel16.setText("UNIT PRICE:");
+
+        berror.setForeground(new java.awt.Color(153, 0, 0));
+
+        qerror.setForeground(new java.awt.Color(153, 0, 0));
+
+        uerror.setForeground(new java.awt.Color(153, 0, 0));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -132,26 +153,37 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(211, 211, 211)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel12))
-                                .addGap(31, 31, 31)
+                                .addGap(93, 93, 93)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                                     .addComponent(jTextField4))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(berror)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel16)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)))
                                     .addComponent(jLabel9))
                                 .addGap(25, 25, 25)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jTextField2)
+                                        .addGap(74, 74, 74))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel14)
+                                                .addGap(16, 16, 16)
+                                                .addComponent(jLabel15))
                                             .addComponent(jTextField3)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -174,19 +206,14 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                    .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel6)
-                                            .addComponent(jLabel13)))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jTextField2)
-                                        .addGap(74, 74, 74))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel14)
-                                        .addGap(16, 16, 16)
-                                        .addComponent(jLabel15)))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel13)
+                                            .addComponent(qerror)
+                                            .addComponent(uerror))))))))
                 .addComponent(jButton1)
                 .addGap(89, 89, 89))
         );
@@ -198,7 +225,8 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(berror))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -219,7 +247,6 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
                                 .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel13))
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -232,16 +259,23 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(m2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(y2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel5))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(qerror))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(uerror))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
                 .addComponent(jButton1)
                 .addGap(55, 55, 55))
         );
@@ -298,6 +332,15 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         int index = Purchase.jTable9.getSelectedRow();
         double sum = 0;
         boolean dVal = false;
+        boolean qVal = false;
+        boolean bVal = false;
+        boolean pVal = false;
+        boolean tVal = false;
+        int quan = 0;
+        int bat = 0;
+        double pri = 0;
+        double tot = 0;
+        
 
         String batchNo = jTextField1.getText();
         String prodid = jTextField4.getText();
@@ -305,46 +348,82 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         String manf = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
         String exp = y2.getText() + "-" + m2.getText() + "-" + d2.getText();
         String quantity = jTextField3.getText();
+        String unit = jTextField5.getText();
         
+        Date d = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate= dateFormat.format(d);
+        LocalDate bef = LocalDate.now().minusDays(30);
+        LocalDate aft = LocalDate.now().plusDays(182);       
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1, date2;
+        String beforeDate= bef.toString(); 
+        String afterDate= bef.toString();
+        Date date1, date2, current, befDate, afDate;
         try {
             date1 = sdf.parse(manf);
             date2 = sdf.parse(exp);
+            current = sdf.parse(formattedDate);
+            befDate = sdf.parse(beforeDate);
+            afDate = sdf.parse(afterDate);
 
-            if ((date1.before(date2)) && !(date1.equals(date2)));
-            {
+            if ((date1.before(date2)) && !(date1.equals(date2)) && (current.before(date2)) && (date2.after(afDate)) && (date1.after(befDate)) ){
                 dVal = true;
             }
 
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
-        }
-
-
-        try {
-            Connection con = dbConnect.getConnection();
-
-            String query = "select wsp from products_tab where prodName =? ";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, jTextField2.getText());
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                sum = rs.getDouble("wsp");
+            if(!(y1.getText().equals("")) || !(m1.getText().equals("")) || !(d1.getText().equals(""))
+                || !(y2.getText().equals("")) || !(m2.getText().equals("")) || !(d2.getText().equals(""))){
+                JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
+                        
+            }else{
+                ;
             }
-            
-            pst.close();
-            rs.close();
-            con.close();
-
-        } catch (Exception e) {
         }
-        double tot = sum * Double.parseDouble(jTextField3.getText());
+        
+        try {
+            quan = Integer.parseInt(quantity);
+            if(quan>0){
+            qVal = true;
+            qerror.setText("");
+            }
+        } catch (Exception e) {
+            qerror.setText("Invalid!");
+        }
+        
+        try {
+            bat = Integer.parseInt(batchNo);
+            if(bat>100  &&  bat < 1000000){
+            bVal = true;
+            berror.setText("");
+            }
+        } catch (Exception e) {
+            berror.setText("Invalid!");
+        }
+        
+        try {
+            pri = Double.parseDouble(unit);
+            if(pri>0){
+            pVal = true;
+            
+            uerror.setText("");
+            }
+        } catch (Exception e) {
+            uerror.setText("Invalid!");
+        }
 
-        if ((batchNo == "") && (manf == "") && (exp == "") && (quantity == "") && (dVal == false)) {
 
-            JOptionPane.showMessageDialog(null, "Fill in the balnks");
-        } else {
+        if(dVal == true && qVal == true){
+        tot = Double.parseDouble(jTextField5.getText()) * Double.parseDouble(jTextField3.getText());
+        tVal = true;
+        }
+
+        if (!(jTextField1.getText().equals("")) || !(y1.getText().equals("")) || !(m1.getText().equals("")) || !(d1.getText().equals(""))
+                || !(y2.getText().equals("")) || !(m2.getText().equals("")) || !(d2.getText().equals("")) || !(jTextField3.getText().equals("")) || !(jTextField5.getText().equals(""))) {
+
+
+            if (dVal == true && qVal == true && bVal == true && tVal == true && pVal == true){
+                
+            
 
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(batchNo, index, 0);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(prodid, index, 1);
@@ -352,11 +431,18 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(manf, index, 3);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(exp, index, 4);
             ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(quantity, index, 5);
-            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(tot, index, 6);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(unit, index, 6);
+            ((DefaultTableModel) Purchase.jTable9.getModel()).setValueAt(tot, index, 7);
 
             JOptionPane.showMessageDialog(rootPane, "Saved");
 
             dispose();
+            }else {
+
+                JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
+            }
+        }else {
+            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
         }
 
 
@@ -365,6 +451,10 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1KeyPressed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,6 +493,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel berror;
     public javax.swing.JTextField d1;
     public javax.swing.JTextField d2;
     private javax.swing.JButton jButton1;
@@ -413,6 +504,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     public static javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -428,8 +520,11 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     public javax.swing.JTextField jTextField2;
     public javax.swing.JTextField jTextField3;
     public javax.swing.JTextField jTextField4;
+    public javax.swing.JTextField jTextField5;
     public javax.swing.JTextField m1;
     public javax.swing.JTextField m2;
+    private javax.swing.JLabel qerror;
+    private javax.swing.JLabel uerror;
     public javax.swing.JTextField y1;
     public javax.swing.JTextField y2;
     // End of variables declaration//GEN-END:variables

@@ -68,11 +68,11 @@ public class PurchaseItemsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "P.O. NO", "BATCH NO", "PROD ID", "PROD NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
+                "P.O. NO", "BATCH NO", "PROD ID", "PROD NAME", "MANF DATE", "EXP DATE", "QUANTITY", "UNIT PRICE", "PRICE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -89,6 +89,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
             jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(8).setResizable(false);
         }
 
         jLabel2.setText("P.O NUMBER:");
