@@ -154,7 +154,7 @@ Connection conn=null;
                          results[1] = rs.getString("password");
     
                     }
-                    if ((txtPasswordlogin.getText().equals(Password)||((txtEmailLogin.getText().equals(Email)))
+                    if ((txtPasswordlogin.getText().equals(Password)))
                             {
                                 
                             }

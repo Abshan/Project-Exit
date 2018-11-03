@@ -294,11 +294,11 @@ public class Purchase extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "PRICE"
+                "BATCH NO", "PROD ID", "ITEM NAME", "MANF DATE", "EXP DATE", "QUANTITY", "UNIT PRICE", "TOTAL"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -311,6 +311,15 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
         jScrollPane10.setViewportView(jTable9);
+        if (jTable9.getColumnModel().getColumnCount() > 0) {
+            jTable9.getColumnModel().getColumn(1).setResizable(false);
+            jTable9.getColumnModel().getColumn(2).setResizable(false);
+            jTable9.getColumnModel().getColumn(3).setResizable(false);
+            jTable9.getColumnModel().getColumn(4).setResizable(false);
+            jTable9.getColumnModel().getColumn(5).setResizable(false);
+            jTable9.getColumnModel().getColumn(6).setResizable(false);
+            jTable9.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         jButton2.setText("ADD");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -535,6 +544,12 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel17.setText("SEARCH  BY  P.O NUMBER:");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+
         jButton6.setText("VIEW");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -726,7 +741,8 @@ public class Purchase extends javax.swing.JFrame {
             editProduct.m2.setText(model.getValueAt(jTable9.getSelectedRow(), 4).toString().substring(5, 7));
             editProduct.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 4).toString().substring(8, 10));
             editProduct.jTextField3.setText(model.getValueAt(jTable9.getSelectedRow(), 5).toString());
-            editProduct.jLabel15.setText(model.getValueAt(jTable9.getSelectedRow(), 6).toString());
+            editProduct.jTextField5.setText(model.getValueAt(jTable9.getSelectedRow(), 6).toString());
+            editProduct.jLabel15.setText(model.getValueAt(jTable9.getSelectedRow(), 7).toString());
 
             editProduct.setVisible(true);
             editProduct.pack();
@@ -764,11 +780,21 @@ public class Purchase extends javax.swing.JFrame {
         int rows = jTable9.getRowCount();
         String pid = pn.getText();
         String ven = vn.getText();
+        boolean dval = false;
+        boolean pval = false;
+        
+        Date d = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate= dateFormat.format(d);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1;
+        Date date1, current;
         try {
-            date1 = sdf.parse(date);
+            date1 = sdf.parse(date); 
+            current = sdf.parse(formattedDate);
+            if(!(date1.after(current)) && (date1.before(current)) && (date1.equals(current))){
+                dval = true;
+            }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
@@ -776,7 +802,9 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
+            if(pno > 1000 && pno < 100000)
             p = pno;
+            pval = true;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Purchase Number is Invalid!");
@@ -788,7 +816,12 @@ public class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No Items Have Been Added!");
         } else if (getValidation(p)) {
             JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
-        } else {
+        } else if (!(dval == true)){
+            JOptionPane.showMessageDialog(null, "Invalid Date!");
+        } else if (!(pval == true)){
+            JOptionPane.showMessageDialog(null, "Invalid Purchase Number");
+        }else{
+            
             try {
 
                 Connection con = dbConnect.getConnection();
@@ -811,10 +844,10 @@ public class Purchase extends javax.swing.JFrame {
                     double price = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
 
                     String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + price + ")";
-                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
+                    //String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
 
                     int execute2 = st1.executeUpdate(Query2);
-                    int execute3 = st.executeUpdate(Query3);
+                    //int execute3 = st.executeUpdate(Query3);
                 }
 
                 JOptionPane.showMessageDialog(null, "Succefully Created");
@@ -867,7 +900,7 @@ public class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Select the Purchase Order you want to view");
         } else {
 
-            String[] results = new String[8];
+            String[] results = new String[9];
             int row = jTable8.getSelectedRow();
             String value = jTable8.getModel().getValueAt(row, column).toString();
             int n = Integer.parseInt(value);
@@ -887,7 +920,8 @@ public class Purchase extends javax.swing.JFrame {
                     results[4] = rs.getString("manfDate");
                     results[5] = rs.getString("expDate");
                     results[6] = rs.getString("quantity");
-                    results[7] = rs.getString("price");
+                    results[7] = rs.getString("unitPrice");
+                    results[8] = rs.getString("price");
 
                     DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
 
@@ -916,8 +950,11 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        
+       /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        model.setRowCount(0);
 
-
+        ShowPurchases();*/
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -940,12 +977,18 @@ public class Purchase extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         
+        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        
         if(jTextField1.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Search field is empty!");
-        }
+        }else{
+            
+            model.setRowCount(0);
+        
         try {
+                
 
-                String[] results = new String[8];
+                String[] results = new String[4];
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
                 
@@ -954,28 +997,36 @@ public class Purchase extends javax.swing.JFrame {
 
                 while (rs.next()) {
                     results[0] = rs.getString("purNo");
-                    results[1] = rs.getString("batchNo");
-                    results[2] = rs.getString("prodID");
-                    results[3] = rs.getString("prodName");
-                    results[4] = rs.getString("manfDate");
-                    results[5] = rs.getString("expDate");
-                    results[6] = rs.getString("quantity");
-                    results[7] = rs.getString("price");
+                    results[1] = rs.getString("vendorName");
+                    results[2] = rs.getString("purchaseDate");
+                    results[3] = rs.getString("amount");
 
-                    DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
+                   // DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
 
-                    model3.addRow(results);
+                    model.addRow(results);
 
                 }
                 st.close();
                 rs.close();
                 con.close();
+                
+                if(model.getRowCount()==0){
+                    JOptionPane.showMessageDialog(null, "No results have been found");
+                }
             } catch (Exception e) {
 
             }
+        }
         
         
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        if(jTextField1.getText().equals("")){
+            ShowPurchases();
+        }
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     /**
      * @param args the command line arguments

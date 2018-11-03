@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -237,6 +239,14 @@ public class PurchaseReport extends javax.swing.JFrame {
         // TODO add your handling code here:
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
+        
+        /*LocalDate date = LocalDate.now().minusDays(365);
+        JOptionPane.showMessageDialog(null, date);*/
+
+        /*Date d = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate= dateFormat.format(d);
+        JOptionPane.showMessageDialog(null, formattedDate);*/
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
