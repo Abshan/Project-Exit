@@ -43,6 +43,11 @@ public class Sales extends javax.swing.JFrame {
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
+    public String search;
+    public String search1;
+    public String search2;
+    
+    
     public int count;
     public int index;
     
@@ -228,6 +233,15 @@ public class Sales extends javax.swing.JFrame {
         lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblStockMouseClicked(evt);
+            }
+        });
+
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -558,7 +572,7 @@ public class Sales extends javax.swing.JFrame {
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(105, 105, 105))
+                .addGap(15, 15, 15))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -583,8 +597,8 @@ public class Sales extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel30)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 1105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(187, 187, 187))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(200, 200, 200))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -648,7 +662,7 @@ public class Sales extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel10.setText("FILTER BY DATE");
+        jLabel10.setText("FILTER BY REQIRED DATE");
 
         jLabel11.setText("DATE:");
 
@@ -726,8 +740,8 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnViewTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
@@ -1330,38 +1344,71 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnViewTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTabActionPerformed
         // TODO add your handling code here:
-        
-         if (tblReviewSales.getSelectedRow() == -1) {
+
+        if (tblReviewSales.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row to view!");
         } else {
 
             DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+            DefaultTableModel model2 = (DefaultTableModel) viewItems.tblViewSalesOrder.getModel();
             String num = model.getValueAt(tblReviewSales.getSelectedRow(), 0).toString();
-            
+
             viewItems.lblSONum.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 0).toString());
-            viewItems.lblDateOfOrder.setText(model.getValueAt(tblReviewSales.getSelectedRow(),1).toString());
-            viewItems.lblRequiredDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(),2).toString());
-            viewItems.lblCustomerName.setText(model.getValueAt(tblReviewSales.getSelectedRow(),3).toString());
-            viewItems.lblSalesManager.setText(model.getValueAt(tblReviewSales.getSelectedRow(),4).toString());
-            viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(),5).toString());
-            viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(),6).toString());
+            viewItems.lblDateOfOrder.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 1).toString());
+            viewItems.lblRequiredDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 2).toString());
+            viewItems.lblCustomerName.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 3).toString());
+            viewItems.lblSalesManager.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 4).toString());
+            viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 5).toString());
+            viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString());
+
+            String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
             
-            
-            
+            model.setRowCount(0);
+            String[] results = new String[3];
+          
+            String query = "SELECT * FROM salesItems_tab WHERE soNumber=" + SONum + ";";
+//            String query2 = "SELECT * FROM sales_tab WHERE soNumber=" + SONum + ";";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+//                Statement st2 = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+//                ResultSet rs2 = st.executeQuery(query2);
+//                while (rs2.next()) {
+//                    viewItems.lblSalesRep.setText(rs2.getString("salesRep"));
+//                    viewItems.lblRegion.setText(rs2.getString("region"));
+//                    viewItems.lblCustomerPhone.setText(rs2.getString("customerPhone"));
+//                }
+
+//                
+//                int price = rs.getInt("unitPrice");
+//                int quant = rs.getInt("quantity");
+                while (rs.next()) {
+                    results[0] = rs.getString("prodName");
+                    results[1] = rs.getString("batchNo");
+                    results[2] = rs.getString("quantity");
+
+//                    results[3] = (quant*price);
+
+                    model2.addRow(results);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
 
 //            viewItems..setText(num);
-
             viewItems.setVisible(true);
             viewItems.pack();
             viewItems.setLocationRelativeTo(null);
 
         }
-        
+
     }//GEN-LAST:event_btnViewTabActionPerformed
 
     private void btnUpdateSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSalesActionPerformed
         // TODO add your handling code here:
-        
+
         index = tblReviewSales.getSelectedRow();
         if (tblReviewSales.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row to update!");
@@ -1369,25 +1416,25 @@ public class Sales extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
 //            reviewSales.dpReqDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(),2).toString());
-            
+
             reviewSales.y1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(0, 4));
             reviewSales.m1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(5, 7));
             reviewSales.d1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(8, 10));
             reviewSales.dpReqDate.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString());
 
             String chkStat = model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString();
-            if(chkStat == "AWAITING FULFILLMENT"){
-                
+            if (chkStat == "AWAITING FULFILLMENT") {
+
                 reviewSales.cmbStatus.setSelectedIndex(0);
-                
-            } else if (chkStat == "COMPLETED"){
-                
+
+            } else if (chkStat == "COMPLETED") {
+
                 reviewSales.cmbStatus.setSelectedIndex(1);
-                
-            } else if (chkStat == "CANCELLED"){
-               
+
+            } else if (chkStat == "CANCELLED") {
+
                 reviewSales.cmbStatus.setSelectedIndex(2);
-                
+
             }
 
             reviewSales.setVisible(true);
@@ -1435,7 +1482,64 @@ public class Sales extends javax.swing.JFrame {
         
         Date dateFilterFromTemp = dpFrom.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String dateFilterFrom = df.format(dateFilterFromTemp);
+        search1 = df.format(dateFilterFromTemp);
+        
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+        
+        String[] results = new String[7];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                model.addRow(results);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
+//        
+//        if(dpTo.getDate() != null){
+//                      
+//            model.setRowCount(0);
+//        
+//        results = new String[7];
+//
+//        String query2 = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "%'  ;";
+//        try {
+//            Connection con = dbConnect.getConnection();
+//            Statement st = con.createStatement();
+//            ResultSet rs = st.executeQuery(query2);
+//
+//            while (rs.next()) {
+//                results[0] = rs.getString("soNumber");
+//                results[1] = rs.getString("orderedDate");
+//                results[2] = rs.getString("reqDate");
+//                results[3] = rs.getString("customerName");
+//                results[4] = rs.getString("orderCreatedBy");
+//                results[5] = rs.getString("total");
+//                results[6] = rs.getString("orderStatus");
+//
+//                model.addRow(results);
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+//        }
+//            
+//        }
 
     }//GEN-LAST:event_dpFromActionPerformed
 
@@ -1444,8 +1548,34 @@ public class Sales extends javax.swing.JFrame {
         
         Date dateFilterToTemp = dpTo.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String dateFilterTo = df.format(dateFilterToTemp);
+        search2 = df.format(dateFilterToTemp);
         
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+        
+        String[] results = new String[7];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                model.addRow(results);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
     }//GEN-LAST:event_dpToActionPerformed
 
     private void txtSearchSONumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchSONumActionPerformed
@@ -1482,7 +1612,7 @@ public class Sales extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
         // TODO add your handling code here:
-        String search = txtSearchSONum.getText();
+        search = txtSearchSONum.getText();
         if(search == ""){
             JOptionPane.showMessageDialog(rootPane, "Search box empty!");
         }
@@ -1512,9 +1642,7 @@ public class Sales extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
-        
-        
-        
+            
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
@@ -1548,6 +1676,10 @@ public class Sales extends javax.swing.JFrame {
         }
     
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1599,9 +1731,9 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
     private javax.swing.JComboBox<String> cmbSearchSalesRep;
-    private org.jdesktop.swingx.JXDatePicker dpFrom;
+    public org.jdesktop.swingx.JXDatePicker dpFrom;
     private org.jdesktop.swingx.JXDatePicker dpReqDate;
-    private org.jdesktop.swingx.JXDatePicker dpTo;
+    public org.jdesktop.swingx.JXDatePicker dpTo;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox3;
