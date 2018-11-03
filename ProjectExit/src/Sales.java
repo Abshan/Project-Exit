@@ -781,9 +781,9 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -1346,6 +1346,8 @@ public class Sales extends javax.swing.JFrame {
             viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(),5).toString());
             viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(),6).toString());
             
+            
+            
 
 //            viewItems..setText(num);
 
@@ -1371,14 +1373,27 @@ public class Sales extends javax.swing.JFrame {
             reviewSales.y1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(0, 4));
             reviewSales.m1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(5, 7));
             reviewSales.d1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(8, 10));
-            reviewSales.cmbStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString());
             reviewSales.dpReqDate.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString());
-           
-          
-        reviewSales.setVisible(true);
-        reviewSales.pack();
-        reviewSales.setLocationRelativeTo(null);
-    }
+
+            String chkStat = model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString();
+            if(chkStat == "AWAITING FULFILLMENT"){
+                
+                reviewSales.cmbStatus.setSelectedIndex(0);
+                
+            } else if (chkStat == "COMPLETED"){
+                
+                reviewSales.cmbStatus.setSelectedIndex(1);
+                
+            } else if (chkStat == "CANCELLED"){
+               
+                reviewSales.cmbStatus.setSelectedIndex(2);
+                
+            }
+
+            reviewSales.setVisible(true);
+            reviewSales.pack();
+            reviewSales.setLocationRelativeTo(null);
+        }
 
     }//GEN-LAST:event_btnUpdateSalesActionPerformed
 
@@ -1391,8 +1406,23 @@ public class Sales extends javax.swing.JFrame {
             
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
+            
+            DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+            String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
+
+            
+
+            String query = "DELETE FROM sales_tab WHERE soNumber=" +SONum+ ";";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                int execute = st.executeUpdate(query);
+                JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
             if (dialogResult == 0) {
-                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
                 model.removeRow(tblReviewSales.getSelectedRow());
             } 
             
