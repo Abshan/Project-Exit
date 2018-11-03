@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
 import Models.DatabaseConnection;
+import Models.UserModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -886,28 +887,51 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        //if(role.equals("ADMIN")){
+        if(UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
+        
+
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        if(UserModel.userRole.equals("STOCK CONTROLLER")){
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
+        if(UserModel.userRole.equals("SALES MANAGER")){
         Sales frame = new Sales();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER"))){
         Stock frame = new Stock();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
