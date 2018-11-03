@@ -1,3 +1,6 @@
+
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -65,10 +68,22 @@ public class SalesItemsView extends javax.swing.JFrame {
             new String [] {
                 "ITEM NAME", "BATCH NUMBER", "QUANTITY", "SUB TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblViewSalesOrder.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblViewSalesOrder);
         if (tblViewSalesOrder.getColumnModel().getColumnCount() > 0) {
             tblViewSalesOrder.getColumnModel().getColumn(0).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(1).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(2).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnClose.setText("CLOSE");
@@ -276,7 +291,8 @@ public class SalesItemsView extends javax.swing.JFrame {
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
-        
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrder.getModel();
+        model.setRowCount(0);
         this.dispose();
         
     }//GEN-LAST:event_btnCloseActionPerformed
