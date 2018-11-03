@@ -1,6 +1,9 @@
 
+import Models.DatabaseConnection;
 import java.awt.HeadlessException;
 import java.util.Date;
+import java.sql.Connection;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +22,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
     /**
      * Creates new form SalesReviewWindow
      */
+    
+        DatabaseConnection dbConnect = new DatabaseConnection();
     public SalesReviewWindow() {
         initComponents();
         
@@ -26,6 +31,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         lblErrorRD.setVisible(false);
         dpReqDate.setVisible(false);
     }
+    
+//      SalesReviewWindow reviewSales = new SalesReviewWindow();
 
    
     
@@ -47,13 +54,13 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         lblErrorOS = new javax.swing.JLabel();
         lblErrorRD = new javax.swing.JLabel();
         dpReqDate = new javax.swing.JTextField();
-        cmbStatus = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         m1 = new javax.swing.JTextField();
         d1 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         y1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        cmbStatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +92,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setText("DD-MM-YYYY");
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -122,7 +131,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -147,12 +156,12 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
                     .addComponent(jLabel6))
-                .addGap(35, 35, 35)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblErrorOS)
                     .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(btnSave)
                 .addGap(23, 23, 23))
         );
@@ -186,7 +195,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,7 +208,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         int index = Sales.tblReviewSales.getSelectedRow();
 
         String reqDate = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
-        String orderStatus = (String) cmbStatus.getText();
+        String orderStatus = (String) cmbStatus.getSelectedItem();
+        String sonumb =  dpReqDate.getText();
 
 //        Date reqd ;
 
@@ -207,12 +217,20 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         if ((reqDate != "")&&(orderStatus !="")) {
             
             DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
-                      
+//                      
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate,index, 2);
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
 
-            JOptionPane.showMessageDialog(rootPane, "Saved");
+            String query = "UPDATE sales_tab SET orderStatus='"+orderStatus+"',reqDate='"+reqDate+"' WHERE soNumber="+sonumb+";";
 
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                int execute = st.executeUpdate(query);
+                JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
             dispose();
 
         } else {
@@ -220,6 +238,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
 
         }
+
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnSaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSaveKeyPressed
@@ -263,7 +283,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    public javax.swing.JTextField cmbStatus;
+    public javax.swing.JComboBox<String> cmbStatus;
     public javax.swing.JTextField d1;
     public javax.swing.JTextField dpReqDate;
     private javax.swing.JLabel jLabel1;

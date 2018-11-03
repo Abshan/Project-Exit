@@ -214,6 +214,9 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
+          </Events>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
@@ -411,9 +414,9 @@
                                   <Component id="jScrollPane4" min="-2" pref="944" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="btnDeleteTab" pref="70" max="32767" attributes="0"/>
-                                      <Component id="btnEditTab" alignment="0" pref="70" max="32767" attributes="0"/>
-                                      <Component id="btnAddTab" alignment="0" pref="70" max="32767" attributes="0"/>
+                                      <Component id="btnDeleteTab" max="32767" attributes="0"/>
+                                      <Component id="btnEditTab" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnAddTab" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
@@ -655,7 +658,7 @@
                         </Container>
                         <Component class="javax.swing.JButton" name="btnCreate">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Create"/>
+                            <Property name="text" type="java.lang.String" value="CREATE"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateActionPerformed"/>
@@ -663,7 +666,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnClear">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Clear"/>
+                            <Property name="text" type="java.lang.String" value="CLEAR"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
@@ -747,7 +750,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnAddTab">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Add"/>
+                            <Property name="text" type="java.lang.String" value="ADD"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddTabActionPerformed"/>
@@ -755,7 +758,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnEditTab">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Edit"/>
+                            <Property name="text" type="java.lang.String" value="EDIT"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditTabActionPerformed"/>
@@ -763,7 +766,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnDeleteTab">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Delete"/>
+                            <Property name="text" type="java.lang.String" value="DELETE"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteTabActionPerformed"/>
@@ -855,9 +858,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel20" alignment="0" min="-2" pref="291" max="-2" attributes="0"/>
                                   <Component id="jPanel14" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jPanel18" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel20" alignment="0" min="-2" pref="329" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="16" max="32767" attributes="0"/>
                           </Group>
@@ -967,10 +970,14 @@
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtSearchSONum" min="-2" pref="177" max="-2" attributes="0"/>
                                               <Component id="cmbSearchSalesRep" min="-2" pref="177" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="txtSearchSONum" min="-2" pref="177" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="btnSearch" min="-2" pref="98" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace min="-2" pref="198" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -979,11 +986,12 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtSearchSONum" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -1028,28 +1036,14 @@
                             <Component class="javax.swing.JTable" name="tblReviewSales">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="7" rowCount="1">
-                                    <Column editable="true" title="S.O. NUMBER" type="java.lang.Object">
-                                      <Data value="4556"/>
-                                    </Column>
-                                    <Column editable="true" title="ORDER DATE" type="java.lang.Object">
-                                      <Data value="2018-08-06"/>
-                                    </Column>
-                                    <Column editable="true" title="REQUIRED DATE" type="java.lang.Object">
-                                      <Data value="2018-10-06"/>
-                                    </Column>
-                                    <Column editable="true" title="CUSTOMER" type="java.lang.Object">
-                                      <Data value="D House"/>
-                                    </Column>
-                                    <Column editable="true" title="SALES MANAGER" type="java.lang.Object">
-                                      <Data value="Jayasena"/>
-                                    </Column>
-                                    <Column editable="true" title="TOTAL" type="java.lang.Object">
-                                      <Data value="65000"/>
-                                    </Column>
-                                    <Column editable="true" title="STATUS" type="java.lang.Object">
-                                      <Data value="AWAITING FULLFILMENT"/>
-                                    </Column>
+                                  <Table columnCount="7" rowCount="0">
+                                    <Column editable="true" title="S.O. NUMBER" type="java.lang.Object"/>
+                                    <Column editable="true" title="ORDER DATE" type="java.lang.Object"/>
+                                    <Column editable="true" title="REQUIRED DATE" type="java.lang.Object"/>
+                                    <Column editable="true" title="CUSTOMER" type="java.lang.Object"/>
+                                    <Column editable="true" title="SALES MANAGER" type="java.lang.Object"/>
+                                    <Column editable="true" title="TOTAL" type="java.lang.Object"/>
+                                    <Column editable="true" title="STATUS" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1141,7 +1135,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnUpdateSales">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Update"/>
+                            <Property name="text" type="java.lang.String" value="UPDATE"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateSalesActionPerformed"/>
@@ -1149,7 +1143,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnDeleteSales">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Delete"/>
+                            <Property name="text" type="java.lang.String" value="DELETE"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteSalesActionPerformed"/>
@@ -1177,10 +1171,18 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="btnViewTab">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="View"/>
+                            <Property name="text" type="java.lang.String" value="VIEW"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewTabActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnSearch">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="SEARCH"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
                           </Events>
                         </Component>
                       </SubComponents>
