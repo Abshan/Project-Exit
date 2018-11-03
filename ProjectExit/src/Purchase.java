@@ -22,6 +22,9 @@ import javax.swing.table.TableModel;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -37,8 +40,19 @@ public class Purchase extends javax.swing.JFrame {
 
     public Purchase() {
         initComponents();
-        sum.setText(Double.toString(getSum()));
+        //sum.setText(Double.toString(getSum()));
         ShowPurchases();
+
+        
+        jTable9.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                    sum.setText(getSum()+"");
+                }
+            }
+        });
     }
 
     public int index;
@@ -50,9 +64,11 @@ public class Purchase extends javax.swing.JFrame {
         int rowsCount = jTable9.getRowCount();
         double sum = 0;
         for (int i = 0; i < rowsCount; i++) {
-            sum = sum + (Double.parseDouble(jTable9.getValueAt(i, 6).toString()));
+            double totval = Double.parseDouble(jTable9.getValueAt(i, 7).toString());
+            sum = sum + totval;
         }
         return sum;
+
     }
 
     public boolean getValidation(int pidVal) {
@@ -208,6 +224,9 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
 
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -352,7 +371,7 @@ public class Purchase extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel8.setText("SUM:");
 
-        sum.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        sum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -382,11 +401,11 @@ public class Purchase extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane10)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sum, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(sum, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(35, 35, 35)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -419,9 +438,9 @@ public class Purchase extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(sum))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sum, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addGap(31, 31, 31)
                         .addComponent(jButton5))
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -782,17 +801,17 @@ public class Purchase extends javax.swing.JFrame {
         String ven = vn.getText();
         boolean dval = false;
         boolean pval = false;
-        
+
         Date d = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate= dateFormat.format(d);
+        String formattedDate = dateFormat.format(d);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1, current;
         try {
-            date1 = sdf.parse(date); 
+            date1 = sdf.parse(date);
             current = sdf.parse(formattedDate);
-            if(!(date1.after(current)) && (date1.before(current)) && (date1.equals(current))){
+            if (!(date1.after(current)) && (date1.before(current)) && (date1.equals(current))) {
                 dval = true;
             }
 
@@ -802,8 +821,9 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if(pno > 1000 && pno < 100000)
-            p = pno;
+            if (pno > 1000 && pno < 100000) {
+                p = pno;
+            }
             pval = true;
 
         } catch (Exception e) {
@@ -816,12 +836,12 @@ public class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No Items Have Been Added!");
         } else if (getValidation(p)) {
             JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
-        } else if (!(dval == true)){
+        } else if (!(dval == true)) {
             JOptionPane.showMessageDialog(null, "Invalid Date!");
-        } else if (!(pval == true)){
+        } else if (!(pval == true)) {
             JOptionPane.showMessageDialog(null, "Invalid Purchase Number");
-        }else{
-            
+        } else {
+
             try {
 
                 Connection con = dbConnect.getConnection();
@@ -841,9 +861,10 @@ public class Purchase extends javax.swing.JFrame {
                     String manfDate = jTable9.getValueAt(row, 3).toString();
                     String expDate = jTable9.getValueAt(row, 4).toString();
                     int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
-                    double price = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
+                    double unitp = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
+                    double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
 
-                    String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + price + ")";
+                    String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
                     //String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
 
                     int execute2 = st1.executeUpdate(Query2);
@@ -950,8 +971,8 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        
-       /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+
+        /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
         model.setRowCount(0);
 
         ShowPurchases();*/
@@ -976,22 +997,21 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        
+
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-        
-        if(jTextField1.getText().isEmpty()){
+
+        if (jTextField1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Search field is empty!");
-        }else{
-            
+        } else {
+
             model.setRowCount(0);
-        
-        try {
-                
+
+            try {
 
                 String[] results = new String[4];
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
-                
+
                 String query = "select * from purchase_tab where purNo = '" + jTextField1.getText().toString() + "' ";
                 ResultSet rs = st.executeQuery(query);
 
@@ -1001,29 +1021,28 @@ public class Purchase extends javax.swing.JFrame {
                     results[2] = rs.getString("purchaseDate");
                     results[3] = rs.getString("amount");
 
-                   // DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
-
+                    // DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
                     model.addRow(results);
 
                 }
                 st.close();
                 rs.close();
                 con.close();
-                
-                if(model.getRowCount()==0){
+
+                if (model.getRowCount() == 0) {
                     JOptionPane.showMessageDialog(null, "No results have been found");
                 }
             } catch (Exception e) {
 
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
-        if(jTextField1.getText().equals("")){
+        if (jTextField1.getText().equals("")) {
             ShowPurchases();
         }
     }//GEN-LAST:event_jTextField1KeyTyped
@@ -1113,7 +1132,7 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     private org.jdesktop.swingx.JXDatePicker pd;
     private javax.swing.JTextField pn;
-    private javax.swing.JLabel sum;
+    public javax.swing.JLabel sum;
     private javax.swing.JTextField vn;
     // End of variables declaration//GEN-END:variables
 }
