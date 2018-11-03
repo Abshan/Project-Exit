@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 import java.util.Date;
 =======
 >>>>>>> parent of b6c8bba... Sales Report!
+=======
+>>>>>>> parent of 4876796... Merge branch 'master' of https://github.com/Abshan/Project-Exit
 import javax.swing.JOptionPane;
 
 /*
@@ -36,6 +39,7 @@ public class SalesReport extends javax.swing.JFrame {
     public SalesReport() {
         initComponents();
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 <<<<<<< HEAD
@@ -68,6 +72,9 @@ public class SalesReport extends javax.swing.JFrame {
 =======
 >>>>>>> parent of 4859ffb... salesReport!
 
+=======
+    
+>>>>>>> parent of 4876796... Merge branch 'master' of https://github.com/Abshan/Project-Exit
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
@@ -231,6 +238,7 @@ public class SalesReport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
@@ -382,6 +390,8 @@ public class SalesReport extends javax.swing.JFrame {
 
 =======
 >>>>>>> parent of b6c8bba... Sales Report!
+=======
+>>>>>>> parent of 4876796... Merge branch 'master' of https://github.com/Abshan/Project-Exit
     /**
      * @param args the command line arguments
      */
