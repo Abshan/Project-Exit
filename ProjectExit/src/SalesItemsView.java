@@ -20,6 +20,7 @@ public class SalesItemsView extends javax.swing.JFrame {
      */
     public SalesItemsView() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         tblViewSalesOrder.getModel().addTableModelListener(new TableModelListener() {
 
