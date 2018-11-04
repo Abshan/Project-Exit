@@ -40,7 +40,7 @@ public class Purchase extends javax.swing.JFrame {
 
     public Purchase() {
         initComponents();
-        //sum.setText(Double.toString(getSum()));
+
         ShowPurchases();
 
         jTable9.getModel().addTableModelListener(new TableModelListener() {
