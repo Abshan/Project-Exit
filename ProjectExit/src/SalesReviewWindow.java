@@ -26,6 +26,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         DatabaseConnection dbConnect = new DatabaseConnection();
     public SalesReviewWindow() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         lblErrorOS.setVisible(false);
         lblErrorRD.setVisible(false);
@@ -237,6 +238,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
                 int execute = st.executeUpdate(query);
+                this.dispose();
                 JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);

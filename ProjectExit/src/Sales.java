@@ -877,10 +877,25 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "S.O. NUMBER", "CUSTOMER", "DATE", "ITEM", "REGION", "ORDERED", "RATE", "AMOUNT", "STATUS"
+                "S.O. NUMBER", "ORDERED DATE", "REQ DATE", "CUS NAME", "SALES MAN", "SALES REP", "REGION", "ORDER STATUS", "TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable5.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(jTable5);
+        if (jTable5.getColumnModel().getColumnCount() > 0) {
+            jTable5.getColumnModel().getColumn(0).setResizable(false);
+            jTable5.getColumnModel().getColumn(2).setResizable(false);
+            jTable5.getColumnModel().getColumn(5).setResizable(false);
+            jTable5.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         jButton8.setText("GENERATE SALES REPORT");
         jButton8.addActionListener(new java.awt.event.ActionListener() {

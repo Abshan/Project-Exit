@@ -1423,20 +1423,30 @@
                                   <Properties>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="9" rowCount="0">
-                                        <Column editable="true" title="S.O. NUMBER" type="java.lang.Object"/>
-                                        <Column editable="true" title="CUSTOMER" type="java.lang.Object"/>
-                                        <Column editable="true" title="DATE" type="java.lang.Object"/>
-                                        <Column editable="true" title="ITEM" type="java.lang.Object"/>
-                                        <Column editable="true" title="REGION" type="java.lang.Object"/>
-                                        <Column editable="true" title="ORDERED" type="java.lang.Object"/>
-                                        <Column editable="true" title="RATE" type="java.lang.Object"/>
-                                        <Column editable="true" title="AMOUNT" type="java.lang.Object"/>
-                                        <Column editable="true" title="STATUS" type="java.lang.Object"/>
+                                        <Column editable="false" title="S.O. NUMBER" type="java.lang.Object"/>
+                                        <Column editable="false" title="ORDERED DATE" type="java.lang.Object"/>
+                                        <Column editable="false" title="REQ DATE" type="java.lang.Object"/>
+                                        <Column editable="false" title="CUS NAME" type="java.lang.Object"/>
+                                        <Column editable="false" title="SALES MAN" type="java.lang.Object"/>
+                                        <Column editable="false" title="SALES REP" type="java.lang.Object"/>
+                                        <Column editable="false" title="REGION" type="java.lang.Object"/>
+                                        <Column editable="false" title="ORDER STATUS" type="java.lang.Object"/>
+                                        <Column editable="false" title="TOTAL" type="java.lang.Object"/>
                                       </Table>
                                     </Property>
                                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                       <TableColumnModel selectionModel="0">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
                                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
@@ -1451,22 +1461,12 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                          <Title/>
-                                          <Editor/>
-                                          <Renderer/>
-                                        </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                          <Title/>
-                                          <Editor/>
-                                          <Renderer/>
-                                        </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
@@ -1484,7 +1484,7 @@
                                       </TableColumnModel>
                                     </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                                      <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                                      <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                                     </Property>
                                   </Properties>
                                 </Component>
