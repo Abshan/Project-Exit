@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -43,6 +45,8 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtNICFP = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +56,12 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel2.setText("CHANGE YOUR PASSWORD");
 
         jLabel3.setText("Use at least eight charachters with a mix of numbers, uppercase and lowercase letters");
+
+        txtNewPasswordFP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNewPasswordFPMouseClicked(evt);
+            }
+        });
 
         btnChangePasswordFP.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnChangePasswordFP.setText("Change Password");
@@ -66,6 +76,14 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel5.setText("Confirm Password:");
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+
+        jLabel7.setText("NIC");
+
+        txtNICFP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNICFPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -88,11 +106,13 @@ public class ForgotPassword extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel4)
-                                            .addComponent(jLabel5))
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel7))
                                         .addGap(30, 30, 30)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtNewPasswordFP)
-                                            .addComponent(txtConfirmPasswordFP, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(txtConfirmPasswordFP, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                            .addComponent(txtNICFP)))))
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))))
                 .addContainerGap(140, Short.MAX_VALUE))
@@ -108,10 +128,15 @@ public class ForgotPassword extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(55, 55, 55)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addGap(48, 48, 48)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel7))
+                    .addComponent(txtNICFP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtNewPasswordFP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -121,7 +146,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                     .addComponent(txtConfirmPasswordFP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(btnChangePasswordFP)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -157,8 +182,53 @@ public class ForgotPassword extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChangePasswordFPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordFPActionPerformed
-        // TODO add your handling code here:
+        String newPassword = txtNewPasswordFP.getText();
+        String confirmPassword = txtConfirmPasswordFP.getText();
+        String NIC = txtNICFP.getText();
+        boolean NICCHECK = false;
+        boolean pass = false;
+
+        try {
+            if (!(txtNICFP.getText().equals(""))) {
+                String NICregex = "[0-9]{9}[x|X|v|V]$";
+                if (!(txtNICFP.getText().matches(NICregex))) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter valid NIC");
+                } else {
+                    NICCHECK = true;
+                }
+
+                if (!(txtNewPasswordFP.getText().equals(txtConfirmPasswordFP.getText()))) {
+                    JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
+                } else {
+                    pass = true;
+                }
+            }
+            if (NICCHECK == true && pass == true) {
+                String query = "UPDATE user_tab SET password='" + newPassword + "' WHERE nic LIKE '" + NIC + "';";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    int execute = st.executeUpdate(query);
+                    JOptionPane.showMessageDialog(rootPane, "Password Updated Successfully.");
+                    new Login().setVisible(true);
+                    this.dispose();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "NIC not found.");
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_btnChangePasswordFPActionPerformed
+
+    private void txtNewPasswordFPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNewPasswordFPMouseClicked
+
+    }//GEN-LAST:event_txtNewPasswordFPMouseClicked
+
+    private void txtNICFPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNICFPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNICFPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,9 +273,11 @@ public class ForgotPassword extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtConfirmPasswordFP;
+    private javax.swing.JTextField txtNICFP;
     private javax.swing.JTextField txtNewPasswordFP;
     // End of variables declaration//GEN-END:variables
 }

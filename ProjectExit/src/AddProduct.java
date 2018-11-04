@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.*;
 import Models.DatabaseConnection;
+import Models.UserModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -819,7 +820,6 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        //String ProductID = txtProductID.getText();
         String BrandName = txtBrandName.getText();
         String ProductName = txtProductName.getText();
         String Size = txtSize.getText();
@@ -827,12 +827,12 @@ public class AddProduct extends javax.swing.JFrame {
 
         String WholesaleP = txtWholesalePrice.getText();
 
-        int PID = 0, s = 0;
+        int PID = 0;
         double MRP = 0, WSP = 0;
 
         String Category = "";
 
-        if (!(/*(ProductID.equals(""))||*/(BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
+        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
             boolean result = false;
 
             if (!((rdoCosmetics.isSelected()) || (rdoDrugs.isSelected()))) {
@@ -850,17 +850,17 @@ public class AddProduct extends javax.swing.JFrame {
                     //PID = Integer.parseInt(ProductID);
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
-                    s = Integer.parseInt(Size);
+                    
                     result = true;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0) || (s <= 0)) {
+                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
-                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + s + "'," + WSP + "," + MRP + ",'" + Category + "')";
+                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + Size + "'," + WSP + "," + MRP + ",'" + Category + "')";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -886,28 +886,54 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        //if(role.equals("ADMIN")){
+        if  (UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
+            
+        
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+       
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))){
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
+        if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
         Sales frame = new Sales();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+           JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");   
+        }
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
         Stock frame = new Stock();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped

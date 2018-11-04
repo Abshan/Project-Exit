@@ -138,17 +138,17 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         jLabel7.setText("UNIT PRICE:");
 
-        berror.setForeground(new java.awt.Color(153, 0, 0));
+        berror.setForeground(new java.awt.Color(0, 0, 0));
 
-        qerror.setForeground(new java.awt.Color(153, 0, 0));
+        qerror.setForeground(new java.awt.Color(0, 0, 0));
 
-        uerror.setForeground(new java.awt.Color(153, 0, 0));
+        uerror.setForeground(new java.awt.Color(0, 0, 0));
 
-        ierror.setForeground(new java.awt.Color(153, 0, 0));
+        ierror.setForeground(new java.awt.Color(0, 0, 0));
 
-        mnerror.setForeground(new java.awt.Color(153, 0, 0));
+        mnerror.setForeground(new java.awt.Color(0, 0, 0));
 
-        exerror.setForeground(new java.awt.Color(153, 0, 51));
+        exerror.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
@@ -335,17 +335,17 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             qerror.setText("");
             }
         } catch (Exception e) {
-            qerror.setText("Invalid!");
+            qerror.setText("*invalid");
         }
 
         try {
             bat = Integer.parseInt(batchNo);
-            if(bat>100  &&  bat < 1000000){
+            if(bat>999  &&  bat < 1000000){
             bVal = true;
             berror.setText("");
             }
         } catch (Exception e) {
-            berror.setText("Invalid!");
+            berror.setText("*invalid");
         }
 
         try {
@@ -356,11 +356,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             uerror.setText("");
             }
         } catch (Exception e) {
-            uerror.setText("Invalid!");
+            uerror.setText("*invalid");
         }
         
         if(jComboBox1.getSelectedIndex() == 0){
-            ierror.setText("Invalid");
+            ierror.setText("*invalid");
         }else{
             ierror.setText("");
         }
@@ -369,7 +369,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate= dateFormat.format(d);
         LocalDate bef = LocalDate.now().minusDays(30);
-        LocalDate aft = LocalDate.now().plusDays(182);       
+        LocalDate aft = LocalDate.now().plusDays(365);       
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String beforeDate= bef.toString(); 
         String afterDate= bef.toString();

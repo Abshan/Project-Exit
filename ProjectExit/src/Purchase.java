@@ -43,16 +43,16 @@ public class Purchase extends javax.swing.JFrame {
         //sum.setText(Double.toString(getSum()));
         ShowPurchases();
 
-        
         jTable9.getModel().addTableModelListener(new TableModelListener() {
 
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
-                    sum.setText(getSum()+"");
+                    sum.setText(getSum() + "");
                 }
             }
         });
+
     }
 
     public int index;
@@ -821,7 +821,7 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if (pno > 1000 && pno < 100000) {
+            if (pno > 10000 && pno < 1000000) {
                 p = pno;
             }
             pval = true;
@@ -832,7 +832,7 @@ public class Purchase extends javax.swing.JFrame {
 
         if (pid == "" || ven == "" || date == "") {
             JOptionPane.showMessageDialog(null, "Please fill the blank fields!");
-        } else if (rows == 0) {
+        } else if (jTable9.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "No Items Have Been Added!");
         } else if (getValidation(p)) {
             JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
@@ -889,27 +889,46 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        CreateAccount frame = new CreateAccount();
-        frame.setVisible(true);
-        this.dispose();
+        if (UserModel.userRole.equals("ADMIN")) {
+            CreateAccount frame = new CreateAccount();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
+
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        AddProduct frame = new AddProduct();
-        frame.setVisible(true);
-        this.dispose();
+        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+            AddProduct frame = new AddProduct();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
-        Sales frame = new Sales();
-        frame.setVisible(true);
-        this.dispose();
+        if ((UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Sales frame = new Sales();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
         Stock frame = new Stock();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
