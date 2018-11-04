@@ -148,15 +148,7 @@ Connection conn=null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-      
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnChangePasswordActionPerformed
-
-    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-                 String Email = txtEmailLogin.getText();
+                String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
                 String[] results = new String[3];
                 
@@ -194,6 +186,14 @@ Connection conn=null;
                     JOptionPane.showMessageDialog(null, e);
                 }
              
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
+
+    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginKeyPressed
 
     /**
