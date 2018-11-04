@@ -265,6 +265,7 @@ public class Sales extends javax.swing.JFrame {
     SalesItemsEdit editItems = new SalesItemsEdit();
     SalesItemsAdd addItems = new SalesItemsAdd();
     SalesReviewWindow reviewSales = new SalesReviewWindow();
+    SalesReport saleReport = new SalesReport();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -367,11 +368,11 @@ public class Sales extends javax.swing.JFrame {
         dpFrom2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel26 = new javax.swing.JLabel();
         dpTo2 = new org.jdesktop.swingx.JXDatePicker();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        cmbFilterManager = new javax.swing.JComboBox<>();
+        cmbFilerStatus = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        cmbFilterSaleRep = new javax.swing.JComboBox<>();
         jLabel27 = new javax.swing.JLabel();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -1112,18 +1113,18 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
-        jComboBox3.setSelectedIndex(-1);
+        cmbFilterManager.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
+        cmbFilterManager.setSelectedIndex(-1);
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
-        jComboBox5.setSelectedIndex(-1);
+        cmbFilerStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
+        cmbFilerStatus.setSelectedIndex(-1);
 
         jLabel32.setText("FILTER BY STATUS:");
 
         jLabel35.setText("SALES REP:");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
-        jComboBox6.setSelectedIndex(-1);
+        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
+        cmbFilterSaleRep.setSelectedIndex(-1);
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -1153,9 +1154,9 @@ public class Sales extends javax.swing.JFrame {
                                 .addComponent(jLabel32))
                             .addGap(70, 70, 70)
                             .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbFilterSaleRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbFilerStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbFilterManager, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -1166,7 +1167,7 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel19)
                     .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel32)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbFilerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
@@ -1174,11 +1175,11 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel26)
                     .addComponent(dpTo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFilterManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel35)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFilterSaleRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -1902,6 +1903,11 @@ public class Sales extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        
+        saleReport.setVisible(true);
+        saleReport.pack();
+        saleReport.setLocationRelativeTo(null);
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void dpFrom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFrom2ActionPerformed
@@ -2015,6 +2021,9 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateSales;
     private javax.swing.JButton btnViewTab;
+    private javax.swing.JComboBox<String> cmbFilerStatus;
+    private javax.swing.JComboBox<String> cmbFilterManager;
+    private javax.swing.JComboBox<String> cmbFilterSaleRep;
     private javax.swing.JComboBox<String> cmbOrderStatus;
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
@@ -2026,9 +2035,6 @@ public class Sales extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker dpTo2;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

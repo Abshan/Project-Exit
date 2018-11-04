@@ -1366,9 +1366,9 @@
                                                   </Group>
                                                   <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jComboBox6" max="32767" attributes="0"/>
-                                                      <Component id="jComboBox5" max="32767" attributes="0"/>
-                                                      <Component id="jComboBox3" max="32767" attributes="0"/>
+                                                      <Component id="cmbFilterSaleRep" max="32767" attributes="0"/>
+                                                      <Component id="cmbFilerStatus" max="32767" attributes="0"/>
+                                                      <Component id="cmbFilterManager" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -1385,7 +1385,7 @@
                                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="jLabel32" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jComboBox5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cmbFilerStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -1395,12 +1395,12 @@
                                           <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="dpTo2" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbFilterManager" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jComboBox6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbFilterSaleRep" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jScrollPane6" pref="259" max="32767" attributes="0"/>
@@ -1531,7 +1531,7 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dpTo2ActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="jComboBox3">
+                            <Component class="javax.swing.JComboBox" name="cmbFilterManager">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="3">
@@ -1546,7 +1546,7 @@
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="jComboBox5">
+                            <Component class="javax.swing.JComboBox" name="cmbFilerStatus">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="3">
@@ -1571,7 +1571,7 @@
                                 <Property name="text" type="java.lang.String" value="SALES REP:"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="jComboBox6">
+                            <Component class="javax.swing.JComboBox" name="cmbFilterSaleRep">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="3">
