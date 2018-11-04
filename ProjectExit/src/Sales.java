@@ -153,6 +153,90 @@ public class Sales extends javax.swing.JFrame {
 
     }
 
+    public void searchFrom2(String s) {
+        Connection con = dbConnect.getConnection();
+
+        Date dateFilterFromTemp = dpFrom2.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search1 = df.format(dateFilterFromTemp);
+
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[9];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("salesRep");
+                results[6] = rs.getString("region");
+                results[7] = rs.getString("orderStatus");
+                results[8] = rs.getString("total");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
+    }
+
+    public void searchTo2(String s) {
+
+        Connection con = dbConnect.getConnection();
+
+        Date dateFilterToTemp = dpTo2.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search2 = df.format(dateFilterToTemp);
+
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[9];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("salesRep");
+                results[6] = rs.getString("region");
+                results[7] = rs.getString("orderStatus");
+                results[8] = rs.getString("total");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
+
+    }
+
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public String search;
@@ -280,9 +364,9 @@ public class Sales extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        jXDatePicker4 = new org.jdesktop.swingx.JXDatePicker();
+        dpFrom2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel26 = new javax.swing.JLabel();
-        jXDatePicker5 = new org.jdesktop.swingx.JXDatePicker();
+        dpTo2 = new org.jdesktop.swingx.JXDatePicker();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
@@ -772,7 +856,7 @@ public class Sales extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel10.setText("FILTER BY REQIRED DATE");
+        jLabel10.setText("FILTER BY REQUIRED DATE");
 
         jLabel11.setText("DATE:");
 
@@ -1010,11 +1094,23 @@ public class Sales extends javax.swing.JFrame {
         jLabel18.setText("SALES MANAGER:");
 
         jLabel19.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel19.setText("FILTER BY DATE");
+        jLabel19.setText("FILTER BY REQUIRED DATE");
 
         jLabel25.setText("DATE:");
 
+        dpFrom2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dpFrom2ActionPerformed(evt);
+            }
+        });
+
         jLabel26.setText("TO");
+
+        dpTo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dpTo2ActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
         jComboBox3.setSelectedIndex(-1);
@@ -1044,11 +1140,11 @@ public class Sales extends javax.swing.JFrame {
                                 .addGroup(jPanel19Layout.createSequentialGroup()
                                     .addComponent(jLabel25)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jXDatePicker4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dpFrom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel26)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jXDatePicker5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(dpTo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel19))
                             .addGap(136, 136, 136)
                             .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1074,9 +1170,9 @@ public class Sales extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
-                    .addComponent(jXDatePicker4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpFrom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel26)
-                    .addComponent(jXDatePicker5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpTo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
@@ -1625,7 +1721,7 @@ public class Sales extends javax.swing.JFrame {
 
         } else {
 //            search1 = df.format(dateFilterFromTemp);
-            
+
             searchFrom(search1);
         }
     }//GEN-LAST:event_dpFromActionPerformed
@@ -1657,7 +1753,6 @@ public class Sales extends javax.swing.JFrame {
         } else {
 
 //            search2 = df.format(dateFilterToTemp);
-
             searchTo(search2);
 
         }
@@ -1783,6 +1878,10 @@ public class Sales extends javax.swing.JFrame {
 
         dpTo.setDate(null);
         dpFrom.setDate(null);
+        dpTo2.setDate(null);
+        dpFrom2.setDate(null);
+        txtSearchSONum.setText("");
+        cmbSearchSalesRep.setSelectedIndex(-1);
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -1804,6 +1903,71 @@ public class Sales extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void dpFrom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFrom2ActionPerformed
+        // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        Date dateFilterFromTemp = dpFrom2.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search1 = df.format(dateFilterFromTemp);
+        Date given;
+
+        if (search2 != null) {
+
+            searchTo2(search2);
+            try {
+                for (int i = 0; i < tblViewSalesOrders.getRowCount(); i++) {
+                    given = df.parse(tblViewSalesOrders.getModel().getValueAt(i, 2).toString());
+                    if (df.parse(search1).after(given)) {
+                        model.removeRow(i);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+        } else {
+//            search1 = df.format(dateFilterFromTemp);
+
+            searchFrom2(search1);
+        }
+
+    }//GEN-LAST:event_dpFrom2ActionPerformed
+
+    private void dpTo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpTo2ActionPerformed
+        // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        Date dateFilterToTemp = dpTo2.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search2 = df.format(dateFilterToTemp);
+        Date given;
+
+        if (search1 != null) {
+
+            searchFrom2(search1);
+            try {
+                for (int i = 0; i < tblViewSalesOrders.getRowCount(); i++) {
+                    given = df.parse(tblViewSalesOrders.getModel().getValueAt(i, 2).toString());
+                    if (df.parse(search2).before(given)) {
+                        model.removeRow(i);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+        } else {
+
+//            search2 = df.format(dateFilterToTemp);
+            searchTo2(search2);
+
+        }
+
+    }//GEN-LAST:event_dpTo2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1856,8 +2020,10 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbSalesRep;
     private javax.swing.JComboBox<String> cmbSearchSalesRep;
     public org.jdesktop.swingx.JXDatePicker dpFrom;
+    private org.jdesktop.swingx.JXDatePicker dpFrom2;
     private org.jdesktop.swingx.JXDatePicker dpReqDate;
     public org.jdesktop.swingx.JXDatePicker dpTo;
+    private org.jdesktop.swingx.JXDatePicker dpTo2;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1917,8 +2083,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
     private javax.swing.JLabel lblErrorCN;
     private javax.swing.JLabel lblErrorCP;
     private javax.swing.JLabel lblErrorOS;
