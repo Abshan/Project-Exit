@@ -819,7 +819,6 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        //String ProductID = txtProductID.getText();
         String BrandName = txtBrandName.getText();
         String ProductName = txtProductName.getText();
         String Size = txtSize.getText();
@@ -827,12 +826,12 @@ public class AddProduct extends javax.swing.JFrame {
 
         String WholesaleP = txtWholesalePrice.getText();
 
-        int PID = 0, s = 0;
+        int PID = 0;
         double MRP = 0, WSP = 0;
 
         String Category = "";
 
-        if (!(/*(ProductID.equals(""))||*/(BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
+        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MaxRP.equals("")) || (WholesaleP.equals("")))) {
             boolean result = false;
 
             if (!((rdoCosmetics.isSelected()) || (rdoDrugs.isSelected()))) {
@@ -850,17 +849,17 @@ public class AddProduct extends javax.swing.JFrame {
                     //PID = Integer.parseInt(ProductID);
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
-                    s = Integer.parseInt(Size);
+                    
                     result = true;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0) || (s <= 0)) {
+                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
-                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + s + "'," + WSP + "," + MRP + ",'" + Category + "')";
+                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + Size + "'," + WSP + "," + MRP + ",'" + Category + "')";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
