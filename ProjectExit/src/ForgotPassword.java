@@ -189,6 +189,10 @@ public class ForgotPassword extends javax.swing.JFrame {
         boolean pass = false;
 
         try {
+            if ((txtNICFP.getText().equals("")) || txtNewPasswordFP.getText().equals("") || txtConfirmPasswordFP.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
+            }
+                
             if (!(txtNICFP.getText().equals(""))) {
                 String NICregex = "[0-9]{9}[x|X|v|V]$";
                 if (!(txtNICFP.getText().matches(NICregex))) {
