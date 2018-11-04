@@ -148,7 +148,43 @@ Connection conn=null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-      
+                String Email = txtEmailLogin.getText();
+                String Password=txtPasswordlogin.getText();
+                String[] results = new String[3];
+                
+                String query = "select email, password, role from user_tab where email='"+Email+"';";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    if (rs.next()) {
+                         results[0] = rs.getString("email");
+                         results[1] = rs.getString("password");
+                         results[2] = rs.getString("role");
+ 
+                    }
+                    if ((txtPasswordlogin.getText().equals(Password)))
+                            {
+                                UserModel.loginName = results[0];
+                                UserModel.userRole = results[2];
+                                
+                                if(UserModel.userRole.equals("ADMIN")){
+                                    CreateAccount frame = new CreateAccount();
+                                    frame.setVisible(true);
+                                    this.dispose();
+                                }
+                            }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"Invalid Username or Password.","Access Denied", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+
+                }
+                catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(null, e);
+                }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
@@ -156,7 +192,7 @@ Connection conn=null;
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-                 String Email = txtEmailLogin.getText();
+                String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
                 String[] results = new String[3];
                 
