@@ -240,6 +240,7 @@ public class Sales extends javax.swing.JFrame {
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public String search;
+    public String searchCmb1;
     public String search1;
     public String search2;
 
@@ -368,7 +369,7 @@ public class Sales extends javax.swing.JFrame {
         dpFrom2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel26 = new javax.swing.JLabel();
         dpTo2 = new org.jdesktop.swingx.JXDatePicker();
-        cmbFilterManager = new javax.swing.JComboBox<>();
+        cmbFilterSalesRep = new javax.swing.JComboBox<>();
         cmbFilerStatus = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
@@ -891,8 +892,12 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel17.setText("SALES REP:");
 
-        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
-        cmbSearchSalesRep.setSelectedIndex(-1);
+        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NON", "JUGATH", "NAMAL", "SILVA", "JONE" }));
+        cmbSearchSalesRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSearchSalesRepActionPerformed(evt);
+            }
+        });
 
         btnViewTab.setText("VIEW");
         btnViewTab.addActionListener(new java.awt.event.ActionListener() {
@@ -1113,8 +1118,8 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        cmbFilterManager.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
-        cmbFilterManager.setSelectedIndex(-1);
+        cmbFilterSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
+        cmbFilterSalesRep.setSelectedIndex(-1);
 
         cmbFilerStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
         cmbFilerStatus.setSelectedIndex(-1);
@@ -1156,7 +1161,7 @@ public class Sales extends javax.swing.JFrame {
                             .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(cmbFilterSaleRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cmbFilerStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbFilterManager, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbFilterSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -1175,7 +1180,7 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel26)
                     .addComponent(dpTo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(cmbFilterManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFilterSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel35)
@@ -1882,7 +1887,7 @@ public class Sales extends javax.swing.JFrame {
         dpTo2.setDate(null);
         dpFrom2.setDate(null);
         txtSearchSONum.setText("");
-        cmbSearchSalesRep.setSelectedIndex(-1);
+        cmbSearchSalesRep.setSelectedIndex(0);
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -1903,11 +1908,11 @@ public class Sales extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        
+
         saleReport.setVisible(true);
         saleReport.pack();
         saleReport.setLocationRelativeTo(null);
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void dpFrom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFrom2ActionPerformed
@@ -1935,11 +1940,10 @@ public class Sales extends javax.swing.JFrame {
             }
 
         } else {
-//            search1 = df.format(dateFilterFromTemp);
+            //            search1 = df.format(dateFilterFromTemp);
 
             searchFrom2(search1);
         }
-
     }//GEN-LAST:event_dpFrom2ActionPerformed
 
     private void dpTo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpTo2ActionPerformed
@@ -1968,12 +1972,70 @@ public class Sales extends javax.swing.JFrame {
 
         } else {
 
-//            search2 = df.format(dateFilterToTemp);
+            //            search2 = df.format(dateFilterToTemp);
             searchTo2(search2);
 
         }
-
     }//GEN-LAST:event_dpTo2ActionPerformed
+
+    private void cmbSearchSalesRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSearchSalesRepActionPerformed
+        // TODO add your handling code here:
+        Connection con = dbConnect.getConnection();
+        searchCmb1 = (String) cmbSearchSalesRep.getSelectedItem();
+//        if (search == "") {
+//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
+//        }
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[7];
+        if (searchCmb1 != "NON") {
+            String query = "SELECT * FROM sales_tab WHERE CONCAT(salesRep) LIKE '%" + searchCmb1 + "%';";
+            try {
+
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("soNumber");
+                    results[1] = rs.getString("orderedDate");
+                    results[2] = rs.getString("reqDate");
+                    results[3] = rs.getString("customerName");
+                    results[4] = rs.getString("orderCreatedBy");
+                    results[5] = rs.getString("total");
+                    results[6] = rs.getString("orderStatus");
+
+                    model.addRow(results);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        } else {
+            model.setRowCount(0);
+            String[] results2 = new String[7];
+
+            String query = "SELECT * FROM sales_tab";
+            try {
+                Statement st = con.createStatement();
+                ResultSet rs2 = st.executeQuery(query);
+                while (rs2.next()) {
+                    results2[0] = rs2.getString("soNumber");
+                    results2[1] = rs2.getString("orderedDate");
+                    results2[2] = rs2.getString("reqDate");
+                    results2[3] = rs2.getString("customerName");
+                    results2[4] = rs2.getString("orderCreatedBy");
+                    results2[5] = rs2.getString("total");
+                    results2[6] = rs2.getString("orderStatus");
+
+                    model.addRow(results2);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        }
+
+    }//GEN-LAST:event_cmbSearchSalesRepActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2022,8 +2084,8 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateSales;
     private javax.swing.JButton btnViewTab;
     private javax.swing.JComboBox<String> cmbFilerStatus;
-    private javax.swing.JComboBox<String> cmbFilterManager;
     private javax.swing.JComboBox<String> cmbFilterSaleRep;
+    private javax.swing.JComboBox<String> cmbFilterSalesRep;
     private javax.swing.JComboBox<String> cmbOrderStatus;
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
