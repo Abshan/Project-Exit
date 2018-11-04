@@ -334,25 +334,10 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "MANF DATE", "EXP DATE", "QUANTITY"
+                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "SIZE", "EXP DATE", "MANF DATE", "QUANITYT", "AMOUNT"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(tblViewStock);
-        if (tblViewStock.getColumnModel().getColumnCount() > 0) {
-            tblViewStock.getColumnModel().getColumn(0).setResizable(false);
-            tblViewStock.getColumnModel().getColumn(1).setResizable(false);
-            tblViewStock.getColumnModel().getColumn(3).setResizable(false);
-            tblViewStock.getColumnModel().getColumn(4).setResizable(false);
-            tblViewStock.getColumnModel().getColumn(5).setResizable(false);
-        }
 
         jLabel7.setText("SEARCH:");
 
@@ -362,9 +347,9 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("SORT BY:");
+        jLabel8.setText("FILTER BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "OLDEST TO NEWSET", "HIGH IN STOCK", "LOW IN STOCK" }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "HIGHEST TO LOWEST", "LOW IN STOCK", " ", " " }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -390,23 +375,24 @@ public class Stock extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(110, 110, 110))
+                .addGap(31, 31, 31))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSearch1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );
 
@@ -489,27 +475,51 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_drpFilterActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+        if(UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
         AddProduct frame = new AddProduct();
         frame.setVisible(true);
-        this.dispose();
+        this.dispose();}
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
+        if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
         Sales frame = new Sales();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
+              
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
@@ -517,18 +527,9 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchStockKeyTyped
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        int pop = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
-        if(result == 0){
-                    
-        UserModel.loginName = "";
-        UserModel.userRole = "";
-
         Login frame = new Login();
         frame.setVisible(true);
         this.dispose();
-        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**

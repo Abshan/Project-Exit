@@ -572,26 +572,28 @@
                               <EmptySpace pref="188" max="32767" attributes="0"/>
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtSearchStock" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtSearchStock" min="-2" pref="279" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnSearch1" min="-2" pref="86" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="19" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtSearchStock" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="drpFilter" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnSearch1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtSearchStock" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="drpFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="btnSearch1" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="354" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="387" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -608,23 +610,20 @@
                         <Component class="javax.swing.JTable" name="tblViewStock">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="6" rowCount="0">
+                              <Table columnCount="8" rowCount="0">
                                 <Column editable="true" title="BATCH NO." type="java.lang.Object"/>
-                                <Column editable="false" title="PRODUCT ID" type="java.lang.Object"/>
-                                <Column editable="false" title="PRODUCT NAME" type="java.lang.Object"/>
-                                <Column editable="false" title="MANF DATE" type="java.lang.Object"/>
-                                <Column editable="false" title="EXP DATE" type="java.lang.Object"/>
-                                <Column editable="false" title="QUANTITY" type="java.lang.Object"/>
+                                <Column editable="true" title="PRODUCT ID" type="java.lang.Object"/>
+                                <Column editable="true" title="PRODUCT NAME" type="java.lang.Object"/>
+                                <Column editable="true" title="SIZE" type="java.lang.Object"/>
+                                <Column editable="true" title="EXP DATE" type="java.lang.Object"/>
+                                <Column editable="true" title="MANF DATE" type="java.lang.Object"/>
+                                <Column editable="true" title="QUANITYT" type="java.lang.Object"/>
+                                <Column editable="true" title="AMOUNT" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
-                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                                  <Title/>
-                                  <Editor/>
-                                  <Renderer/>
-                                </Column>
-                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
                                   <Renderer/>
@@ -634,17 +633,32 @@
                                   <Editor/>
                                   <Renderer/>
                                 </Column>
-                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
                                   <Renderer/>
                                 </Column>
-                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
                                   <Renderer/>
                                 </Column>
-                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
                                   <Renderer/>
@@ -670,18 +684,19 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="SORT BY:"/>
+                        <Property name="text" type="java.lang.String" value="FILTER BY:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="drpFilter">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="5">
+                          <StringArray count="6">
                             <StringItem index="0" value="NONE"/>
                             <StringItem index="1" value="NEWEST TO OLDEST"/>
-                            <StringItem index="2" value="OLDEST TO NEWSET"/>
-                            <StringItem index="3" value="HIGH IN STOCK"/>
-                            <StringItem index="4" value="LOW IN STOCK"/>
+                            <StringItem index="2" value="HIGHEST TO LOWEST"/>
+                            <StringItem index="3" value="LOW IN STOCK"/>
+                            <StringItem index="4" value=" "/>
+                            <StringItem index="5" value=" "/>
                           </StringArray>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
