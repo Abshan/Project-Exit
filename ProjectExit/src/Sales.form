@@ -388,29 +388,31 @@
                                           <Component id="lblErrorSON" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="cmbOrderStatus" min="-2" pref="210" max="-2" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+                                                  <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="cmbSalesRep" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtUser" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="cmbRegion" min="-2" pref="210" max="-2" attributes="0"/>
+                                              <Component id="cmbRegion" max="32767" attributes="0"/>
+                                              <Component id="cmbOrderStatus" min="-2" pref="210" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -418,9 +420,9 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="lblErrorSR" max="32767" attributes="0"/>
                                       <Component id="lblErrorR" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblErrorOS" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lblErrorOS" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace pref="22" max="32767" attributes="0"/>
@@ -480,8 +482,8 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="cmbOrderStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="lblErrorOS" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cmbOrderStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -591,10 +593,8 @@
                         <Component class="javax.swing.JComboBox" name="cmbSalesRep">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="3">
-                                <StringItem index="0" value="JUGATH"/>
-                                <StringItem index="1" value="NAMAL"/>
-                                <StringItem index="2" value="SILVA"/>
+                              <StringArray count="1">
+                                <StringItem index="0" value="Jone"/>
                               </StringArray>
                             </Property>
                             <Property name="selectedIndex" type="int" value="-1"/>
@@ -690,21 +690,6 @@
                             <Property name="text" type="java.lang.String" value="ORDER STATUS:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="cmbOrderStatus">
-                          <Properties>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="3">
-                                <StringItem index="0" value="AWAITING FULFILLMENT"/>
-                                <StringItem index="1" value="COMPLETED"/>
-                                <StringItem index="2" value="CANCELLED"/>
-                              </StringArray>
-                            </Property>
-                            <Property name="selectedIndex" type="int" value="-1"/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                          </AuxValues>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="jLabel31">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="REGION:"/>
@@ -715,7 +700,7 @@
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="4">
                                 <StringItem index="0" value="NORTH"/>
-                                <StringItem index="1" value="SOUTH "/>
+                                <StringItem index="1" value="SOUTH"/>
                                 <StringItem index="2" value="EAST"/>
                                 <StringItem index="3" value="WEST"/>
                               </StringArray>
@@ -727,39 +712,18 @@
                           </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorSON">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCN">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCP">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorRD">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorSR">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorR">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorOS">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="*Invalid"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnAddTab">
                           <Properties>
@@ -798,6 +762,21 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblTotalAmt">
+                        </Component>
+                        <Component class="javax.swing.JComboBox" name="cmbOrderStatus">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="3">
+                                <StringItem index="0" value="AWAITING FULFILLMENT"/>
+                                <StringItem index="1" value="COMPLETED"/>
+                                <StringItem index="2" value="CANCELLED"/>
+                              </StringArray>
+                            </Property>
+                            <Property name="selectedIndex" type="int" value="-1"/>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
