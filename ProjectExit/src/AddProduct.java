@@ -39,6 +39,7 @@ public class AddProduct extends javax.swing.JFrame {
         ButtonGroup ProductType = new ButtonGroup();
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
+        txtProductID1.setEditable(false);
     }
 
     /**
@@ -75,8 +76,6 @@ public class AddProduct extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
         txtSize = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtProductID = new javax.swing.JTextField();
         rdoDrugs = new javax.swing.JRadioButton();
         rdoCosmetics = new javax.swing.JRadioButton();
         jLabel30 = new javax.swing.JLabel();
@@ -109,6 +108,8 @@ public class AddProduct extends javax.swing.JFrame {
         txtSize1 = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnGenerateProdList = new javax.swing.JButton();
+        lblFilter = new javax.swing.JLabel();
+        cmbCategory = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
@@ -176,8 +177,6 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel35.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel35.setText("PRODUCT CATEGORY");
 
-        jLabel9.setText("PRODUCT ID:");
-
         rdoDrugs.setText("Drugs");
 
         rdoCosmetics.setText("Cosmetics");
@@ -199,7 +198,6 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(jLabel32)
                             .addComponent(jLabel33)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel34))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -207,8 +205,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtWholesalePrice)
                             .addComponent(txtProductName)
                             .addComponent(txtBrandName)
-                            .addComponent(txtSize)
-                            .addComponent(txtProductID))))
+                            .addComponent(txtSize))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
@@ -222,10 +219,6 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(txtBrandName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -245,7 +238,7 @@ public class AddProduct extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34))
-                        .addGap(27, 27, 27)
+                        .addGap(63, 63, 63)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAddProduct)
                             .addComponent(btnCancel)))
@@ -420,36 +413,44 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        lblFilter.setText("FILTER");
+
+        cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "DRUGS", "COSMETICS" }));
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(332, 332, 332)
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel18Layout.createSequentialGroup()
-                                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel41)
-                                        .addComponent(jLabel23)
-                                        .addComponent(jLabel10))
-                                    .addGap(25, 25, 25)
-                                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtBrandName1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtProductName1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtProductID1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtSize1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addComponent(btnGenerateProdList)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(26, 26, 26)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(26, 26, 26)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel18Layout.createSequentialGroup()
+                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel41)
+                                .addComponent(jLabel23)
+                                .addComponent(jLabel10)
+                                .addComponent(lblFilter))
+                            .addGap(25, 25, 25)
+                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cmbCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtBrandName1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                .addComponent(txtProductName1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                .addComponent(txtProductID1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                .addComponent(txtSize1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel42)
                                         .addComponent(jLabel43)
@@ -459,15 +460,12 @@ public class AddProduct extends javax.swing.JFrame {
                                         .addComponent(txtMRP1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtWholesalePrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(drpCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel18Layout.createSequentialGroup()
-                                    .addComponent(btnGenerateProdList)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel18Layout.setVerticalGroup(
@@ -477,7 +475,9 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
+                    .addComponent(btnSearch)
+                    .addComponent(lblFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
@@ -706,43 +706,70 @@ public class AddProduct extends javax.swing.JFrame {
         String MRP = txtMRP1.getText();
         String Category = drpCategory.getSelectedItem().toString();
         
-        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            int execute = st.executeUpdate(query);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        double MaxRP = 0.0, WholesaleP = 0.0;
         
-        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        model.setRowCount(0);
-        String search = txtSearch.getText();
-        String[] results = new String[7];
+        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
+            boolean result = false;
 
-        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            if (result == false) {
+                try {
+                    MaxRP = Double.parseDouble(MRP);
+                    WholesaleP = Double.parseDouble(WSP);
+                    
+                    result = true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
+                }
 
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
+                if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
+                }
+                
+                else if (result){
+                    String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
 
-                model.addRow(results);
-              }
-            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+                    DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+                    model.setRowCount(0);
+                    String search = txtSearch.getText();
+                    String[] results = new String[7];
+
+             String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query1);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("brandName");
+                    results[2] = rs.getString("prodName");
+                    results[3] = rs.getString("size");
+                    results[4] = rs.getString("wsp");
+                    results[5] = rs.getString("mrp");
+                    results[6] = rs.getString("category");
+
+                    model.addRow(results);
+                  }
+                JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+                    }
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
+            }
+               
         txtProductID1.setText(" ");
         txtBrandName1.setText(" ");
         txtProductName1.setText(" ");
@@ -755,7 +782,12 @@ public class AddProduct extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         String ProdID = txtProductID1.getText();
         
-        String query = "DELETE FROM products_tab WHERE prodID="+ProdID+";";
+        if(ProdID.equals("")||(ProdID.equals(null)))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Please select a record to delete.");
+        }
+        else{
+            String query = "DELETE FROM products_tab WHERE prodID="+ProdID+";";
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
@@ -798,11 +830,11 @@ public class AddProduct extends javax.swing.JFrame {
         txtWholesalePrice1.setText(" ");
         txtMRP1.setText(" ");
         txtSize1.setText(" ");
-        txtSearch.setText(" ");
+        txtSearch.setText(" ");            
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        txtProductID.setText(" ");
         txtBrandName.setText(" ");
         txtProductName.setText(" ");
         txtWholesalePrice.setText(" ");
@@ -832,7 +864,6 @@ public class AddProduct extends javax.swing.JFrame {
 
         String WholesaleP = txtWholesalePrice.getText();
 
-        int PID = 0;
         double MRP = 0, WSP = 0;
 
         String Category = "";
@@ -852,7 +883,6 @@ public class AddProduct extends javax.swing.JFrame {
 
             if (result == false) {
                 try {
-                    //PID = Integer.parseInt(ProductID);
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
                     
@@ -861,7 +891,7 @@ public class AddProduct extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0)) {
+                if ((MRP <= 0.0) || (WSP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
@@ -872,7 +902,6 @@ public class AddProduct extends javax.swing.JFrame {
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
                         
-                        txtProductID.setText(" ");
                         txtBrandName.setText(" ");
                         txtProductName.setText(" ");
                         txtWholesalePrice.setText(" ");
@@ -963,12 +992,41 @@ public class AddProduct extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String search = txtSearch.getText();
         String query = "";
+        String category = cmbCategory.getSelectedItem().toString();
+        
         if(search.equals("")||search.equals(null)){
-            query = "SELECT * FROM products_tab;";
+            if(category.equalsIgnoreCase("NONE"))
+            {
+                query = "SELECT * FROM products_tab;";
+            }
+            
+            if(category.equalsIgnoreCase("DRUGS"))
+            {
+                query = "SELECT * FROM products_tab WHERE category='Drugs';";
+            }
+            
+            if(category.equalsIgnoreCase("COSMETICS"))
+            {
+                query = "SELECT * FROM products_tab WHERE category='Cosmetics';";
+            }
+            
         }
         else
         {
-            query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+            if(category.equalsIgnoreCase("NONE"))
+            {
+                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+            }
+            
+            if(category.equalsIgnoreCase("DRUGS"))
+            {
+                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Drugs';";
+            }
+            
+            if(category.equalsIgnoreCase("Cosmetics"))
+            {
+                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Cosmetics';";
+            }            
         }
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         model.setRowCount(0);
@@ -992,10 +1050,10 @@ public class AddProduct extends javax.swing.JFrame {
                 model.addRow(results);
             }
             
-            if(results[6].equals("Drugs")){
+            if(results[6].equalsIgnoreCase("Drugs")){
                 drpCategory.setSelectedItem("Drugs");
             }
-            else if(results[6].equals("COSMETICS")){
+            else if(results[6].equalsIgnoreCase("Cosmetics")){
                 drpCategory.setSelectedItem("Cosmetics");
             }
 
@@ -1081,6 +1139,7 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JComboBox<String> cmbCategory;
     private javax.swing.JComboBox<String> drpCategory;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel10;
@@ -1105,7 +1164,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1118,6 +1176,7 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblFilter;
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblStock;
@@ -1129,7 +1188,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtBrandName1;
     private javax.swing.JTextField txtMRP;
     private javax.swing.JTextField txtMRP1;
-    private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtProductID1;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtProductName1;

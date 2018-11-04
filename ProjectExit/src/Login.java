@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -28,6 +29,8 @@ Connection conn=null;
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        
         
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -87,6 +90,11 @@ Connection conn=null;
 
         jLabel5.setForeground(new java.awt.Color(0, 102, 255));
         jLabel5.setText("Forgot Password?");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo3.png"))); // NOI18N
 
@@ -210,7 +218,8 @@ Connection conn=null;
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-                String Email = txtEmailLogin.getText();
+  
+        String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
                 String[] results = new String[3];
                 
@@ -258,12 +267,18 @@ Connection conn=null;
                 {
                     JOptionPane.showMessageDialog(null, e);
                 }
-             
+         
     }//GEN-LAST:event_btnLoginKeyPressed
 
     private void txtPasswordloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordloginMouseClicked
         txtPasswordlogin.setText("");
     }//GEN-LAST:event_txtPasswordloginMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+       ForgotPassword frame = new ForgotPassword();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
