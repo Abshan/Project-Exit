@@ -762,7 +762,15 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-     
+       DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
+       model1.setRowCount(0);
+       txtUserIDMan.setText("");
+       txtUserNameMan.setText("");
+       txtEmailMan.setText("");
+       txtNICMan.setText("");
+       txtPasswordMan.setText("");
+       
+      
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -921,7 +929,15 @@ public class CreateAccount extends javax.swing.JFrame {
                 model.removeRow(tblDetailsTable.getSelectedRow());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-                    }        
+                    }   
+        
+      
+       txtUserIDMan.setText("");
+       txtUserNameMan.setText("");
+       txtEmailMan.setText("");
+       txtNICMan.setText("");
+       txtPasswordMan.setText("");
+       
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
@@ -947,9 +963,15 @@ public class CreateAccount extends javax.swing.JFrame {
         String search = txtSearchManage.getText();
         String[] results = new String[6];
         String roleFilter = cmbRoleFilter.getSelectedItem().toString();
+        String query="";
+        
+        if((search.equals(""))|| (search.equals(null)))
+        {
+            query = "select * from user_tab;";
+        }
         
         if(roleFilter.equalsIgnoreCase("NONE")){        
-            String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
             try{
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
@@ -972,7 +994,7 @@ public class CreateAccount extends javax.swing.JFrame {
         }
         else
         {
-            String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%' AND role='" +roleFilter+ "';";
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%' AND role='" +roleFilter+ "';";
             try{
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
