@@ -220,7 +220,6 @@
                                               <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel34" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -230,7 +229,6 @@
                                               <Component id="txtProductName" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtBrandName" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtSize" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtProductID" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -250,11 +248,6 @@
                                   <EmptySpace min="57" pref="57" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtProductID" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="txtBrandName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -279,7 +272,7 @@
                                               <Component id="txtSize" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="btnAddProduct" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -360,13 +353,6 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtSize">
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel9">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="PRODUCT ID:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="txtProductID">
                         </Component>
                         <Component class="javax.swing.JRadioButton" name="rdoDrugs">
                           <Properties>

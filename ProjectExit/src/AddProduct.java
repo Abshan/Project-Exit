@@ -39,6 +39,7 @@ public class AddProduct extends javax.swing.JFrame {
         ButtonGroup ProductType = new ButtonGroup();
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
+        txtProductID1.setEditable(false);
     }
 
     /**
@@ -75,8 +76,6 @@ public class AddProduct extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
         txtSize = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtProductID = new javax.swing.JTextField();
         rdoDrugs = new javax.swing.JRadioButton();
         rdoCosmetics = new javax.swing.JRadioButton();
         jLabel30 = new javax.swing.JLabel();
@@ -176,8 +175,6 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel35.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel35.setText("PRODUCT CATEGORY");
 
-        jLabel9.setText("PRODUCT ID:");
-
         rdoDrugs.setText("Drugs");
 
         rdoCosmetics.setText("Cosmetics");
@@ -199,7 +196,6 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(jLabel32)
                             .addComponent(jLabel33)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel34))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -207,8 +203,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtWholesalePrice)
                             .addComponent(txtProductName)
                             .addComponent(txtBrandName)
-                            .addComponent(txtSize)
-                            .addComponent(txtProductID))))
+                            .addComponent(txtSize))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
@@ -222,10 +217,6 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(txtBrandName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -245,7 +236,7 @@ public class AddProduct extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34))
-                        .addGap(27, 27, 27)
+                        .addGap(63, 63, 63)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAddProduct)
                             .addComponent(btnCancel)))
@@ -802,7 +793,6 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        txtProductID.setText(" ");
         txtBrandName.setText(" ");
         txtProductName.setText(" ");
         txtWholesalePrice.setText(" ");
@@ -832,7 +822,6 @@ public class AddProduct extends javax.swing.JFrame {
 
         String WholesaleP = txtWholesalePrice.getText();
 
-        int PID = 0;
         double MRP = 0, WSP = 0;
 
         String Category = "";
@@ -852,7 +841,6 @@ public class AddProduct extends javax.swing.JFrame {
 
             if (result == false) {
                 try {
-                    //PID = Integer.parseInt(ProductID);
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
                     
@@ -861,7 +849,7 @@ public class AddProduct extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0)) {
+                if ((MRP <= 0.0) || (WSP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
@@ -872,7 +860,6 @@ public class AddProduct extends javax.swing.JFrame {
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
                         
-                        txtProductID.setText(" ");
                         txtBrandName.setText(" ");
                         txtProductName.setText(" ");
                         txtWholesalePrice.setText(" ");
@@ -1105,7 +1092,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1129,7 +1115,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtBrandName1;
     private javax.swing.JTextField txtMRP;
     private javax.swing.JTextField txtMRP1;
-    private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtProductID1;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtProductName1;

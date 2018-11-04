@@ -24,6 +24,7 @@ public class CreateAccount extends javax.swing.JFrame {
      */
     public CreateAccount() {
         initComponents();
+        txtUserIDMan.setEditable(false);
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
@@ -63,8 +64,6 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         btnCreate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        txtUserID = new javax.swing.JTextField();
         txtConfirmPassword = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         cmbRole = new javax.swing.JComboBox<>();
@@ -250,8 +249,6 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("USER ID:");
-
         jLabel13.setText("ROLE:");
 
         cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
@@ -279,7 +276,6 @@ public class CreateAccount extends javax.swing.JFrame {
                             .addComponent(jLabel33)
                             .addComponent(jLabel34)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel13))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -287,7 +283,6 @@ public class CreateAccount extends javax.swing.JFrame {
                             .addComponent(txtNIC)
                             .addComponent(txtEmail)
                             .addComponent(txtUserName)
-                            .addComponent(txtUserID)
                             .addComponent(txtConfirmPassword)
                             .addComponent(cmbRole, 0, 268, Short.MAX_VALUE))))
                 .addContainerGap(316, Short.MAX_VALUE))
@@ -295,11 +290,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9)
-                    .addComponent(txtUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(93, 93, 93)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -698,7 +689,7 @@ public class CreateAccount extends javax.swing.JFrame {
         boolean pass = false;
 
         try {
-            if ((txtUserID.getText().equals("")) || (txtUserName.getText().equals("")) || txtEmail.getText().equals("") || txtNIC.getText().equals("") || txtPassword.getText().equals("") || txtConfirmPassword.getText().equals("")) {
+            if ((txtUserName.getText().equals("")) || txtEmail.getText().equals("") || txtNIC.getText().equals("") || txtPassword.getText().equals("") || txtConfirmPassword.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Please fill out the blank fields");
             } else {
                 if (!(txtEmail.getText().equals(""))) {
@@ -727,8 +718,6 @@ public class CreateAccount extends javax.swing.JFrame {
             }
 
             if ((pass == true) && (email == true) && (NICCheck == true)) {
-
-                String UserID = txtUserID.getText();
                 String UserName = txtUserName.getText();
                 String Email = txtEmail.getText();
                 String NIC = txtNIC.getText();
@@ -743,8 +732,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     int execute = st.executeUpdate(query);
 
                     JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-                    
-                    txtUserID.setText("");
+
                     txtUserName.setText("");
                     txtEmail.setText("");
                     txtNIC.setText("");
@@ -759,7 +747,6 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        txtUserID.setText("");
         txtUserName.setText("");
         txtEmail.setText("");
         txtNIC.setText("");
@@ -1103,7 +1090,6 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1130,7 +1116,6 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPasswordMan;
     private javax.swing.JTextField txtSearchManage;
-    private javax.swing.JTextField txtUserID;
     private javax.swing.JTextField txtUserIDMan;
     private javax.swing.JTextField txtUserName;
     private javax.swing.JTextField txtUserNameMan;
