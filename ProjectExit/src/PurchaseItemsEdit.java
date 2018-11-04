@@ -137,11 +137,11 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
 
         jLabel16.setText("UNIT PRICE:");
 
-        berror.setForeground(new java.awt.Color(153, 0, 0));
+        berror.setForeground(new java.awt.Color(0, 0, 0));
 
-        qerror.setForeground(new java.awt.Color(153, 0, 0));
+        qerror.setForeground(new java.awt.Color(0, 0, 0));
 
-        uerror.setForeground(new java.awt.Color(153, 0, 0));
+        uerror.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
@@ -398,7 +398,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             qerror.setText("");
             }
         } catch (Exception e) {
-            qerror.setText("Invalid!");
+            qerror.setText("*invalid");
         }
         
         try {
@@ -408,7 +408,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             berror.setText("");
             }
         } catch (Exception e) {
-            berror.setText("Invalid!");
+            berror.setText("*invalid");
         }
         
         try {
@@ -419,7 +419,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             uerror.setText("");
             }
         } catch (Exception e) {
-            uerror.setText("Invalid!");
+            uerror.setText("*invalid");
         }
 
 
