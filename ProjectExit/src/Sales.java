@@ -17,6 +17,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import org.codehaus.groovy.syntax.Types;
 
 //Check changes
 
@@ -38,8 +41,20 @@ public class Sales extends javax.swing.JFrame {
         lblErrorSR.setVisible(false);
         lblErrorR.setVisible(false);
         lblErrorOS.setVisible(false);
-        lblQtySum.setText(Double.toString(getTotalQuantity()));
-        lblTotalAmt.setText(Double.toString(getTotalAmount()));
+        lblQtySum.setText(Integer.toString(getTotalQuantity()));
+        lblTotalAmt.setText(Integer.toString(getTotalAmount()));
+        
+        tblCreateSO.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                    lblQtySum.setText(getTotalQuantity()+"");
+                    lblTotalAmt.setText(getTotalAmount()+"");
+                }
+            }
+        });
+        
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
@@ -53,10 +68,7 @@ public class Sales extends javax.swing.JFrame {
     
     public int getTotalQuantity(){
         int rowcount = tblCreateSO.getRowCount();
-        int total = 0;
-        for(int i = 0; i < rowcount; i++){
-            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 2).toString());
-        }
+        int total = rowcount;
         return total;
     }
     
@@ -64,7 +76,7 @@ public class Sales extends javax.swing.JFrame {
         int rowcount = tblCreateSO.getRowCount();
         int total = 0;
         for(int i = 0; i < rowcount; i++){
-            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 4).toString());
+            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 5).toString());
         }
         return total;
     }
@@ -338,16 +350,23 @@ public class Sales extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, false, true, true, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblCreateSO.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(tblCreateSO);
         if (tblCreateSO.getColumnModel().getColumnCount() > 0) {
+            tblCreateSO.getColumnModel().getColumn(0).setResizable(false);
+            tblCreateSO.getColumnModel().getColumn(1).setResizable(false);
             tblCreateSO.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(jComboBox9));
+            tblCreateSO.getColumnModel().getColumn(2).setResizable(false);
+            tblCreateSO.getColumnModel().getColumn(3).setResizable(false);
+            tblCreateSO.getColumnModel().getColumn(4).setResizable(false);
+            tblCreateSO.getColumnModel().getColumn(5).setResizable(false);
         }
 
         btnCreate.setText("CREATE");
@@ -409,13 +428,9 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("TOTAL QUANTITY:");
-
-        lblQtySum.setText("jLabel3");
+        jLabel1.setText("NO. OF ITEMS:");
 
         jLabel2.setText("TOTAL AMOUNT:");
-
-        lblTotalAmt.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -646,11 +661,25 @@ public class Sales extends javax.swing.JFrame {
             new String [] {
                 "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblReviewSales.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(tblReviewSales);
         if (tblReviewSales.getColumnModel().getColumnCount() > 0) {
+            tblReviewSales.getColumnModel().getColumn(0).setResizable(false);
             tblReviewSales.getColumnModel().getColumn(1).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(2).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(3).setResizable(false);
             tblReviewSales.getColumnModel().getColumn(4).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(5).setResizable(false);
+            tblReviewSales.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jLabel12.setText("SEARCH:");
@@ -876,6 +905,11 @@ public class Sales extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jTable5);
 
         jButton8.setText("GENERATE SALES REPORT");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("SALES MANAGER:");
 
@@ -1363,32 +1397,37 @@ public class Sales extends javax.swing.JFrame {
 
             String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
             
-            model.setRowCount(0);
-            String[] results = new String[3];
+           
+            String[] results = new String[4];
           
             String query = "SELECT * FROM salesItems_tab WHERE soNumber=" + SONum + ";";
-//            String query2 = "SELECT * FROM sales_tab WHERE soNumber=" + SONum + ";";
+            String query2 = "SELECT * FROM sales_tab WHERE soNumber=" + SONum + ";";
             try {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
-//                Statement st2 = con.createStatement();
+                Statement st2 = con.createStatement();
                 ResultSet rs = st.executeQuery(query);
-//                ResultSet rs2 = st.executeQuery(query2);
-//                while (rs2.next()) {
-//                    viewItems.lblSalesRep.setText(rs2.getString("salesRep"));
-//                    viewItems.lblRegion.setText(rs2.getString("region"));
-//                    viewItems.lblCustomerPhone.setText(rs2.getString("customerPhone"));
-//                }
+                ResultSet rs2 = st2.executeQuery(query2);
+                if (rs2.next()) {
+                    viewItems.lblSalesRep.setText(rs2.getString("salesRep"));
+                    viewItems.lblRegion.setText(rs2.getString("region"));
+                    viewItems.lblCustomerPhone.setText(rs2.getString("customerPhone"));
+                }
 
-//                
-//                int price = rs.getInt("unitPrice");
-//                int quant = rs.getInt("quantity");
+                
+                
                 while (rs.next()) {
                     results[0] = rs.getString("prodName");
                     results[1] = rs.getString("batchNo");
                     results[2] = rs.getString("quantity");
 
-//                    results[3] = (quant*price);
+                    int price = rs.getInt("unitPrice");
+                    int quant = rs.getInt("quantity");
+                    int subtotal = price*quant;
+                    
+                    String subt = Integer.toString(subtotal);
+
+                    results[3] = subt;
 
                     model2.addRow(results);
                 }
@@ -1460,10 +1499,14 @@ public class Sales extends javax.swing.JFrame {
             
 
             String query = "DELETE FROM sales_tab WHERE soNumber=" +SONum+ ";";
+            String query2 = "DELETE FROM salesItems_tab WHERE soNumber=" +SONum+ ";";
             try {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
+                Statement st2 = con.createStatement();
+                int execute2 = st2.executeUpdate(query2);
                 int execute = st.executeUpdate(query);
+                
                 JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -1680,6 +1723,10 @@ public class Sales extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

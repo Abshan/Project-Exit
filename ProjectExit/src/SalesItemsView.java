@@ -1,3 +1,8 @@
+
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +20,32 @@ public class SalesItemsView extends javax.swing.JFrame {
      */
     public SalesItemsView() {
         initComponents();
+        
+        tblViewSalesOrder.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                    lblQtySum.setText(getTotalQuantity()+"");
+                    lblSum.setText(getTotalAmount()+"");
+                }
+            }
+        });
+    }
+    
+    public int getTotalQuantity(){
+        int rowcount = tblViewSalesOrder.getRowCount();
+        int total = rowcount;
+        return total;
+    }
+    
+    public int getTotalAmount(){
+        int rowcount = tblViewSalesOrder.getRowCount();
+        int total = 0;
+        for(int i = 0; i < rowcount; i++){
+            total +=Integer.parseInt(tblViewSalesOrder.getValueAt(i, 3).toString());
+        }
+        return total;
     }
 
     /**
@@ -65,10 +96,22 @@ public class SalesItemsView extends javax.swing.JFrame {
             new String [] {
                 "ITEM NAME", "BATCH NUMBER", "QUANTITY", "SUB TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblViewSalesOrder.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblViewSalesOrder);
         if (tblViewSalesOrder.getColumnModel().getColumnCount() > 0) {
             tblViewSalesOrder.getColumnModel().getColumn(0).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(1).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(2).setResizable(false);
+            tblViewSalesOrder.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnClose.setText("CLOSE");
@@ -100,7 +143,7 @@ public class SalesItemsView extends javax.swing.JFrame {
 
         lblSum.setText("jLabel3");
 
-        jLabel1.setText("TOTAL QUANTITY:");
+        jLabel1.setText("NO. OF ITEMS:");
 
         lblQtySum.setText("jLabel3");
 
@@ -276,7 +319,8 @@ public class SalesItemsView extends javax.swing.JFrame {
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
-        
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrder.getModel();
+        model.setRowCount(0);
         this.dispose();
         
     }//GEN-LAST:event_btnCloseActionPerformed

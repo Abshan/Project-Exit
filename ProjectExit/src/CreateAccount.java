@@ -38,11 +38,11 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        lblProducts = new javax.swing.JLabel();
+        lblPurchase = new javax.swing.JLabel();
+        lblSales = new javax.swing.JLabel();
+        lblStock = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -103,38 +103,48 @@ public class CreateAccount extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("USER");
-        jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
-
-        jLabel2.setText("PRODUCTS");
-        jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblUser.setText("USER");
+        lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
+        lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lblUserMouseClicked(evt);
+            }
+        });
+        lblUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lblUserKeyPressed(evt);
             }
         });
 
-        jLabel3.setText("PURCHASE");
-        jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblProducts.setText("PRODUCTS");
+        lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                lblProductsMouseClicked(evt);
             }
         });
 
-        jLabel4.setText("SALES");
-        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblPurchase.setText("PURCHASE");
+        lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                lblPurchaseMouseClicked(evt);
             }
         });
 
-        jLabel5.setText("STOCK");
-        jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSales.setText("SALES");
+        lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblSales.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                lblSalesMouseClicked(evt);
+            }
+        });
+
+        lblStock.setText("STOCK");
+        lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblStockMouseClicked(evt);
             }
         });
 
@@ -149,11 +159,11 @@ public class CreateAccount extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPurchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -164,15 +174,15 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel1)
+                .addComponent(lblUser)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(lblProducts)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lblPurchase)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(lblSales)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(lblStock)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7)
                 .addContainerGap())
@@ -793,41 +803,58 @@ public class CreateAccount extends javax.swing.JFrame {
         model1.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-
+    private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        if(UserModel.userRole.equals("ADMIN")){
         AddProduct proframe = new AddProduct();
         proframe.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_lblProductsMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-
-        Purchase purframe = new Purchase();
-        purframe.setVisible(true);
-        this.dispose();
-
+    private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Purchase frame = new Purchase();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
 // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_lblPurchaseMouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
 
-        Sales salframe = new Sales();
-        salframe.setVisible(true);
+         if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
+        Sales frame = new Sales();
+        frame.setVisible(true);
         this.dispose();
-
+        }
+        else
+        {
+             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
 // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_lblSalesMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
 
-        Stock stoframe = new Stock();
-        stoframe.setVisible(true);
+       if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
+        Stock frame = new Stock();
+        frame.setVisible(true);
         this.dispose();
-
+        }
+        else
+        {
+              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_lblStockMouseClicked
 
     private void cmbRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleActionPerformed
         // TODO add your handling code here:
@@ -933,6 +960,14 @@ public class CreateAccount extends javax.swing.JFrame {
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblUserMouseClicked
+
+    private void lblUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblUserKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblUserKeyPressed
      
     
     /**
@@ -982,29 +1017,24 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbRoleMan;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1021,6 +1051,11 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblProducts;
+    private javax.swing.JLabel lblPurchase;
+    private javax.swing.JLabel lblSales;
+    private javax.swing.JLabel lblStock;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JTable tblDetailsTable;
     private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtEmail;
