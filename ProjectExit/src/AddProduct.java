@@ -615,6 +615,11 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1019,6 +1024,21 @@ public class AddProduct extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnGenerateProdListActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        int pop = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
+        if(result == 0){
+                    
+        UserModel.loginName = "";
+        UserModel.userRole = "";
+
+        Login frame = new Login();
+        frame.setVisible(true);
+        this.dispose();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -47,7 +47,7 @@ public class Purchase extends javax.swing.JFrame {
 
             @Override
             public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE || e.getType() == TableModelEvent.UPDATE) {
                     sum.setText(getSum() + "");
                 }
             }
@@ -821,7 +821,7 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if (pno > 10000 && pno < 1000000) {
+            if (pno > 9999 && pno < 1000000) {
                 p = pno;
             }
             pval = true;
@@ -999,12 +999,17 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        int pop = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
+        if(result == 0){
+                    
         UserModel.loginName = "";
         UserModel.userRole = "";
 
         Login frame = new Login();
         frame.setVisible(true);
         this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
