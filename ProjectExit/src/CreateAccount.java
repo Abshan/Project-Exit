@@ -464,7 +464,12 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "STOCK CONTROLLER", "SALES MANAGER" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("PASSOWORD:");
 
@@ -475,6 +480,11 @@ public class CreateAccount extends javax.swing.JFrame {
         });
 
         cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
+        cmbRoleMan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRoleManActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("ROLE:");
 
@@ -544,14 +554,14 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnClear))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClear)
+                        .addGap(47, 47, 47))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -887,8 +897,15 @@ public class CreateAccount extends javax.swing.JFrame {
         String v5 = tblDetailsTable.getModel().getValueAt(row, 4).toString();
         txtPasswordMan.setText(v5);
 
-        // String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
-        // txtrole.setText(v6);
+        String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
+        
+        if(v6.equals("ADMIN")){
+             cmbRoleMan.setSelectedItem("ADMIN");
+        }
+                    
+        if(v6.equals("SALES MANAGER")){
+            cmbRoleMan.setSelectedItem("SALES MANAGER");
+        }
 
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
@@ -955,7 +972,8 @@ public class CreateAccount extends javax.swing.JFrame {
             
                 model.addRow(results);
             }
-                       
+            
+                                              
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
@@ -979,6 +997,14 @@ public class CreateAccount extends javax.swing.JFrame {
         frame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+       
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void cmbRoleManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleManActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbRoleManActionPerformed
      
     
     /**
