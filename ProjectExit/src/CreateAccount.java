@@ -88,7 +88,7 @@ public class CreateAccount extends javax.swing.JFrame {
         tblDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbRoleFilter = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txtNICMan = new javax.swing.JTextField();
         txtPasswordMan = new javax.swing.JTextField();
@@ -464,10 +464,10 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "STOCK CONTROLLER", "SALES MANAGER" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cmbRoleFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "ADMIN", "STOCK CONTROLLER", "SALES MANAGER" }));
+        cmbRoleFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cmbRoleFilterActionPerformed(evt);
             }
         });
 
@@ -518,7 +518,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cmbRoleFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
@@ -570,7 +570,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRoleFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
@@ -897,14 +897,18 @@ public class CreateAccount extends javax.swing.JFrame {
         String v5 = tblDetailsTable.getModel().getValueAt(row, 4).toString();
         txtPasswordMan.setText(v5);
 
-        String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
+        String v6 = tblDetailsTable.getModel().getValueAt(row, 5).toString();
         
-        if(v6.equals("ADMIN")){
+        if(v6.equalsIgnoreCase("ADMIN")){
              cmbRoleMan.setSelectedItem("ADMIN");
         }
                     
-        if(v6.equals("SALES MANAGER")){
+        if(v6.equalsIgnoreCase("SALES MANAGER")){
             cmbRoleMan.setSelectedItem("SALES MANAGER");
+        }
+        
+        if(v6.equalsIgnoreCase("STOCK CONTROLLER")){
+            cmbRoleMan.setSelectedItem("STOCK CONTROLLER");
         }
 
     }//GEN-LAST:event_tblDetailsTableMouseClicked
@@ -955,28 +959,52 @@ public class CreateAccount extends javax.swing.JFrame {
         model.setRowCount(0);
         String search = txtSearchManage.getText();
         String[] results = new String[6];
+        String roleFilter = cmbRoleFilter.getSelectedItem().toString();
         
-        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
-        try{
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            
-            while(rs.next()){
-                results[0] = rs.getString("userID");
-                results[1] = rs.getString("userName");
-                results[2] = rs.getString("email");
-                results[3] = rs.getString("nic");
-                results[4] = rs.getString("password");
-                results[5] = rs.getString("role");                             
-            
-                model.addRow(results);
+        if(roleFilter.equalsIgnoreCase("NONE")){        
+            String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
             }
-            
-                                              
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+        else
+        {
+            String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%' AND role='" +roleFilter+ "';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -998,9 +1026,9 @@ public class CreateAccount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cmbRoleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleFilterActionPerformed
        
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cmbRoleFilterActionPerformed
 
     private void cmbRoleManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleManActionPerformed
         // TODO add your handling code here:
@@ -1051,9 +1079,9 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbRole;
+    private javax.swing.JComboBox<String> cmbRoleFilter;
     private javax.swing.JComboBox<String> cmbRoleMan;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

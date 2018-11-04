@@ -992,10 +992,10 @@ public class AddProduct extends javax.swing.JFrame {
                 model.addRow(results);
             }
             
-            if(results[6].equals("Drugs")){
+            if(results[6].equalsIgnoreCase("Drugs")){
                 drpCategory.setSelectedItem("Drugs");
             }
-            else if(results[6].equals("COSMETICS")){
+            else if(results[6].equalsIgnoreCase("Cosmetics")){
                 drpCategory.setSelectedItem("Cosmetics");
             }
 
