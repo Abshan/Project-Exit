@@ -172,7 +172,7 @@ public class Sales extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tblViewSalesOrders = new javax.swing.JTable();
         jButton8 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -872,7 +872,7 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblViewSalesOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -888,13 +888,13 @@ public class Sales extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable5.getTableHeader().setReorderingAllowed(false);
-        jScrollPane6.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(0).setResizable(false);
-            jTable5.getColumnModel().getColumn(2).setResizable(false);
-            jTable5.getColumnModel().getColumn(5).setResizable(false);
-            jTable5.getColumnModel().getColumn(6).setResizable(false);
+        tblViewSalesOrders.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(tblViewSalesOrders);
+        if (tblViewSalesOrders.getColumnModel().getColumnCount() > 0) {
+            tblViewSalesOrders.getColumnModel().getColumn(0).setResizable(false);
+            tblViewSalesOrders.getColumnModel().getColumn(2).setResizable(false);
+            tblViewSalesOrders.getColumnModel().getColumn(5).setResizable(false);
+            tblViewSalesOrders.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jButton8.setText("GENERATE SALES REPORT");
@@ -1431,15 +1431,15 @@ public class Sales extends javax.swing.JFrame {
             reviewSales.dpReqDate.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString());
 
             String chkStat = model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString();
-            if (chkStat == "AWAITING FULFILLMENT") {
+            if (chkStat.equals("AWAITING FULFILLMENT")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(0);
 
-            } else if (chkStat == "COMPLETED") {
+            } else if (chkStat.equals("COMPLETED")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(1);
 
-            } else if (chkStat == "CANCELLED") {
+            } else if (chkStat.equals("CANCELLED")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(2);
 
@@ -1477,11 +1477,12 @@ public class Sales extends javax.swing.JFrame {
                     int execute2 = st2.executeUpdate(query2);
                     int execute = st.executeUpdate(query);
 
+                    model.removeRow(tblReviewSales.getSelectedRow());
                     JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-                model.removeRow(tblReviewSales.getSelectedRow());
+                
             }
 
         }
@@ -1658,17 +1659,17 @@ public class Sales extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
+        Connection con = dbConnect.getConnection();
 
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
         String[] results = new String[7];
+        
 
         String query = "SELECT * FROM sales_tab";
         try {
-            Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
-
             while (rs.next()) {
                 results[0] = rs.getString("soNumber");
                 results[1] = rs.getString("orderedDate");
@@ -1680,10 +1681,38 @@ public class Sales extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
+        
+        
+        DefaultTableModel model2 = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model2.setRowCount(0);
+        String[] results2 = new String[9];
+        String query2 = "SELECT * FROM sales_tab";
+        try {
+            Statement st2 = con.createStatement();
+            ResultSet rs2 = st2.executeQuery(query2);
+            while (rs2.next()) {
+                results2[0] = rs2.getString("soNumber");
+                results2[1] = rs2.getString("orderedDate");
+                results2[2] = rs2.getString("reqDate");
+                results2[3] = rs2.getString("customerName");
+                results2[4] = rs2.getString("orderCreatedBy");
+                results2[5] = rs2.getString("salesRep");
+                results2[6] = rs2.getString("region");
+                results2[7] = rs2.getString("orderStatus");
+                results2[8] = rs2.getString("total");
+
+                model2.addRow(results2);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB2");
+        }
+
+
+        
+        
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -1818,7 +1847,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable5;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker4;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker5;
     private javax.swing.JLabel lblErrorCN;
@@ -1836,6 +1864,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;
+    private javax.swing.JTable tblViewSalesOrders;
     public javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     public javax.swing.JTextField txtSONumber;

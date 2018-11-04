@@ -475,27 +475,51 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_drpFilterActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+        if(UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
         AddProduct frame = new AddProduct();
         frame.setVisible(true);
-        this.dispose();
+        this.dispose();}
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
+        if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
         Sales frame = new Sales();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
+              
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
@@ -503,18 +527,9 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchStockKeyTyped
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        int pop = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
-        if(result == 0){
-                    
-        UserModel.loginName = "";
-        UserModel.userRole = "";
-
         Login frame = new Login();
         frame.setVisible(true);
         this.dispose();
-        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**

@@ -199,12 +199,14 @@ Connection conn=null;
                 }
                 catch(Exception e)
                 {
-                    JOptionPane.showMessageDialog(null, e);
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
                 }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        // TODO add your handling code here:
+        ForgotPassword frame = new ForgotPassword();
+        frame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
@@ -233,6 +235,17 @@ Connection conn=null;
                                     frame.setVisible(true);
                                     this.dispose();
                                 }
+                                if(UserModel.userRole.equals("STOCK CONTROLLER")){
+                                    Stock frame = new Stock();
+                                    frame.setVisible(true);
+                                    this.dispose();
+                                }
+                                if(UserModel.userRole.equals("SALES MANAGER")){
+                                    Sales frame = new Sales();
+                                    frame.setVisible(true);
+                                    this.dispose();
+                                }
+                                
                             }
                     else
                     {

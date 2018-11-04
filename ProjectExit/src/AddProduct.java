@@ -39,6 +39,7 @@ public class AddProduct extends javax.swing.JFrame {
         ButtonGroup ProductType = new ButtonGroup();
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
+        txtProductID1.setEditable(false);
     }
 
     /**
@@ -75,8 +76,6 @@ public class AddProduct extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
         txtSize = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtProductID = new javax.swing.JTextField();
         rdoDrugs = new javax.swing.JRadioButton();
         rdoCosmetics = new javax.swing.JRadioButton();
         jLabel30 = new javax.swing.JLabel();
@@ -176,8 +175,6 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel35.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel35.setText("PRODUCT CATEGORY");
 
-        jLabel9.setText("PRODUCT ID:");
-
         rdoDrugs.setText("Drugs");
 
         rdoCosmetics.setText("Cosmetics");
@@ -199,7 +196,6 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(jLabel32)
                             .addComponent(jLabel33)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel34))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -207,8 +203,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtWholesalePrice)
                             .addComponent(txtProductName)
                             .addComponent(txtBrandName)
-                            .addComponent(txtSize)
-                            .addComponent(txtProductID))))
+                            .addComponent(txtSize))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
@@ -222,10 +217,6 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(txtBrandName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -245,7 +236,7 @@ public class AddProduct extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34))
-                        .addGap(27, 27, 27)
+                        .addGap(63, 63, 63)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAddProduct)
                             .addComponent(btnCancel)))
@@ -706,43 +697,70 @@ public class AddProduct extends javax.swing.JFrame {
         String MRP = txtMRP1.getText();
         String Category = drpCategory.getSelectedItem().toString();
         
-        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            int execute = st.executeUpdate(query);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        double MaxRP = 0.0, WholesaleP = 0.0;
         
-        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        model.setRowCount(0);
-        String search = txtSearch.getText();
-        String[] results = new String[7];
+        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
+            boolean result = false;
 
-        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            if (result == false) {
+                try {
+                    MaxRP = Double.parseDouble(MRP);
+                    WholesaleP = Double.parseDouble(WSP);
+                    
+                    result = true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
+                }
 
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
+                if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
+                }
+                
+                else if (result){
+                    String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
 
-                model.addRow(results);
-              }
-            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+                    DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+                    model.setRowCount(0);
+                    String search = txtSearch.getText();
+                    String[] results = new String[7];
+
+             String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query1);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("brandName");
+                    results[2] = rs.getString("prodName");
+                    results[3] = rs.getString("size");
+                    results[4] = rs.getString("wsp");
+                    results[5] = rs.getString("mrp");
+                    results[6] = rs.getString("category");
+
+                    model.addRow(results);
+                  }
+                JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+                    }
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
+            }
+               
         txtProductID1.setText(" ");
         txtBrandName1.setText(" ");
         txtProductName1.setText(" ");
@@ -802,7 +820,6 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        txtProductID.setText(" ");
         txtBrandName.setText(" ");
         txtProductName.setText(" ");
         txtWholesalePrice.setText(" ");
@@ -832,7 +849,6 @@ public class AddProduct extends javax.swing.JFrame {
 
         String WholesaleP = txtWholesalePrice.getText();
 
-        int PID = 0;
         double MRP = 0, WSP = 0;
 
         String Category = "";
@@ -852,7 +868,6 @@ public class AddProduct extends javax.swing.JFrame {
 
             if (result == false) {
                 try {
-                    //PID = Integer.parseInt(ProductID);
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
                     
@@ -861,7 +876,7 @@ public class AddProduct extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                 }
 
-                if (/*(PID <= 0) ||*/(MRP <= 0.0) || (WSP <= 0.0)) {
+                if ((MRP <= 0.0) || (WSP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
@@ -872,7 +887,6 @@ public class AddProduct extends javax.swing.JFrame {
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
                         
-                        txtProductID.setText(" ");
                         txtBrandName.setText(" ");
                         txtProductName.setText(" ");
                         txtWholesalePrice.setText(" ");
@@ -992,10 +1006,10 @@ public class AddProduct extends javax.swing.JFrame {
                 model.addRow(results);
             }
             
-            if(results[6].equals("Drugs")){
+            if(results[6].equalsIgnoreCase("Drugs")){
                 drpCategory.setSelectedItem("Drugs");
             }
-            else if(results[6].equals("COSMETICS")){
+            else if(results[6].equalsIgnoreCase("Cosmetics")){
                 drpCategory.setSelectedItem("Cosmetics");
             }
 
@@ -1026,18 +1040,10 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateProdListActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        int pop = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
-        if(result == 0){
-                    
-        UserModel.loginName = "";
-        UserModel.userRole = "";
-
         Login frame = new Login();
         frame.setVisible(true);
         this.dispose();
-        }
+       
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
@@ -1113,7 +1119,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1137,7 +1142,6 @@ public class AddProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtBrandName1;
     private javax.swing.JTextField txtMRP;
     private javax.swing.JTextField txtMRP1;
-    private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtProductID1;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtProductName1;
