@@ -79,6 +79,11 @@ Connection conn=null;
         });
 
         txtPasswordlogin.setText("jPasswordField1");
+        txtPasswordlogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPasswordloginMouseClicked(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(0, 102, 255));
         jLabel5.setText("Forgot Password?");
@@ -172,6 +177,17 @@ Connection conn=null;
                                     CreateAccount frame = new CreateAccount();
                                     frame.setVisible(true);
                                     this.dispose();
+                                   
+                                }
+                                if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+                                     Stock frame = new Stock();
+                                     frame.setVisible(true);
+                                     this.dispose();
+                                }
+                                if (UserModel.userRole.equals("SALES MANAGER")) {
+                                     Sales frame = new Sales();
+                                     frame.setVisible(true);
+                                     this.dispose();
                                 }
                             }
                     else
@@ -231,6 +247,10 @@ Connection conn=null;
                 }
              
     }//GEN-LAST:event_btnLoginKeyPressed
+
+    private void txtPasswordloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordloginMouseClicked
+        txtPasswordlogin.setText("");
+    }//GEN-LAST:event_txtPasswordloginMouseClicked
 
     /**
      * @param args the command line arguments
