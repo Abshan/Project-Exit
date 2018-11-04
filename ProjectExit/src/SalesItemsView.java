@@ -1,4 +1,6 @@
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -18,6 +20,32 @@ public class SalesItemsView extends javax.swing.JFrame {
      */
     public SalesItemsView() {
         initComponents();
+        
+        tblViewSalesOrder.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                    lblQtySum.setText(getTotalQuantity()+"");
+                    lblSum.setText(getTotalAmount()+"");
+                }
+            }
+        });
+    }
+    
+    public int getTotalQuantity(){
+        int rowcount = tblViewSalesOrder.getRowCount();
+        int total = rowcount;
+        return total;
+    }
+    
+    public int getTotalAmount(){
+        int rowcount = tblViewSalesOrder.getRowCount();
+        int total = 0;
+        for(int i = 0; i < rowcount; i++){
+            total +=Integer.parseInt(tblViewSalesOrder.getValueAt(i, 3).toString());
+        }
+        return total;
     }
 
     /**
@@ -115,7 +143,7 @@ public class SalesItemsView extends javax.swing.JFrame {
 
         lblSum.setText("jLabel3");
 
-        jLabel1.setText("TOTAL QUANTITY:");
+        jLabel1.setText("NO. OF ITEMS:");
 
         lblQtySum.setText("jLabel3");
 

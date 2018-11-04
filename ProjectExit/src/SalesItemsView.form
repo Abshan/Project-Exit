@@ -345,7 +345,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="TOTAL QUANTITY:"/>
+                <Property name="text" type="java.lang.String" value="NO. OF ITEMS:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblQtySum">
