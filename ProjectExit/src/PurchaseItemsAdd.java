@@ -340,7 +340,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         try {
             bat = Integer.parseInt(batchNo);
-            if(bat>100  &&  bat < 1000000){
+            if(bat>1000  &&  bat < 1000000){
             bVal = true;
             berror.setText("");
             }

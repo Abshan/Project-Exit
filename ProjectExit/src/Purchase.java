@@ -53,6 +53,8 @@ public class Purchase extends javax.swing.JFrame {
                 }
             }
         });
+        
+        
     }
 
     public int index;
@@ -821,7 +823,7 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if (pno > 1000 && pno < 100000) {
+            if (pno > 10000 && pno < 1000000) {
                 p = pno;
             }
             pval = true;
@@ -832,7 +834,7 @@ public class Purchase extends javax.swing.JFrame {
 
         if (pid == "" || ven == "" || date == "") {
             JOptionPane.showMessageDialog(null, "Please fill the blank fields!");
-        } else if (rows == 0) {
+        } else if (jTable9.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "No Items Have Been Added!");
         } else if (getValidation(p)) {
             JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");

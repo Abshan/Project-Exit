@@ -184,7 +184,13 @@ public class PurchaseReport extends javax.swing.JFrame {
         if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null) {
             d1 = df.format(jXDatePicker1.getDate());
             d2 = df.format(jXDatePicker2.getDate());
-            query = "select * from purchase_tab where purchaseDate BETWEEN '" + d1 + "' AND '" + d2 + "' ";
+            if (jXDatePicker1.getDate().before(jXDatePicker2.getDate())) {
+                query = "select * from purchase_tab where purchaseDate BETWEEN '" + d1 + "' AND '" + d2 + "' ";
+            } else {
+
+                JOptionPane.showMessageDialog(null, "First date is set after second date!");
+
+            }
         } else {
             d1 = null;
             d2 = null;
@@ -222,6 +228,8 @@ public class PurchaseReport extends javax.swing.JFrame {
         if (date1 == null && date2 != null) {
             String query = "select * from purchase_tab where purchaseDate < '" + date2 + "' ";
         }*/
+        
+        if(query != ""){
         try {
             InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\purchaseReport.jrxml"));
             JasperDesign jd = JRXmlLoader.load(in);
@@ -238,6 +246,7 @@ public class PurchaseReport extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+        }
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -246,11 +255,11 @@ public class PurchaseReport extends javax.swing.JFrame {
         // TODO add your handling code here:
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
-        
+
         /*LocalDate date = LocalDate.now().minusDays(365);
         JOptionPane.showMessageDialog(null, date);*/
 
-        /*Date d = new Date();
+ /*Date d = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate= dateFormat.format(d);
         JOptionPane.showMessageDialog(null, formattedDate);*/
