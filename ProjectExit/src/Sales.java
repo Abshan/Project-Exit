@@ -1431,15 +1431,15 @@ public class Sales extends javax.swing.JFrame {
             reviewSales.dpReqDate.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString());
 
             String chkStat = model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString();
-            if (chkStat == "AWAITING FULFILLMENT") {
+            if (chkStat.equals("AWAITING FULFILLMENT")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(0);
 
-            } else if (chkStat == "COMPLETED") {
+            } else if (chkStat.equals("COMPLETED")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(1);
 
-            } else if (chkStat == "CANCELLED") {
+            } else if (chkStat.equals("CANCELLED")) {
 
                 reviewSales.cmbStatus.setSelectedIndex(2);
 
