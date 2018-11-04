@@ -328,10 +328,25 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "SIZE", "EXP DATE", "MANF DATE", "QUANITYT", "AMOUNT"
+                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "MANF DATE", "EXP DATE", "QUANTITY"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblViewStock);
+        if (tblViewStock.getColumnModel().getColumnCount() > 0) {
+            tblViewStock.getColumnModel().getColumn(0).setResizable(false);
+            tblViewStock.getColumnModel().getColumn(1).setResizable(false);
+            tblViewStock.getColumnModel().getColumn(3).setResizable(false);
+            tblViewStock.getColumnModel().getColumn(4).setResizable(false);
+            tblViewStock.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jLabel7.setText("SEARCH:");
 
@@ -341,9 +356,9 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("FILTER BY:");
+        jLabel8.setText("SORT BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "HIGHEST TO LOWEST", "LOW IN STOCK", " ", " " }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "OLDEST TO NEWSET", "HIGH IN STOCK", "LOW IN STOCK" }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -369,24 +384,23 @@ public class Stock extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGap(110, 110, 110))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8)
-                        .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnSearch1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );
 
