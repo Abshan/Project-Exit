@@ -697,43 +697,70 @@ public class AddProduct extends javax.swing.JFrame {
         String MRP = txtMRP1.getText();
         String Category = drpCategory.getSelectedItem().toString();
         
-        String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            int execute = st.executeUpdate(query);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        double MaxRP = 0.0, WholesaleP = 0.0;
         
-        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        model.setRowCount(0);
-        String search = txtSearch.getText();
-        String[] results = new String[7];
+        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
+            boolean result = false;
 
-        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            if (result == false) {
+                try {
+                    MaxRP = Double.parseDouble(MRP);
+                    WholesaleP = Double.parseDouble(WSP);
+                    
+                    result = true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
+                }
 
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
+                if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
+                }
+                
+                else if (result){
+                    String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
 
-                model.addRow(results);
-              }
-            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+                    DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+                    model.setRowCount(0);
+                    String search = txtSearch.getText();
+                    String[] results = new String[7];
+
+             String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query1);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("brandName");
+                    results[2] = rs.getString("prodName");
+                    results[3] = rs.getString("size");
+                    results[4] = rs.getString("wsp");
+                    results[5] = rs.getString("mrp");
+                    results[6] = rs.getString("category");
+
+                    model.addRow(results);
+                  }
+                JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+                    }
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
+            }
+               
         txtProductID1.setText(" ");
         txtBrandName1.setText(" ");
         txtProductName1.setText(" ");
