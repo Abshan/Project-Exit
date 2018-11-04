@@ -48,7 +48,43 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         }
 
     }
-   
+    
+//    public void getBatchNo() {
+//
+//        try {
+//            Connection con = dbConnect.getConnection();
+//            String qury = "select * from stocks_tab";
+//            ResultSet rs;
+//            PreparedStatement pst = con.prepareStatement(qury);
+//            rs = pst.executeQuery();
+//
+//            while (rs.next()) {
+//                String batNo = rs.getString("batchNo");
+//                txtBatchNo.addItem(batNo);
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
+//
+//    }
+//   
+    
+    public boolean getValidation(String itmNam, String batchNo){
+        boolean ret = false;
+        
+        DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
+        for (int i = 0; i < Sales.tblCreateSO.getRowCount(); i++) {
+          String itnam = Sales.tblCreateSO.getModel().getValueAt(i, 1).toString();
+          String bthNo = Sales.tblCreateSO.getModel().getValueAt(i, 2).toString();
+          
+          if((itnam.equals(itmNam)) && (bthNo.equals(batchNo))){
+              ret = true;
+          }
+        
+    }
+        return ret;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -262,6 +298,12 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         }else{
             lblErrItem.setText("");
         }
+        
+//        if(txtBatchNo.getSelectedIndex() == -1){
+//            lblErrBatNo.setText("*invalid");
+//        }else{
+//            lblErrBatNo.setText("");
+//        }
 
         if (rateSel == "MRP") {
             try {
@@ -303,7 +345,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         if ((!txtBatchNo.getText().equals("")) && !(txtItemName.getSelectedIndex()==-1) && !(txtQuantity.getText().equals(""))) {
             
-            if(qVal == true && bVal == true){
+            if((getValidation(txtItemName.getSelectedItem().toString(),txtBatchNo.getText()))){
+                JOptionPane.showMessageDialog(null, "Select Different BatchNo!");
+            }else if(qVal == true && bVal == true){
                 model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getText(), txtQuantity.getText(),
                 pid, subT});
 

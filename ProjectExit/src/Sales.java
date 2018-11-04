@@ -50,6 +50,109 @@ public class Sales extends javax.swing.JFrame {
         });
 
     }
+
+    public boolean getValidation(int soNum) {
+
+        Connection con = dbConnect.getConnection();
+        Statement st;
+        ResultSet rs;
+        Boolean stat = false;
+        String req = "SELECT soNumber FROM sales_tab where soNumber = " + soNum + "";
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(req);
+            rs.isBeforeFirst();
+            stat = rs.isBeforeFirst();;
+
+            rs.close();
+            st.close();
+            con.close();
+
+        } catch (Exception e) {
+        }
+        return stat;
+    }
+
+    public void searchFrom(String s) {
+        Connection con = dbConnect.getConnection();
+
+        Date dateFilterFromTemp = dpFrom.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search1 = df.format(dateFilterFromTemp);
+
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[7];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
+    }
+
+    public void searchTo(String s) {
+
+        Connection con = dbConnect.getConnection();
+
+        Date dateFilterToTemp = dpTo.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        search2 = df.format(dateFilterToTemp);
+
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[7];
+
+        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
+        try {
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("soNumber");
+                results[1] = rs.getString("orderedDate");
+                results[2] = rs.getString("reqDate");
+                results[3] = rs.getString("customerName");
+                results[4] = rs.getString("orderCreatedBy");
+                results[5] = rs.getString("total");
+                results[6] = rs.getString("orderStatus");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        }
+
+    }
+
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public String search;
@@ -1121,7 +1224,7 @@ public class Sales extends javax.swing.JFrame {
         cmbRegion.setSelectedIndex(-1);
         cmbSalesRep.setSelectedIndex(-1);
         dpReqDate.setDate(null);
-        
+
         lblErrorSON.setText("");
         lblErrorCN.setText("");
         lblErrorCP.setText("");
@@ -1129,8 +1232,6 @@ public class Sales extends javax.swing.JFrame {
         lblErrorR.setText("");
         lblErrorOS.setText("");
         lblErrorRD.setText("");
-        
-                
 
 //        tblCreateSO.clearSelection();
         DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
@@ -1152,16 +1253,16 @@ public class Sales extends javax.swing.JFrame {
         String soNumber = txtSONumber.getText();
         String customerName = txtCustomerName.getText();
         String customerPhone = txtCustomerPhone.getText();
-        String salesRep = (String)cmbSalesRep.getSelectedItem();
-        String region = (String)cmbRegion.getSelectedItem();
-        String orderStatus = (String)cmbOrderStatus.getSelectedItem();
+        String salesRep = (String) cmbSalesRep.getSelectedItem();
+        String region = (String) cmbRegion.getSelectedItem();
+        String orderStatus = (String) cmbOrderStatus.getSelectedItem();
         String orderCreatedBy = UserModel.loginName;
         Date reqDate = dpReqDate.getDate();
 
         Date soDate = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String orderDate = df.format(soDate);
-        String rd =  "";//df.format(reqDate);
+        String rd = "";//df.format(reqDate);
         String r = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1186,9 +1287,11 @@ public class Sales extends javax.swing.JFrame {
 
         try {
             soNum = Integer.parseInt(soNumber);
-            if (soNum > 999 && soNum < 1000000) {
+            if ((soNum > 999) && (soNum < 1000000)) {
                 soNo = true;
                 lblErrorSON.setText("");
+            } else {
+                lblErrorSON.setText("*invalid");
             }
         } catch (Exception e) {
             lblErrorSON.setText("*invalid");
@@ -1199,6 +1302,8 @@ public class Sales extends javax.swing.JFrame {
             if (customerPhone.length() == 10) {
                 cusPno = true;
                 lblErrorCP.setText("");
+            } else {
+                lblErrorCP.setText("*invalid");
             }
         } catch (Exception e) {
             lblErrorCP.setText("*invalid");
@@ -1222,11 +1327,12 @@ public class Sales extends javax.swing.JFrame {
             lblErrorOS.setText("");
         }
 
-        if(txtCustomerName.getText().equals("")) {
+        if (txtCustomerName.getText().equals("")) {
             lblErrorCN.setText("*invalid");
-        }else{
+        } else {
             lblErrorCN.setText("");
         }
+
         String total = lblTotalAmt.getText().toString();
 
         if (!(txtSONumber.getText().equals("")) && !(txtCustomerName.getText().equals("")) && !(txtCustomerPhone.getText().equals("")) && !(cmbSalesRep.getSelectedIndex() == -1)
@@ -1234,41 +1340,45 @@ public class Sales extends javax.swing.JFrame {
 
             int rows = tblCreateSO.getRowCount();
 
-            if ((soNo == true) && (cusPno == true) && (reqDat == true)) {
+            if ((getValidation(Integer.parseInt(soNumber)))) {
+
+                JOptionPane.showMessageDialog(null, "SO Number Already Exists!");
+
+            } else if ((soNo == true) && (cusPno == true) && (reqDat == true)) {
 
                 try {
 
-                    if(tblCreateSO.getRowCount() != 0){
-                    Statement st = con.createStatement();
-                    String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
-                    int execute = st.executeUpdate(query);
+                    if (tblCreateSO.getRowCount() != 0) {
+                        Statement st = con.createStatement();
+                        String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                        int execute = st.executeUpdate(query);
 
-                    for (int row = 0; row < rows; row++) {
+                        for (int row = 0; row < rows; row++) {
 
-                        String itemCode = tblCreateSO.getValueAt(row, 0).toString();
-                        String itemName = tblCreateSO.getValueAt(row, 1).toString();
-                        String batchNum = tblCreateSO.getValueAt(row, 2).toString();
-                        int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
-                        double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
-                        double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
+                            String itemCode = tblCreateSO.getValueAt(row, 0).toString();
+                            String itemName = tblCreateSO.getValueAt(row, 1).toString();
+                            String batchNum = tblCreateSO.getValueAt(row, 2).toString();
+                            int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
+                            double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
+                            double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
 
-                        String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
+                            String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
 //                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
-                        int execute2 = st.executeUpdate(Query2);
+                            int execute2 = st.executeUpdate(Query2);
 //                    int execute3 = st.executeUpdate(Query3);
-                    }
+                        }
 
-                    JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
-                    txtSONumber.setText("");
-                    txtCustomerName.setText("");
-                    txtCustomerPhone.setText("");
-                    cmbOrderStatus.setSelectedIndex(-1);
-                    cmbRegion.setSelectedIndex(-1);
-                    cmbSalesRep.setSelectedIndex(-1);
-                    dpReqDate.setDate(null);
-                    DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
-                    model.setRowCount(0);
-                    }else{
+                        JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
+                        txtSONumber.setText("");
+                        txtCustomerName.setText("");
+                        txtCustomerPhone.setText("");
+                        cmbOrderStatus.setSelectedIndex(-1);
+                        cmbRegion.setSelectedIndex(-1);
+                        cmbSalesRep.setSelectedIndex(-1);
+                        dpReqDate.setDate(null);
+                        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+                        model.setRowCount(0);
+                    } else {
                         JOptionPane.showMessageDialog(null, "No Items Added");
                     }
                 } catch (Exception e) {
@@ -1456,7 +1566,7 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         Connection con = dbConnect.getConnection();
-        
+
         if (tblReviewSales.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row to delete!");
         } else {
@@ -1482,7 +1592,7 @@ public class Sales extends javax.swing.JFrame {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-                
+
             }
 
         }
@@ -1492,101 +1602,64 @@ public class Sales extends javax.swing.JFrame {
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
         // TODO add your handling code here:
 
+        Connection con = dbConnect.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         Date dateFilterFromTemp = dpFrom.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         search1 = df.format(dateFilterFromTemp);
+        Date given;
 
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
+        if (search2 != null) {
 
-        String[] results = new String[7];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
+            searchTo(search2);
+            try {
+                for (int i = 0; i < tblReviewSales.getRowCount(); i++) {
+                    given = df.parse(tblReviewSales.getModel().getValueAt(i, 2).toString());
+                    if (df.parse(search1).after(given)) {
+                        model.removeRow(i);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        } else {
+//            search1 = df.format(dateFilterFromTemp);
+            
+            searchFrom(search1);
         }
-//        
-//        if(dpTo.getDate() != null){
-//                      
-//            model.setRowCount(0);
-//        
-//        results = new String[7];
-//
-//        String query2 = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "%'  ;";
-//        try {
-//            Connection con = dbConnect.getConnection();
-//            Statement st = con.createStatement();
-//            ResultSet rs = st.executeQuery(query2);
-//
-//            while (rs.next()) {
-//                results[0] = rs.getString("soNumber");
-//                results[1] = rs.getString("orderedDate");
-//                results[2] = rs.getString("reqDate");
-//                results[3] = rs.getString("customerName");
-//                results[4] = rs.getString("orderCreatedBy");
-//                results[5] = rs.getString("total");
-//                results[6] = rs.getString("orderStatus");
-//
-//                model.addRow(results);
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-//        }
-//            
-//        }
-
     }//GEN-LAST:event_dpFromActionPerformed
 
     private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
         // TODO add your handling code here:
 
+        Connection con = dbConnect.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         Date dateFilterToTemp = dpTo.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         search2 = df.format(dateFilterToTemp);
+        Date given;
 
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
+        if (search1 != null) {
 
-        String[] results = new String[7];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
+            searchFrom(search1);
+            try {
+                for (int i = 0; i < tblReviewSales.getRowCount(); i++) {
+                    given = df.parse(tblReviewSales.getModel().getValueAt(i, 2).toString());
+                    if (df.parse(search2).before(given)) {
+                        model.removeRow(i);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+        } else {
+
+//            search2 = df.format(dateFilterToTemp);
+
+            searchTo(search2);
+
         }
     }//GEN-LAST:event_dpToActionPerformed
 
@@ -1664,7 +1737,6 @@ public class Sales extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
         String[] results = new String[7];
-        
 
         String query = "SELECT * FROM sales_tab";
         try {
@@ -1684,8 +1756,7 @@ public class Sales extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
-        
-        
+
         DefaultTableModel model2 = (DefaultTableModel) tblViewSalesOrders.getModel();
         model2.setRowCount(0);
         String[] results2 = new String[9];
@@ -1710,24 +1781,23 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB2");
         }
 
-
-        
-        
+        dpTo.setDate(null);
+        dpFrom.setDate(null);
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         int pop = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?","Logout",pop);
-        if(result == 0){
-                    
-        UserModel.loginName = "";
-        UserModel.userRole = "";
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
+        if (result == 0) {
 
-        Login frame = new Login();
-        frame.setVisible(true);
-        this.dispose();
+            UserModel.loginName = "";
+            UserModel.userRole = "";
+
+            Login frame = new Login();
+            frame.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
