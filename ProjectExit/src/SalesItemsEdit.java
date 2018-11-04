@@ -50,6 +50,9 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         btnCanecl = new javax.swing.JButton();
         cmbRateSel = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        lblErrQuantity = new javax.swing.JLabel();
+        lblErrBatNo = new javax.swing.JLabel();
+        lblErrItem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,9 +121,15 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(31, 31, 31)
-                        .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(lblErrItem)
+                                .addGap(18, 18, 18)
+                                .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblErrBatNo)
+                            .addComponent(lblErrQuantity))))
+                .addContainerGap(206, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,15 +145,18 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrItem))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrBatNo))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrQuantity))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,11 +202,39 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         int index = Sales.tblCreateSO.getSelectedRow();
 
         String batchNo = txtBatchNo.getText();
-        String itemName = txtItemName.getText();
+//        String itemName = txtItemName.getText();
         String rateSel = cmbRateSel.getSelectedItem().toString();
-        int quantity = Integer.parseInt(txtQuantity.getText());
+        String quantity = txtQuantity.getText();
         int pid = 0;
         int realpid = 0;
+        
+        double price = 0;
+        int subT = 0;
+        int quan = 0;
+        int bat = 0;
+        boolean qVal = false;
+        boolean bVal = false;
+
+        try {
+            quan = Integer.parseInt(quantity);
+            if(quan>0){
+            qVal = true;
+            lblErrQuantity.setText("");
+            }
+        } catch (Exception e) {
+            lblErrQuantity.setText("*invalid");
+        }
+
+        try {
+            bat = Integer.parseInt(batchNo);
+            if(bat>100  &&  bat < 1000000){
+            bVal = true;
+            lblErrBatNo.setText("");
+            }
+        } catch (Exception e) {
+            lblErrBatNo.setText("*invalid");
+        }
+        
 
         if (rateSel == "MRP") {
             try {
@@ -228,9 +268,11 @@ public class SalesItemsEdit extends javax.swing.JFrame {
             
         }
         
-        int subT = pid*quantity;
+        if (qVal == true && bVal == true) {
+            subT = pid * quan;   //quantity
+        }
 
-        if ((batchNo != "") && (itemName != "") && /*(manf != "") && (exp != "") &&*/ (quantity != 0)) {
+        if ((!txtBatchNo.getText().equals("")) && !(txtQuantity.getText().equals(""))) {
 
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(batchNo, index, 2);
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(quantity, index, 3);
@@ -308,6 +350,9 @@ public class SalesItemsEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblErrBatNo;
+    private javax.swing.JLabel lblErrItem;
+    private javax.swing.JLabel lblErrQuantity;
     public javax.swing.JTextField txtBatchNo;
     public javax.swing.JTextField txtItemName;
     public javax.swing.JTextField txtQuantity;

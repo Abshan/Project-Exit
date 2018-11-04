@@ -244,7 +244,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             lblErrQuantity.setText("");
             }
         } catch (Exception e) {
-            lblErrQuantity.setText("Invalid!");
+            lblErrQuantity.setText("*invalid");
         }
 
         try {
@@ -254,11 +254,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             lblErrBatNo.setText("");
             }
         } catch (Exception e) {
-            lblErrBatNo.setText("Invalid!");
+            lblErrBatNo.setText("*invalid");
         }
         
         if(txtItemName.getSelectedIndex() == -1){
-            lblErrItem.setText("Invalid");
+            lblErrItem.setText("*invalid");
         }else{
             lblErrItem.setText("");
         }
@@ -300,28 +300,6 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         if (qVal == true && bVal == true) {
             subT = pid * quan;   //quantity
         }
-//        if (!(jTextField1.getText().equals("")) || !(jComboBox1.getSelectedIndex() == 0) || !(y1.getText().equals("")) || !(m1.getText().equals("")) || !(d1.getText().equals(""))
-//                || !(y2.getText().equals("")) || !(m2.getText().equals("")) || !(d2.getText().equals("")) || !(jTextField3.getText().equals("")) || !(pr.getText().equals(""))) {
-//
-//            if (datVal == true && qVal == true && bVal == true && pVal == true) {
-//
-//                model.addRow(new Object[]{batchNo, pid, itemName,
-//                    y1.getText() + "-" + m1.getText() + "-" + d1.getText(),
-//                    y2.getText() + "-" + m2.getText() + "-" + d2.getText(),
-//                    jTextField3.getText(), Unit, price * quan});
-//
-//                JOptionPane.showMessageDialog(rootPane, "Added");
-//
-//                dispose();
-//                
-//
-//            } else {
-//
-//                JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
-//        }
 
         if ((!txtBatchNo.getText().equals("")) && !(txtItemName.getSelectedIndex()==-1) && !(txtQuantity.getText().equals(""))) {
             
@@ -331,7 +309,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
             dispose();
 
-            JOptionPane.showMessageDialog(rootPane, "Added!");
+//            JOptionPane.showMessageDialog(rootPane, "Added!");
             
 
             } else {

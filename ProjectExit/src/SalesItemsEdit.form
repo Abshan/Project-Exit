@@ -106,11 +106,19 @@
                                       <Component id="txtBatchNo" min="-2" pref="202" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="cmbRateSel" min="-2" pref="71" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblErrItem" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="cmbRateSel" min="-2" pref="71" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lblErrBatNo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblErrQuantity" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="206" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -132,16 +140,19 @@
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtItemName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cmbRateSel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblErrItem" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtBatchNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblErrBatNo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblErrQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="121" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -225,6 +236,12 @@
                   <Image iconType="3" name="/Images/AUXANO-Logo2.png"/>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblErrQuantity">
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblErrBatNo">
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblErrItem">
             </Component>
           </SubComponents>
         </Container>

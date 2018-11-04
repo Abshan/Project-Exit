@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.codehaus.groovy.syntax.Types;
+import org.krysalis.barcode4j.tools.Length;
 
 //Check changes
-
 /**
  *
  * @author it16350342
@@ -35,54 +35,44 @@ public class Sales extends javax.swing.JFrame {
      */
     public Sales() {
         initComponents();
-        lblErrorSON.setVisible(false);
-        lblErrorCN.setVisible(false);
-        lblErrorCP.setVisible(false);
-        lblErrorRD.setVisible(false);
-        lblErrorSR.setVisible(false);
-        lblErrorR.setVisible(false);
-        lblErrorOS.setVisible(false);
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
-        
+
         tblCreateSO.getModel().addTableModelListener(new TableModelListener() {
 
             @Override
             public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
-                    lblQtySum.setText(getTotalQuantity()+"");
-                    lblTotalAmt.setText(getTotalAmount()+"");
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE || e.getType() == TableModelEvent.UPDATE) {
+                    lblQtySum.setText(getTotalQuantity() + "");
+                    lblTotalAmt.setText(getTotalAmount() + "");
                 }
             }
         });
-        
+
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public String search;
     public String search1;
     public String search2;
-    
-    
+
     public int count;
     public int index;
-    
-    public int getTotalQuantity(){
+
+    public int getTotalQuantity() {
         int rowcount = tblCreateSO.getRowCount();
         int total = rowcount;
         return total;
     }
-    
-    public int getTotalAmount(){
+
+    public int getTotalAmount() {
         int rowcount = tblCreateSO.getRowCount();
         int total = 0;
-        for(int i = 0; i < rowcount; i++){
-            total +=Integer.parseInt(tblCreateSO.getValueAt(i, 5).toString());
+        for (int i = 0; i < rowcount; i++) {
+            total += Integer.parseInt(tblCreateSO.getValueAt(i, 5).toString());
         }
         return total;
     }
-
-    
 
     SalesItemsView viewItems = new SalesItemsView();
     SalesItemsEdit editItems = new SalesItemsEdit();
@@ -134,7 +124,6 @@ public class Sales extends javax.swing.JFrame {
         btnCreate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        cmbOrderStatus = new javax.swing.JComboBox<>();
         jLabel31 = new javax.swing.JLabel();
         cmbRegion = new javax.swing.JComboBox<>();
         lblErrorSON = new javax.swing.JLabel();
@@ -151,6 +140,7 @@ public class Sales extends javax.swing.JFrame {
         lblQtySum = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblTotalAmt = new javax.swing.JLabel();
+        cmbOrderStatus = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -339,7 +329,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel8.setText("ORDER CREATED BY:");
 
-        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
+        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jone" }));
         cmbSalesRep.setSelectedIndex(-1);
 
         tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
@@ -386,27 +376,10 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel13.setText("ORDER STATUS:");
 
-        cmbOrderStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
-        cmbOrderStatus.setSelectedIndex(-1);
-
         jLabel31.setText("REGION:");
 
-        cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH ", "EAST", "WEST" }));
+        cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH", "EAST", "WEST" }));
         cmbRegion.setSelectedIndex(-1);
-
-        lblErrorSON.setText("*Invalid");
-
-        lblErrorCN.setText("*Invalid");
-
-        lblErrorCP.setText("*Invalid");
-
-        lblErrorRD.setText("*Invalid");
-
-        lblErrorSR.setText("*Invalid");
-
-        lblErrorR.setText("*Invalid");
-
-        lblErrorOS.setText("*Invalid");
 
         btnAddTab.setText("ADD");
         btnAddTab.addActionListener(new java.awt.event.ActionListener() {
@@ -433,6 +406,9 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel2.setText("TOTAL AMOUNT:");
 
+        cmbOrderStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
+        cmbOrderStatus.setSelectedIndex(-1);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -457,31 +433,32 @@ public class Sales extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblErrorCN)
                         .addComponent(lblErrorSON)))
-                .addGap(111, 111, 111)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(62, 62, 62))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addGap(62, 62, 62))
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel31)
+                                    .addGap(133, 133, 133)))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel31)
-                                .addGap(133, 133, 133)))
+                                .addComponent(jLabel13)
+                                .addGap(87, 87, 87)))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtUser)
-                            .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cmbRegion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblErrorSR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblErrorR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblErrorOS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblErrorOS))
+                .addGap(48, 48, 48))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -530,8 +507,8 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrorOS)))
+                            .addComponent(lblErrorOS)
+                            .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
@@ -900,10 +877,25 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "S.O. NUMBER", "CUSTOMER", "DATE", "ITEM", "REGION", "ORDERED", "RATE", "AMOUNT", "STATUS"
+                "S.O. NUMBER", "ORDERED DATE", "REQ DATE", "CUS NAME", "SALES MAN", "SALES REP", "REGION", "ORDER STATUS", "TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable5.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(jTable5);
+        if (jTable5.getColumnModel().getColumnCount() > 0) {
+            jTable5.getColumnModel().getColumn(0).setResizable(false);
+            jTable5.getColumnModel().getColumn(2).setResizable(false);
+            jTable5.getColumnModel().getColumn(5).setResizable(false);
+            jTable5.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         jButton8.setText("GENERATE SALES REPORT");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -1129,188 +1121,167 @@ public class Sales extends javax.swing.JFrame {
         cmbRegion.setSelectedIndex(-1);
         cmbSalesRep.setSelectedIndex(-1);
         dpReqDate.setDate(null);
-
-        lblErrorSON.setVisible(false);
-        lblErrorCN.setVisible(false);
-        lblErrorCP.setVisible(false);
-        lblErrorRD.setVisible(false);
-        lblErrorSR.setVisible(false);
-        lblErrorR.setVisible(false);
-        lblErrorOS.setVisible(false);
         
-//        tblCreateSO.clearSelection();
+        lblErrorSON.setText("");
+        lblErrorCN.setText("");
+        lblErrorCP.setText("");
+        lblErrorSR.setText("");
+        lblErrorR.setText("");
+        lblErrorOS.setText("");
+        lblErrorRD.setText("");
+        
+                
 
-        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel(); model.setRowCount(0);
-      
+//        tblCreateSO.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+        model.setRowCount(0);
+
 
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        int check = 0;
 
-        int soNumber;
-        String customerName;
-        int customerPhone;
-        String requiredDate;
-        String salesRep;
-        String region;
-        String orderStatus;
-        String orderDate;
+        Connection con = dbConnect.getConnection();
 
-//        try {
-//            if ((!"".equals(txtSONumber.getText())) && (txtSONumber.getText().length() == 4)) {
-        soNumber = Integer.parseInt(txtSONumber.getText());
-        check++;
-//                lblErrorSON.setVisible(false);
-//            } else {
-//
-//                lblErrorSON.setVisible(true);
-//            }
-//        } catch (HeadlessException | NumberFormatException e) {
-//
-//            lblErrorSON.setVisible(true);
-//        }
-//
-//
-//        try {
-//            if ((!"".equals(txtCustomerName.getText()))) {
-        customerName = txtCustomerName.getText();
-        check++;
-//                lblErrorCN.setVisible(false);
-//            } else {
-//
-//                lblErrorCN.setVisible(true);
-//            }
-//        } catch (HeadlessException e) {
-//
-//            lblErrorCN.setVisible(true);
-//        }
-//
-//        try {
-//            if ((!"".equals(txtCustomerPhone.getText())) && (txtCustomerPhone.getText().length() == 10)) {
-        customerPhone = Integer.parseInt(txtCustomerPhone.getText());
-        check++;
-//                lblErrorCP.setVisible(false);
-//            } else {
-//
-//                lblErrorCP.setVisible(true);
-//
-//            }
-//        } catch (HeadlessException | NumberFormatException e) {
-//
-//            lblErrorCP.setVisible(true);
-//
-//        }
-//
-//        try {
-//            if (dpReqDate.getDate() != null) {
-        Date requiredDatetemp = dpReqDate.getDate();
+        int soNum;
+        int cusPho;
+        boolean soNo = false;
+        boolean cusPno = false;
+        boolean reqDat = false;
+
+        String soNumber = txtSONumber.getText();
+        String customerName = txtCustomerName.getText();
+        String customerPhone = txtCustomerPhone.getText();
+        String salesRep = (String)cmbSalesRep.getSelectedItem();
+        String region = (String)cmbRegion.getSelectedItem();
+        String orderStatus = (String)cmbOrderStatus.getSelectedItem();
+        String orderCreatedBy = UserModel.loginName;
+        Date reqDate = dpReqDate.getDate();
+
+        Date soDate = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        requiredDate = df.format(requiredDatetemp);
-        check++;
-//                lblErrorRD.setVisible(false);
-//            } else {
-//
-//                lblErrorRD.setVisible(true);
-//            }
-//        } catch (HeadlessException e) {
-//
-//            lblErrorRD.setVisible(true);
-//        }
-//
-//        try {
-//            if (cmbSalesRep.getSelectedItem() != null) {
-        salesRep = (String) cmbSalesRep.getSelectedItem();
-        check++;
-//                lblErrorSR.setVisible(false);
-//            } else {
-//
-//                lblErrorSR.setVisible(true);
-//            }
-//        } catch (HeadlessException e) {
-//
-//            lblErrorSR.setVisible(true);
-//        }
-//
-//        try {
-//            if (cmbRegion.getSelectedItem() != null) {
-        region = (String) cmbRegion.getSelectedItem();
-        check++;
-//                lblErrorR.setVisible(false);
-//            } else {
-//
-//                lblErrorR.setVisible(true);
-//            }
-//        } catch (HeadlessException e) {
-//
-//            lblErrorR.setVisible(true);
-//        }
-//
-//        try {
-//            if (cmbOrderStatus.getSelectedItem() != null) {
-        orderStatus = (String) cmbOrderStatus.getSelectedItem();
-        check++;
-//                lblErrorOS.setVisible(false);
-//            } else {
-//
-//                lblErrorOS.setVisible(true);
-//            }
-//        } catch (HeadlessException e) {
-//
-//            lblErrorOS.setVisible(true);
-//        }
+        String orderDate = df.format(soDate);
+        String rd =  "";//df.format(reqDate);
+        String r = "";
 
-        String orderCreatedBy = "SalesMana";
-        String total = lblTotalAmt.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        if (check == 7) {
-            
-            Date soDate = new Date();
-            orderDate = df.format(soDate);
+        Date requiredDate, ordDate;
+        try {
+            rd = sdf.format(reqDate);
+            requiredDate = sdf.parse(rd);
+            ordDate = sdf.parse(orderDate);
 
-            int rows = tblCreateSO.getRowCount();
-            
-            
-            try {
-
- 
-                
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + requiredDate + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
-                int execute = st.executeUpdate(query);
-                
-
-                for (int row = 0; row < rows; row++) {
-                    
-                    String itemCode = tblCreateSO.getValueAt(row, 0).toString();
-                    String itemName = tblCreateSO.getValueAt(row, 1).toString();
-                    String batchNum = tblCreateSO.getValueAt(row, 2).toString();
-                    int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
-                    double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
-                    double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());                  
-
-                    String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
-//                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
-                    int execute2 = st.executeUpdate(Query2);
-//                    int execute3 = st.executeUpdate(Query3);
-                }
-
-                JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "DB Connection Error!");
+            if (requiredDate.before(ordDate)) {
+                lblErrorRD.setText("*invalid");
+            } else {
+                r = rd;
+                lblErrorRD.setText("");
+                reqDat = true;
             }
 
-            txtSONumber.setText("");
-            txtCustomerName.setText("");
-            txtCustomerPhone.setText("");
-            cmbOrderStatus.setSelectedIndex(-1);
-            cmbRegion.setSelectedIndex(-1);
-            cmbSalesRep.setSelectedIndex(-1);
-            dpReqDate.setDate(null);
-            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel(); model.setRowCount(0);
-
+        } catch (Exception e) {
+            lblErrorRD.setText("*invalid");
         }
+
+        try {
+            soNum = Integer.parseInt(soNumber);
+            if (soNum > 999 && soNum < 1000000) {
+                soNo = true;
+                lblErrorSON.setText("");
+            }
+        } catch (Exception e) {
+            lblErrorSON.setText("*invalid");
+        }
+
+        try {
+            cusPho = Integer.parseInt(soNumber);
+            if (customerPhone.length() == 10) {
+                cusPno = true;
+                lblErrorCP.setText("");
+            }
+        } catch (Exception e) {
+            lblErrorCP.setText("*invalid");
+        }
+
+        if (cmbSalesRep.getSelectedIndex() == -1) {
+            lblErrorSR.setText("*invalid");
+        } else {
+            lblErrorSR.setText("");
+        }
+
+        if (cmbRegion.getSelectedIndex() == -1) {
+            lblErrorR.setText("*invalid");
+        } else {
+            lblErrorR.setText("");
+        }
+
+        if (cmbOrderStatus.getSelectedIndex() == -1) {
+            lblErrorOS.setText("*invalid");
+        } else {
+            lblErrorOS.setText("");
+        }
+
+        if(txtCustomerName.getText().equals("")) {
+            lblErrorCN.setText("*invalid");
+        }else{
+            lblErrorCN.setText("");
+        }
+        String total = lblTotalAmt.getText().toString();
+
+        if (!(txtSONumber.getText().equals("")) && !(txtCustomerName.getText().equals("")) && !(txtCustomerPhone.getText().equals("")) && !(cmbSalesRep.getSelectedIndex() == -1)
+                && !(cmbRegion.getSelectedIndex() == -1) && !(cmbOrderStatus.getSelectedIndex() == -1) && !(dpReqDate.getDate() == null)) {
+
+            int rows = tblCreateSO.getRowCount();
+
+            if ((soNo == true) && (cusPno == true) && (reqDat == true)) {
+
+                try {
+
+                    if(tblCreateSO.getRowCount() != 0){
+                    Statement st = con.createStatement();
+                    String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                    int execute = st.executeUpdate(query);
+
+                    for (int row = 0; row < rows; row++) {
+
+                        String itemCode = tblCreateSO.getValueAt(row, 0).toString();
+                        String itemName = tblCreateSO.getValueAt(row, 1).toString();
+                        String batchNum = tblCreateSO.getValueAt(row, 2).toString();
+                        int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
+                        double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
+                        double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
+
+                        String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
+//                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
+                        int execute2 = st.executeUpdate(Query2);
+//                    int execute3 = st.executeUpdate(Query3);
+                    }
+
+                    JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
+                    txtSONumber.setText("");
+                    txtCustomerName.setText("");
+                    txtCustomerPhone.setText("");
+                    cmbOrderStatus.setSelectedIndex(-1);
+                    cmbRegion.setSelectedIndex(-1);
+                    cmbSalesRep.setSelectedIndex(-1);
+                    dpReqDate.setDate(null);
+                    DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+                    model.setRowCount(0);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No Items Added");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
+        }
+
 
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -1333,7 +1304,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnEditTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTabActionPerformed
         // TODO add your handling code here:
-        
+
         index = tblCreateSO.getSelectedRow();
         if (tblCreateSO.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row to edit!");
@@ -1356,25 +1327,25 @@ public class Sales extends javax.swing.JFrame {
             editItems.pack();
             editItems.setLocationRelativeTo(null);
         }
-        
+
     }//GEN-LAST:event_btnEditTabActionPerformed
 
     private void btnDeleteTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTabActionPerformed
         // TODO add your handling code here:
-        
+
         if (tblCreateSO.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row delete!");
         } else {
-            
+
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete?", "Delete item", dialogButton);
             if (dialogResult == 0) {
                 DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
                 model.removeRow(tblCreateSO.getSelectedRow());
-            } 
-            
+            }
+
         }
-        
+
     }//GEN-LAST:event_btnDeleteTabActionPerformed
 
     private void btnViewTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTabActionPerformed
@@ -1397,10 +1368,9 @@ public class Sales extends javax.swing.JFrame {
             viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString());
 
             String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
-            
-           
+
             String[] results = new String[4];
-          
+
             String query = "SELECT * FROM salesItems_tab WHERE soNumber=" + SONum + ";";
             String query2 = "SELECT * FROM sales_tab WHERE soNumber=" + SONum + ";";
             try {
@@ -1415,8 +1385,6 @@ public class Sales extends javax.swing.JFrame {
                     viewItems.lblCustomerPhone.setText(rs2.getString("customerPhone"));
                 }
 
-                
-                
                 while (rs.next()) {
                     results[0] = rs.getString("prodName");
                     results[1] = rs.getString("batchNo");
@@ -1424,8 +1392,8 @@ public class Sales extends javax.swing.JFrame {
 
                     int price = rs.getInt("unitPrice");
                     int quant = rs.getInt("quantity");
-                    int subtotal = price*quant;
-                    
+                    int subtotal = price * quant;
+
                     String subt = Integer.toString(subtotal);
 
                     results[3] = subt;
@@ -1486,51 +1454,50 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnDeleteSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSalesActionPerformed
         // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
         
         if (tblReviewSales.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a row to delete!");
         } else {
-            
+
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
-            
-            DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-            String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
-
-            
-
-            String query = "DELETE FROM sales_tab WHERE soNumber=" +SONum+ ";";
-            String query2 = "DELETE FROM salesItems_tab WHERE soNumber=" +SONum+ ";";
-            try {
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                Statement st2 = con.createStatement();
-                int execute2 = st2.executeUpdate(query2);
-                int execute = st.executeUpdate(query);
-                
-                JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
 
             if (dialogResult == 0) {
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
+
+                String query = "DELETE FROM sales_tab WHERE soNumber=" + SONum + ";";
+                String query2 = "DELETE FROM salesItems_tab WHERE soNumber=" + SONum + ";";
+                try {
+
+                    Statement st = con.createStatement();
+                    Statement st2 = con.createStatement();
+                    int execute2 = st2.executeUpdate(query2);
+                    int execute = st.executeUpdate(query);
+
+                    JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
                 model.removeRow(tblReviewSales.getSelectedRow());
-            } 
-            
+            }
+
         }
-        
+
     }//GEN-LAST:event_btnDeleteSalesActionPerformed
 
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
         // TODO add your handling code here:
-        
+
         Date dateFilterFromTemp = dpFrom.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         search1 = df.format(dateFilterFromTemp);
-        
+
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
-        
+
         String[] results = new String[7];
 
         String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
@@ -1589,14 +1556,14 @@ public class Sales extends javax.swing.JFrame {
 
     private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
         // TODO add your handling code here:
-        
+
         Date dateFilterToTemp = dpTo.getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         search2 = df.format(dateFilterToTemp);
-        
+
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
-        
+
         String[] results = new String[7];
 
         String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
@@ -1650,19 +1617,19 @@ public class Sales extends javax.swing.JFrame {
 //            }
 //        } catch (Exception e) {
 //        }
-     
+
     }//GEN-LAST:event_txtSearchSONumActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
         // TODO add your handling code here:
         search = txtSearchSONum.getText();
-        if(search == ""){
+        if (search == "") {
             JOptionPane.showMessageDialog(rootPane, "Search box empty!");
         }
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
-        
+
         String[] results = new String[7];
 
         String query = "SELECT * FROM sales_tab WHERE CONCAT(soNumber,customerName,customerPhone,orderCreatedBy,orderStatus) LIKE '%" + search + "%';";
@@ -1686,12 +1653,11 @@ public class Sales extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
-            
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-        
 
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
@@ -1718,7 +1684,7 @@ public class Sales extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
-    
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed

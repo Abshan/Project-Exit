@@ -40,6 +40,7 @@ public class SalesReport extends javax.swing.JFrame {
      */
     public SalesReport() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();

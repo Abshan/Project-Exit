@@ -25,7 +25,7 @@ public class SalesItemsView extends javax.swing.JFrame {
 
             @Override
             public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE) {
+                if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE || e.getType() == TableModelEvent.UPDATE) {
                     lblQtySum.setText(getTotalQuantity()+"");
                     lblSum.setText(getTotalAmount()+"");
                 }
