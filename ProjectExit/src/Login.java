@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
+import Models.UserModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -61,6 +62,11 @@ Connection conn=null;
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
+            }
+        });
+        btnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnLoginKeyPressed(evt);
             }
         });
 
@@ -142,11 +148,19 @@ Connection conn=null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-                String Email = txtEmailLogin.getText();
+      
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
+
+    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
+                 String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
-                String[] results = new String[7];
+                String[] results = new String[3];
                 
-                String query = "select email, password from user_tab where email='"+Email+"';";
+                String query = "select email, password, role from user_tab where email='"+Email+"';";
                 try {
                     Connection con = dbConnect.getConnection();
                     Statement st = con.createStatement();
@@ -154,15 +168,23 @@ Connection conn=null;
                     if (rs.next()) {
                          results[0] = rs.getString("email");
                          results[1] = rs.getString("password");
-    
+                         results[2] = rs.getString("role");
+ 
                     }
                     if ((txtPasswordlogin.getText().equals(Password)))
                             {
+                                UserModel.loginName = results[0];
+                                UserModel.userRole = results[2];
                                 
+                                if(UserModel.userRole.equals("ADMIN")){
+                                    CreateAccount frame = new CreateAccount();
+                                    frame.setVisible(true);
+                                    this.dispose();
+                                }
                             }
                     else
                     {
-                        JOptionPane.showMessageDialog(null,"invalid username or password","access denied", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Invalid Username or Password.","Access Denied", JOptionPane.ERROR_MESSAGE);
                     }
                     
 
@@ -172,11 +194,7 @@ Connection conn=null;
                     JOptionPane.showMessageDialog(null, e);
                 }
              
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnChangePasswordActionPerformed
+    }//GEN-LAST:event_btnLoginKeyPressed
 
     /**
      * @param args the command line arguments
