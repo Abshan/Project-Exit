@@ -187,7 +187,7 @@ Connection conn=null;
                                     this.dispose();
                                    
                                 }
-                                if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+                                if (UserModel.userRole.equals("STOCK CONTROLLER")) {
                                      Stock frame = new Stock();
                                      frame.setVisible(true);
                                      this.dispose();
