@@ -1071,7 +1071,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         Connection con = dbConnect.getConnection();
         try {
-            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\productsReport.jrxml"));
+            InputStream in = new FileInputStream(new File("C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\productsReport.jrxml"));
             JasperDesign jd = JRXmlLoader.load(in);
             String sql = "select * from products_tab";
             JRDesignQuery newQuery = new JRDesignQuery();

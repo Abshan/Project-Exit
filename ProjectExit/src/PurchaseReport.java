@@ -241,7 +241,7 @@ public class PurchaseReport extends javax.swing.JFrame {
         
         if(query != ""){
         try {
-            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\purchaseReport.jrxml"));
+            InputStream in = new FileInputStream(new File("C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\purchaseReport.jrxml"));
             JasperDesign jd = JRXmlLoader.load(in);
             String sql = query;
             JRDesignQuery newQuery = new JRDesignQuery();

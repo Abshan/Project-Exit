@@ -37,6 +37,8 @@ public class Sales extends javax.swing.JFrame {
         initComponents();
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
+        
+        
 
         tblCreateSO.getModel().addTableModelListener(new TableModelListener() {
 
@@ -517,6 +519,9 @@ public class Sales extends javax.swing.JFrame {
         jLabel7.setText("SALES REPRESENTATIVE:");
 
         jLabel8.setText("ORDER CREATED BY:");
+
+        txtUser.setEditable(false);
+        txtUser.setText("Salesjid");
 
         cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbSalesRep.setSelectedIndex(-1);
