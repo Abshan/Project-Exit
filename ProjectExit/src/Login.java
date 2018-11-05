@@ -218,8 +218,8 @@ Connection conn=null;
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-  
-        String Email = txtEmailLogin.getText();
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            String Email = txtEmailLogin.getText();
                 String Password=txtPasswordlogin.getText();
                 String[] results = new String[3];
                 
@@ -265,8 +265,10 @@ Connection conn=null;
                 }
                 catch(Exception e)
                 {
-                    JOptionPane.showMessageDialog(null, e);
-                }
+                    JOptionPane.showMessageDialog(null,"Invalid Username or Password" );
+                } 
+        }
+       
          
     }//GEN-LAST:event_btnLoginKeyPressed
 
