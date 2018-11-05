@@ -11,7 +11,6 @@ import java.sql.ResultSet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Illyas
@@ -25,10 +24,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getItems();
+
     }
-    
+
     DatabaseConnection dbConnect = new DatabaseConnection();
-    
+
     public void getItems() {
 
         try {
@@ -41,6 +41,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             while (rs.next()) {
                 String itemName = rs.getString("prodName");
                 txtItemName.addItem(itemName);
+
             }
 
         } catch (Exception e) {
@@ -48,12 +49,12 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         }
 
     }
-    
-//    public void getBatchNo() {
-//
-//        try {
-//            Connection con = dbConnect.getConnection();
-//            String qury = "select * from stocks_tab";
+
+    public void getBatchNo(String item) {
+        if  ((txtItemName.getSelectedIndex() != -1)){
+            try {
+                Connection con = dbConnect.getConnection();
+//            String qury = "select batchNo from stocks_tab where prodName ='" + item + "'";
 //            ResultSet rs;
 //            PreparedStatement pst = con.prepareStatement(qury);
 //            rs = pst.executeQuery();
@@ -62,27 +63,40 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 //                String batNo = rs.getString("batchNo");
 //                txtBatchNo.addItem(batNo);
 //            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e);
-//        }
-//
-//    }
-//   
+                String query = "select batchNo from stocks_tab where prodName =? ";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setString(1, txtItemName.getSelectedItem().toString());
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    String batNo = rs.getString("batchNo");
+                    txtBatchNo.addItem(batNo);
+                }
+                pst.close();
+                rs.close();
+                con.close();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+
+        }
+
     
-    public boolean getValidation(String itmNam, String batchNo){
+
+    public boolean getValidation(String itmNam, String batchNo) {
         boolean ret = false;
-        
+
         DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
         for (int i = 0; i < Sales.tblCreateSO.getRowCount(); i++) {
-          String itnam = Sales.tblCreateSO.getModel().getValueAt(i, 1).toString();
-          String bthNo = Sales.tblCreateSO.getModel().getValueAt(i, 2).toString();
-          
-          if((itnam.equals(itmNam)) && (bthNo.equals(batchNo))){
-              ret = true;
-          }
-        
-    }
+            String itnam = Sales.tblCreateSO.getModel().getValueAt(i, 1).toString();
+            String bthNo = Sales.tblCreateSO.getModel().getValueAt(i, 2).toString();
+
+            if ((itnam.equals(itmNam)) && (bthNo.equals(batchNo))) {
+                ret = true;
+            }
+
+        }
         return ret;
     }
 
@@ -100,7 +114,6 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtBatchNo = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
@@ -111,6 +124,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         lblErrBatNo = new javax.swing.JLabel();
         lblErrQuantity = new javax.swing.JLabel();
         lblErrItem = new javax.swing.JLabel();
+        txtBatchNo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,9 +155,21 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             }
         });
 
+        txtItemName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtItemNameActionPerformed(evt);
+            }
+        });
+
         cmbRateSel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MRP", "WSP" }));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+
+        txtBatchNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBatchNoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -164,9 +190,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                             .addComponent(jLabel9))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtBatchNo)
                             .addComponent(txtQuantity)
-                            .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtItemName, 0, 202, Short.MAX_VALUE)
+                            .addComponent(txtBatchNo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -199,12 +225,12 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                     .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblErrItem))
-                .addGap(34, 34, 34)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblErrBatNo))
-                .addGap(27, 27, 27)
+                    .addComponent(lblErrBatNo)
+                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,13 +285,13 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
 
-        String batchNo = txtBatchNo.getText();
+        String batchNo = (String) txtBatchNo.getSelectedItem();
         //String itemName = txtItemName.getSelectedItem().toString();
         String rateSel = cmbRateSel.getSelectedItem().toString();
         String quantity = txtQuantity.getText();
         int pid = 0;
         int realpid = 0;
-        
+
         double price = 0;
         int subT = 0;
         int quan = 0;
@@ -275,9 +301,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         try {
             quan = Integer.parseInt(quantity);
-            if(quan>0){
-            qVal = true;
-            lblErrQuantity.setText("");
+            if (quan > 0) {
+                qVal = true;
+                lblErrQuantity.setText("");
             }
         } catch (Exception e) {
             lblErrQuantity.setText("*invalid");
@@ -285,25 +311,25 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         try {
             bat = Integer.parseInt(batchNo);
-            if(bat>100  &&  bat < 1000000){
-            bVal = true;
-            lblErrBatNo.setText("");
+            if (bat > 100 && bat < 1000000) {
+                bVal = true;
+                lblErrBatNo.setText("");
             }
         } catch (Exception e) {
             lblErrBatNo.setText("*invalid");
         }
-        
-        if(txtItemName.getSelectedIndex() == -1){
+
+        if (txtItemName.getSelectedIndex() == -1) {
             lblErrItem.setText("*invalid");
-        }else{
+        } else {
             lblErrItem.setText("");
         }
-        
-//        if(txtBatchNo.getSelectedIndex() == -1){
-//            lblErrBatNo.setText("*invalid");
-//        }else{
-//            lblErrBatNo.setText("");
-//        }
+
+        if (txtBatchNo.getSelectedIndex() == -1) {
+            lblErrBatNo.setText("*invalid");
+        } else {
+            lblErrBatNo.setText("");
+        }
 
         if (rateSel == "MRP") {
             try {
@@ -343,23 +369,21 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             subT = pid * quan;   //quantity
         }
 
-        if ((!txtBatchNo.getText().equals("")) && !(txtItemName.getSelectedIndex()==-1) && !(txtQuantity.getText().equals(""))) {
-            
-            if((getValidation(txtItemName.getSelectedItem().toString(),txtBatchNo.getText()))){
-                JOptionPane.showMessageDialog(null, "Select Different BatchNo!");
-            }else if(qVal == true && bVal == true){
-                model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getText(), txtQuantity.getText(),
-                pid, subT});
+        if ((!txtBatchNo.getSelectedItem().equals("")) && !(txtItemName.getSelectedIndex() == -1) && !(txtQuantity.getText().equals(""))) {
 
-            dispose();
+            if ((getValidation(txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem().toString()))) {
+                JOptionPane.showMessageDialog(null, "Select Different BatchNo!");
+            } else if (qVal == true && bVal == true) {
+                model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem(), txtQuantity.getText(),
+                    pid, subT});
+
+                dispose();
 
 //            JOptionPane.showMessageDialog(rootPane, "Added!");
-            
-
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
             }
-  
+
         } else {
 
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
@@ -368,10 +392,28 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     private void btnCancekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancekActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_btnCancekActionPerformed
+
+    private void txtBatchNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBatchNoActionPerformed
+        // TODO add your handling code here:
+
+//        getBatchNo((String)txtItemName.getSelectedItem());
+
+    }//GEN-LAST:event_txtBatchNoActionPerformed
+
+    private void txtItemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtItemNameActionPerformed
+        // TODO add your handling code here:
+        int itemCount = txtBatchNo.getItemCount();
+
+        for (int i = 0; i < itemCount; i++) {
+            txtBatchNo.removeItemAt(0);
+        }
+        getBatchNo((String) txtItemName.getSelectedItem());
+
+    }//GEN-LAST:event_txtItemNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -422,7 +464,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrBatNo;
     private javax.swing.JLabel lblErrItem;
     private javax.swing.JLabel lblErrQuantity;
-    public javax.swing.JTextField txtBatchNo;
+    public javax.swing.JComboBox<String> txtBatchNo;
     public javax.swing.JComboBox<String> txtItemName;
     public javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables

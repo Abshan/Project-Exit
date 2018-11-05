@@ -1142,8 +1142,12 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel35.setText("SALES REP:");
 
-        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
-        cmbFilterSaleRep.setSelectedIndex(-1);
+        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
+        cmbFilterSaleRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterSaleRepActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -1517,7 +1521,7 @@ public class Sales extends javax.swing.JFrame {
         addItems.pack();
         addItems.setLocationRelativeTo(null);
 
-        addItems.txtBatchNo.setText("");
+        addItems.txtBatchNo.setSelectedIndex(-1);
         addItems.txtItemName.setSelectedIndex(-1);
         addItems.txtQuantity.setText("");
 
@@ -2073,6 +2077,13 @@ public class Sales extends javax.swing.JFrame {
         txtSONumber.setText(val + "");
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cmbFilterSaleRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRepActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_cmbFilterSaleRepActionPerformed
 
     /**
      * @param args the command line arguments
