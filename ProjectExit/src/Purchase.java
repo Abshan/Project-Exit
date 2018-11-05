@@ -167,9 +167,9 @@ public class Purchase extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         sum = new javax.swing.JLabel();
-        poerror = new javax.swing.JLabel();
         venerror = new javax.swing.JLabel();
         purerror = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -296,7 +296,7 @@ public class Purchase extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(780, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,7 +310,15 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel9.setText("P.O. NUMBER:");
 
+        pn.setEditable(false);
+
         jLabel7.setText("PURCHASE DATE:");
+
+        pd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pdActionPerformed(evt);
+            }
+        });
 
         jTable9.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -377,11 +385,16 @@ public class Purchase extends javax.swing.JFrame {
 
         sum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        poerror.setForeground(new java.awt.Color(0, 0, 0));
-
         venerror.setForeground(new java.awt.Color(0, 0, 0));
 
         purerror.setForeground(new java.awt.Color(0, 0, 0));
+
+        jButton8.setText("GET  P.O NO");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -399,60 +412,55 @@ public class Purchase extends javax.swing.JFrame {
                             .addComponent(vn, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(poerror, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(venerror, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel7)
-                        .addGap(58, 58, 58)
-                        .addComponent(pd, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(purerror, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(venerror, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButton8)
+                                .addGap(49, 49, 49)
+                                .addComponent(jLabel7)
+                                .addGap(45, 45, 45)
+                                .addComponent(pd, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(purerror, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(84, 84, 84))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane10)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton5))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane10)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(sum, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(35, 35, 35)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(29, 29, 29))))
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sum, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton5)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(56, 56, 56))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel9))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(pn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(poerror))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(vn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15)
-                                    .addComponent(venerror)))))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(purerror)))
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton8)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(purerror)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(vn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15)
+                            .addComponent(venerror))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -460,16 +468,16 @@ public class Purchase extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(sum, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton5))
+                            .addComponent(jLabel8)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4)))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -479,9 +487,9 @@ public class Purchase extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel22)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 1066, Short.MAX_VALUE))
+                    .addComponent(jLabel22))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
@@ -749,12 +757,12 @@ public class Purchase extends javax.swing.JFrame {
 
         addProduct.jTextField1.setText("");
         addProduct.jComboBox1.setSelectedIndex(0);
-        addProduct.y1.setText("");
-        addProduct.m1.setText("");
-        addProduct.d1.setText("");
-        addProduct.d2.setText("");
-        addProduct.m2.setText("");
-        addProduct.y2.setText("");
+        addProduct.y1.setText("YYYY");
+        addProduct.m1.setText("MM");
+        addProduct.d1.setText("DD");
+        addProduct.d2.setText("DD");
+        addProduct.m2.setText("MM");
+        addProduct.y2.setText("YYYY");
         addProduct.jTextField3.setText("");
         addProduct.pr.setText("");
         //com
@@ -781,7 +789,6 @@ public class Purchase extends javax.swing.JFrame {
             editProduct.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 4).toString().substring(8, 10));
             editProduct.jTextField3.setText(model.getValueAt(jTable9.getSelectedRow(), 5).toString());
             editProduct.jTextField5.setText(model.getValueAt(jTable9.getSelectedRow(), 6).toString());
-            editProduct.jLabel15.setText(model.getValueAt(jTable9.getSelectedRow(), 7).toString());
 
             editProduct.setVisible(true);
             editProduct.pack();
@@ -835,11 +842,11 @@ public class Purchase extends javax.swing.JFrame {
             date = df.format(dat);
             date1 = sdf.parse(date);
             current = sdf.parse(formattedDate);
-            if ((date1.after(current)) && !(date1.before(current)) && !(date1.equals(current))) {
-                
+            if ((date1.after(current)) && (date1.before(current)) /*&& !(date1.equals(current))*/) {
+
                 purerror.setText("*invalid");
             } else {
-                purerror.setText("*invalid");
+                purerror.setText("");
                 dval = true;
             }
 
@@ -849,12 +856,9 @@ public class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if (pno > 9999 && pno < 1000000) {
+            if (pno > 10000 && pno < 1000000) {
                 p = pno;
                 pval = true;
-                purerror.setText("");
-            } else {
-                purerror.setText("*invalid");
             }
 
         } catch (Exception e) {
@@ -863,71 +867,74 @@ public class Purchase extends javax.swing.JFrame {
 
         if (vn.getText().equals("")) {
             venerror.setText("*invalid");
+        } else if (!(vn.getText().toString().matches("[a-zA-Z ]*"))) {
+            venerror.setText("*invalid");
         } else {
             venerror.setText("");
             vVal = true;
         }
-        
-        if(pn.getText().equals("")){
-            poerror.setText("*invalid");
+
+        if (pn.getText().equals("")) {
+            //poerror.setText("*invalid");
+            JOptionPane.showMessageDialog(null, "P.O Number field is empty");
         }
 
         if (!(pn.getText().equals("")) && !(vn.getText().equals("")) && !(pd.getDate() == null)) {
-            
-            if(getValidation(p)){
-                 JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
-            }else{
 
-            if (pval == true && dval == true && vVal == true) {
-                try {
-
-                    if (jTable9.getRowCount() != 0) {
-
-                        Statement st;
-                        Statement st1;
-                        st = con.createStatement();
-                        st1 = con.createStatement();
-
-                        String Query = "INSERT INTO purchase_tab(purNo, vendorName, purchaseDate, amount)VALUES(" + p + ",'" + ven + "','" + date + "'," + Sum + ")";
-                        int execute = st.executeUpdate(Query);
-
-                        for (int row = 0; row < rows; row++) {
-
-                            int batchNO = Integer.parseInt(jTable9.getValueAt(row, 0).toString());
-                            int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
-                            String itemName = jTable9.getValueAt(row, 2).toString();
-                            String manfDate = jTable9.getValueAt(row, 3).toString();
-                            String expDate = jTable9.getValueAt(row, 4).toString();
-                            int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
-                            double unitp = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
-                            double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
-
-                            String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
-                            //String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
-
-                            int execute2 = st1.executeUpdate(Query2);
-                            //int execute3 = st.executeUpdate(Query3);
-                        }
-
-                        JOptionPane.showMessageDialog(null, "Succefully Created");
-
-                        pn.setText("");
-                        vn.setText("");
-                        pd.setDate(null);
-                        DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
-                        model.setRowCount(0);
-                        st.close();
-                        st1.close();
-                        con.close();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No Items Added");
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
+            if (getValidation(p)) {
+                JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
             } else {
-                JOptionPane.showMessageDialog(null, "Enter correct values");
-            }
+
+                if (pval == true && dval == true && vVal == true) {
+                    try {
+
+                        if (jTable9.getRowCount() != 0) {
+
+                            Statement st;
+                            Statement st1;
+                            st = con.createStatement();
+                            st1 = con.createStatement();
+
+                            String Query = "INSERT INTO purchase_tab(vendorName, purchaseDate, amount)VALUES('" + ven + "','" + date + "'," + Sum + ")";
+                            int execute = st.executeUpdate(Query);
+
+                            for (int row = 0; row < rows; row++) {
+
+                                int batchNO = Integer.parseInt(jTable9.getValueAt(row, 0).toString());
+                                int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
+                                String itemName = jTable9.getValueAt(row, 2).toString();
+                                String manfDate = jTable9.getValueAt(row, 3).toString();
+                                String expDate = jTable9.getValueAt(row, 4).toString();
+                                int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
+                                double unitp = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
+                                double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
+
+                                String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
+                                //String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
+
+                                int execute2 = st1.executeUpdate(Query2);
+                                //int execute3 = st.executeUpdate(Query3);
+                            }
+
+                            JOptionPane.showMessageDialog(null, "Succefully Created");
+
+                            pn.setText("");
+                            vn.setText("");
+                            pd.setDate(null);
+                            DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
+                            model.setRowCount(0);
+                            st.close();
+                            st1.close();
+                            con.close();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No Items Added");
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Enter correct values");
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Fill in the blanks");
@@ -1038,7 +1045,7 @@ public class Purchase extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
         model.setRowCount(0);
-        
+
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
         jTextField1.setText("");
@@ -1120,6 +1127,35 @@ public class Purchase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField1KeyTyped
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        int val, id = 0;
+
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select max(purNo) from purchase_tab";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            con.close();
+            statement.close();;
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No values in the database");
+        }
+        val = id + 1;
+        pn.setText(val + "");
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1166,6 +1202,7 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;
@@ -1205,7 +1242,6 @@ public class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     private org.jdesktop.swingx.JXDatePicker pd;
     private javax.swing.JTextField pn;
-    private javax.swing.JLabel poerror;
     private javax.swing.JLabel purerror;
     public javax.swing.JLabel sum;
     private javax.swing.JLabel venerror;

@@ -2,6 +2,7 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,8 +72,8 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        d1error = new javax.swing.JLabel();
+        d2error = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         y1 = new javax.swing.JTextField();
         y2 = new javax.swing.JTextField();
@@ -121,21 +122,94 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         jLabel9.setText("QUANTITY:");
 
-        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("YYYY-MM-DD");
+        d1error.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel12.setText("YYYY-MM-DD");
+        d2error.setForeground(new java.awt.Color(0, 0, 0));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
+        y1.setText("YYYY");
+        y1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                y1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                y1FocusLost(evt);
+            }
+        });
+        y1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                y1ActionPerformed(evt);
+            }
+        });
+
+        y2.setText("YYYY");
+        y2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                y2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                y2FocusLost(evt);
+            }
+        });
+        y2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                y2ActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("-");
 
         jLabel14.setText("-");
 
+        m1.setText("MM");
+        m1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                m1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                m1FocusLost(evt);
+            }
+        });
+        m1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m1ActionPerformed(evt);
+            }
+        });
+
+        m2.setText("MM");
+        m2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                m2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                m2FocusLost(evt);
+            }
+        });
+
         jLabel15.setText("-");
 
         jLabel16.setText("-");
+
+        d1.setText("DD");
+        d1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                d1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                d1FocusLost(evt);
+            }
+        });
+
+        d2.setText("DD");
+        d2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                d2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                d2FocusLost(evt);
+            }
+        });
 
         jLabel7.setText("UNIT PRICE:");
 
@@ -216,20 +290,19 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                     .addComponent(jTextField3)
                     .addComponent(pr))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exerror))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mnerror))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(berror)
                     .addComponent(qerror)
                     .addComponent(uerror)
-                    .addComponent(ierror))
-                .addContainerGap(129, Short.MAX_VALUE))
+                    .addComponent(ierror)
+                    .addComponent(d1error, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(d2error, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(exerror)
+                            .addComponent(mnerror))))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +332,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                     .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
+                    .addComponent(d1error)
                     .addComponent(mnerror))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -269,7 +342,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                     .addComponent(m2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)
                     .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
+                    .addComponent(d2error)
                     .addComponent(exerror))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -339,16 +412,17 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         double price = 0;
         int quan = 0;
         int bat = 0;
-        boolean datVal = false;
+        boolean datVal1 = false;
+        boolean datVal2 = false;
         boolean qVal = false;
         boolean pVal = false;
         boolean bVal = false;
 
         try {
             quan = Integer.parseInt(quantity);
-            if(quan>0){
-            qVal = true;
-            qerror.setText("");
+            if (quan > 0) {
+                qVal = true;
+                qerror.setText("");
             }
         } catch (Exception e) {
             qerror.setText("*invalid");
@@ -356,9 +430,9 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         try {
             bat = Integer.parseInt(batchNo);
-            if(bat>999  &&  bat < 1000000){
-            bVal = true;
-            berror.setText("");
+            if (bat > 999 && bat < 10000000) {
+                bVal = true;
+                berror.setText("");
             }
         } catch (Exception e) {
             berror.setText("*invalid");
@@ -366,49 +440,60 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         try {
             price = Double.parseDouble(Unit);
-            if(price>0){
-            pVal = true;
-            
-            uerror.setText("");
+            if (price > 0) {
+                pVal = true;
+
+                uerror.setText("");
             }
         } catch (Exception e) {
             uerror.setText("*invalid");
         }
-        
-        if(jComboBox1.getSelectedIndex() == 0){
+
+        if (jComboBox1.getSelectedIndex() == 0) {
             ierror.setText("*invalid");
-        }else{
+        } else {
             ierror.setText("");
         }
-        
+
         Date d = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate= dateFormat.format(d);
+        String formattedDate = dateFormat.format(d);
         LocalDate bef = LocalDate.now().minusDays(30);
-        LocalDate aft = LocalDate.now().plusDays(365);       
+        LocalDate aft = LocalDate.now().plusDays(365);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String beforeDate= bef.toString(); 
-        String afterDate= bef.toString();
+        String beforeDate = bef.toString();
+        String afterDate = bef.toString();
         Date date1, date2, current, befDate, afDate;
         try {
             date1 = sdf.parse(manf);
-            date2 = sdf.parse(exp);
             current = sdf.parse(formattedDate);
             befDate = sdf.parse(beforeDate);
-            afDate = sdf.parse(afterDate);
 
-            if ((date1.before(date2)) && !(date1.equals(date2)) && (current.before(date2)) && (date2.after(afDate)) && (date1.after(befDate)) ){
-                datVal = true;
+            if ((date1.after(befDate)) && (date1.before(current))) {
+                datVal1 = true;
+                d1error.setText("");
+            } else {
+                d1error.setText("*invalid");
             }
 
         } catch (ParseException ex) {
-            if(!(y1.getText().equals("")) || !(m1.getText().equals("")) || !(d1.getText().equals(""))
-                || !(y2.getText().equals("")) || !(m2.getText().equals("")) || !(d2.getText().equals(""))){
-                JOptionPane.showMessageDialog(null, "Date format you have entered is wrong!");
-                        
-            }else{
-                ;
+            d1error.setText("*invalid");
+        }
+
+        try {
+            date2 = sdf.parse(exp);
+            current = sdf.parse(formattedDate);
+            afDate = sdf.parse(afterDate);
+
+            if ((date2.after(current)) && (date2.after(afDate))) {
+                datVal2 = true;
+                d2error.setText("");
+            } else {
+                d2error.setText("*invalid");
             }
+
+        } catch (ParseException ex) {
+            d2error.setText("*invalid");
         }
 
         //dif(Integer.parseInt(quantity)) 
@@ -419,7 +504,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 pid = rs.getInt("prodID");
-                //price = rs.getDouble("wsp");
             }
 
             pst.close();
@@ -430,21 +514,18 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "NO VALUES");
         }
 
-        if (!(jTextField1.getText().equals("")) || !(jComboBox1.getSelectedIndex() == 0) || !(y1.getText().equals("")) || !(m1.getText().equals("")) || !(d1.getText().equals(""))
-                || !(y2.getText().equals("")) || !(m2.getText().equals("")) || !(d2.getText().equals("")) || !(jTextField3.getText().equals("")) || !(pr.getText().equals(""))) {
+        if (!(jTextField1.getText().equals("")) && !(jComboBox1.getSelectedIndex() == 0) && !(y1.getText().equals("YYYY")) && !(m1.getText().equals("MM")) && !(d1.getText().equals("DD"))
+                && !(y2.getText().equals("YYYY")) && !(m2.getText().equals("MM")) && !(d2.getText().equals("DD")) && !(jTextField3.getText().equals("")) && !(pr.getText().equals(""))) {
 
-            if (datVal == true && qVal == true && bVal == true && pVal == true) {
+            if (datVal1 == true && datVal2 == true && qVal == true && bVal == true && pVal == true) {
 
                 model.addRow(new Object[]{batchNo, pid, itemName,
                     y1.getText() + "-" + m1.getText() + "-" + d1.getText(),
                     y2.getText() + "-" + m2.getText() + "-" + d2.getText(),
                     jTextField3.getText(), Unit, price * quan});
 
-                
-
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "Added");
-                
 
             } else {
 
@@ -465,6 +546,102 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void m1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m1ActionPerformed
+
+    private void y2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_y2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_y2ActionPerformed
+
+    private void y1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_y1FocusGained
+        // TODO add your handling code here:
+        if (y1.getText().trim().toLowerCase().equals("yyyy")) {
+            y1.setText("");
+        }
+    }//GEN-LAST:event_y1FocusGained
+
+    private void y1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_y1FocusLost
+        // TODO add your handling code here:
+        if ((y1.getText().trim().toLowerCase().equals("")) || (y1.getText().trim().toLowerCase().equals(""))) {
+            y1.setText("YYYY");
+        }
+    }//GEN-LAST:event_y1FocusLost
+
+    private void m1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m1FocusGained
+        // TODO add your handling code here:
+        if (m1.getText().trim().toLowerCase().equals("mm")) {
+            m1.setText("");
+        }
+    }//GEN-LAST:event_m1FocusGained
+
+    private void m1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m1FocusLost
+        // TODO add your handling code here:
+        if ((m1.getText().trim().toLowerCase().equals("")) || (m1.getText().trim().toLowerCase().equals(""))) {
+            m1.setText("MM");
+        }
+    }//GEN-LAST:event_m1FocusLost
+
+    private void d1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_d1FocusGained
+        // TODO add your handling code here:
+        if (d1.getText().trim().toLowerCase().equals("dd")) {
+            d1.setText("");
+        }
+    }//GEN-LAST:event_d1FocusGained
+
+    private void d1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_d1FocusLost
+        // TODO add your handling code here:
+        if ((d1.getText().trim().toLowerCase().equals("")) || (d1.getText().trim().toLowerCase().equals(""))) {
+            d1.setText("DD");
+        }
+    }//GEN-LAST:event_d1FocusLost
+
+    private void y2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_y2FocusGained
+        // TODO add your handling code here:
+        if (y2.getText().trim().toLowerCase().equals("yyyy")) {
+            y2.setText("");
+        }
+    }//GEN-LAST:event_y2FocusGained
+
+    private void y2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_y2FocusLost
+        // TODO add your handling code here:
+        if ((y2.getText().trim().toLowerCase().equals("")) || (y2.getText().trim().toLowerCase().equals(""))) {
+            y2.setText("YYYY");
+        }
+    }//GEN-LAST:event_y2FocusLost
+
+    private void m2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m2FocusGained
+        // TODO add your handling code here:
+        if (m2.getText().trim().toLowerCase().equals("mm")) {
+            m2.setText("");
+        }
+    }//GEN-LAST:event_m2FocusGained
+
+    private void m2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m2FocusLost
+        // TODO add your handling code here:
+        if ((m2.getText().trim().toLowerCase().equals("")) || (m2.getText().trim().toLowerCase().equals(""))) {
+            m2.setText("MM");
+        }
+    }//GEN-LAST:event_m2FocusLost
+
+    private void d2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_d2FocusGained
+        // TODO add your handling code here:
+        if (d2.getText().trim().toLowerCase().equals("dd")) {
+            d2.setText("");
+        }
+    }//GEN-LAST:event_d2FocusGained
+
+    private void d2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_d2FocusLost
+        // TODO add your handling code here:
+        if ((d2.getText().trim().toLowerCase().equals("")) || (d2.getText().trim().toLowerCase().equals(""))) {
+            d2.setText("DD");
+        }
+    }//GEN-LAST:event_d2FocusLost
+
+    private void y1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_y1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_y1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -504,14 +681,15 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel berror;
     public javax.swing.JTextField d1;
+    private javax.swing.JLabel d1error;
     public javax.swing.JTextField d2;
+    private javax.swing.JLabel d2error;
     private javax.swing.JLabel exerror;
     private javax.swing.JLabel ierror;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -520,7 +698,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
