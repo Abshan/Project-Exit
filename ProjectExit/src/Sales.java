@@ -330,6 +330,7 @@ public class Sales extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblTotalAmt = new javax.swing.JLabel();
         cmbOrderStatus = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -514,11 +515,13 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel9.setText("S.O. NUMBER:");
 
+        txtSONumber.setEditable(false);
+
         jLabel7.setText("SALES REPRESENTATIVE:");
 
         jLabel8.setText("ORDER CREATED BY:");
 
-        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jone" }));
+        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbSalesRep.setSelectedIndex(-1);
 
         tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
@@ -598,6 +601,13 @@ public class Sales extends javax.swing.JFrame {
         cmbOrderStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
         cmbOrderStatus.setSelectedIndex(-1);
 
+        jButton1.setText("#");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -616,6 +626,8 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(txtSONumber, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblErrorCP)
                     .addComponent(lblErrorRD)
@@ -677,7 +689,7 @@ public class Sales extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
@@ -701,7 +713,9 @@ public class Sales extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
-                            .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblErrorSON))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -727,7 +741,7 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDeleteTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -892,7 +906,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel17.setText("SALES REP:");
 
-        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NON", "JUGATH", "NAMAL", "SILVA", "JONE" }));
+        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbSearchSalesRep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbSearchSalesRepActionPerformed(evt);
@@ -1128,8 +1142,12 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel35.setText("SALES REP:");
 
-        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA" }));
-        cmbFilterSaleRep.setSelectedIndex(-1);
+        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
+        cmbFilterSaleRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterSaleRepActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -1293,27 +1311,51 @@ public class Sales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+       if(UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+       }
+       else
+       {
+           JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+       }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
         AddProduct frame = new AddProduct();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+         if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+         }
+         else
+         {
+             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+         }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
         Stock frame = new Stock();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -1358,7 +1400,7 @@ public class Sales extends javax.swing.JFrame {
         String salesRep = (String) cmbSalesRep.getSelectedItem();
         String region = (String) cmbRegion.getSelectedItem();
         String orderStatus = (String) cmbOrderStatus.getSelectedItem();
-        String orderCreatedBy = UserModel.loginName;
+        String orderCreatedBy = "Salesjid";
         Date reqDate = dpReqDate.getDate();
 
         Date soDate = new Date();
@@ -1389,14 +1431,10 @@ public class Sales extends javax.swing.JFrame {
 
         try {
             soNum = Integer.parseInt(soNumber);
-            if ((soNum > 999) && (soNum < 1000000)) {
+            if ((soNum > 10000) && (soNum < 1000000)) {
                 soNo = true;
-                lblErrorSON.setText("");
-            } else {
-                lblErrorSON.setText("*invalid");
-            }
+            } 
         } catch (Exception e) {
-            lblErrorSON.setText("*invalid");
         }
 
         try {
@@ -1452,7 +1490,7 @@ public class Sales extends javax.swing.JFrame {
 
                     if (tblCreateSO.getRowCount() != 0) {
                         Statement st = con.createStatement();
-                        String query = "INSERT INTO sales_tab(soNumber,orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + soNumber + "','" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                        String query = "INSERT INTO sales_tab(orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
                         int execute = st.executeUpdate(query);
 
                         for (int row = 0; row < rows; row++) {
@@ -1507,7 +1545,7 @@ public class Sales extends javax.swing.JFrame {
         addItems.pack();
         addItems.setLocationRelativeTo(null);
 
-        addItems.txtBatchNo.setText("");
+        addItems.txtBatchNo.setSelectedIndex(-1);
         addItems.txtItemName.setSelectedIndex(-1);
         addItems.txtQuantity.setText("");
 
@@ -1989,7 +2027,7 @@ public class Sales extends javax.swing.JFrame {
         model.setRowCount(0);
 
         String[] results = new String[7];
-        if (searchCmb1 != "NON") {
+        if (searchCmb1 != "NONE") {
             String query = "SELECT * FROM sales_tab WHERE CONCAT(salesRep) LIKE '%" + searchCmb1 + "%';";
             try {
 
@@ -2036,6 +2074,40 @@ public class Sales extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_cmbSearchSalesRepActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        int val, id = 0;
+
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select max(soNumber) from sales_tab";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            con.close();
+            statement.close();;
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No values in the database");
+        }
+        val = id + 1;
+        txtSONumber.setText(val + "");
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cmbFilterSaleRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRepActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_cmbFilterSaleRepActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2095,6 +2167,7 @@ public class Sales extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker dpReqDate;
     public org.jdesktop.swingx.JXDatePicker dpTo;
     private org.jdesktop.swingx.JXDatePicker dpTo2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox9;
