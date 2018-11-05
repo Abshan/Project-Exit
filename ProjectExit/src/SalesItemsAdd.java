@@ -24,6 +24,8 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getItems();
+        lblQuant0.setVisible(false);
+        lblQuant.setVisible(false);
 
     }
 
@@ -51,7 +53,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     }
 
     public void getBatchNo(String item) {
-        if  ((txtItemName.getSelectedIndex() != -1)){
+        if ((txtItemName.getSelectedIndex() != -1)) {
             try {
                 Connection con = dbConnect.getConnection();
 //            String qury = "select batchNo from stocks_tab where prodName ='" + item + "'";
@@ -80,9 +82,31 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             }
         }
 
+    }
+
+    public String getQuantity(String batchNo) {
+
+        String quant="";
+
+        try {
+            Connection con = dbConnect.getConnection();
+            String query = "select quantity from stocks_tab where batchNo =? ";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, (String)txtBatchNo.getSelectedItem());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                quant = rs.getString("quantity");
+            }
+            pst.close();
+            rs.close();
+            con.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "quant meesd up");
         }
 
-    
+        return quant;
+    }
 
     public boolean getValidation(String itmNam, String batchNo) {
         boolean ret = false;
@@ -125,6 +149,8 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         lblErrQuantity = new javax.swing.JLabel();
         lblErrItem = new javax.swing.JLabel();
         txtBatchNo = new javax.swing.JComboBox<>();
+        lblQuant0 = new javax.swing.JLabel();
+        lblQuant = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,6 +197,10 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             }
         });
 
+        lblQuant0.setText("Available units :");
+
+        lblQuant.setText("jLabel6");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -196,12 +226,17 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(lblQuant0)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblQuant))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(lblErrItem)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblErrQuantity)
                             .addComponent(lblErrBatNo))))
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,7 +264,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblErrBatNo)
-                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblQuant0)
+                    .addComponent(lblQuant))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -249,7 +286,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,19 +326,23 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         //String itemName = txtItemName.getSelectedItem().toString();
         String rateSel = cmbRateSel.getSelectedItem().toString();
         String quantity = txtQuantity.getText();
+        String quant = lblQuant.getText().toString();
+        
         int pid = 0;
         int realpid = 0;
 
         double price = 0;
         int subT = 0;
         int quan = 0;
+        int quantchk = 0;
         int bat = 0;
         boolean qVal = false;
         boolean bVal = false;
 
         try {
             quan = Integer.parseInt(quantity);
-            if (quan > 0) {
+            quantchk = Integer.parseInt(quant);
+             if ((quan > 0)) {
                 qVal = true;
                 lblErrQuantity.setText("");
             }
@@ -374,11 +415,15 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             if ((getValidation(txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem().toString()))) {
                 JOptionPane.showMessageDialog(null, "Select Different BatchNo!");
             } else if (qVal == true && bVal == true) {
+                
+                if ((quan > quantchk)){
+                JOptionPane.showMessageDialog(null, "Quantity exceeding stock availability!");
+            } else {
                 model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem(), txtQuantity.getText(),
                     pid, subT});
 
                 dispose();
-
+                }
 //            JOptionPane.showMessageDialog(rootPane, "Added!");
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
@@ -400,7 +445,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     private void txtBatchNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBatchNoActionPerformed
         // TODO add your handling code here:
 
-//        getBatchNo((String)txtItemName.getSelectedItem());
+        lblQuant.setText(getQuantity((String)txtBatchNo.getSelectedItem()));
+        lblQuant0.setVisible(true);
+        lblQuant.setVisible(true);
 
     }//GEN-LAST:event_txtBatchNoActionPerformed
 
@@ -464,6 +511,8 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrBatNo;
     private javax.swing.JLabel lblErrItem;
     private javax.swing.JLabel lblErrQuantity;
+    private javax.swing.JLabel lblQuant;
+    private javax.swing.JLabel lblQuant0;
     public javax.swing.JComboBox<String> txtBatchNo;
     public javax.swing.JComboBox<String> txtItemName;
     public javax.swing.JTextField txtQuantity;

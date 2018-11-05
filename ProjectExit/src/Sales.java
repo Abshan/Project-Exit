@@ -1311,27 +1311,51 @@ public class Sales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
+       if(UserModel.userRole.equals("ADMIN")){
         CreateAccount frame = new CreateAccount();
         frame.setVisible(true);
         this.dispose();
+       }
+       else
+       {
+           JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+       }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
+        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
         AddProduct frame = new AddProduct();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
+         if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
         Purchase frame = new Purchase();
         frame.setVisible(true);
         this.dispose();
+         }
+         else
+         {
+             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+         }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
+        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
         Stock frame = new Stock();
         frame.setVisible(true);
         this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

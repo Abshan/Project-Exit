@@ -598,6 +598,18 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
 
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+
+        jXDatePicker2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker2ActionPerformed(evt);
+            }
+        });
+
         jButton6.setText("VIEW");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -911,10 +923,10 @@ public class Purchase extends javax.swing.JFrame {
                                 double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
 
                                 String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
-                                //String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES(" + pId + ", '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
+                                String Query3 = "INSERT INTO stocks_tab (batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES(" + batchNO + ", " + pId + ", '" + itemName + "', '" + manfDate + "','" + expDate + "'," + quantity + ")";// ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
 
                                 int execute2 = st1.executeUpdate(Query2);
-                                //int execute3 = st.executeUpdate(Query3);
+                                int execute3 = st.executeUpdate(Query3);
                             }
 
                             JOptionPane.showMessageDialog(null, "Succefully Created");
@@ -1157,6 +1169,67 @@ public class Purchase extends javax.swing.JFrame {
         
     }//GEN-LAST:event_pdActionPerformed
 
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String d = "";
+        int i;
+        boolean dval = true;
+        Date dat = jXDatePicker1.getDate();
+        Date got;
+        try {
+            d = df.format(dat);
+            
+            for (i = 0; i < model.getRowCount() ; i++) {
+                
+                got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
+                if(df.parse(d).before(got)){
+                    
+                    ;
+                }else{
+                    model.removeRow(i);
+                }
+                
+            }
+                
+            
+            
+        } catch (Exception e) {
+        }
+           
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
+
+    private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String d = "";
+        int i;
+        boolean dval = true;
+        Date dat = jXDatePicker2.getDate();
+        Date got;
+        try {
+            d = df.format(dat);
+            
+            for (i = 0; i < model.getRowCount() ; i++) {
+                
+                got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
+                if(df.parse(d).before(got)){
+                    
+                    ;
+                }else{
+                    model.removeRow(i);
+                }
+                
+            }
+                
+            
+            
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jXDatePicker2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1171,16 +1244,24 @@ public class Purchase extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Purchase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Purchase.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Purchase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Purchase.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Purchase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Purchase.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Purchase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Purchase.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
