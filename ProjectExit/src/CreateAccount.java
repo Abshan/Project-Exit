@@ -762,7 +762,8 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-       if (tblDetailsTable.getSelectedRow() == -1) {
+       
+        if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear.");
             }
