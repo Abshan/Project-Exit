@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -256,11 +259,6 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel5.setText("STOCK");
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
 
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
@@ -339,7 +337,7 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "SIZE", "EXP DATE", "MANF DATE", "QUANITYT", "AMOUNT"
+                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "EXP DATE", "MANF DATE", "QUANTITY"
             }
         ));
         jScrollPane1.setViewportView(tblViewStock);
@@ -354,7 +352,7 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel8.setText("FILTER BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "NEWEST TO OLDEST", "HIGHEST TO LOWEST", "LOW IN STOCK", " ", " " }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "LOW IN STOCK", "HIGHEST TO LOWEST", "LOWEST TO HIGHEST", "NEWEST TO OLDEST", "OLDEST TO NEWEST" }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,6 +361,11 @@ public class Stock extends javax.swing.JFrame {
         });
 
         btnSearch1.setText("SEARCH");
+        btnSearch1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearch1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -537,9 +540,99 @@ public class Stock extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel5MouseClicked
+    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed
+        String search = txtSearchStock.getText();
+        String query = "";
+        String filter = drpFilter.getSelectedItem().toString();
+        
+        if(search.equals("")||search.equals(null)){
+            if(filter.equalsIgnoreCase("NONE"))
+            {
+                query = "SELECT * FROM stocks_tab;";
+            }
+            
+            if(filter.equalsIgnoreCase("LOW IN STOCK"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE quantity<30;";
+            }
+            
+            if(filter.equalsIgnoreCase("HIGHEST TO LOWEST"))
+            {
+                query = "SELECT * FROM stocks_tab ORDER BY quantity DESC;";
+            }
+            
+            if(filter.equalsIgnoreCase("LOWEST TO HIGHEST"))
+            {
+                query = "SELECT * FROM stocks_tab ORDER BY quantity;";
+            }
+            
+            if(filter.equalsIgnoreCase("NEWEST TO OLDEST"))
+            {
+                query = "SELECT * FROM stocks_tab ORDER BY manfDate;";
+            }
+            
+            if(filter.equalsIgnoreCase("OLDEST TO NEWEST"))
+            {
+                query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
+            }
+        }
+        else
+        {
+            if(filter.equalsIgnoreCase("NONE"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
+            }
+            
+            if(filter.equalsIgnoreCase("LOW IN STOCK"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
+            }
+            
+            if(filter.equalsIgnoreCase("HIGHEST TO LOWEST"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
+            }
+            
+            if(filter.equalsIgnoreCase("LOWEST TO HIGHEST"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
+            }
+            
+            if(filter.equalsIgnoreCase("NEWEST TO OLDEST"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
+            }
+            
+            if(filter.equalsIgnoreCase("OLDEST TO NEWEST"))
+            {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
+            }            
+        }
+        DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
+        model.setRowCount(0);
+        
+        String[] results = new String[6];
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("batchNo");
+                results[1] = rs.getString("prodID");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("manfDate");
+                results[4] = rs.getString("expDate");
+                results[5] = rs.getString("quantity");
+                
+                model.addRow(results);
+            }
+            
+            } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btnSearch1ActionPerformed
 
     /**
      * @param args the command line arguments
