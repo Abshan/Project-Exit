@@ -67,7 +67,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 PreparedStatement pst = con.prepareStatement(query);
                 pst.setString(1, txtItemName.getSelectedItem().toString());
                 ResultSet rs = pst.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     String batNo = rs.getString("batchNo");
                     txtBatchNo.addItem(batNo);
                 }
