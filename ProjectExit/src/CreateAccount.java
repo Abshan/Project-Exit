@@ -762,7 +762,12 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-       DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
+       if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear.");
+            }
+            
+        DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
        model1.setRowCount(0);
        txtUserIDMan.setText("");
        txtUserNameMan.setText("");
@@ -770,7 +775,7 @@ public class CreateAccount extends javax.swing.JFrame {
        txtNICMan.setText("");
        txtPasswordMan.setText("");
        
-      
+       }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -785,10 +790,10 @@ public class CreateAccount extends javax.swing.JFrame {
         if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Table is empty");
-                JOptionPane.showMessageDialog(rootPane, "Table is empty.");
+                
             } else {
                 JOptionPane.showMessageDialog(rootPane, "You must select a row");
-                JOptionPane.showMessageDialog(rootPane, "You must select a row.");
+                
             }
         }
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
@@ -911,6 +916,14 @@ public class CreateAccount extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tblDetailsTable.getSelectedRow();
         String UserID = txtUserIDMan.getText();
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+                
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "You must select a row to delete");
+                
+            }
         
         txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
         txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
@@ -937,7 +950,7 @@ public class CreateAccount extends javax.swing.JFrame {
        txtEmailMan.setText("");
        txtNICMan.setText("");
        txtPasswordMan.setText("");
-       
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
