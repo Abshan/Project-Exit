@@ -610,15 +610,13 @@
                         <Component class="javax.swing.JTable" name="tblViewStock">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="8" rowCount="0">
+                              <Table columnCount="6" rowCount="0">
                                 <Column editable="true" title="BATCH NO." type="java.lang.Object"/>
                                 <Column editable="true" title="PRODUCT ID" type="java.lang.Object"/>
                                 <Column editable="true" title="PRODUCT NAME" type="java.lang.Object"/>
-                                <Column editable="true" title="SIZE" type="java.lang.Object"/>
                                 <Column editable="true" title="EXP DATE" type="java.lang.Object"/>
                                 <Column editable="true" title="MANF DATE" type="java.lang.Object"/>
-                                <Column editable="true" title="QUANITYT" type="java.lang.Object"/>
-                                <Column editable="true" title="AMOUNT" type="java.lang.Object"/>
+                                <Column editable="true" title="QUANTITY" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -692,11 +690,11 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="6">
                             <StringItem index="0" value="NONE"/>
-                            <StringItem index="1" value="NEWEST TO OLDEST"/>
+                            <StringItem index="1" value="LOW IN STOCK"/>
                             <StringItem index="2" value="HIGHEST TO LOWEST"/>
-                            <StringItem index="3" value="LOW IN STOCK"/>
-                            <StringItem index="4" value=" "/>
-                            <StringItem index="5" value=" "/>
+                            <StringItem index="3" value="LOWEST TO HIGHEST"/>
+                            <StringItem index="4" value="NEWEST TO OLDEST"/>
+                            <StringItem index="5" value="OLDEST TO NEWEST"/>
                           </StringArray>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -712,6 +710,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="SEARCH"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearch1ActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
