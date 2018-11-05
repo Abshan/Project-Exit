@@ -64,10 +64,7 @@ public class Sales extends javax.swing.JFrame {
             rs.isBeforeFirst();
             stat = rs.isBeforeFirst();;
 
-            rs.close();
-            st.close();
-            con.close();
-
+           
         } catch (Exception e) {
         }
         return stat;
@@ -103,9 +100,7 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
-            con.close();
-            st.close();
-            rs.close();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -143,9 +138,7 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
-            con.close();
-            st.close();
-            rs.close();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -185,9 +178,7 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
-            con.close();
-            st.close();
-            rs.close();
+           
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -227,9 +218,7 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
-            con.close();
-            st.close();
-            rs.close();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -241,6 +230,9 @@ public class Sales extends javax.swing.JFrame {
 
     public String search;
     public String searchCmb1;
+    public String searchCmb2;
+    public String searchCmb3;
+    public String searchCmb4;
     public String search1;
     public String search2;
 
@@ -315,7 +307,6 @@ public class Sales extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         cmbRegion = new javax.swing.JComboBox<>();
-        lblErrorSON = new javax.swing.JLabel();
         lblErrorCN = new javax.swing.JLabel();
         lblErrorCP = new javax.swing.JLabel();
         lblErrorRD = new javax.swing.JLabel();
@@ -331,6 +322,7 @@ public class Sales extends javax.swing.JFrame {
         lblTotalAmt = new javax.swing.JLabel();
         cmbOrderStatus = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        lblErrorSON = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -370,11 +362,11 @@ public class Sales extends javax.swing.JFrame {
         dpFrom2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel26 = new javax.swing.JLabel();
         dpTo2 = new org.jdesktop.swingx.JXDatePicker();
-        cmbFilterSalesRep = new javax.swing.JComboBox<>();
+        cmbFilterSalesMan = new javax.swing.JComboBox<>();
         cmbFilerStatus = new javax.swing.JComboBox<>();
         jLabel32 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        cmbFilterSaleRep = new javax.swing.JComboBox<>();
+        cmbFilterSaleRep2 = new javax.swing.JComboBox<>();
         jLabel27 = new javax.swing.JLabel();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -474,6 +466,11 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane1FocusGained(evt);
+            }
+        });
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabbedPane1MouseClicked(evt);
@@ -627,12 +624,15 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(46, 46, 46)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblErrorCP)
-                    .addComponent(lblErrorRD)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(lblErrorCN)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrorCP)
+                            .addComponent(lblErrorRD)
+                            .addComponent(lblErrorCN)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblErrorSON)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -715,8 +715,8 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblErrorSON))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblErrorSON)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
@@ -1132,20 +1132,28 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        cmbFilterSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAHIRU", "JAHIRU", "UWU" }));
-        cmbFilterSalesRep.setSelectedIndex(-1);
+        cmbFilterSalesMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "Salesjid" }));
+        cmbFilterSalesMan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterSalesManActionPerformed(evt);
+            }
+        });
 
-        cmbFilerStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
-        cmbFilerStatus.setSelectedIndex(-1);
+        cmbFilerStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
+        cmbFilerStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilerStatusActionPerformed(evt);
+            }
+        });
 
         jLabel32.setText("FILTER BY STATUS:");
 
         jLabel35.setText("SALES REP:");
 
-        cmbFilterSaleRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
-        cmbFilterSaleRep.addActionListener(new java.awt.event.ActionListener() {
+        cmbFilterSaleRep2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
+        cmbFilterSaleRep2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFilterSaleRepActionPerformed(evt);
+                cmbFilterSaleRep2ActionPerformed(evt);
             }
         });
 
@@ -1177,9 +1185,9 @@ public class Sales extends javax.swing.JFrame {
                                 .addComponent(jLabel32))
                             .addGap(70, 70, 70)
                             .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbFilterSaleRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbFilterSaleRep2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cmbFilerStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbFilterSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbFilterSalesMan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -1198,11 +1206,11 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel26)
                     .addComponent(dpTo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(cmbFilterSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFilterSalesMan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel35)
-                    .addComponent(cmbFilterSaleRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFilterSaleRep2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -1311,49 +1319,41 @@ public class Sales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-       if(UserModel.userRole.equals("ADMIN")){
-        CreateAccount frame = new CreateAccount();
-        frame.setVisible(true);
-        this.dispose();
-       }
-       else
-       {
-           JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
-       }
+        if (UserModel.userRole.equals("ADMIN")) {
+            CreateAccount frame = new CreateAccount();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
         if (UserModel.userRole.equals("STOCK CONTOLLER")) {
-        AddProduct frame = new AddProduct();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+            AddProduct frame = new AddProduct();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
-         if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
-        Purchase frame = new Purchase();
-        frame.setVisible(true);
-        this.dispose();
-         }
-         else
-         {
-             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
-         }
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Purchase frame = new Purchase();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+        }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
-        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
-        Stock frame = new Stock();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Stock frame = new Stock();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblStockMouseClicked
@@ -1436,7 +1436,6 @@ public class Sales extends javax.swing.JFrame {
             } 
         } catch (Exception e) {
         }
-
         try {
             cusPho = Integer.parseInt(soNumber);
             if (customerPhone.length() == 10) {
@@ -2077,7 +2076,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         int val, id = 0;
 
         try {
@@ -2090,24 +2089,214 @@ public class Sales extends javax.swing.JFrame {
                 id = rs.getInt(1);
             }
 
-            con.close();
-            statement.close();;
-            rs.close();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No values in the database");
         }
         val = id + 1;
         txtSONumber.setText(val + "");
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void cmbFilterSaleRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRepActionPerformed
+    private void cmbFilterSaleRep2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRep2ActionPerformed
+        // TODO add your handling code here:
+
+        Connection con = dbConnect.getConnection();
+        searchCmb4 = (String) cmbFilterSaleRep2.getSelectedItem();
+//        if (search == "") {
+//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
+//        }
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[9];
+        if (searchCmb4 != "NONE") {
+            String query = "SELECT * FROM sales_tab WHERE CONCAT(salesRep) LIKE '%" + searchCmb4 + "%';";
+            try {
+
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("soNumber");
+                    results[1] = rs.getString("orderedDate");
+                    results[2] = rs.getString("reqDate");
+                    results[3] = rs.getString("customerName");
+                    results[4] = rs.getString("orderCreatedBy");
+                    results[5] = rs.getString("salesRep");
+                    results[6] = rs.getString("region");
+                    results[7] = rs.getString("orderStatus");
+                    results[8] = rs.getString("total");
+
+                    model.addRow(results);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        } else {
+            model.setRowCount(0);
+            String[] results2 = new String[9];
+
+            String query = "SELECT * FROM sales_tab";
+            try {
+                Statement st = con.createStatement();
+                ResultSet rs2 = st.executeQuery(query);
+                while (rs2.next()) {
+                    results2[0] = rs2.getString("soNumber");
+                    results2[1] = rs2.getString("orderedDate");
+                    results2[2] = rs2.getString("reqDate");
+                    results2[3] = rs2.getString("customerName");
+                    results2[4] = rs2.getString("orderCreatedBy");
+                    results2[5] = rs2.getString("salesRep");
+                    results2[6] = rs2.getString("region");
+                    results2[7] = rs2.getString("orderStatus");
+                    results2[8] = rs2.getString("total");
+
+                    model.addRow(results2);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        }
+
+    }//GEN-LAST:event_cmbFilterSaleRep2ActionPerformed
+
+    private void cmbFilerStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilerStatusActionPerformed
+        // TODO add your handling code here:
+        Connection con = dbConnect.getConnection();
+        searchCmb2 = (String) cmbFilerStatus.getSelectedItem();
+//        if (search == "") {
+//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
+//        }
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[9];
+        if (searchCmb2 != "NONE") {
+            String query = "SELECT * FROM sales_tab WHERE CONCAT(orderStatus) LIKE '%" + searchCmb2 + "%';";
+            try {
+
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("soNumber");
+                    results[1] = rs.getString("orderedDate");
+                    results[2] = rs.getString("reqDate");
+                    results[3] = rs.getString("customerName");
+                    results[4] = rs.getString("orderCreatedBy");
+                    results[5] = rs.getString("salesRep");
+                    results[6] = rs.getString("region");
+                    results[7] = rs.getString("orderStatus");
+                    results[8] = rs.getString("total");
+
+                    model.addRow(results);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        } else {
+            model.setRowCount(0);
+            String[] results2 = new String[9];
+
+            String query = "SELECT * FROM sales_tab";
+            try {
+                Statement st = con.createStatement();
+                ResultSet rs2 = st.executeQuery(query);
+                while (rs2.next()) {
+                    results2[0] = rs2.getString("soNumber");
+                    results2[1] = rs2.getString("orderedDate");
+                    results2[2] = rs2.getString("reqDate");
+                    results2[3] = rs2.getString("customerName");
+                    results2[4] = rs2.getString("orderCreatedBy");
+                    results2[5] = rs2.getString("salesRep");
+                    results2[6] = rs2.getString("region");
+                    results2[7] = rs2.getString("orderStatus");
+                    results2[8] = rs2.getString("total");
+
+                    model.addRow(results2);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        }
+
+
+    }//GEN-LAST:event_cmbFilerStatusActionPerformed
+
+    private void cmbFilterSalesManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSalesManActionPerformed
+        // TODO add your handling code here:
+        Connection con = dbConnect.getConnection();
+        searchCmb3 = (String) cmbFilterSalesMan.getSelectedItem();
+//        if (search == "") {
+//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
+//        }
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[9];
+        if (searchCmb3 != "NONE") {
+            String query = "SELECT * FROM sales_tab WHERE CONCAT(orderCreatedBy) LIKE '%" + searchCmb3 + "%';";
+            try {
+
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    results[0] = rs.getString("soNumber");
+                    results[1] = rs.getString("orderedDate");
+                    results[2] = rs.getString("reqDate");
+                    results[3] = rs.getString("customerName");
+                    results[4] = rs.getString("orderCreatedBy");
+                    results[5] = rs.getString("salesRep");
+                    results[6] = rs.getString("region");
+                    results[7] = rs.getString("orderStatus");
+                    results[8] = rs.getString("total");
+
+                    model.addRow(results);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        } else {
+            model.setRowCount(0);
+            String[] results2 = new String[9];
+
+            String query = "SELECT * FROM sales_tab";
+            try {
+                Statement st = con.createStatement();
+                ResultSet rs2 = st.executeQuery(query);
+                while (rs2.next()) {
+                    results2[0] = rs2.getString("soNumber");
+                    results2[1] = rs2.getString("orderedDate");
+                    results2[2] = rs2.getString("reqDate");
+                    results2[3] = rs2.getString("customerName");
+                    results2[4] = rs2.getString("orderCreatedBy");
+                    results2[5] = rs2.getString("salesRep");
+                    results2[6] = rs2.getString("region");
+                    results2[7] = rs2.getString("orderStatus");
+                    results2[8] = rs2.getString("total");
+
+                    model.addRow(results2);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            }
+        }
+
+        
+    }//GEN-LAST:event_cmbFilterSalesManActionPerformed
+
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
         // TODO add your handling code here:
         
         
         
-    }//GEN-LAST:event_cmbFilterSaleRepActionPerformed
+    }//GEN-LAST:event_jTabbedPane1FocusGained
 
     /**
      * @param args the command line arguments
@@ -2155,9 +2344,9 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateSales;
     private javax.swing.JButton btnViewTab;
-    private javax.swing.JComboBox<String> cmbFilerStatus;
-    private javax.swing.JComboBox<String> cmbFilterSaleRep;
-    private javax.swing.JComboBox<String> cmbFilterSalesRep;
+    public javax.swing.JComboBox<String> cmbFilerStatus;
+    public javax.swing.JComboBox<String> cmbFilterSaleRep2;
+    public javax.swing.JComboBox<String> cmbFilterSalesMan;
     private javax.swing.JComboBox<String> cmbOrderStatus;
     private javax.swing.JComboBox<String> cmbRegion;
     private javax.swing.JComboBox<String> cmbSalesRep;
@@ -2239,7 +2428,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;
-    private javax.swing.JTable tblViewSalesOrders;
+    public javax.swing.JTable tblViewSalesOrders;
     public javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     public javax.swing.JTextField txtSONumber;
