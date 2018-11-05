@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -218,6 +219,12 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        txtUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserNameActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("USER NAME:");
 
@@ -493,9 +500,19 @@ public class CreateAccount extends javax.swing.JFrame {
         });
 
         btnSearch.setText("SEARCH");
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchMouseClicked(evt);
+            }
+        });
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
+            }
+        });
+        btnSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSearchKeyPressed(evt);
             }
         });
 
@@ -711,7 +728,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 }
 
                 if (!(txtPassword.getText().equals(txtConfirmPassword.getText()))) {
-                    JOptionPane.showMessageDialog(rootPane, "Password does not match, ERROR");
+                    JOptionPane.showMessageDialog(rootPane, "Password does not match,Error");
                 } else {
                     pass = true;
                 }
@@ -1044,9 +1061,17 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserKeyPressed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        Login frame = new Login();
-        frame.setVisible(true);
-        this.dispose();
+         int pop = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
+        if (result == 0) {
+
+            UserModel.loginName = "";
+            UserModel.userRole = "";
+
+            Login frame = new Login();
+            frame.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void cmbRoleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleFilterActionPerformed
@@ -1056,6 +1081,76 @@ public class CreateAccount extends javax.swing.JFrame {
     private void cmbRoleManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleManActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbRoleManActionPerformed
+
+    private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserNameActionPerformed
+
+    private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchMouseClicked
+
+    private void btnSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSearchKeyPressed
+       if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+           DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        model.setRowCount(0);
+        String search = txtSearchManage.getText();
+        String[] results = new String[6];
+        String roleFilter = cmbRoleFilter.getSelectedItem().toString();
+        String query="";
+        
+        if((search.equals(""))|| (search.equals(null)))
+        {
+            query = "select * from user_tab;";
+        }
+        
+        if(roleFilter.equalsIgnoreCase("NONE")){        
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+        else
+        {
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%' AND role='" +roleFilter+ "';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+       }
+    }//GEN-LAST:event_btnSearchKeyPressed
      
     
     /**

@@ -208,7 +208,7 @@ Connection conn=null;
                 catch(Exception e)
                 {
                     JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
-                }
+                }  
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed

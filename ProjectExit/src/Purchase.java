@@ -1166,7 +1166,7 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_pdActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed

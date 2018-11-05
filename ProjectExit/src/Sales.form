@@ -228,6 +228,7 @@
         </Container>
         <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTabbedPane1FocusGained"/>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
           </Events>
 
@@ -381,12 +382,17 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblErrorCP" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblErrorRD" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Component id="lblErrorCN" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblErrorCP" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblErrorRD" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblErrorCN" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="lblErrorSON" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -494,8 +500,8 @@
                                               <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                                   <Component id="txtSONumber" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jButton1" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                                  <Component id="lblErrorSON" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="lblErrorSON" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
@@ -597,6 +603,10 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtUser">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="text" type="java.lang.String" value="Salesjid"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="cmbSalesRep">
                           <Properties>
@@ -722,8 +732,6 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblErrorSON">
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCN">
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblErrorCP">
@@ -796,6 +804,8 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                           </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblErrorSON">
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1389,9 +1399,9 @@
                                                   </Group>
                                                   <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="cmbFilterSaleRep" max="32767" attributes="0"/>
+                                                      <Component id="cmbFilterSaleRep2" max="32767" attributes="0"/>
                                                       <Component id="cmbFilerStatus" max="32767" attributes="0"/>
-                                                      <Component id="cmbFilterSalesRep" max="32767" attributes="0"/>
+                                                      <Component id="cmbFilterSalesMan" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -1418,12 +1428,12 @@
                                           <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="dpTo2" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmbFilterSalesRep" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbFilterSalesMan" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmbFilterSaleRep" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbFilterSaleRep2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jScrollPane6" pref="259" max="32767" attributes="0"/>
@@ -1510,6 +1520,9 @@
                                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                                     </Property>
                                   </Properties>
+                                  <AuxValues>
+                                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                                  </AuxValues>
                                 </Component>
                               </SubComponents>
                             </Container>
@@ -1554,34 +1567,40 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dpTo2ActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="cmbFilterSalesRep">
+                            <Component class="javax.swing.JComboBox" name="cmbFilterSalesMan">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="3">
-                                    <StringItem index="0" value="LAHIRU"/>
-                                    <StringItem index="1" value="JAHIRU"/>
-                                    <StringItem index="2" value="UWU"/>
+                                  <StringArray count="2">
+                                    <StringItem index="0" value="NONE"/>
+                                    <StringItem index="1" value="Salesjid"/>
                                   </StringArray>
                                 </Property>
-                                <Property name="selectedIndex" type="int" value="-1"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbFilterSalesManActionPerformed"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                               </AuxValues>
                             </Component>
                             <Component class="javax.swing.JComboBox" name="cmbFilerStatus">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="3">
-                                    <StringItem index="0" value="AWAITING FULFILLMENT"/>
-                                    <StringItem index="1" value="COMPLETED"/>
-                                    <StringItem index="2" value="CANCELLED"/>
+                                  <StringArray count="4">
+                                    <StringItem index="0" value="NONE"/>
+                                    <StringItem index="1" value="AWAITING FULFILLMENT"/>
+                                    <StringItem index="2" value="COMPLETED"/>
+                                    <StringItem index="3" value="CANCELLED"/>
                                   </StringArray>
                                 </Property>
-                                <Property name="selectedIndex" type="int" value="-1"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbFilerStatusActionPerformed"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                               </AuxValues>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel32">
@@ -1594,7 +1613,7 @@
                                 <Property name="text" type="java.lang.String" value="SALES REP:"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="cmbFilterSaleRep">
+                            <Component class="javax.swing.JComboBox" name="cmbFilterSaleRep2">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="5">
@@ -1607,10 +1626,11 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbFilterSaleRepActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbFilterSaleRep2ActionPerformed"/>
                               </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                               </AuxValues>
                             </Component>
                           </SubComponents>
