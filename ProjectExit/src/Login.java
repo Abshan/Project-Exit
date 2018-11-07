@@ -81,7 +81,6 @@ Connection conn=null;
             }
         });
 
-        txtPasswordlogin.setText("jPasswordField1");
         txtPasswordlogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtPasswordloginMouseClicked(evt);

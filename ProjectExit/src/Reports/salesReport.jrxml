@@ -41,14 +41,14 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="250" height="54" uuid="b763a59a-0c4c-4d03-8d32-476013c94668"/>
-				<imageExpression><![CDATA["C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Images\\AUXANO-Logo3.png"]]></imageExpression>
-			</image>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="702" y="34" width="100" height="20" uuid="3ce34811-100a-41ee-a155-dd822a8b18da"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="250" height="54" uuid="373232fe-7340-472c-9c20-0a2e85d6c949"/>
+				<imageExpression><![CDATA["C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Images\\AUXANO-Logo3.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

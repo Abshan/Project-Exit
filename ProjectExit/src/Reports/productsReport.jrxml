@@ -32,10 +32,6 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="250" height="54" uuid="8002a000-4566-4a51-b6a3-cea36240d515"/>
-				<imageExpression><![CDATA["C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\logos\\AUXANO-Logo3.png"]]></imageExpression>
-			</image>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="446" y="34" width="109" height="20" uuid="a6ed4d8b-43e4-4a1d-a341-9035a3098740"/>
 				<textElement>
@@ -43,6 +39,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="250" height="54" uuid="31a59a7d-4511-485c-8501-5296d4b293c9"/>
+				<imageExpression><![CDATA["C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Images\\AUXANO-Logo3.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
