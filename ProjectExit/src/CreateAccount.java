@@ -87,7 +87,7 @@ public class CreateAccount extends javax.swing.JFrame {
         tblDetailsTable = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbRoleFilter = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txtNICMan = new javax.swing.JTextField();
         txtPasswordMan = new javax.swing.JTextField();
@@ -455,7 +455,12 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel7.setText("FILTER BY ROLES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "PRODUCT MANAGER", "SALES RERESENTATIVE", "STAFF" }));
+        cmbRoleFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "ADMIN", "STOCK CONTROLLER", "SALES MANAGER" }));
+        cmbRoleFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRoleFilterActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("PASSOWORD:");
 
@@ -466,6 +471,11 @@ public class CreateAccount extends javax.swing.JFrame {
         });
 
         cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
+        cmbRoleMan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRoleManActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("ROLE:");
 
@@ -499,7 +509,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cmbRoleFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
@@ -535,14 +545,14 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnClear))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClear)
+                        .addGap(47, 47, 47))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -551,7 +561,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRoleFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(txtSearchManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
@@ -665,6 +675,10 @@ public class CreateAccount extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtUserIDManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserIDManActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserIDManActionPerformed
+
     private void txtPasswordManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordManActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordManActionPerformed
@@ -704,7 +718,6 @@ public class CreateAccount extends javax.swing.JFrame {
             }
 
             if ((pass == true) && (email == true) && (NICCheck == true)) {
-
                 String UserName = txtUserName.getText();
                 String Email = txtEmail.getText();
                 String NIC = txtNIC.getText();
@@ -719,7 +732,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     int execute = st.executeUpdate(query);
 
                     JOptionPane.showMessageDialog(rootPane, "Information Successfully Added");
-                    
+
                     txtUserName.setText("");
                     txtEmail.setText("");
                     txtNIC.setText("");
@@ -734,19 +747,12 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-       if(tblDetailsTable.getSelectedRow()== -1){
-           if(tblDetailsTable.getRowCount()== 0){
-               JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear");
-           }
-       
-        DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
-        model1.setRowCount(0);
-        txtUserNameMan.setText("");
-        txtEmailMan.setText("");
-        txtNICMan.setText("");
-        txtPasswordMan.setText("");
-        
-       }
+        txtUserName.setText("");
+        txtEmail.setText("");
+        txtNIC.setText("");
+        txtPassword.setText("");
+        txtConfirmPassword.setText("");
+
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 /////
@@ -754,6 +760,24 @@ public class CreateAccount extends javax.swing.JFrame {
 
 // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchManageActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+       if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear.");
+            }
+            
+        DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
+       model1.setRowCount(0);
+       txtUserIDMan.setText("");
+       txtUserNameMan.setText("");
+       txtEmailMan.setText("");
+       txtNICMan.setText("");
+       txtPasswordMan.setText("");
+       
+       }
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         String UserID = txtUserIDMan.getText();
@@ -766,10 +790,10 @@ public class CreateAccount extends javax.swing.JFrame {
         if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Table is empty");
-               
+                
             } else {
                 JOptionPane.showMessageDialog(rootPane, "You must select a row");
-                JOptionPane.showMessageDialog(rootPane, "You must select a row.");
+                
             }
         }
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
@@ -786,7 +810,7 @@ public class CreateAccount extends javax.swing.JFrame {
         
         DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
 
-       
+        model1.setValueAt(txtUserIDMan.getText(), tblDetailsTable.getSelectedRow(), 0);
         model1.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
         model1.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
         model1.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
@@ -859,7 +883,7 @@ public class CreateAccount extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         int row = tblDetailsTable.getSelectedRow();
         String v1 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
-        
+        txtUserIDMan.setText(v1);
 
         String v2 = tblDetailsTable.getModel().getValueAt(row, 1).toString();
         txtUserNameMan.setText(v2);
@@ -873,14 +897,33 @@ public class CreateAccount extends javax.swing.JFrame {
         String v5 = tblDetailsTable.getModel().getValueAt(row, 4).toString();
         txtPasswordMan.setText(v5);
 
-        // String v6 = tblDetailsTable.getModel().getValueAt(row, 0).toString();
-        // txtrole.setText(v6);
+        String v6 = tblDetailsTable.getModel().getValueAt(row, 5).toString();
+        
+        if(v6.equalsIgnoreCase("ADMIN")){
+             cmbRoleMan.setSelectedItem("ADMIN");
+        }
+                    
+        if(v6.equalsIgnoreCase("SALES MANAGER")){
+            cmbRoleMan.setSelectedItem("SALES MANAGER");
+        }
+        
+        if(v6.equalsIgnoreCase("STOCK CONTROLLER")){
+            cmbRoleMan.setSelectedItem("STOCK CONTROLLER");
+        }
 
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = tblDetailsTable.getSelectedRow();
         String UserID = txtUserIDMan.getText();
+        if (tblDetailsTable.getSelectedRow() == -1) {
+            if (tblDetailsTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Table is empty");
+                
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "You must select a row to delete");
+                
+            }
         
         txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
         txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
@@ -899,7 +942,15 @@ public class CreateAccount extends javax.swing.JFrame {
                 model.removeRow(tblDetailsTable.getSelectedRow());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-                    }        
+                    }   
+        
+      
+       txtUserIDMan.setText("");
+       txtUserNameMan.setText("");
+       txtEmailMan.setText("");
+       txtNICMan.setText("");
+       txtPasswordMan.setText("");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
@@ -924,27 +975,58 @@ public class CreateAccount extends javax.swing.JFrame {
         model.setRowCount(0);
         String search = txtSearchManage.getText();
         String[] results = new String[6];
+        String roleFilter = cmbRoleFilter.getSelectedItem().toString();
+        String query="";
         
-        String query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
-        try{
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            
-            while(rs.next()){
-                results[0] = rs.getString("userID");
-                results[1] = rs.getString("userName");
-                results[2] = rs.getString("email");
-                results[3] = rs.getString("nic");
-                results[4] = rs.getString("password");
-                results[5] = rs.getString("role");                             
-            
-                model.addRow(results);
-            }
-                       
+        if((search.equals(""))|| (search.equals(null)))
+        {
+            query = "select * from user_tab;";
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+        
+        if(roleFilter.equalsIgnoreCase("NONE")){        
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+        else
+        {
+            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" +search+ "%' AND role='" +roleFilter+ "';";
+            try{
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next()){
+                    results[0] = rs.getString("userID");
+                    results[1] = rs.getString("userName");
+                    results[2] = rs.getString("email");
+                    results[3] = rs.getString("nic");
+                    results[4] = rs.getString("password");
+                    results[5] = rs.getString("role");                             
+
+                    model.addRow(results);
+                }                                           
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -966,28 +1048,13 @@ public class CreateAccount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void txtUserIDManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserIDManActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUserIDManActionPerformed
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-if(tblDetailsTable.getSelectedRow()== -1){
-           if(tblDetailsTable.getRowCount()== 0){
-               JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear");
-           }
+    private void cmbRoleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleFilterActionPerformed
        
-        DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
-        model1.setRowCount(0);
-        
-        txtUserNameMan.setText("");
-        txtEmailMan.setText("");
-        txtNICMan.setText("");
-        txtPasswordMan.setText("");
-        txtSearchManage.setText("");
-}
+    }//GEN-LAST:event_cmbRoleFilterActionPerformed
 
+    private void cmbRoleManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleManActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClearActionPerformed
+    }//GEN-LAST:event_cmbRoleManActionPerformed
      
     
     /**
@@ -1034,9 +1101,9 @@ if(tblDetailsTable.getSelectedRow()== -1){
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbRole;
+    private javax.swing.JComboBox<String> cmbRoleFilter;
     private javax.swing.JComboBox<String> cmbRoleMan;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
