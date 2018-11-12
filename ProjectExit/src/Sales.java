@@ -431,6 +431,11 @@ public class Sales extends javax.swing.JFrame {
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -2311,6 +2316,20 @@ public class Sales extends javax.swing.JFrame {
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        int pop = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
+        if (result == 0) {
+
+            UserModel.loginName = "";
+            UserModel.userRole = "";
+
+            Login frame = new Login();
+            frame.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton7MouseClicked
 
     /**
      * @param args the command line arguments
