@@ -24,9 +24,42 @@ public class Stock extends javax.swing.JFrame {
      */
     public Stock() {
         initComponents();
+        fillTable();
     }
-    
+
     DatabaseConnection dbConnect = new DatabaseConnection();
+    
+    public void fillTable(){
+        
+        DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
+        String query = "select * from stocks_tab";
+        String[] results = new String[6];
+        
+        
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("batchNo");
+                results[1] = rs.getString("prodID");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("manfDate");
+                results[4] = rs.getString("expDate");
+                results[5] = rs.getString("quantity");
+
+                model.addRow(results);
+            }
+            
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -480,54 +513,108 @@ public class Stock extends javax.swing.JFrame {
 
     private void drpFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drpFilterActionPerformed
         // TODO add your handling code here:
+
+        
+        String query = "";
+        String filter = drpFilter.getSelectedItem().toString();
+
+        if (filter.equalsIgnoreCase("NONE")) {
+            query = "SELECT * FROM stocks_tab;";
+        }
+
+        if (filter.equalsIgnoreCase("LOW IN STOCK")) {
+            query = "SELECT * FROM stocks_tab WHERE quantity<30;";
+        }
+
+        if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
+            query = "SELECT * FROM stocks_tab ORDER BY quantity DESC;";
+        }
+
+        if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
+            query = "SELECT * FROM stocks_tab ORDER BY quantity;";
+        }
+
+        if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
+            query = "SELECT * FROM stocks_tab ORDER BY manfDate;";
+        }
+
+        if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
+            query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
+        }
+        
+        
+        DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[6];
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("batchNo");
+                results[1] = rs.getString("prodID");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("manfDate");
+                results[4] = rs.getString("expDate");
+                results[5] = rs.getString("quantity");
+
+                model.addRow(results);
+            }
+            
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+                                              
+
+
     }//GEN-LAST:event_drpFilterActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        if(UserModel.userRole.equals("ADMIN")){
-        CreateAccount frame = new CreateAccount();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+        if (UserModel.userRole.equals("ADMIN")) {
+            CreateAccount frame = new CreateAccount();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if ((UserModel.userRole.equals("STOCK CONTOLLER"))|| (UserModel.userRole.equals("ADMIN"))) {
-        AddProduct frame = new AddProduct();
-        frame.setVisible(true);
-        this.dispose();}
-        else
-        {
+        if ((UserModel.userRole.equals("STOCK CONTOLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+            AddProduct frame = new AddProduct();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblProductsMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
         if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
-        Purchase frame = new Purchase();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+            Purchase frame = new Purchase();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
-        if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
-        Sales frame = new Sales();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+        if ((UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Sales frame = new Sales();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
-              
+
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
@@ -535,7 +622,7 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchStockKeyTyped
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       int pop = JOptionPane.YES_NO_OPTION;
+        int pop = JOptionPane.YES_NO_OPTION;
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
         if (result == 0) {
 
@@ -552,8 +639,8 @@ public class Stock extends javax.swing.JFrame {
         String search = txtSearchStock.getText();
         String query = "";
         String filter = drpFilter.getSelectedItem().toString();
-        
-        if(search.equals("")||search.equals(null)){
+
+         if(search.equals("")||search.equals(null)){
             if(filter.equalsIgnoreCase("NONE"))
             {
                 query = "SELECT * FROM stocks_tab;";
@@ -586,39 +673,33 @@ public class Stock extends javax.swing.JFrame {
         }
         else
         {
-            if(filter.equalsIgnoreCase("NONE"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
-            }
-            
-            if(filter.equalsIgnoreCase("LOW IN STOCK"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
-            }
-            
-            if(filter.equalsIgnoreCase("HIGHEST TO LOWEST"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
-            }
-            
-            if(filter.equalsIgnoreCase("LOWEST TO HIGHEST"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
-            }
-            
-            if(filter.equalsIgnoreCase("NEWEST TO OLDEST"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
-            }
-            
-            if(filter.equalsIgnoreCase("OLDEST TO NEWEST"))
-            {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
-            }            
+        if (filter.equalsIgnoreCase("NONE")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
+        }
+
+        if (filter.equalsIgnoreCase("LOW IN STOCK")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
+        }
+
+        if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
+        }
+
+        if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
+        }
+
+        if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
+        }
+
+        if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
+            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
+        }
         }
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
         model.setRowCount(0);
-        
+
         String[] results = new String[6];
 
         try {
@@ -633,11 +714,15 @@ public class Stock extends javax.swing.JFrame {
                 results[3] = rs.getString("manfDate");
                 results[4] = rs.getString("expDate");
                 results[5] = rs.getString("quantity");
-                
+
                 model.addRow(results);
             }
             
-            } catch (Exception e) {
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearch1ActionPerformed

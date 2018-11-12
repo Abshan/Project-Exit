@@ -226,6 +226,8 @@ public class ForgotPassword extends javax.swing.JFrame {
                     Statement st = con.createStatement();
                     int execute = st.executeUpdate(query);
                     JOptionPane.showMessageDialog(rootPane, "Password Updated Successfully.");
+                    con.close();
+                    st.close();
                     new Login().setVisible(true);
                     this.dispose();
                 } catch (Exception e) {

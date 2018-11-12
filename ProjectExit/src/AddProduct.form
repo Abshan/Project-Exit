@@ -662,7 +662,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel42">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="WHOLESALE PRICE:"/>
+                            <Property name="text" type="java.lang.String" value="MAXIMUM RETAIL PRICE:"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtWholesalePrice1">
@@ -671,7 +671,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel43">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="MAXIMUM RETAIL PRICE:"/>
+                            <Property name="text" type="java.lang.String" value="WHOLESALE PRICE:"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnUpdate">
@@ -836,6 +836,9 @@
                               </StringArray>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCategoryActionPerformed"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>

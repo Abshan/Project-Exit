@@ -50,6 +50,9 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 String itemN = rs.getString("prodName");
                 jComboBox1.addItem(itemN);
             }
+            con.close();
+            pst.close();
+            rs.close();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

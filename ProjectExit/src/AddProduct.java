@@ -40,6 +40,39 @@ public class AddProduct extends javax.swing.JFrame {
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
         txtProductID1.setEditable(false);
+        fillTable();
+    }
+
+    public void fillTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        String query = "select * from products_tab";
+        String[] results = new String[7];
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("prodID");
+                results[1] = rs.getString("brandName");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("size");
+                results[4] = rs.getString("wsp");
+                results[5] = rs.getString("mrp");
+                results[6] = rs.getString("category");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -340,9 +373,9 @@ public class AddProduct extends javax.swing.JFrame {
 
         jLabel41.setText("PRODUCT NAME:");
 
-        jLabel42.setText("WHOLESALE PRICE:");
+        jLabel42.setText("MAXIMUM RETAIL PRICE:");
 
-        jLabel43.setText("MAXIMUM RETAIL PRICE:");
+        jLabel43.setText("WHOLESALE PRICE:");
 
         btnUpdate.setText("UPDATE");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -416,6 +449,11 @@ public class AddProduct extends javax.swing.JFrame {
         lblFilter.setText("FILTER");
 
         cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "DRUGS", "COSMETICS" }));
+        cmbCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoryActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -710,9 +748,12 @@ public class AddProduct extends javax.swing.JFrame {
         String WSP = txtWholesalePrice1.getText();
         String MRP = txtMRP1.getText();
         String Category = drpCategory.getSelectedItem().toString();
-        
+
         double MaxRP = 0.0, WholesaleP = 0.0;
-        
+        if (tblManageProduct.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a product to update!");
+        }else{
+
         if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
             boolean result = false;
 
@@ -720,7 +761,7 @@ public class AddProduct extends javax.swing.JFrame {
                 try {
                     MaxRP = Double.parseDouble(MRP);
                     WholesaleP = Double.parseDouble(WSP);
-                    
+
                     result = true;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
@@ -728,10 +769,8 @@ public class AddProduct extends javax.swing.JFrame {
 
                 if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
-                }
-                
-                else if (result){
-                    String query = "UPDATE products_tab SET brandName='"+BrandName+"',prodName='"+ProductName+"',size='"+Size+"',wsp='"+WSP+"',mrp='"+MRP+"',category='"+Category+"' WHERE prodID="+ProductID+";";
+                } else if (result) {
+                    String query = "UPDATE products_tab SET brandName='" + BrandName + "',prodName='" + ProductName + "',size='" + Size + "',wsp='" + WSP + "',mrp='" + MRP + "',category='" + Category + "' WHERE prodID=" + ProductID + ";";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -746,7 +785,80 @@ public class AddProduct extends javax.swing.JFrame {
                     String search = txtSearch.getText();
                     String[] results = new String[7];
 
-             String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+                    String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        ResultSet rs = st.executeQuery(query1);
+
+                        while (rs.next()) {
+                            results[0] = rs.getString("prodID");
+                            results[1] = rs.getString("brandName");
+                            results[2] = rs.getString("prodName");
+                            results[3] = rs.getString("size");
+                            results[4] = rs.getString("wsp");
+                            results[5] = rs.getString("mrp");
+                            results[6] = rs.getString("category");
+
+                            model.addRow(results);
+                        }
+
+                        con.close();
+                        st.close();
+                        rs.close();
+                       /* model.setRowCount(0);
+                        fillTable();*/
+                        txtProductID1.setText(" ");
+                        txtBrandName1.setText(" ");
+                        txtProductName1.setText(" ");
+                        txtWholesalePrice1.setText(" ");
+                        txtMRP1.setText(" ");
+                        txtSize1.setText(" ");
+                        txtSearch.setText(" ");
+
+                        JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
+        }
+
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        //String ProdID = txtProductID1.getText();
+
+        /*if (ProdID.equals("") || (ProdID.equals(null))) {
+            JOptionPane.showMessageDialog(rootPane, "Please select a record to delete.");*/
+        if (tblManageProduct.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select the product you want to delete!");
+        } else {
+            int row = tblManageProduct.getSelectedRow();
+            int pid = Integer.parseInt(tblManageProduct.getValueAt(row, 0).toString());
+            String query = "DELETE FROM products_tab WHERE prodID=" + pid + ";";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                int execute = st.executeUpdate(query);
+
+                con.close();
+                st.close();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+            DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+            model.setRowCount(0);
+            String search = txtSearch.getText();
+            String[] results = new String[7];
+
+            String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
             try {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
@@ -762,80 +874,25 @@ public class AddProduct extends javax.swing.JFrame {
                     results[6] = rs.getString("category");
 
                     model.addRow(results);
-                  }
-                JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+                }
+
+                con.close();
+                st.close();
+                rs.close();
+                txtProductID1.setText(" ");
+                txtBrandName1.setText(" ");
+                txtProductName1.setText(" ");
+                txtWholesalePrice1.setText(" ");
+                txtMRP1.setText(" ");
+                txtSize1.setText(" ");
+                txtSearch.setText(" ");
+
+                JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
-                    }
-                }
-            }
-            else{
-                JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
-            }
-               
-        txtProductID1.setText(" ");
-        txtBrandName1.setText(" ");
-        txtProductName1.setText(" ");
-        txtWholesalePrice1.setText(" ");
-        txtMRP1.setText(" ");
-        txtSize1.setText(" ");
-        txtSearch.setText(" ");
-    }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        String ProdID = txtProductID1.getText();
-        
-        if(ProdID.equals("")||(ProdID.equals(null)))
-        {
-            JOptionPane.showMessageDialog(rootPane, "Please select a record to delete.");
-        }
-        else{
-            String query = "DELETE FROM products_tab WHERE prodID="+ProdID+";";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            int execute = st.executeUpdate(query);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-                    }
-        
-        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        model.setRowCount(0);
-        String search = txtSearch.getText();
-        String[] results = new String[7];
-
-        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
-
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
-
-                model.addRow(results);
-              }
-            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        txtProductID1.setText(" ");
-        txtBrandName1.setText(" ");
-        txtProductName1.setText(" ");
-        txtWholesalePrice1.setText(" ");
-        txtMRP1.setText(" ");
-        txtSize1.setText(" ");
-        txtSearch.setText(" ");            
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -858,7 +915,7 @@ public class AddProduct extends javax.swing.JFrame {
         txtSize1.setText(" ");
         txtSearch.setText(" ");
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        model.setRowCount(0);
+        cmbCategory.setSelectedIndex(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
@@ -890,7 +947,7 @@ public class AddProduct extends javax.swing.JFrame {
                 try {
                     MRP = Double.parseDouble(MaxRP);
                     WSP = Double.parseDouble(WholesaleP);
-                    
+
                     result = true;
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
@@ -906,7 +963,10 @@ public class AddProduct extends javax.swing.JFrame {
                         Statement st = con.createStatement();
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
-                        
+
+                        con.close();
+                        st.close();
+
                         txtBrandName.setText(" ");
                         txtProductName.setText(" ");
                         txtWholesalePrice.setText(" ");
@@ -925,58 +985,50 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        if  (UserModel.userRole.equals("ADMIN")){
-        CreateAccount frame = new CreateAccount();
-        frame.setVisible(true);
-        this.dispose();
+        if (UserModel.userRole.equals("ADMIN")) {
+            CreateAccount frame = new CreateAccount();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
-        else
-        {
-              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
-        }
-            
-        
+
+
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblPurchaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPurchaseMouseClicked
-       
-        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))){
-        Purchase frame = new Purchase();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
-              JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
+
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Purchase frame = new Purchase();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblPurchaseMouseClicked
 
     private void lblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSalesMouseClicked
-        if((UserModel.userRole.equals("SALES MANAGER")) ||(UserModel.userRole.equals("ADMIN"))){
-        Sales frame = new Sales();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
-           JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");   
+        if ((UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Sales frame = new Sales();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblSalesMouseClicked
 
     private void lblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStockMouseClicked
-        if((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))){
-        Stock frame = new Stock();
-        frame.setVisible(true);
-        this.dispose();
-        }
-        else
-        {
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("SALES MANAGER")) || (UserModel.userRole.equals("ADMIN"))) {
+            Stock frame = new Stock();
+            frame.setVisible(true);
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "You are not authorized to access this tab.");
         }
     }//GEN-LAST:event_lblStockMouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        
+
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void tblManageProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblManageProductMouseClicked
@@ -998,44 +1050,36 @@ public class AddProduct extends javax.swing.JFrame {
         String search = txtSearch.getText();
         String query = "";
         String category = cmbCategory.getSelectedItem().toString();
-        
-        if(search.equals("")||search.equals(null)){
-            if(category.equalsIgnoreCase("NONE"))
-            {
+
+        if (search.equals("") || search.equals(null)) {
+            if (category.equalsIgnoreCase("NONE")) {
                 query = "SELECT * FROM products_tab;";
             }
-            
-            if(category.equalsIgnoreCase("DRUGS"))
-            {
+
+            if (category.equalsIgnoreCase("DRUGS")) {
                 query = "SELECT * FROM products_tab WHERE category='Drugs';";
             }
-            
-            if(category.equalsIgnoreCase("COSMETICS"))
-            {
+
+            if (category.equalsIgnoreCase("COSMETICS")) {
                 query = "SELECT * FROM products_tab WHERE category='Cosmetics';";
             }
-            
-        }
-        else
-        {
-            if(category.equalsIgnoreCase("NONE"))
-            {
+
+        } else {
+            if (category.equalsIgnoreCase("NONE")) {
                 query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
             }
-            
-            if(category.equalsIgnoreCase("DRUGS"))
-            {
+
+            if (category.equalsIgnoreCase("DRUGS")) {
                 query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Drugs';";
             }
-            
-            if(category.equalsIgnoreCase("Cosmetics"))
-            {
+
+            if (category.equalsIgnoreCase("Cosmetics")) {
                 query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Cosmetics';";
-            }            
+            }
         }
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         model.setRowCount(0);
-        
+
         String[] results = new String[7];
 
         try {
@@ -1054,11 +1098,13 @@ public class AddProduct extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
-            
-            if(results[6].equalsIgnoreCase("Drugs")){
+            con.close();
+            st.close();
+            rs.close();
+
+            if (results[6].equalsIgnoreCase("Drugs")) {
                 drpCategory.setSelectedItem("Drugs");
-            }
-            else if(results[6].equalsIgnoreCase("Cosmetics")){
+            } else if (results[6].equalsIgnoreCase("Cosmetics")) {
                 drpCategory.setSelectedItem("Cosmetics");
             }
 
@@ -1105,6 +1151,57 @@ public class AddProduct extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
+        // TODO add your handling code here:
+
+
+        String query = "";
+        String category = cmbCategory.getSelectedItem().toString();
+
+        if (category.equalsIgnoreCase("NONE")) {
+            query = "SELECT * FROM products_tab;";
+        }
+
+        if (category.equalsIgnoreCase("DRUGS")) {
+            query = "SELECT * FROM products_tab WHERE category='Drugs';";
+        }
+
+        if (category.equalsIgnoreCase("COSMETICS")) {
+            query = "SELECT * FROM products_tab WHERE category='Cosmetics';";
+        }
+
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        model.setRowCount(0);
+
+        String[] results = new String[7];
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                results[0] = rs.getString("prodID");
+                results[1] = rs.getString("brandName");
+                results[2] = rs.getString("prodName");
+                results[3] = rs.getString("size");
+                results[4] = rs.getString("wsp");
+                results[5] = rs.getString("mrp");
+                results[6] = rs.getString("category");
+
+                model.addRow(results);
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_cmbCategoryActionPerformed
 
     /**
      * @param args the command line arguments

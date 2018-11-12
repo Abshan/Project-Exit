@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Illyas
@@ -22,21 +21,17 @@ public class SalesReviewWindow extends javax.swing.JFrame {
     /**
      * Creates new form SalesReviewWindow
      */
-    
-        DatabaseConnection dbConnect = new DatabaseConnection();
     public SalesReviewWindow() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         lblErrorOS.setVisible(false);
         lblErrorRD.setVisible(false);
         dpReqDate.setVisible(false);
     }
-    
-//      SalesReviewWindow reviewSales = new SalesReviewWindow();
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
-   
-    
+//      SalesReviewWindow reviewSales = new SalesReviewWindow();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -225,41 +220,37 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
-//        int check =0;
-         
         int index = Sales.tblReviewSales.getSelectedRow();
 
         String reqDate = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
         String orderStatus = (String) cmbStatus.getSelectedItem();
-        String sonumb =  dpReqDate.getText();
+        String sonumb = dpReqDate.getText();
 
-//        Date reqd ;
-
-
-        if ((reqDate != "")&&(orderStatus !="")) {
+        if ((reqDate != "--") && (orderStatus != "")) {
             
-            DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
-//                      
-            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate,index, 2);
+            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate, index, 2);
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
 
-            String query = "UPDATE sales_tab SET orderStatus='"+orderStatus+"',reqDate='"+reqDate+"' WHERE soNumber="+sonumb+";";
+            String query = "UPDATE sales_tab SET orderStatus='" + orderStatus + "',reqDate='" + reqDate + "' WHERE soNumber=" + sonumb + ";";
 
-            try{
+            try {
+                DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
                 int execute = st.executeUpdate(query);
-                this.dispose();
+                con.close();
+                st.close();
+
+                model.setRowCount(0);
+                dispose();
+
                 JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+                //JOptionPane.showMessageDialog(null, e);
             }
-            dispose();
-
         } else {
-
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
-
         }
 
 

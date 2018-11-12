@@ -111,6 +111,9 @@ public class Purchase extends javax.swing.JFrame {
                 purchase = new PurchaseModel(rs.getInt("purNo"), rs.getString("vendorName"), rs.getString("purchaseDate"), Double.parseDouble(rs.getString("amount")));
                 orderList.add(purchase);
             }
+            con.close();
+            st.close();
+            rs.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -934,6 +937,7 @@ public class Purchase extends javax.swing.JFrame {
                             pd.setDate(null);
                             DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
                             model.setRowCount(0);
+                            ShowPurchases();
                             st.close();
                             st1.close();
                             con.close();
@@ -1054,14 +1058,14 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
 
-        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+       /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
         model.setRowCount(0);
 
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
         jTextField1.setText("");
 
-        ShowPurchases();
+        ShowPurchases();*/
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1164,7 +1168,7 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdActionPerformed
-        
+
     }//GEN-LAST:event_pdActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
@@ -1178,24 +1182,21 @@ public class Purchase extends javax.swing.JFrame {
         Date got;
         try {
             d = df.format(dat);
-            
-            for (i = 0; i < model.getRowCount() ; i++) {
-                
+
+            for (i = 0; i < model.getRowCount(); i++) {
+
                 got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
-                if(df.parse(d).before(got)){
-                    
+                if (df.parse(d).before(got)) {
                     ;
-                }else{
+                } else {
                     model.removeRow(i);
                 }
-                
+
             }
-                
-            
-            
+
         } catch (Exception e) {
         }
-           
+
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
     private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
@@ -1209,31 +1210,28 @@ public class Purchase extends javax.swing.JFrame {
         Date got;
         try {
             d = df.format(dat);
-            
-            for (i = 0; i < model.getRowCount() ; i++) {
-                
+
+            for (i = 0; i < model.getRowCount(); i++) {
+
                 got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
-                if(df.parse(d).before(got)){
-                    
+                if (df.parse(d).before(got)) {
                     ;
-                }else{
+                } else {
                     model.removeRow(i);
                 }
-                
+
             }
-                
-            
-            
+
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        
+
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-         int pop = JOptionPane.YES_NO_OPTION;
+        int pop = JOptionPane.YES_NO_OPTION;
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
         if (result == 0) {
 
@@ -1244,7 +1242,7 @@ public class Purchase extends javax.swing.JFrame {
             frame.setVisible(true);
             this.dispose();
         }
-        
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

@@ -19,19 +19,18 @@ import java.sql.Statement;
  * @author it16350342
  */
 public class Login extends javax.swing.JFrame {
-Connection conn=null;
-    PreparedStatement pst=null;
-    ResultSet rs=null;
-    
+
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
     /**
      * Creates new form NewJFrame
      */
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
-        
-        
+
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
@@ -160,54 +159,52 @@ Connection conn=null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-                String Email = txtEmailLogin.getText();
-                String Password=txtPasswordlogin.getText();
-                String[] results = new String[3];
-                
-                String query = "select email, password, role from user_tab where email='"+Email+"';";
-                try {
-                    Connection con = dbConnect.getConnection();
-                    Statement st = con.createStatement();
-                    ResultSet rs = st.executeQuery(query);
-                    if (rs.next()) {
-                         results[0] = rs.getString("email");
-                         results[1] = rs.getString("password");
-                         results[2] = rs.getString("role");
- 
-                    }
-                    if ((txtPasswordlogin.getText().equals(Password)))
-                            {
-                                UserModel.loginName = results[0];
-                                UserModel.userRole = results[2];
-                                
-                                if(UserModel.userRole.equals("ADMIN")){
-                                    CreateAccount frame = new CreateAccount();
-                                    frame.setVisible(true);
-                                    this.dispose();
-                                   
-                                }
-                                if (UserModel.userRole.equals("STOCK CONTROLLER")) {
-                                     Stock frame = new Stock();
-                                     frame.setVisible(true);
-                                     this.dispose();
-                                }
-                                if (UserModel.userRole.equals("SALES MANAGER")) {
-                                     Sales frame = new Sales();
-                                     frame.setVisible(true);
-                                     this.dispose();
-                                }
-                            }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Invalid Username or Password.","Access Denied", JOptionPane.ERROR_MESSAGE);
-                    }
-                    
+        String Email = txtEmailLogin.getText();
+        String Password = txtPasswordlogin.getText();
+        String[] results = new String[3];
+
+        String query = "select email, password, role from user_tab where email='" + Email + "';";
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                results[0] = rs.getString("email");
+                results[1] = rs.getString("password");
+                results[2] = rs.getString("role");
+
+            }
+
+            con.close();
+            st.close();
+            rs.close();
+            if ((txtPasswordlogin.getText().equals(Password))) {
+                UserModel.loginName = results[0];
+                UserModel.userRole = results[2];
+
+                if (UserModel.userRole.equals("ADMIN")) {
+                    CreateAccount frame = new CreateAccount();
+                    frame.setVisible(true);
+                    this.dispose();
 
                 }
-                catch(Exception e)
-                {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
-                }  
+                if (UserModel.userRole.equals("STOCK CONTROLLER")) {
+                    Stock frame = new Stock();
+                    frame.setVisible(true);
+                    this.dispose();
+                }
+                if (UserModel.userRole.equals("SALES MANAGER")) {
+                    Sales frame = new Sales();
+                    frame.setVisible(true);
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
@@ -217,58 +214,55 @@ Connection conn=null;
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String Email = txtEmailLogin.getText();
-                String Password=txtPasswordlogin.getText();
-                String[] results = new String[3];
-                
-                String query = "select email, password, role from user_tab where email='"+Email+"';";
-                try {
-                    Connection con = dbConnect.getConnection();
-                    Statement st = con.createStatement();
-                    ResultSet rs = st.executeQuery(query);
-                    if (rs.next()) {
-                         results[0] = rs.getString("email");
-                         results[1] = rs.getString("password");
-                         results[2] = rs.getString("role");
- 
-                    }
-                    if ((txtPasswordlogin.getText().equals(Password)))
-                            {
-                                UserModel.loginName = results[0];
-                                UserModel.userRole = results[2];
-                                
-                                if(UserModel.userRole.equals("ADMIN")){
-                                    CreateAccount frame = new CreateAccount();
-                                    frame.setVisible(true);
-                                    this.dispose();
-                                }
-                                if(UserModel.userRole.equals("STOCK CONTROLLER")){
-                                    Stock frame = new Stock();
-                                    frame.setVisible(true);
-                                    this.dispose();
-                                }
-                                if(UserModel.userRole.equals("SALES MANAGER")){
-                                    Sales frame = new Sales();
-                                    frame.setVisible(true);
-                                    this.dispose();
-                                }
-                                
-                            }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Invalid Username or Password.","Access Denied", JOptionPane.ERROR_MESSAGE);
-                    }
-                    
+            String Password = txtPasswordlogin.getText();
+            String[] results = new String[3];
+
+            String query = "select email, password, role from user_tab where email='" + Email + "';";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    results[0] = rs.getString("email");
+                    results[1] = rs.getString("password");
+                    results[2] = rs.getString("role");
 
                 }
-                catch(Exception e)
-                {
-                    JOptionPane.showMessageDialog(null,"Invalid Username or Password" );
-                } 
+                con.close();
+                st.close();
+                rs.close();
+                if ((txtPasswordlogin.getText().equals(Password))) {
+                    UserModel.loginName = results[0];
+                    UserModel.userRole = results[2];
+
+                    if (UserModel.userRole.equals("ADMIN")) {
+                        CreateAccount frame = new CreateAccount();
+                        frame.setVisible(true);
+                        this.dispose();
+                    }
+                    if (UserModel.userRole.equals("STOCK CONTROLLER")) {
+                        Stock frame = new Stock();
+                        frame.setVisible(true);
+                        this.dispose();
+                    }
+                    if (UserModel.userRole.equals("SALES MANAGER")) {
+                        Sales frame = new Sales();
+                        frame.setVisible(true);
+                        this.dispose();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Invalid Username or Password");
+            }
         }
-       
-         
+
+
     }//GEN-LAST:event_btnLoginKeyPressed
 
     private void txtPasswordloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordloginMouseClicked
@@ -276,7 +270,7 @@ Connection conn=null;
     }//GEN-LAST:event_txtPasswordloginMouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-       ForgotPassword frame = new ForgotPassword();
+        ForgotPassword frame = new ForgotPassword();
         frame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
