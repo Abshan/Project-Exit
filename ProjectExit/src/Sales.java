@@ -37,8 +37,8 @@ public class Sales extends javax.swing.JFrame {
         initComponents();
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
-        fillTableReview();
-        fillTableSales();
+        
+        
 
         tblCreateSO.getModel().addTableModelListener(new TableModelListener() {
 
@@ -51,92 +51,6 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        tblReviewSales.getModel().addTableModelListener(new TableModelListener() {
-
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-
-                    fillTableReview();
-                    fillTableSales();
-
-                }
-            }
-        });
-        
-        tblReviewSales.getModel().addTableModelListener(new TableModelListener() {
-
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.DELETE) {
-
-                    fillTableReview();
-                    fillTableSales();
-
-                }
-            }
-        });
-
-    }
-
-    public void fillTableReview() {
-
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        String[] results = new String[7];
-        model.setRowCount(0);
-        String query = "SELECT * FROM sales_tab";
-
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
-            }
-            con.close();
-            st.close();
-            rs.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-    }
-
-    public void fillTableSales() {
-        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
-        String[] results2 = new String[9];
-        model.setRowCount(0);
-        String query2 = "SELECT * FROM sales_tab";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query2);
-            while (rs.next()) {
-                results2[0] = rs.getString("soNumber");
-                results2[1] = rs.getString("orderedDate");
-                results2[2] = rs.getString("reqDate");
-                results2[3] = rs.getString("customerName");
-                results2[4] = rs.getString("orderCreatedBy");
-                results2[5] = rs.getString("salesRep");
-                results2[6] = rs.getString("region");
-                results2[7] = rs.getString("orderStatus");
-                results2[8] = rs.getString("total");
-
-                model.addRow(results2);
-            }
-            con.close();
-            st.close();
-            rs.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB2");
-        }
     }
 
     public boolean getValidation(int soNum) {
@@ -152,6 +66,7 @@ public class Sales extends javax.swing.JFrame {
             rs.isBeforeFirst();
             stat = rs.isBeforeFirst();;
 
+           
         } catch (Exception e) {
         }
         return stat;
@@ -186,6 +101,8 @@ public class Sales extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
+
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -222,6 +139,8 @@ public class Sales extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
+
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -261,6 +180,8 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
+           
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
@@ -298,6 +219,8 @@ public class Sales extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
+
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
@@ -491,11 +414,6 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel4.setText("SALES");
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 51), null, null));
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
 
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -508,11 +426,6 @@ public class Sales extends javax.swing.JFrame {
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -1421,7 +1334,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if ((UserModel.userRole.equals("STOCK CONTOLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+        if (UserModel.userRole.equals("STOCK CONTOLLER")|| (UserModel.userRole.equals("ADMIN")) ) {
             AddProduct frame = new AddProduct();
             frame.setVisible(true);
             this.dispose();
@@ -1525,7 +1438,7 @@ public class Sales extends javax.swing.JFrame {
             soNum = Integer.parseInt(soNumber);
             if ((soNum > 10000) && (soNum < 1000000)) {
                 soNo = true;
-            }
+            } 
         } catch (Exception e) {
         }
         try {
@@ -1820,7 +1733,6 @@ public class Sales extends javax.swing.JFrame {
 
                     model.removeRow(tblReviewSales.getSelectedRow());
                     JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
-                    fillTableReview();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
@@ -1963,7 +1875,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-        /* Connection con = dbConnect.getConnection();
+        Connection con = dbConnect.getConnection();
 
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
@@ -2014,21 +1926,10 @@ public class Sales extends javax.swing.JFrame {
 
         dpTo.setDate(null);
         dpFrom.setDate(null);
+        dpTo2.setDate(null);
+        dpFrom2.setDate(null);
         txtSearchSONum.setText("");
         cmbSearchSalesRep.setSelectedIndex(0);
-         */
- /*DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        DefaultTableModel model2 = (DefaultTableModel) tblViewSalesOrders.getModel();
-        model.setRowCount(0);
-        model2.setRowCount(0);*/
-
- /*dpTo.setDate(null);
-        dpFrom.setDate(null);
-        txtSearchSONum.setText("");
-        cmbSearchSalesRep.setSelectedIndex(0);
-        
-        fillTableReview();
-        fillTableSales();*/
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -2192,6 +2093,8 @@ public class Sales extends javax.swing.JFrame {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
+
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No values in the database");
@@ -2390,32 +2293,15 @@ public class Sales extends javax.swing.JFrame {
             }
         }
 
-
+        
     }//GEN-LAST:event_cmbFilterSalesManActionPerformed
 
     private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
         // TODO add your handling code here:
-
-
+        
+        
+        
     }//GEN-LAST:event_jTabbedPane1FocusGained
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel4MouseClicked
-
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        int pop = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
-        if (result == 0) {
-
-            UserModel.loginName = "";
-            UserModel.userRole = "";
-
-            Login frame = new Login();
-            frame.setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_jButton7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -2547,7 +2433,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;
-    public static javax.swing.JTable tblViewSalesOrders;
+    public javax.swing.JTable tblViewSalesOrders;
     public javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     public javax.swing.JTextField txtSONumber;
