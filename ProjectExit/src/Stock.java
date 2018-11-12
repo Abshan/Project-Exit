@@ -495,7 +495,7 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+        if ((UserModel.userRole.equals("STOCK CONTOLLER"))|| (UserModel.userRole.equals("ADMIN"))) {
         AddProduct frame = new AddProduct();
         frame.setVisible(true);
         this.dispose();}

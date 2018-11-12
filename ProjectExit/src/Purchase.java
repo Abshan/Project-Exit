@@ -211,6 +211,11 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel3.setText("PURCHASE");
         jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         lblSales.setText("SALES");
         lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -598,18 +603,6 @@ public class Purchase extends javax.swing.JFrame {
             }
         });
 
-        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXDatePicker1ActionPerformed(evt);
-            }
-        });
-
-        jXDatePicker2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXDatePicker2ActionPerformed(evt);
-            }
-        });
-
         jButton6.setText("VIEW");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -967,7 +960,7 @@ public class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+        if ((UserModel.userRole.equals("STOCK CONTOLLER")) || (UserModel.userRole.equals("ADMIN"))) {
             AddProduct frame = new AddProduct();
             frame.setVisible(true);
             this.dispose();
@@ -1229,6 +1222,10 @@ public class Purchase extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments

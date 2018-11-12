@@ -414,6 +414,11 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel4.setText("SALES");
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 51), null, null));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1334,7 +1339,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if (UserModel.userRole.equals("STOCK CONTOLLER")) {
+        if ((UserModel.userRole.equals("STOCK CONTOLLER")) || (UserModel.userRole.equals("ADMIN"))) {
             AddProduct frame = new AddProduct();
             frame.setVisible(true);
             this.dispose();
@@ -2302,6 +2307,10 @@ public class Sales extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments

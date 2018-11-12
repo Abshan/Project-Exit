@@ -762,20 +762,25 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-       if (tblDetailsTable.getSelectedRow() == -1) {
-            if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty, Nothing to clear.");
-            }
-            
-        DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
-       model1.setRowCount(0);
-       txtUserIDMan.setText("");
-       txtUserNameMan.setText("");
-       txtEmailMan.setText("");
-       txtNICMan.setText("");
-       txtPasswordMan.setText("");
-       
-       }
+      if(tblDetailsTable.getSelectedRow()== -1)
+          if(tblDetailsTable.getRowCount()== 0)
+          {
+              JOptionPane.showMessageDialog(rootPane, "Table is empty. Nothing to clear");
+          }
+      DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
+      model1.setRowCount(0);
+      
+      txtEmailMan.setText("");
+      txtNICMan.setText("");
+      txtUserIDMan.setText("");
+      txtSearchManage.setText("");
+      txtUserNameMan.setText("");
+      txtPasswordMan.setText("");
+     
+      
+      JOptionPane.showMessageDialog(rootPane, "Cleared Successfully");
+      
+   
 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -785,7 +790,7 @@ public class CreateAccount extends javax.swing.JFrame {
         String Email = txtEmailMan.getText();
         String NIC = txtNICMan.getText();
         String Password = txtPasswordMan.getText();
-        String role = cmbRoleMan.getSelectedItem().toString();
+        String Role = cmbRoleMan.getSelectedItem().toString();
                 
         if (tblDetailsTable.getSelectedRow() == -1) {
             if (tblDetailsTable.getRowCount() == 0) {
@@ -798,7 +803,7 @@ public class CreateAccount extends javax.swing.JFrame {
         }
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         
-        String query = "UPDATE user_tab SET userName='"+UserName+"',email='"+Email+"',nic='"+NIC+"',password='"+Password+"',role='"+role+"' WHERE userID="+UserID+";";
+        String query = "UPDATE user_tab SET userName='"+UserName+"',email='"+Email+"',nic='"+NIC+"',password='"+Password+"',role='"+Role+"' WHERE userID="+UserID+";";
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
@@ -815,7 +820,7 @@ public class CreateAccount extends javax.swing.JFrame {
         model1.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
         model1.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
         model1.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
-        model1.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);
+        model1.setValueAt(cmbRoleMan.getSelectedItem(), tblDetailsTable.getSelectedRow(), 5);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
@@ -914,43 +919,44 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDetailsTableMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tblDetailsTable.getSelectedRow();
-        String UserID = txtUserIDMan.getText();
-        if (tblDetailsTable.getSelectedRow() == -1) {
-            if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty");
-                
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "You must select a row to delete");
-                
-            }
-        
-        txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
-        txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
-        txtEmailMan.setText(tblDetailsTable.getValueAt(row, 2).toString());
-        txtNICMan.setText(tblDetailsTable.getValueAt(row, 3).toString());
-        txtPasswordMan.setText(tblDetailsTable.getValueAt(row, 4).toString());
-        cmbRoleMan.setSelectedItem(tblDetailsTable.getValueAt(row, 5).toString());
-        String query = "DELETE FROM user_tab WHERE userID="+UserID+";";
+       int row =tblDetailsTable.getSelectedRow();
+       String UserID = txtUserIDMan.getText();
+       if(tblDetailsTable.getSelectedRow()== -1){
+           if(tblDetailsTable.getRowCount()== 0){
+               JOptionPane.showMessageDialog(rootPane,"fuck");
+           }
+           else{
+               JOptionPane.showMessageDialog(rootPane,"select fuck");
+          
+           }
+       }
+          txtUserIDMan.setText(tblDetailsTable.getValueAt(row, 0).toString());
+          txtUserNameMan.setText(tblDetailsTable.getValueAt(row, 1).toString());
+          txtEmailMan.setText(tblDetailsTable.getValueAt(row, 2).toString());
+          txtNICMan.setText(tblDetailsTable.getValueAt(row, 3).toString());
+          txtPasswordMan.setText(tblDetailsTable.getValueAt(row, 4).toString());
+          cmbRoleMan.setSelectedItem(tblDetailsTable.getValueAt(row, 5).toString());
+          
+          String query = "DELETE FROM user_tab WHERE userID="+UserID+";";
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             int execute = st.executeUpdate(query);
-            JOptionPane.showMessageDialog(rootPane, "User Deleted Successfully.");
-            
-             DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-                model.removeRow(tblDetailsTable.getSelectedRow());
+            JOptionPane.showMessageDialog(rootPane, "Deleted Suc");
+
+            DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+
+            model.removeRow(tblDetailsTable.getSelectedRow());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-                    }   
-        
-      
-       txtUserIDMan.setText("");
-       txtUserNameMan.setText("");
-       txtEmailMan.setText("");
-       txtNICMan.setText("");
-       txtPasswordMan.setText("");
         }
+        txtEmailMan.setText("");
+        txtNICMan.setText("");
+        txtUserIDMan.setText("");
+        txtSearchManage.setText("");
+        txtUserNameMan.setText("");
+        txtPasswordMan.setText("");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
@@ -1043,9 +1049,17 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserKeyPressed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        Login frame = new Login();
-        frame.setVisible(true);
-        this.dispose();
+         int pop = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
+        if (result == 0) {
+
+            UserModel.loginName = "";
+            UserModel.userRole = "";
+
+            Login frame = new Login();
+            frame.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void cmbRoleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleFilterActionPerformed
