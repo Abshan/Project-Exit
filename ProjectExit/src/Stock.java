@@ -1,10 +1,10 @@
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 
@@ -56,7 +56,7 @@ public class Stock extends javax.swing.JFrame {
             st.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -568,7 +568,7 @@ public class Stock extends javax.swing.JFrame {
             st.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
                                               
@@ -722,7 +722,7 @@ public class Stock extends javax.swing.JFrame {
             st.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearch1ActionPerformed
@@ -756,6 +756,7 @@ public class Stock extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Stock().setVisible(true);
             }

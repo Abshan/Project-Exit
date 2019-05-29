@@ -2,19 +2,15 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -54,7 +50,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             pst.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
 
@@ -427,7 +423,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 qVal = true;
                 qerror.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             qerror.setText("*invalid");
         }
 
@@ -437,7 +433,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 bVal = true;
                 berror.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             berror.setText("*invalid");
         }
 
@@ -448,7 +444,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
                 uerror.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             uerror.setText("*invalid");
         }
 
@@ -675,6 +671,7 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PurchaseItemsAdd().setVisible(true);
             }

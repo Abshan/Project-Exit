@@ -1,9 +1,9 @@
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
-import java.sql.ResultSet;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /*
@@ -230,12 +230,12 @@ public class ForgotPassword extends javax.swing.JFrame {
                     st.close();
                     new Login().setVisible(true);
                     this.dispose();
-                } catch (Exception e) {
+                } catch (HeadlessException | SQLException e) {
                     JOptionPane.showMessageDialog(null, "NIC not found.");
                 }
             }
 
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
 
         }
     }//GEN-LAST:event_btnChangePasswordFPActionPerformed

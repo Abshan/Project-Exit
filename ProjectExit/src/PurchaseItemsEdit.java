@@ -1,14 +1,10 @@
 
 import Models.DatabaseConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -462,7 +458,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             } else {
                 qerror.setText("*invalid");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             qerror.setText("*invalid");
         }
 
@@ -474,7 +470,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             } else {
                 berror.setText("*invalid");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             berror.setText("*invalid");
         }
 
@@ -486,7 +482,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
             } else {
                 uerror.setText("*invalid");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             uerror.setText("*invalid");
         }
 
@@ -652,6 +648,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PurchaseItemsEdit().setVisible(true);
             }

@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 import Models.UserModel;
-import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -776,11 +776,11 @@ public class CreateAccount extends javax.swing.JFrame {
                     txtNIC.setText("");
                     txtPassword.setText("");
                     txtConfirmPassword.setText("");
-                } catch (Exception a) {
+                } catch (HeadlessException | SQLException a) {
                     JOptionPane.showMessageDialog(null, a);
                 }
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -849,7 +849,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     model1.setRowCount(0);
                     fillTable();
 
-                } catch (Exception e) {
+                } catch (HeadlessException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
             } else {
@@ -976,7 +976,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 model.setRowCount(0);
                 fillTable();
 
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -1032,7 +1032,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 con.close();
                 st.close();
                 rs.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         } else {
@@ -1055,7 +1055,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 con.close();
                 st.close();
                 rs.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
@@ -1130,7 +1130,7 @@ public class CreateAccount extends javax.swing.JFrame {
             con.close();
             st.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_cmbRoleFilterActionPerformed
@@ -1169,6 +1169,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CreateAccount().setVisible(true);
             }

@@ -4,25 +4,17 @@
  * and open the template in the editor.
  */
 import Models.PurchaseModel;
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.util.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import javafx.scene.control.DatePicker;
 import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.util.ArrayList;
-import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -856,7 +848,7 @@ public class Purchase extends javax.swing.JFrame {
             date = df.format(dat);
             date1 = sdf.parse(date);
             current = sdf.parse(formattedDate);
-            if ((date1.after(current)) && (date1.before(current)) /*&& !(date1.equals(current))*/) {
+            if ((date1.after(current)) && (date1.before(current))) {
 
                 purerror.setText("*invalid");
             } else {
@@ -1283,6 +1275,7 @@ public class Purchase extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Purchase().setVisible(true);
 

@@ -2,19 +2,14 @@
 import Models.DatabaseConnection;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -389,7 +384,7 @@ public class SalesReport extends javax.swing.JFrame {
                 sp.setSelectedIndex(0);
                 con.close();
 
-            } catch (Exception e) {
+            } catch (FileNotFoundException | SQLException | JRException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
@@ -434,6 +429,7 @@ public class SalesReport extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new SalesReport().setVisible(true);
             }

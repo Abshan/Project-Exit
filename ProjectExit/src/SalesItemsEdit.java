@@ -5,6 +5,7 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -221,7 +222,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
             qVal = true;
             lblErrQuantity.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             lblErrQuantity.setText("*invalid");
         }
 
@@ -231,7 +232,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
             bVal = true;
             lblErrBatNo.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             lblErrBatNo.setText("*invalid");
         }
         
@@ -248,7 +249,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                     pid = rs.getInt("mrp");
                     realpid = rs.getInt("prodID");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
         } else {
 
@@ -263,7 +264,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                     pid = rs.getInt("wsp");
                     realpid = rs.getInt("prodID");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
             
         }
@@ -333,6 +334,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new SalesItemsEdit().setVisible(true);
             }

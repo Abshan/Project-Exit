@@ -1,12 +1,13 @@
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /*
@@ -202,7 +203,7 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
             }
 
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -257,7 +258,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, "Invalid Username or Password");
             }
         }
@@ -305,6 +306,7 @@ public class Login extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Login().setVisible(true);
             }

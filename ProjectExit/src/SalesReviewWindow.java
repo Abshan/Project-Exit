@@ -1,8 +1,8 @@
 
 import Models.DatabaseConnection;
 import java.awt.HeadlessException;
-import java.util.Date;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -246,7 +246,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
 
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 //JOptionPane.showMessageDialog(null, e);
             }
         } else {
@@ -296,6 +296,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new SalesReviewWindow().setVisible(true);
             }

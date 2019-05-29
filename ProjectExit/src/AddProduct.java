@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Models.ProductModel;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.*;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -70,7 +69,7 @@ public class AddProduct extends javax.swing.JFrame {
             st.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -818,7 +817,7 @@ public class AddProduct extends javax.swing.JFrame {
 
                         JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
 
-                    } catch (Exception e) {
+                    } catch (HeadlessException | SQLException e) {
                         JOptionPane.showMessageDialog(null, e);
                     }
                 }
@@ -849,7 +848,7 @@ public class AddProduct extends javax.swing.JFrame {
                 con.close();
                 st.close();
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -974,7 +973,7 @@ public class AddProduct extends javax.swing.JFrame {
                         txtSize.setText(" ");
                         rdoCosmetics.setSelected(false);
                         rdoDrugs.setSelected(false);
-                    } catch (Exception e) {
+                    } catch (HeadlessException | SQLException e) {
                         JOptionPane.showMessageDialog(null, e);
                     }
                 }
@@ -1108,7 +1107,7 @@ public class AddProduct extends javax.swing.JFrame {
                 drpCategory.setSelectedItem("Cosmetics");
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -1197,7 +1196,7 @@ public class AddProduct extends javax.swing.JFrame {
             st.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
 

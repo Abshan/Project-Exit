@@ -4,24 +4,21 @@
  * and open the template in the editor.
  */
 import javax.swing.DefaultCellEditor;
-import Models.SalesModel;
-import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
 import Models.UserModel;
-import java.sql.PreparedStatement;
+import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import org.codehaus.groovy.syntax.Types;
-import org.krysalis.barcode4j.tools.Length;
 
 //Check changes
 /**
@@ -64,10 +61,10 @@ public class Sales extends javax.swing.JFrame {
             st = con.createStatement();
             rs = st.executeQuery(req);
             rs.isBeforeFirst();
-            stat = rs.isBeforeFirst();;
+            stat = rs.isBeforeFirst();
 
            
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return stat;
     }
@@ -104,7 +101,7 @@ public class Sales extends javax.swing.JFrame {
 
             
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
     }
@@ -142,7 +139,7 @@ public class Sales extends javax.swing.JFrame {
 
             
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
 
@@ -182,7 +179,7 @@ public class Sales extends javax.swing.JFrame {
 
            
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
     }
@@ -222,7 +219,7 @@ public class Sales extends javax.swing.JFrame {
 
             
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
 
@@ -1430,7 +1427,7 @@ public class Sales extends javax.swing.JFrame {
                 reqDat = true;
             }
 
-        } catch (Exception e) {
+        } catch (ParseException e) {
             lblErrorRD.setText("*invalid");
         }
 
@@ -1439,7 +1436,7 @@ public class Sales extends javax.swing.JFrame {
             if ((soNum > 10000) && (soNum < 1000000)) {
                 soNo = true;
             } 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
         }
         try {
             cusPho = Integer.parseInt(soNumber);
@@ -1449,7 +1446,7 @@ public class Sales extends javax.swing.JFrame {
             } else {
                 lblErrorCP.setText("*invalid");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             lblErrorCP.setText("*invalid");
         }
 
@@ -1477,7 +1474,7 @@ public class Sales extends javax.swing.JFrame {
             lblErrorCN.setText("");
         }
 
-        String total = lblTotalAmt.getText().toString();
+        String total = lblTotalAmt.getText();
 
         if (!(txtSONumber.getText().equals("")) && !(txtCustomerName.getText().equals("")) && !(txtCustomerPhone.getText().equals("")) && !(cmbSalesRep.getSelectedIndex() == -1)
                 && !(cmbRegion.getSelectedIndex() == -1) && !(cmbOrderStatus.getSelectedIndex() == -1) && !(dpReqDate.getDate() == null)) {
@@ -1525,7 +1522,7 @@ public class Sales extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "No Items Added");
                     }
-                } catch (Exception e) {
+                } catch (HeadlessException | NumberFormatException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
             } else {
@@ -1655,7 +1652,7 @@ public class Sales extends javax.swing.JFrame {
                     model2.addRow(results);
                 }
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -1763,7 +1760,7 @@ public class Sales extends javax.swing.JFrame {
                         model.removeRow(i);
                     }
                 }
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -1794,7 +1791,7 @@ public class Sales extends javax.swing.JFrame {
                         model.removeRow(i);
                     }
                 }
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -1867,7 +1864,7 @@ public class Sales extends javax.swing.JFrame {
                 model.addRow(results);
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
 
@@ -1896,7 +1893,7 @@ public class Sales extends javax.swing.JFrame {
 
                 model.addRow(results);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
 
@@ -1920,7 +1917,7 @@ public class Sales extends javax.swing.JFrame {
 
                 model2.addRow(results2);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problem Connectinf to DB2");
         }
 
@@ -1977,7 +1974,7 @@ public class Sales extends javax.swing.JFrame {
                         model.removeRow(i);
                     }
                 }
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -2008,7 +2005,7 @@ public class Sales extends javax.swing.JFrame {
                         model.removeRow(i);
                     }
                 }
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -2050,7 +2047,7 @@ public class Sales extends javax.swing.JFrame {
                     model.addRow(results);
                 }
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         } else {
@@ -2072,7 +2069,7 @@ public class Sales extends javax.swing.JFrame {
 
                     model.addRow(results2);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         }
@@ -2096,7 +2093,7 @@ public class Sales extends javax.swing.JFrame {
 
             
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No values in the database");
         }
         val = id + 1;
@@ -2137,7 +2134,7 @@ public class Sales extends javax.swing.JFrame {
                     model.addRow(results);
                 }
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         } else {
@@ -2161,7 +2158,7 @@ public class Sales extends javax.swing.JFrame {
 
                     model.addRow(results2);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         }
@@ -2200,7 +2197,7 @@ public class Sales extends javax.swing.JFrame {
                     model.addRow(results);
                 }
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         } else {
@@ -2224,7 +2221,7 @@ public class Sales extends javax.swing.JFrame {
 
                     model.addRow(results2);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         }
@@ -2264,7 +2261,7 @@ public class Sales extends javax.swing.JFrame {
                     model.addRow(results);
                 }
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         } else {
@@ -2288,7 +2285,7 @@ public class Sales extends javax.swing.JFrame {
 
                     model.addRow(results2);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
             }
         }
@@ -2333,6 +2330,7 @@ public class Sales extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Sales().setVisible(true);
             }

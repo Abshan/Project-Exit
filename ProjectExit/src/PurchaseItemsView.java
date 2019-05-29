@@ -1,16 +1,6 @@
 
-import Models.PurchaseModel;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
-import java.sql.PreparedStatement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -5,6 +5,7 @@ import Models.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -46,7 +47,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
 
@@ -77,7 +78,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 rs.close();
                 con.close();
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
@@ -101,7 +102,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             rs.close();
             con.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "quant meesd up");
         }
 
@@ -346,7 +347,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 qVal = true;
                 lblErrQuantity.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             lblErrQuantity.setText("*invalid");
         }
 
@@ -356,7 +357,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 bVal = true;
                 lblErrBatNo.setText("");
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             lblErrBatNo.setText("*invalid");
         }
 
@@ -387,7 +388,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 pst.close();
                 rs.close();
                 con.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
         } else {
 
@@ -402,7 +403,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                     pid = rs.getInt("wsp");
                     realpid = rs.getInt("prodID");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
 
         }
@@ -491,6 +492,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new SalesItemsAdd().setVisible(true);
             }

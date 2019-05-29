@@ -2,23 +2,15 @@
 import Models.DatabaseConnection;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -253,7 +245,7 @@ public class PurchaseReport extends javax.swing.JFrame {
             jv.viewReport(j, false);
             con.close();
 
-        } catch (Exception e) {
+        } catch (FileNotFoundException | SQLException | JRException e) {
             JOptionPane.showMessageDialog(null, e);
         }
         }
@@ -304,6 +296,7 @@ public class PurchaseReport extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PurchaseReport().setVisible(true);
             }
