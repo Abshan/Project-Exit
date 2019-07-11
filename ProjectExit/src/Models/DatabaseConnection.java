@@ -19,9 +19,11 @@ public class DatabaseConnection {
         String username = "root";
         String password = "root";
 
-        String jdbcUrl = "jdbc:mysql://35.240.248.82:3306,35.240.217.42:3306/ProjectExit_DB";
+        //String jdbcUrl = "jdbc:mysql://35.240.248.82:3306,35.240.217.42:3306/ProjectExit_DB";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/projectexit_db";
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(jdbcUrl, username, password);
             return con;
 
