@@ -984,15 +984,16 @@ public class AddProduct extends javax.swing.JFrame {
                         Statement st = con.createStatement();
                         int execute = st.executeUpdate(query);
                         JOptionPane.showMessageDialog(rootPane, "Product Added Successfully.");
+                        ShowProducts();
 
                         con.close();
                         st.close();
 
-                        txtBrandName.setText(" ");
-                        txtProductName.setText(" ");
-                        txtWholesalePrice.setText(" ");
-                        txtMRP.setText(" ");
-                        txtSize.setText(" ");
+                        txtBrandName.setText("");
+                        txtProductName.setText("");
+                        txtWholesalePrice.setText("");
+                        txtMRP.setText("");
+                        txtSize.setText("");
                         rdoCosmetics.setSelected(false);
                         rdoDrugs.setSelected(false);
                     } catch (HeadlessException | SQLException e) {
@@ -1068,69 +1069,59 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_tblManageProductMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String search = txtSearch.getText();
-        String query = "";
+
         String category = cmbCategory.getSelectedItem().toString();
+        String search = txtSearch.getText();
 
-        if (search.equals("") || search.equals(null)) {
-            if (category.equalsIgnoreCase("NONE")) {
-                query = "SELECT * FROM products_tab;";
-            }
-
-            if (category.equalsIgnoreCase("DRUGS")) {
-                query = "SELECT * FROM products_tab WHERE category='Drugs';";
-            }
-
-            if (category.equalsIgnoreCase("COSMETICS")) {
-                query = "SELECT * FROM products_tab WHERE category='Cosmetics';";
-            }
-
-        } else {
-            if (category.equalsIgnoreCase("NONE")) {
-                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-            }
-
-            if (category.equalsIgnoreCase("DRUGS")) {
-                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Drugs';";
-            }
-
-            if (category.equalsIgnoreCase("Cosmetics")) {
-                query = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%' AND category='Cosmetics';";
-            }
-        }
+        ArrayList<ProductModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[7];
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getProdId();
+            row[1] = list.get(i).getBrandName();
+            row[2] = list.get(i).getProdName();
+            row[3] = list.get(i).getProdSize();
+            row[4] = list.get(i).getMRPrice();
+            row[5] = list.get(i).getWSPrice();
+            row[6] = list.get(i).getProdCat();
 
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("mrp");
-                results[5] = rs.getString("wsp");
-                results[6] = rs.getString("category");
-
-                model.addRow(results);
+            if (search.equals("")) {
+                if (category.equalsIgnoreCase("NONE")) {
+                    model.addRow(row);
+                }
+                if (category.equalsIgnoreCase("DRUGS")) {
+                    if (list.get(i).getProdCat().equals("Drugs")) {
+                        model.addRow(row);
+                    }
+                }
+                if (category.equalsIgnoreCase("COSMETICS")) {
+                    if (list.get(i).getProdCat().equals("Cosmetics")) {
+                        model.addRow(row);
+                    }
+                }
+            } else {
+                if (category.equalsIgnoreCase("NONE")) {
+                    if (list.get(i).getProdName().contains(search) || list.get(i).getBrandName().contains(search)) {
+                        model.addRow(row);
+                    }
+                }
+                if (category.equalsIgnoreCase("DRUGS")) {
+                    if (list.get(i).getProdCat().equals("Drugs")) {
+                        if (list.get(i).getProdName().contains(search) || list.get(i).getBrandName().contains(search)) {
+                            model.addRow(row);
+                        }
+                    }
+                }
+                if (category.equalsIgnoreCase("COSMETICS")) {
+                    if (list.get(i).getProdCat().equals("Cosmetics")) {
+                        if (list.get(i).getProdName().contains(search) || list.get(i).getBrandName().contains(search)) {
+                            model.addRow(row);
+                        }
+                    }
+                }
             }
-            con.close();
-            st.close();
-            rs.close();
-
-            if (results[6].equalsIgnoreCase("Drugs")) {
-                drpCategory.setSelectedItem("Drugs");
-            } else if (results[6].equalsIgnoreCase("Cosmetics")) {
-                drpCategory.setSelectedItem("Cosmetics");
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -1175,52 +1166,37 @@ public class AddProduct extends javax.swing.JFrame {
 
     private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
         // TODO add your handling code here:
-
-        String query = "";
         String category = cmbCategory.getSelectedItem().toString();
 
-        if (category.equalsIgnoreCase("NONE")) {
-            query = "SELECT * FROM products_tab;";
-        }
-
-        if (category.equalsIgnoreCase("DRUGS")) {
-            query = "SELECT * FROM products_tab WHERE category='Drugs';";
-        }
-
-        if (category.equalsIgnoreCase("COSMETICS")) {
-            query = "SELECT * FROM products_tab WHERE category='Cosmetics';";
-        }
-
+        ArrayList<ProductModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[7];
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getProdId();
+            row[1] = list.get(i).getBrandName();
+            row[2] = list.get(i).getProdName();
+            row[3] = list.get(i).getProdSize();
+            row[4] = list.get(i).getMRPrice();
+            row[5] = list.get(i).getWSPrice();
+            row[6] = list.get(i).getProdCat();
 
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
-
-                model.addRow(results);
+            if (category.equalsIgnoreCase("NONE")) {
+                model.addRow(row);
             }
-
-            con.close();
-            st.close();
-            rs.close();
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            if (category.equalsIgnoreCase("DRUGS")) {
+                if (list.get(i).getProdCat().equals("Drugs")) {
+                    model.addRow(row);
+                }
+            }
+            if (category.equalsIgnoreCase("COSMETICS")) {
+                if (list.get(i).getProdCat().equals("Cosmetics")) {
+                    model.addRow(row);
+                }
+            }
         }
-
+        txtSearch.setText("");
     }//GEN-LAST:event_cmbCategoryActionPerformed
 
     /**
