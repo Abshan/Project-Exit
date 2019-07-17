@@ -10,79 +10,52 @@ package Models;
  * @author User
  */
 public class ProductModel {
-    
+
     private int prodId;
     private String brandName;
     private String prodName;
-    private float WSPrice;
-    private float MRPrice;
     private String prodSize;
+    private double MRPrice;
+    private double WSPrice;
     private String prodCat;
 
-    public ProductModel(int prodId, String brandName, String prodName, float WSPrice, float MRPrice, String prodSize, String prodCat) {
+    public ProductModel(int prodId, String brandName, String prodName, String prodSize, double MRPrice, double WSPrice, String prodCat) {
         this.prodId = prodId;
         this.brandName = brandName;
         this.prodName = prodName;
-        this.WSPrice = WSPrice;
-        this.MRPrice = MRPrice;
         this.prodSize = prodSize;
+        this.MRPrice = MRPrice;
+        this.WSPrice = WSPrice;
         this.prodCat = prodCat;
+
     }
 
     public int getProdId() {
         return prodId;
     }
 
-    public void setProdId(int prodId) {
-        this.prodId = prodId;
-    }
-
     public String getBrandName() {
         return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
     }
 
     public String getProdName() {
         return prodName;
     }
 
-    public void setProdName(String prodName) {
-        this.prodName = prodName;
-    }
-
-    public float getWSPrice() {
-        return WSPrice;
-    }
-
-    public void setWSPrice(float WSPrice) {
-        this.WSPrice = WSPrice;
-    }
-
-    public float getMRPrice() {
-        return MRPrice;
-    }
-
-    public void setMRPrice(float MRPrice) {
-        this.MRPrice = MRPrice;
-    }
-
     public String getProdSize() {
         return prodSize;
     }
 
-    public void setProdSize(String prodSize) {
-        this.prodSize = prodSize;
+    public double getMRPrice() {
+        return MRPrice;
+    }
+
+    public double getWSPrice() {
+        return WSPrice;
     }
 
     public String getProdCat() {
         return prodCat;
     }
 
-    public void setProdCat(String prodCat) {
-        this.prodCat = prodCat;
-    }
- 
 }

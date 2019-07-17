@@ -6,12 +6,14 @@
 import java.sql.Connection;
 import javax.swing.*;
 import Models.DatabaseConnection;
+import Models.ProductModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -39,38 +41,52 @@ public class AddProduct extends javax.swing.JFrame {
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
         txtProductID1.setEditable(false);
-        fillTable();
+        ShowProducts();
     }
 
-    public void fillTable() {
+    public ArrayList<ProductModel> getOrderList() {
 
-        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-        String query = "select * from products_tab";
-        String[] results = new String[7];
+        ArrayList<ProductModel> orderList = new ArrayList<ProductModel>();
+        Connection con = dbConnect.getConnection();
+        String query = "SELECT * FROM products_tab";
 
+        Statement st;
+        ResultSet rs;
         try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            ProductModel products;
 
             while (rs.next()) {
-                results[0] = rs.getString("prodID");
-                results[1] = rs.getString("brandName");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
-                results[6] = rs.getString("category");
-
-                model.addRow(results);
+                products = new ProductModel(rs.getInt("prodID"), rs.getString("brandName"), rs.getString("prodName"), rs.getString("size"), Double.parseDouble(rs.getString("mrp")), Double.parseDouble(rs.getString("wsp")), rs.getString("category"));
+                orderList.add(products);
             }
-
             con.close();
             st.close();
             rs.close();
-
-        } catch (SQLException e) {
+        } catch (NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+        return orderList;
+    }
+
+    public void ShowProducts() {
+
+        ArrayList<ProductModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getProdId();
+            row[1] = list.get(i).getBrandName();
+            row[2] = list.get(i).getProdName();
+            row[3] = list.get(i).getProdSize();
+            row[4] = list.get(i).getMRPrice();
+            row[5] = list.get(i).getWSPrice();
+            row[6] = list.get(i).getProdCat();
+
+            model.addRow(row);
         }
     }
 
@@ -155,11 +171,13 @@ public class AddProduct extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel15.setPreferredSize(new java.awt.Dimension(1095, 585));
 
         jLabel22.setText("USE THE FORM BELOW TO ADD NEW PRODUCT");
 
         jPanel17.setBackground(new java.awt.Color(153, 153, 153));
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel17.setPreferredSize(new java.awt.Dimension(1045, 42));
 
         jLabel29.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel29.setText("ADD NEW PRODUCT");
@@ -171,7 +189,7 @@ public class AddProduct extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(759, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,6 +198,8 @@ public class AddProduct extends javax.swing.JFrame {
                 .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(1045, 475));
 
         jLabel15.setText("BRAND NAME: ");
 
@@ -238,7 +258,7 @@ public class AddProduct extends javax.swing.JFrame {
                             .addComponent(txtProductName)
                             .addComponent(txtBrandName)
                             .addComponent(txtSize))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
                     .addComponent(rdoDrugs)
@@ -280,7 +300,7 @@ public class AddProduct extends javax.swing.JFrame {
                         .addComponent(rdoDrugs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rdoCosmetics)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -291,9 +311,9 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,11 +354,13 @@ public class AddProduct extends javax.swing.JFrame {
         jTabbedPane1.addTab("ADD NEW PRODUCTS", jPanel4);
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1095, 585));
 
         jLabel20.setText("USE THE FORM BELOW TO MANAGE PRODUCTS");
 
         jPanel14.setBackground(new java.awt.Color(153, 153, 153));
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel14.setPreferredSize(new java.awt.Dimension(1045, 42));
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel21.setText("MANAGE PRODUCTS");
@@ -350,7 +372,7 @@ public class AddProduct extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(759, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,6 +381,8 @@ public class AddProduct extends javax.swing.JFrame {
                 .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel18.setPreferredSize(new java.awt.Dimension(1045, 475));
 
         jLabel10.setText("PRODUCT ID:");
 
@@ -459,7 +483,7 @@ public class AddProduct extends javax.swing.JFrame {
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -503,7 +527,7 @@ public class AddProduct extends javax.swing.JFrame {
                                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,16 +570,15 @@ public class AddProduct extends javax.swing.JFrame {
                     .addComponent(txtSize1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(btnGenerateProdList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnUpdate)
                         .addComponent(btnDelete)
-                        .addComponent(btnClear))))
+                        .addComponent(btnClear))
+                    .addComponent(btnGenerateProdList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
@@ -566,9 +589,9 @@ public class AddProduct extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -613,13 +636,12 @@ public class AddProduct extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         lblUser.setText("USER");
@@ -712,9 +734,9 @@ public class AddProduct extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -751,80 +773,80 @@ public class AddProduct extends javax.swing.JFrame {
         double MaxRP = 0.0, WholesaleP = 0.0;
         if (tblManageProduct.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select a product to update!");
-        }else{
+        } else {
 
-        if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
-            boolean result = false;
+            if (!((BrandName.equals("")) || (ProductName.equals("")) || (Size.equals("")) || (MRP.equals("")) || (WSP.equals("")))) {
+                boolean result = false;
 
-            if (result == false) {
-                try {
-                    MaxRP = Double.parseDouble(MRP);
-                    WholesaleP = Double.parseDouble(WSP);
-
-                    result = true;
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
-                }
-
-                if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
-                    JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
-                } else if (result) {
-                    String query = "UPDATE products_tab SET brandName='" + BrandName + "',prodName='" + ProductName + "',size='" + Size + "',wsp='" + WSP + "',mrp='" + MRP + "',category='" + Category + "' WHERE prodID=" + ProductID + ";";
+                if (result == false) {
                     try {
-                        Connection con = dbConnect.getConnection();
-                        Statement st = con.createStatement();
-                        int execute = st.executeUpdate(query);
+                        MaxRP = Double.parseDouble(MRP);
+                        WholesaleP = Double.parseDouble(WSP);
 
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e);
+                        result = true;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(rootPane, "Numerical Error. Please enter a valid details.");
                     }
 
-                    DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-                    model.setRowCount(0);
-                    String search = txtSearch.getText();
-                    String[] results = new String[7];
+                    if ((MaxRP <= 0.0) || (WholesaleP <= 0.0)) {
+                        JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
+                    } else if (result) {
+                        String query = "UPDATE products_tab SET brandName='" + BrandName + "',prodName='" + ProductName + "',size='" + Size + "',wsp='" + WSP + "',mrp='" + MRP + "',category='" + Category + "' WHERE prodID=" + ProductID + ";";
+                        try {
+                            Connection con = dbConnect.getConnection();
+                            Statement st = con.createStatement();
+                            int execute = st.executeUpdate(query);
 
-                    String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-                    try {
-                        Connection con = dbConnect.getConnection();
-                        Statement st = con.createStatement();
-                        ResultSet rs = st.executeQuery(query1);
-
-                        while (rs.next()) {
-                            results[0] = rs.getString("prodID");
-                            results[1] = rs.getString("brandName");
-                            results[2] = rs.getString("prodName");
-                            results[3] = rs.getString("size");
-                            results[4] = rs.getString("wsp");
-                            results[5] = rs.getString("mrp");
-                            results[6] = rs.getString("category");
-
-                            model.addRow(results);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e);
                         }
 
-                        con.close();
-                        st.close();
-                        rs.close();
-                       /* model.setRowCount(0);
+                        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
+                        model.setRowCount(0);
+                        String search = txtSearch.getText();
+                        String[] results = new String[7];
+
+                        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
+                        try {
+                            Connection con = dbConnect.getConnection();
+                            Statement st = con.createStatement();
+                            ResultSet rs = st.executeQuery(query1);
+
+                            while (rs.next()) {
+                                results[0] = rs.getString("prodID");
+                                results[1] = rs.getString("brandName");
+                                results[2] = rs.getString("prodName");
+                                results[3] = rs.getString("size");
+                                results[4] = rs.getString("mrp");
+                                results[5] = rs.getString("wsp");
+                                results[6] = rs.getString("category");
+
+                                model.addRow(results);
+                            }
+
+                            con.close();
+                            st.close();
+                            rs.close();
+                            /* model.setRowCount(0);
                         fillTable();*/
-                        txtProductID1.setText(" ");
-                        txtBrandName1.setText(" ");
-                        txtProductName1.setText(" ");
-                        txtWholesalePrice1.setText(" ");
-                        txtMRP1.setText(" ");
-                        txtSize1.setText(" ");
-                        txtSearch.setText(" ");
+                            txtProductID1.setText(" ");
+                            txtBrandName1.setText(" ");
+                            txtProductName1.setText(" ");
+                            txtWholesalePrice1.setText(" ");
+                            txtMRP1.setText(" ");
+                            txtSize1.setText(" ");
+                            txtSearch.setText(" ");
 
-                        JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
+                            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
 
-                    } catch (HeadlessException | SQLException e) {
-                        JOptionPane.showMessageDialog(null, e);
+                        } catch (HeadlessException | SQLException e) {
+                            JOptionPane.showMessageDialog(null, e);
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Please fill all fields.");
-        }
 
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -868,8 +890,8 @@ public class AddProduct extends javax.swing.JFrame {
                     results[1] = rs.getString("brandName");
                     results[2] = rs.getString("prodName");
                     results[3] = rs.getString("size");
-                    results[4] = rs.getString("wsp");
-                    results[5] = rs.getString("mrp");
+                    results[4] = rs.getString("mrp");
+                    results[5] = rs.getString("wsp");
                     results[6] = rs.getString("category");
 
                     model.addRow(results);
@@ -1091,8 +1113,8 @@ public class AddProduct extends javax.swing.JFrame {
                 results[1] = rs.getString("brandName");
                 results[2] = rs.getString("prodName");
                 results[3] = rs.getString("size");
-                results[4] = rs.getString("wsp");
-                results[5] = rs.getString("mrp");
+                results[4] = rs.getString("mrp");
+                results[5] = rs.getString("wsp");
                 results[6] = rs.getString("category");
 
                 model.addRow(results);
@@ -1153,7 +1175,6 @@ public class AddProduct extends javax.swing.JFrame {
 
     private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
         // TODO add your handling code here:
-
 
         String query = "";
         String category = cmbCategory.getSelectedItem().toString();
