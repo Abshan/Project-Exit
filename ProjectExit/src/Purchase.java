@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -74,13 +77,13 @@ public class Purchase extends javax.swing.JFrame {
             st = con.createStatement();
             rs = st.executeQuery(req);
             rs.isBeforeFirst();
-            r = rs.isBeforeFirst();;
+            r = rs.isBeforeFirst();
 
             rs.close();
             st.close();
             con.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "no");
         }
         return r;
@@ -106,7 +109,7 @@ public class Purchase extends javax.swing.JFrame {
             con.close();
             st.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
         return orderList;
@@ -771,7 +774,6 @@ public class Purchase extends javax.swing.JFrame {
         addProduct.y2.setText("YYYY");
         addProduct.jTextField3.setText("");
         addProduct.pr.setText("");
-        //com
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -825,7 +827,7 @@ public class Purchase extends javax.swing.JFrame {
         Connection con = dbConnect.getConnection();
         Date dat = pd.getDate();                                                //Getting the date from the date picker
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
-        String date = "";                               //Assigning the date format to the selected Date
+        String date = "";                                                       //Assigning the date format to the selected Date
 
         double Sum = getSum();
         int pno, p = 0;
@@ -856,7 +858,7 @@ public class Purchase extends javax.swing.JFrame {
                 dval = true;
             }
 
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             purerror.setText("*invalid");
         }
 
@@ -867,13 +869,13 @@ public class Purchase extends javax.swing.JFrame {
                 pval = true;
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             purerror.setText("*invalid");
         }
 
         if (vn.getText().equals("")) {
             venerror.setText("*invalid");
-        } else if (!(vn.getText().toString().matches("[a-zA-Z ]*"))) {
+        } else if (!(vn.getText().matches("[a-zA-Z ]*"))) {
             venerror.setText("*invalid");
         } else {
             venerror.setText("");
@@ -936,7 +938,7 @@ public class Purchase extends javax.swing.JFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "No Items Added");
                         }
-                    } catch (Exception e) {
+                    } catch (HeadlessException | NumberFormatException | SQLException e) {
                         JOptionPane.showMessageDialog(null, e);
                     }
                 } else {
@@ -1030,7 +1032,7 @@ public class Purchase extends javax.swing.JFrame {
                 st.close();
                 rs.close();
                 con.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
 
             }
 
@@ -1050,7 +1052,7 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
 
-       /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+        /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
         model.setRowCount(0);
 
         jXDatePicker1.setDate(null);
@@ -1099,7 +1101,7 @@ public class Purchase extends javax.swing.JFrame {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
 
-                String query = "select * from purchase_tab where purNo = '" + jTextField1.getText().toString() + "' ";
+                String query = "select * from purchase_tab where purNo = '" + jTextField1.getText() + "' ";
                 ResultSet rs = st.executeQuery(query);
 
                 while (rs.next()) {
@@ -1108,7 +1110,6 @@ public class Purchase extends javax.swing.JFrame {
                     results[2] = rs.getString("purchaseDate");
                     results[3] = rs.getString("amount");
 
-                    // DefaultTableModel model3 = (DefaultTableModel) PurchaseItemsView.jTable1.getModel();
                     model.addRow(results);
 
                 }
@@ -1149,10 +1150,10 @@ public class Purchase extends javax.swing.JFrame {
             }
 
             con.close();
-            statement.close();;
+            statement.close();
             rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No values in the database");
         }
         val = id + 1;
@@ -1186,7 +1187,7 @@ public class Purchase extends javax.swing.JFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (ParseException e) {
         }
 
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
@@ -1214,7 +1215,7 @@ public class Purchase extends javax.swing.JFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (ParseException e) {
         }
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 

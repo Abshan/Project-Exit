@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/lib/AbsoluteLayout.jar"/>
+	<classpathentry kind="lib" path="dist/lib/barcode4j-2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/beansbinding-1.2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/com-jaspersoft-ireport-components.jar"/>
+	<classpathentry kind="lib" path="dist/lib/com-jaspersoft-ireport-jasperserver.jar"/>
+	<classpathentry kind="lib" path="dist/lib/com-jaspersoft-ireport.jar"/>
+	<classpathentry kind="lib" path="dist/lib/com-jaspersoft-jrx.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-beanutils-1.8.2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-javaflow-20060411.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/dom4j-1.6.jar"/>
+	<classpathentry kind="lib" path="dist/lib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="dist/lib/groovy-all-2.0.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/iText-2.1.7.js2.jar"/>
+	<classpathentry kind="lib" path="dist/lib/iTextAsian.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jasper-compiler-jdt.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jasperreports-5.0.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/javax.persistence_2.1.0.v201304241213.jar"/>
+	<classpathentry kind="lib" path="dist/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mysql-connector-java-8.0.14.jar"/>
+	<classpathentry kind="lib" path="dist/lib/org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar"/>
+	<classpathentry kind="lib" path="dist/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="dist/ProjectExit.jar"/>
+	<classpathentry kind="lib" path="swingx-0.9.4.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
