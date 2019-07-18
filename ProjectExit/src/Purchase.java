@@ -25,7 +25,7 @@ import javax.swing.event.TableModelListener;
  *
  * @author User
  */
-public class Purchase extends javax.swing.JFrame {
+public final class Purchase extends javax.swing.JFrame {
 
     PurchaseItemsEdit editProduct = new PurchaseItemsEdit();
     PurchaseItemsAdd addProduct = new PurchaseItemsAdd();
@@ -281,12 +281,6 @@ public class Purchase extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
-            }
-        });
-
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         jLabel22.setText("USE THE FORM BELOW TO RECORD PURCHASE ORDERS");
@@ -322,12 +316,6 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel7.setText("PURCHASE DATE:");
 
-        pd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pdActionPerformed(evt);
-            }
-        });
-
         jTable9.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -342,11 +330,6 @@ public class Purchase extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        jTable9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable9MouseClicked(evt);
             }
         });
         jScrollPane10.setViewportView(jTable9);
@@ -600,9 +583,15 @@ public class Purchase extends javax.swing.JFrame {
 
         jLabel17.setText("SEARCH  BY  P.O NUMBER:");
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField1KeyTyped(evt);
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+
+        jXDatePicker2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker2ActionPerformed(evt);
             }
         });
 
@@ -816,11 +805,6 @@ public class Purchase extends javax.swing.JFrame {
             model.removeRow(jTable9.getSelectedRow());
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jTable9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable9MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jTable9MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
@@ -1050,18 +1034,6 @@ public class Purchase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-
-        /* DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-        model.setRowCount(0);
-
-        jXDatePicker1.setDate(null);
-        jXDatePicker2.setDate(null);
-        jTextField1.setText("");
-
-        ShowPurchases();*/
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         int pop = JOptionPane.YES_NO_OPTION;
@@ -1086,54 +1058,28 @@ public class Purchase extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-
-        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
-
-        if (jTextField1.getText().isEmpty()) {
+        if (jTextField1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Search field is empty!");
         } else {
-
+            String num = jTextField1.getText();
+            ArrayList<PurchaseModel> list = getOrderList();
+            DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
             model.setRowCount(0);
 
-            try {
+            Object[] row = new Object[4];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getPurNo();
+                row[1] = list.get(i).getVendorName();
+                row[2] = list.get(i).getPurchaseDate();
+                row[3] = list.get(i).getAmount();
 
-                String[] results = new String[4];
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-
-                String query = "select * from purchase_tab where purNo = '" + jTextField1.getText() + "' ";
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("purNo");
-                    results[1] = rs.getString("vendorName");
-                    results[2] = rs.getString("purchaseDate");
-                    results[3] = rs.getString("amount");
-
-                    model.addRow(results);
-
+                if (list.get(i).getPurNo() == Integer.parseInt(num)) {
+                    model.addRow(row);
                 }
-                st.close();
-                rs.close();
-                con.close();
-
-                if (model.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "No results have been found");
-                }
-            } catch (Exception e) {
-
             }
         }
 
-
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
-        // TODO add your handling code here:
-        if (jTextField1.getText().equals("")) {
-            ShowPurchases();
-        }
-    }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
@@ -1160,62 +1106,110 @@ public class Purchase extends javax.swing.JFrame {
         pn.setText(val + "");
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdActionPerformed
-
-    }//GEN-LAST:event_pdActionPerformed
-
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String d = "";
-        int i;
-        boolean dval = true;
-        Date dat = jXDatePicker1.getDate();
-        Date got;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd1 = jXDatePicker1.getDate();
+
+        String date1 = "";
+        String date2 = "";
+        Date current, from, pDate, to;
         try {
-            d = df.format(dat);
 
-            for (i = 0; i < model.getRowCount(); i++) {
+            date1 = df.format(pd1);
+            from = sdf.parse(date1);
+            current = sdf.parse(formated);
 
-                got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
-                if (df.parse(d).before(got)) {
-                    ;
-                } else {
-                    model.removeRow(i);
+            if (from.after(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+                ArrayList<PurchaseModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[4];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getPurNo();
+                    row[1] = list.get(i).getVendorName();
+                    row[2] = list.get(i).getPurchaseDate();
+                    row[3] = list.get(i).getAmount();
+
+                    pDate = sdf.parse(list.get(i).getPurchaseDate().toString());
+
+                    if (from.compareTo(pDate) <= 0 && jXDatePicker2.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (from.compareTo(pDate) <= 0 && jXDatePicker2.getDate() != null) {
+                        date2 = df.format(jXDatePicker2.getDate());
+                        to = sdf.parse(date2);
+                        if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
+                            model.addRow(row);
+                        }
+                    }
+
                 }
-
             }
-
-        } catch (ParseException e) {
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
     private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String d = "";
-        int i;
-        boolean dval = true;
-        Date dat = jXDatePicker2.getDate();
-        Date got;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd2 = jXDatePicker2.getDate();
+
+        String date2 = "";
+        String date1 = "";
+
+        Date current, from, pDate, to;
         try {
-            d = df.format(dat);
 
-            for (i = 0; i < model.getRowCount(); i++) {
+            date2 = df.format(pd2);
+            to = sdf.parse(date2);
+            current = sdf.parse(formated);
 
-                got = df.parse(jTable8.getModel().getValueAt(i, 2).toString());
-                if (df.parse(d).before(got)) {
-                    ;
-                } else {
-                    model.removeRow(i);
+            if (to.after(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+                ArrayList<PurchaseModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) jTable8.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[4];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getPurNo();
+                    row[1] = list.get(i).getVendorName();
+                    row[2] = list.get(i).getPurchaseDate();
+                    row[3] = list.get(i).getAmount();
+
+                    pDate = sdf.parse(list.get(i).getPurchaseDate().toString());
+
+                    if (to.compareTo(pDate) >= 0 && jXDatePicker1.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (to.compareTo(pDate) >= 0 && jXDatePicker1.getDate() != null) {
+                        date1 = df.format(jXDatePicker1.getDate());
+                        from = sdf.parse(date1);
+                        if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                            model.addRow(row);
+                        }
+                    }
+
                 }
-
             }
-
-        } catch (ParseException e) {
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
