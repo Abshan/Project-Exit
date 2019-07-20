@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import Models.SalesModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -30,15 +32,20 @@ public class Sales extends javax.swing.JFrame {
     /**
      * Creates new form
      */
+    SalesItemsView viewItems = new SalesItemsView();
+    SalesItemsEdit editItems = new SalesItemsEdit();
+    SalesItemsAdd addItems = new SalesItemsAdd();
+    SalesReviewWindow reviewSales = new SalesReviewWindow();
+    SalesReport saleReport = new SalesReport();
+
     public Sales() {
         initComponents();
+        ShowSales();
+        ShowReviewSales();
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
-        
-        
 
         tblCreateSO.getModel().addTableModelListener(new TableModelListener() {
-
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.INSERT || e.getType() == TableModelEvent.DELETE || e.getType() == TableModelEvent.UPDATE) {
@@ -48,6 +55,74 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+    }
+
+    public ArrayList<SalesModel> getOrderList() {
+
+        ArrayList<SalesModel> orderList = new ArrayList<SalesModel>();
+        Connection con = dbConnect.getConnection();
+        String query = "SELECT * FROM sales_tab";
+
+        Statement st;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            SalesModel sales;
+
+            while (rs.next()) {
+                sales = new SalesModel(rs.getInt("soNumber"), rs.getString("orderedDate"), rs.getString("customerName"), rs.getString("customerPhone"), rs.getString("reqDate"), rs.getString("salesRep"), rs.getString("region"), rs.getString("orderCreatedBy"), rs.getString("orderStatus"), rs.getInt("total"));
+                orderList.add(sales);
+            }
+            con.close();
+            st.close();
+            rs.close();
+        } catch (NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return orderList;
+    }
+
+    public void ShowReviewSales() {
+
+        ArrayList<SalesModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getTotal();
+            row[6] = list.get(i).getStatus();
+
+            model.addRow(row);
+        }
+    }
+
+    public void ShowSales() {
+
+        ArrayList<SalesModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getRegion();
+            row[7] = list.get(i).getStatus();
+            row[8] = list.get(i).getTotal();
+
+            model.addRow(row);
+        }
     }
 
     public boolean getValidation(int soNum) {
@@ -63,166 +138,9 @@ public class Sales extends javax.swing.JFrame {
             rs.isBeforeFirst();
             stat = rs.isBeforeFirst();
 
-           
         } catch (SQLException e) {
         }
         return stat;
-    }
-
-    public void searchFrom(String s) {
-        Connection con = dbConnect.getConnection();
-
-        Date dateFilterFromTemp = dpFrom.getDate();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search1 = df.format(dateFilterFromTemp);
-
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
-
-        String[] results = new String[7];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
-        try {
-
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
-            }
-
-            
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-    }
-
-    public void searchTo(String s) {
-
-        Connection con = dbConnect.getConnection();
-
-        Date dateFilterToTemp = dpTo.getDate();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search2 = df.format(dateFilterToTemp);
-
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
-
-        String[] results = new String[7];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
-        try {
-
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
-            }
-
-            
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-
-    }
-
-    public void searchFrom2(String s) {
-        Connection con = dbConnect.getConnection();
-
-        Date dateFilterFromTemp = dpFrom2.getDate();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search1 = df.format(dateFilterFromTemp);
-
-        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
-        model.setRowCount(0);
-
-        String[] results = new String[9];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) > '" + search1 + "';";
-        try {
-
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("salesRep");
-                results[6] = rs.getString("region");
-                results[7] = rs.getString("orderStatus");
-                results[8] = rs.getString("total");
-
-                model.addRow(results);
-            }
-
-           
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-    }
-
-    public void searchTo2(String s) {
-
-        Connection con = dbConnect.getConnection();
-
-        Date dateFilterToTemp = dpTo2.getDate();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search2 = df.format(dateFilterToTemp);
-
-        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
-        model.setRowCount(0);
-
-        String[] results = new String[9];
-
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(reqDate) < '" + search2 + "';";
-        try {
-
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("salesRep");
-                results[6] = rs.getString("region");
-                results[7] = rs.getString("orderStatus");
-                results[8] = rs.getString("total");
-
-                model.addRow(results);
-            }
-
-            
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -252,12 +170,6 @@ public class Sales extends javax.swing.JFrame {
         }
         return total;
     }
-
-    SalesItemsView viewItems = new SalesItemsView();
-    SalesItemsEdit editItems = new SalesItemsEdit();
-    SalesItemsAdd addItems = new SalesItemsAdd();
-    SalesReviewWindow reviewSales = new SalesReviewWindow();
-    SalesReport saleReport = new SalesReport();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -344,6 +256,7 @@ public class Sales extends javax.swing.JFrame {
         cmbSearchSalesRep = new javax.swing.JComboBox<>();
         btnViewTab = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
+        btnClearFilters = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -465,18 +378,8 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTabbedPane1FocusGained(evt);
-            }
-        });
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
-            }
-        });
-
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel15.setPreferredSize(new java.awt.Dimension(1112, 595));
 
         jLabel22.setText("USE THE FORM BELOW TO CREATE SALES ORDERS");
 
@@ -493,7 +396,7 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(780, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,8 +413,6 @@ public class Sales extends javax.swing.JFrame {
         jLabel34.setText("REQUIRED DATE:");
 
         jLabel9.setText("S.O. NUMBER:");
-
-        txtSONumber.setEditable(false);
 
         jLabel7.setText("SALES REPRESENTATIVE:");
 
@@ -763,13 +664,12 @@ public class Sales extends javax.swing.JFrame {
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel22)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
         jPanel15Layout.setVerticalGroup(
@@ -781,7 +681,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -796,7 +696,7 @@ public class Sales extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel30)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(200, 200, 200))
+                .addGap(168, 168, 168))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -811,11 +711,13 @@ public class Sales extends javax.swing.JFrame {
         jTabbedPane1.addTab("CREATE SALES ORDERS", jPanel4);
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1112, 595));
 
         jLabel20.setText("USE THE FORM BELOW TO MANAGE SALES ORDERS");
 
         jPanel14.setBackground(new java.awt.Color(153, 153, 153));
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel14.setPreferredSize(new java.awt.Dimension(1066, 42));
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel21.setText("REVIEW ORDERS");
@@ -827,7 +729,7 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(780, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -866,12 +768,6 @@ public class Sales extends javax.swing.JFrame {
         }
 
         jLabel12.setText("SEARCH:");
-
-        txtSearchSONum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchSONumActionPerformed(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel10.setText("FILTER BY REQUIRED DATE");
@@ -929,6 +825,13 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+        btnClearFilters.setText("CLEAR");
+        btnClearFilters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearFiltersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
@@ -964,11 +867,14 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnClearFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(82, 82, 82))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -979,7 +885,7 @@ public class Sales extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSearch))
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -988,11 +894,13 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(dpTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClearFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                         .addGap(18, 18, 18))
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -1010,11 +918,11 @@ public class Sales extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1025,7 +933,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -1040,7 +948,7 @@ public class Sales extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58))
+                .addGap(44, 44, 44))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1055,6 +963,7 @@ public class Sales extends javax.swing.JFrame {
         jTabbedPane1.addTab("REVIEW SALES ORDERS", jPanel7);
 
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel13.setPreferredSize(new java.awt.Dimension(1115, 595));
 
         jLabel23.setText("VIEW ALL ORDERS BELOW");
 
@@ -1228,8 +1137,8 @@ public class Sales extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -1241,7 +1150,7 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jLabel27.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -1254,9 +1163,11 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel27)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel27)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(6, 6, 6))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1264,7 +1175,7 @@ public class Sales extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -1273,13 +1184,13 @@ public class Sales extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("VIEW SALES ORDERS", jPanel2);
@@ -1298,11 +1209,9 @@ public class Sales extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(jTabbedPane1)))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1331,7 +1240,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if (UserModel.userRole.equals("STOCK CONTOLLER")|| (UserModel.userRole.equals("ADMIN")) ) {
+        if (UserModel.userRole.equals("STOCK CONTOLLER") || (UserModel.userRole.equals("ADMIN"))) {
             AddProduct frame = new AddProduct();
             frame.setVisible(true);
             this.dispose();
@@ -1408,7 +1317,7 @@ public class Sales extends javax.swing.JFrame {
         Date soDate = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String orderDate = df.format(soDate);
-        String rd = "";//df.format(reqDate);
+        String rd = "";
         String r = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1435,7 +1344,7 @@ public class Sales extends javax.swing.JFrame {
             soNum = Integer.parseInt(soNumber);
             if ((soNum > 10000) && (soNum < 1000000)) {
                 soNo = true;
-            } 
+            }
         } catch (NumberFormatException e) {
         }
         try {
@@ -1504,12 +1413,13 @@ public class Sales extends javax.swing.JFrame {
                             double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
 
                             String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
-//                    String Query3 = "INSERT INTO stocks_tab (prodID, prodName, quantity) VALUES('" + pId + "', '" + itemName + "', '" + quantity + "') ON DUPLICATE KEY UPDATE  quantity = quantity + '" + quantity + "' ";
                             int execute2 = st.executeUpdate(Query2);
-//                    int execute3 = st.executeUpdate(Query3);
+
                         }
 
                         JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
+                        ShowSales();
+                        ShowReviewSales();
                         txtSONumber.setText("");
                         txtCustomerName.setText("");
                         txtCustomerPhone.setText("");
@@ -1666,7 +1576,6 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnViewTabActionPerformed
 
     private void btnUpdateSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSalesActionPerformed
-        // TODO add your handling code here:
 
         index = tblReviewSales.getSelectedRow();
         if (tblReviewSales.getSelectedRow() == -1) {
@@ -1674,7 +1583,6 @@ public class Sales extends javax.swing.JFrame {
         } else {
 
             DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-//            reviewSales.dpReqDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(),2).toString());
 
             reviewSales.y1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(0, 4));
             reviewSales.m1.setText(model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 2).toString().substring(5, 7));
@@ -1704,7 +1612,6 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateSalesActionPerformed
 
     private void btnDeleteSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSalesActionPerformed
-        // TODO add your handling code here:
 
         Connection con = dbConnect.getConnection();
 
@@ -1729,8 +1636,8 @@ public class Sales extends javax.swing.JFrame {
                     int execute = st.executeUpdate(query);
 
                     model.removeRow(tblReviewSales.getSelectedRow());
-                    JOptionPane.showMessageDialog(rootPane, "Sales Order Deleted Successfully.");
-                } catch (Exception e) {
+                    ShowSales();
+                } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
 
@@ -1741,194 +1648,144 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteSalesActionPerformed
 
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
-        // TODO add your handling code here:
-
-        Connection con = dbConnect.getConnection();
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        Date dateFilterFromTemp = dpFrom.getDate();
+        
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search1 = df.format(dateFilterFromTemp);
-        Date given;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd1 = dpFrom.getDate();
 
-        if (search2 != null) {
+        String date1 = "";
+        String date2 = "";
+        Date current, from, pDate, to;
+        try {
 
-            searchTo(search2);
-            try {
-                for (int i = 0; i < tblReviewSales.getRowCount(); i++) {
-                    given = df.parse(tblReviewSales.getModel().getValueAt(i, 2).toString());
-                    if (df.parse(search1).after(given)) {
-                        model.removeRow(i);
+            date1 = df.format(pd1);
+            from = sdf.parse(date1);
+            current = sdf.parse(formated);
+
+            if (from.before(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+
+                ArrayList<SalesModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[7];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getSONo();
+                    row[1] = list.get(i).getOrderDate();
+                    row[2] = list.get(i).getReqDate();
+                    row[3] = list.get(i).getCusName();
+                    row[4] = list.get(i).getOrderCreator();
+                    row[5] = list.get(i).getTotal();
+                    row[6] = list.get(i).getStatus();
+
+                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+
+                    if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (from.compareTo(pDate) <= 0 && dpTo.getDate() != null) {
+                        date2 = df.format(dpTo.getDate());
+                        to = sdf.parse(date2);
+                        if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
+                            model.addRow(row);
+                        }
                     }
                 }
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-
-        } else {
-//            search1 = df.format(dateFilterFromTemp);
-
-            searchFrom(search1);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
+
     }//GEN-LAST:event_dpFromActionPerformed
 
     private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
         // TODO add your handling code here:
 
-        Connection con = dbConnect.getConnection();
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        Date dateFilterToTemp = dpTo.getDate();
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search2 = df.format(dateFilterToTemp);
-        Date given;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd2 = dpTo.getDate();
 
-        if (search1 != null) {
+        String date2 = "";
+        String date1 = "";
+        Date current, from, pDate, to;
+        try {
 
-            searchFrom(search1);
-            try {
-                for (int i = 0; i < tblReviewSales.getRowCount(); i++) {
-                    given = df.parse(tblReviewSales.getModel().getValueAt(i, 2).toString());
-                    if (df.parse(search2).before(given)) {
-                        model.removeRow(i);
+            date2 = df.format(pd2);
+            to = sdf.parse(date2);
+            current = sdf.parse(formated);
+
+            if (to.before(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+
+                ArrayList<SalesModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[7];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getSONo();
+                    row[1] = list.get(i).getOrderDate();
+                    row[2] = list.get(i).getReqDate();
+                    row[3] = list.get(i).getCusName();
+                    row[4] = list.get(i).getOrderCreator();
+                    row[5] = list.get(i).getTotal();
+                    row[6] = list.get(i).getStatus();
+
+                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+
+                    if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
+                        date1 = df.format(dpFrom.getDate());
+                        from = sdf.parse(date1);
+                        if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                            model.addRow(row);
+                        }
                     }
                 }
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-
-        } else {
-
-//            search2 = df.format(dateFilterToTemp);
-            searchTo(search2);
-
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_dpToActionPerformed
 
-    private void txtSearchSONumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchSONumActionPerformed
-//        // TODO add your handling code here:
-//        
-//        String searchSONumber = txtSearchSONum.getText();
-//        
-//        String[] results = new String[7];   
-//        
-//        try {
-//      
-//            String query = "select * from sales_tab where LIKE '%" + searchSONumber + "%';";
-//            Connection con = dbConnect.getConnection();
-//            Statement st = con.createStatement();
-//            ResultSet rs = st.executeQuery(query);
-//            if (rs.next()) {
-//                results[0] = rs.getString("soNumber");
-//                results[1] = rs.getString("orderedDate");
-//                results[2] = rs.getString("reqDate");
-//                results[3] = rs.getString("customerName");
-//                results[4] = rs.getString("orderCreatedBy");
-//                results[5] = rs.getString("total");
-//                results[6] = rs.getString("orderStatus");
-//
-//                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-//
-//                model.addRow(results);
-//            }
-//        } catch (Exception e) {
-//        }
-
-    }//GEN-LAST:event_txtSearchSONumActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
-        // TODO add your handling code here:
-        search = txtSearchSONum.getText();
-        if (search == "") {
-            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
-        }
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
+        if (txtSearchSONum.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Search field is empty!");
+        } else {
+            String num = txtSearchSONum.getText();
+            ArrayList<SalesModel> list = getOrderList();
+            DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+            model.setRowCount(0);
 
-        String[] results = new String[7];
+            Object[] row = new Object[7];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getSONo();
+                row[1] = list.get(i).getOrderDate();
+                row[2] = list.get(i).getReqDate();
+                row[3] = list.get(i).getCusName();
+                row[4] = list.get(i).getOrderCreator();
+                row[5] = list.get(i).getTotal();
+                row[6] = list.get(i).getStatus();
 
-        String query = "SELECT * FROM sales_tab WHERE CONCAT(soNumber,customerName,customerPhone,orderCreatedBy,orderStatus) LIKE '%" + search + "%';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
+                if (list.get(i).getSONo() == Integer.parseInt(num)) {
+                    model.addRow(row);
+                }
             }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // TODO add your handling code here:
-        Connection con = dbConnect.getConnection();
-
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
-        String[] results = new String[7];
-
-        String query = "SELECT * FROM sales_tab";
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                results[0] = rs.getString("soNumber");
-                results[1] = rs.getString("orderedDate");
-                results[2] = rs.getString("reqDate");
-                results[3] = rs.getString("customerName");
-                results[4] = rs.getString("orderCreatedBy");
-                results[5] = rs.getString("total");
-                results[6] = rs.getString("orderStatus");
-
-                model.addRow(results);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-        }
-
-        DefaultTableModel model2 = (DefaultTableModel) tblViewSalesOrders.getModel();
-        model2.setRowCount(0);
-        String[] results2 = new String[9];
-        String query2 = "SELECT * FROM sales_tab";
-        try {
-            Statement st2 = con.createStatement();
-            ResultSet rs2 = st2.executeQuery(query2);
-            while (rs2.next()) {
-                results2[0] = rs2.getString("soNumber");
-                results2[1] = rs2.getString("orderedDate");
-                results2[2] = rs2.getString("reqDate");
-                results2[3] = rs2.getString("customerName");
-                results2[4] = rs2.getString("orderCreatedBy");
-                results2[5] = rs2.getString("salesRep");
-                results2[6] = rs2.getString("region");
-                results2[7] = rs2.getString("orderStatus");
-                results2[8] = rs2.getString("total");
-
-                model2.addRow(results2);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem Connectinf to DB2");
-        }
-
-        dpTo.setDate(null);
-        dpFrom.setDate(null);
-        dpTo2.setDate(null);
-        dpFrom2.setDate(null);
-        txtSearchSONum.setText("");
-        cmbSearchSalesRep.setSelectedIndex(0);
-
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -1955,124 +1812,141 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void dpFrom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFrom2ActionPerformed
-        // TODO add your handling code here:
-
-        Connection con = dbConnect.getConnection();
-        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
-        Date dateFilterFromTemp = dpFrom2.getDate();
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search1 = df.format(dateFilterFromTemp);
-        Date given;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd1 = dpFrom2.getDate();
 
-        if (search2 != null) {
+        String date1 = "";
+        String date2 = "";
+        Date current, from, pDate, to;
+        try {
 
-            searchTo2(search2);
-            try {
-                for (int i = 0; i < tblViewSalesOrders.getRowCount(); i++) {
-                    given = df.parse(tblViewSalesOrders.getModel().getValueAt(i, 2).toString());
-                    if (df.parse(search1).after(given)) {
-                        model.removeRow(i);
+            date1 = df.format(pd1);
+            from = sdf.parse(date1);
+            current = sdf.parse(formated);
+
+            if (from.after(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+
+                ArrayList<SalesModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[9];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getSONo();
+                    row[1] = list.get(i).getOrderDate();
+                    row[2] = list.get(i).getReqDate();
+                    row[3] = list.get(i).getCusName();
+                    row[4] = list.get(i).getOrderCreator();
+                    row[5] = list.get(i).getRepName();
+                    row[6] = list.get(i).getRegion();
+                    row[7] = list.get(i).getStatus();
+                    row[8] = list.get(i).getTotal();
+
+                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+
+                    if (from.compareTo(pDate) <= 0 && dpTo2.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (from.compareTo(pDate) <= 0 && dpTo2.getDate() != null) {
+                        date2 = df.format(dpTo2.getDate());
+                        to = sdf.parse(date2);
+                        if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
+                            model.addRow(row);
+                        }
                     }
                 }
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-
-        } else {
-            //            search1 = df.format(dateFilterFromTemp);
-
-            searchFrom2(search1);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_dpFrom2ActionPerformed
 
     private void dpTo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpTo2ActionPerformed
         // TODO add your handling code here:
 
-        Connection con = dbConnect.getConnection();
-        DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
-        Date dateFilterToTemp = dpTo2.getDate();
+        Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        search2 = df.format(dateFilterToTemp);
-        Date given;
+        String formated = df.format(today);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date pd2 = dpTo.getDate();
 
-        if (search1 != null) {
+        String date2 = "";
+        String date1 = "";
+        Date current, from, pDate, to;
+        try {
 
-            searchFrom2(search1);
-            try {
-                for (int i = 0; i < tblViewSalesOrders.getRowCount(); i++) {
-                    given = df.parse(tblViewSalesOrders.getModel().getValueAt(i, 2).toString());
-                    if (df.parse(search2).before(given)) {
-                        model.removeRow(i);
+            date2 = df.format(pd2);
+            to = sdf.parse(date2);
+            current = sdf.parse(formated);
+
+            if (to.after(current)) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            } else {
+
+                ArrayList<SalesModel> list = getOrderList();
+                DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
+                model.setRowCount(0);
+
+                Object[] row = new Object[9];
+                for (int i = 0; i < list.size(); i++) {
+                    row[0] = list.get(i).getSONo();
+                    row[1] = list.get(i).getOrderDate();
+                    row[2] = list.get(i).getReqDate();
+                    row[3] = list.get(i).getCusName();
+                    row[4] = list.get(i).getOrderCreator();
+                    row[5] = list.get(i).getRepName();
+                    row[6] = list.get(i).getRegion();
+                    row[7] = list.get(i).getStatus();
+                    row[8] = list.get(i).getTotal();
+
+                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+
+                    if (to.compareTo(pDate) >= 0 && dpFrom2.getDate() == null) {
+                        model.addRow(row);
+                    }
+
+                    if (to.compareTo(pDate) >= 0 && dpFrom2.getDate() != null) {
+                        date1 = df.format(dpFrom2.getDate());
+                        from = sdf.parse(date1);
+                        if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                            model.addRow(row);
+                        }
                     }
                 }
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-
-        } else {
-
-            //            search2 = df.format(dateFilterToTemp);
-            searchTo2(search2);
-
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_dpTo2ActionPerformed
 
     private void cmbSearchSalesRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSearchSalesRepActionPerformed
-        // TODO add your handling code here:
-        Connection con = dbConnect.getConnection();
-        searchCmb1 = (String) cmbSearchSalesRep.getSelectedItem();
-//        if (search == "") {
-//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
-//        }
+
+        ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
+        String rep = cmbSearchSalesRep.getSelectedItem().toString();
 
-        String[] results = new String[7];
-        if (searchCmb1 != "NONE") {
-            String query = "SELECT * FROM sales_tab WHERE CONCAT(salesRep) LIKE '%" + searchCmb1 + "%';";
-            try {
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getTotal();
+            row[6] = list.get(i).getStatus();
 
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("soNumber");
-                    results[1] = rs.getString("orderedDate");
-                    results[2] = rs.getString("reqDate");
-                    results[3] = rs.getString("customerName");
-                    results[4] = rs.getString("orderCreatedBy");
-                    results[5] = rs.getString("total");
-                    results[6] = rs.getString("orderStatus");
-
-                    model.addRow(results);
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
-            }
-        } else {
-            model.setRowCount(0);
-            String[] results2 = new String[7];
-
-            String query = "SELECT * FROM sales_tab";
-            try {
-                Statement st = con.createStatement();
-                ResultSet rs2 = st.executeQuery(query);
-                while (rs2.next()) {
-                    results2[0] = rs2.getString("soNumber");
-                    results2[1] = rs2.getString("orderedDate");
-                    results2[2] = rs2.getString("reqDate");
-                    results2[3] = rs2.getString("customerName");
-                    results2[4] = rs2.getString("orderCreatedBy");
-                    results2[5] = rs2.getString("total");
-                    results2[6] = rs2.getString("orderStatus");
-
-                    model.addRow(results2);
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (list.get(i).getRepName().equals(rep)) {
+                model.addRow(row);
             }
         }
+
 
     }//GEN-LAST:event_cmbSearchSalesRepActionPerformed
 
@@ -2090,8 +1964,6 @@ public class Sales extends javax.swing.JFrame {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
-
-            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No values in the database");
@@ -2169,9 +2041,7 @@ public class Sales extends javax.swing.JFrame {
         // TODO add your handling code here:
         Connection con = dbConnect.getConnection();
         searchCmb2 = (String) cmbFilerStatus.getSelectedItem();
-//        if (search == "") {
-//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
-//        }
+
         DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
         model.setRowCount(0);
 
@@ -2290,15 +2160,19 @@ public class Sales extends javax.swing.JFrame {
             }
         }
 
-        
+
     }//GEN-LAST:event_cmbFilterSalesManActionPerformed
 
-    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
-        // TODO add your handling code here:
+    private void btnClearFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFiltersActionPerformed
         
-        
-        
-    }//GEN-LAST:event_jTabbedPane1FocusGained
+        dpFrom.setDate(null);
+        dpTo.setDate(null);
+        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+        model.setRowCount(0);
+        cmbSearchSalesRep.setSelectedIndex(0);
+        txtSearchSONum.setText("");
+        ShowReviewSales();
+    }//GEN-LAST:event_btnClearFiltersActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2340,6 +2214,7 @@ public class Sales extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddTab;
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnClearFilters;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDeleteSales;
     private javax.swing.JButton btnDeleteTab;
@@ -2431,7 +2306,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     public static javax.swing.JTable tblCreateSO;
     public static javax.swing.JTable tblReviewSales;
-    public javax.swing.JTable tblViewSalesOrders;
+    public static javax.swing.JTable tblViewSalesOrders;
     public javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerPhone;
     public javax.swing.JTextField txtSONumber;

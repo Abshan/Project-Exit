@@ -5,13 +5,16 @@
  */
 package Models;
 
+import java.util.Date;
+
 /**
  *
  * @author User
  */
 public class SalesModel {
-    
+
     private int SONo;
+    private String orderDate;
     private String cusName;
     private String cusPhone;
     private String reqDate;
@@ -19,9 +22,11 @@ public class SalesModel {
     private String region;
     private String orderCreator;
     private String status;
+    private int total;
 
-    public SalesModel(int SONo, String cusName, String cusPhone, String reqDate, String repName, String region, String orderCreator, String status) {
+    public SalesModel(int SONo, String orderDate, String cusName, String cusPhone, String reqDate, String repName, String region, String orderCreator, String status, int total) {
         this.SONo = SONo;
+        this.orderDate = orderDate;
         this.cusName = cusName;
         this.cusPhone = cusPhone;
         this.reqDate = reqDate;
@@ -29,71 +34,47 @@ public class SalesModel {
         this.region = region;
         this.orderCreator = orderCreator;
         this.status = status;
+        this.total = total;
     }
 
     public int getSONo() {
         return SONo;
     }
 
-    public void setSONo(int SONo) {
-        this.SONo = SONo;
+    public String getOrderDate() {
+        return orderDate;
     }
 
     public String getCusName() {
         return cusName;
     }
 
-    public void setCusName(String cusName) {
-        this.cusName = cusName;
-    }
-
     public String getCusPhone() {
         return cusPhone;
-    }
-
-    public void setCusPhone(String cusPhone) {
-        this.cusPhone = cusPhone;
     }
 
     public String getReqDate() {
         return reqDate;
     }
 
-    public void setReqDate(String reqDate) {
-        this.reqDate = reqDate;
-    }
-
     public String getRepName() {
         return repName;
-    }
-
-    public void setRepName(String repName) {
-        this.repName = repName;
     }
 
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getOrderCreator() {
         return orderCreator;
-    }
-
-    public void setOrderCreator(String orderCreator) {
-        this.orderCreator = orderCreator;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public int getTotal() {
+        return total;
     }
-    
-    
+
 }

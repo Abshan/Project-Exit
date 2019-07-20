@@ -1,9 +1,12 @@
 
 import Models.DatabaseConnection;
+import Models.SalesModel;
 import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +24,9 @@ public class SalesReviewWindow extends javax.swing.JFrame {
     /**
      * Creates new form SalesReviewWindow
      */
+    
+    DatabaseConnection dbConnect = new DatabaseConnection();
+    
     public SalesReviewWindow() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -29,9 +35,75 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         lblErrorRD.setVisible(false);
         dpReqDate.setVisible(false);
     }
-    DatabaseConnection dbConnect = new DatabaseConnection();
+    
+    public ArrayList<SalesModel> getOrderList() {
 
-//      SalesReviewWindow reviewSales = new SalesReviewWindow();
+        ArrayList<SalesModel> orderList = new ArrayList<SalesModel>();
+        Connection con = dbConnect.getConnection();
+        String query = "SELECT * FROM sales_tab";
+
+        Statement st;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            SalesModel sales;
+
+            while (rs.next()) {
+                sales = new SalesModel(rs.getInt("soNumber"), rs.getString("orderedDate"), rs.getString("customerName"), rs.getString("customerPhone"), rs.getString("reqDate"), rs.getString("salesRep"), rs.getString("region"), rs.getString("orderCreatedBy"), rs.getString("orderStatus"), rs.getInt("total"));
+                orderList.add(sales);
+            }
+            con.close();
+            st.close();
+            rs.close();
+        } catch (NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return orderList;
+    }
+
+    public void ShowReviewSales() {
+
+        ArrayList<SalesModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getTotal();
+            row[6] = list.get(i).getStatus();
+
+            model.addRow(row);
+        }
+    }
+    
+    public void ShowSales() {
+
+        ArrayList<SalesModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) Sales.tblViewSalesOrders.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getRegion();
+            row[7] = list.get(i).getStatus();
+            row[8] = list.get(i).getTotal();
+
+            model.addRow(row);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -241,10 +313,12 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 con.close();
                 st.close();
 
-                model.setRowCount(0);
+                ShowReviewSales();
+                ShowSales();
                 dispose();
 
-                JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
+//                JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
+                
 
             } catch (HeadlessException | SQLException e) {
                 //JOptionPane.showMessageDialog(null, e);

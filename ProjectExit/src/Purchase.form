@@ -247,7 +247,7 @@
                           <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="32" max="32767" attributes="0"/>
+                          <EmptySpace pref="42" max="32767" attributes="0"/>
                           <Component id="jPanel6" min="-2" pref="445" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       </Group>
@@ -629,7 +629,7 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel12" max="32767" attributes="0"/>
+                      <Component id="jPanel12" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -651,15 +651,13 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jPanel22" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel20" min="-2" pref="291" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jPanel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel20" min="-2" pref="291" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="24" max="32767" attributes="0"/>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -672,7 +670,7 @@
                           <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jPanel22" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="18" max="32767" attributes="0"/>
+                          <EmptySpace pref="28" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -749,7 +747,7 @@
                                               <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jXDatePicker2" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace pref="154" max="32767" attributes="0"/>
+                                              <EmptySpace pref="139" max="32767" attributes="0"/>
                                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="jTextField1" min="-2" pref="103" max="-2" attributes="0"/>

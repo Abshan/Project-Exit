@@ -8,10 +8,13 @@ import java.sql.Connection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import Models.RepModel;
 import java.awt.HeadlessException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,41 +25,151 @@ public class CreateAccount extends javax.swing.JFrame {
     /**
      * Creates new form createAccount
      */
-    public CreateAccount() {
-        initComponents();
-        txtUserIDMan.setEditable(false);
-        fillTable();
-    }
     DatabaseConnection dbConnect = new DatabaseConnection();
 
-    public void fillTable() {
+    public CreateAccount() {
+        initComponents();
+        ShowUsers();
+        ShowReps();
+        fillCombo();
+        fillReps();
+    }
 
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-        String query = "select * from user_tab";
-        String[] results = new String[6];
+    public void fillReps() {
 
         try {
             Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            String query1 = "select repName from reps_tab where repName NOT IN (select repName from assigned_tab);";
+            DefaultTableModel model = (DefaultTableModel) jTableAvailable.getModel();
+            model.setRowCount(0);
+            ResultSet rs;
+            PreparedStatement pst = con.prepareStatement(query1);
+            rs = pst.executeQuery();
+
+            Object[] row = new Object[1];
+            while (rs.next()) {
+                row[0] = rs.getString("repName");
+
+                model.addRow(row);
+            }
+            con.close();
+            pst.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void fillCombo() {
+
+        try {
+            Connection con = dbConnect.getConnection();
+            String query1 = "select userName from user_tab where role = 'SALES MANAGER';";
+            Managerscmb.removeAllItems();
+            Managerscmb.addItem("");
+            ResultSet rs;
+            PreparedStatement pst = con.prepareStatement(query1);
+            rs = pst.executeQuery();
 
             while (rs.next()) {
-                results[0] = rs.getString("userID");
-                results[1] = rs.getString("userName");
-                results[2] = rs.getString("email");
-                results[3] = rs.getString("nic");
-                results[4] = rs.getString("password");
-                results[5] = rs.getString("role");
-
-                model.addRow(results);
+                Managerscmb.addItem(rs.getString("userName"));
             }
+            con.close();
+            pst.close();
+            rs.close();
 
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public ArrayList<UserModel> getOrderList() {
+
+        ArrayList<UserModel> orderList = new ArrayList<UserModel>();
+        Connection con = dbConnect.getConnection();
+        String query = "select * from user_tab";
+
+        Statement st;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            UserModel users;
+
+            while (rs.next()) {
+                users = new UserModel(rs.getInt("userID"), rs.getString("userName"), rs.getString("email"), rs.getString("nic"), rs.getString("password"), rs.getString("role"));
+                orderList.add(users);
+            }
             con.close();
             st.close();
             rs.close();
-
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+        return orderList;
+    }
+
+    public void ShowUsers() {
+
+        ArrayList<UserModel> list = getOrderList();
+        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getUserID();
+            row[1] = list.get(i).getUserName();
+            row[2] = list.get(i).getEmail();
+            row[3] = list.get(i).getNic();
+            row[4] = list.get(i).getPassword();
+            row[5] = list.get(i).getRole();
+
+            model.addRow(row);
+        }
+    }
+
+    public ArrayList<RepModel> getRepList() {
+
+        ArrayList<RepModel> orderList = new ArrayList<RepModel>();
+        Connection con = dbConnect.getConnection();
+        String query = "select * from reps_tab";
+
+        Statement st;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+            RepModel reps;
+
+            while (rs.next()) {
+                reps = new RepModel(rs.getInt("repID"), rs.getString("repName"), rs.getString("repPhone"), rs.getString("repRegion"), Double.parseDouble(rs.getString("repTarget")));
+                orderList.add(reps);
+            }
+            con.close();
+            st.close();
+            rs.close();
+        } catch (NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return orderList;
+    }
+
+    public void ShowReps() {
+
+        ArrayList<RepModel> list = getRepList();
+        DefaultTableModel model = (DefaultTableModel) tblReps.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getRepID();
+            row[1] = list.get(i).getRepName();
+            row[2] = list.get(i).getRepPhone();
+            row[3] = list.get(i).getRepRegion();
+            row[4] = list.get(i).getRepTarget();
+
+            model.addRow(row);
         }
     }
 
@@ -129,6 +242,43 @@ public class CreateAccount extends javax.swing.JFrame {
         txtSearchManage = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableAvailable = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableAssigned = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        Managerscmb = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        txtrepName = new javax.swing.JTextField();
+        txtrepPhone = new javax.swing.JTextField();
+        cmbrepRegion = new javax.swing.JComboBox<>();
+        txtrepTarget = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblReps = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
+        cmbrepFilter = new javax.swing.JComboBox<>();
+        txtrepSearch = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
 
         jTextField3.setText("jTextField3");
 
@@ -201,7 +351,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(lblSales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -219,10 +369,16 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addComponent(lblSales)
                 .addGap(18, 18, 18)
                 .addComponent(lblStock)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
                 .addComponent(jButton7)
                 .addContainerGap())
         );
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
@@ -255,12 +411,6 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel31.setText("EMAIL");
 
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
         jLabel32.setText("NIC NUMBER:");
 
         jLabel33.setText("PASSWORD:");
@@ -284,11 +434,6 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel13.setText("ROLE:");
 
         cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
-        cmbRole.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbRoleActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -317,7 +462,7 @@ public class CreateAccount extends javax.swing.JFrame {
                             .addComponent(txtUserName)
                             .addComponent(txtConfirmPassword)
                             .addComponent(cmbRole, 0, 268, Short.MAX_VALUE))))
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +491,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate)
                     .addComponent(btnCancel))
@@ -361,8 +506,8 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
@@ -374,7 +519,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -397,7 +542,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -451,11 +596,6 @@ public class CreateAccount extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        btnUpdate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnUpdateKeyPressed(evt);
-            }
-        });
 
         btnDelete.setText("DELETE");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -504,26 +644,10 @@ public class CreateAccount extends javax.swing.JFrame {
         });
 
         cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
-        cmbRoleMan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbRoleManActionPerformed(evt);
-            }
-        });
 
         jLabel12.setText("ROLE:");
 
         jLabel11.setText("SEARCH:");
-
-        txtSearchManage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchManageActionPerformed(evt);
-            }
-        });
-        txtSearchManage.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSearchManageKeyTyped(evt);
-            }
-        });
 
         btnSearch.setText("SEARCH");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -641,7 +765,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -657,7 +781,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -680,11 +804,377 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("MANAGE USER ACCOUNTS", jPanel7);
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel9.setText("MANAGE SALES REPRESENTATIVES");
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+
+        jLabel24.setText("USE THE FORM BELOW TO MANAGE SALES REPRESENTATIVES");
+
+        jPanel16.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel25.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel25.setText("CREATE SALES REPRESENTATIVES");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel4.setText("ASSIGN SALES REPRESENTATIVES");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(21, 21, 21))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(jLabel4))
+                .addContainerGap())
+        );
+
+        jTableAvailable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "AVAILABLE SALES REPS"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableAvailable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTableAvailable);
+        if (jTableAvailable.getColumnModel().getColumnCount() > 0) {
+            jTableAvailable.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        jTableAssigned.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ASSIGNED SALES REPS"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableAssigned.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTableAssigned);
+        if (jTableAssigned.getColumnModel().getColumnCount() > 0) {
+            jTableAssigned.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        jButton1.setText("ASSIGN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("REMOVE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        Managerscmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        Managerscmb.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                ManagerscmbPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                ManagerscmbPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        Managerscmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManagerscmbActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("SELECT SALES MANAGER:");
+
+        jButton3.setText("CONFIRM");
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 12, 0, 0, java.awt.SystemColor.scrollbar));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 8, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabel5.setText("SALES REP NAME:");
+
+        jLabel16.setText("PHONE NUMBER:");
+
+        jLabel17.setText("REGION:");
+
+        jLabel19.setText("TARGET AMT:");
+
+        cmbrepRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CENTRAL", "EAST", "SOUTH", "WEST", "NORTH" }));
+
+        tblReps.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "NAME", "PHONE NO", "REGION", "TARGET AMT"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblReps.getTableHeader().setReorderingAllowed(false);
+        tblReps.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRepsMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblReps);
+        if (tblReps.getColumnModel().getColumnCount() > 0) {
+            tblReps.getColumnModel().getColumn(0).setResizable(false);
+            tblReps.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblReps.getColumnModel().getColumn(1).setResizable(false);
+            tblReps.getColumnModel().getColumn(2).setResizable(false);
+            tblReps.getColumnModel().getColumn(3).setResizable(false);
+            tblReps.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jButton4.setText("ADD");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("UPDATE");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("DELETE");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setText("FILTER BY REGION:");
+
+        cmbrepFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CENTRAL", "EAST", "SOUTH", "WEST", "NORTH" }));
+
+        jButton8.setText("SEARCH");
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel26))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtrepPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                        .addComponent(txtrepName)
+                                        .addComponent(cmbrepRegion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cmbrepFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                        .addComponent(txtrepSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton8))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                        .addComponent(jLabel19)
+                                        .addGap(12, 12, 12)
+                                        .addComponent(txtrepTarget, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6)))
+                .addGap(26, 26, 26)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Managerscmb, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(34, 34, 34))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Managerscmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel19Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                    .addGroup(jPanel19Layout.createSequentialGroup()
+                                        .addGap(132, 132, 132)
+                                        .addComponent(jButton1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton2))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel26)
+                                    .addComponent(cmbrepFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtrepSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton8))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtrepName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19)
+                                    .addComponent(txtrepTarget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(txtrepPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17)
+                                    .addComponent(cmbrepRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)
+                            .addComponent(jButton6))))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("MANAGE SALES REPS", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -693,18 +1183,18 @@ public class CreateAccount extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -776,6 +1266,9 @@ public class CreateAccount extends javax.swing.JFrame {
                     txtNIC.setText("");
                     txtPassword.setText("");
                     txtConfirmPassword.setText("");
+                    ShowUsers();
+                    fillCombo();
+                    fillReps();
                 } catch (HeadlessException | SQLException a) {
                     JOptionPane.showMessageDialog(null, a);
                 }
@@ -793,11 +1286,6 @@ public class CreateAccount extends javax.swing.JFrame {
 
 // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
-/////
-    private void txtSearchManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchManageActionPerformed
-
-// TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchManageActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
 
@@ -815,7 +1303,7 @@ public class CreateAccount extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
 
         if (tblDetailsTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Select the user record you want to delete!");
+            JOptionPane.showMessageDialog(null, "Select the user record you want to Update!");
         } else {
 
             String UserID = txtUserIDMan.getText();
@@ -845,9 +1333,9 @@ public class CreateAccount extends javax.swing.JFrame {
                     txtSearchManage.setText("");
                     txtUserNameMan.setText("");
                     txtPasswordMan.setText("");
-                    DefaultTableModel model1 = (DefaultTableModel) tblDetailsTable.getModel();
-                    model1.setRowCount(0);
-                    fillTable();
+                    ShowUsers();
+                    fillCombo();
+                    fillReps();
 
                 } catch (HeadlessException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
@@ -905,14 +1393,6 @@ public class CreateAccount extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_lblStockMouseClicked
-
-    private void cmbRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbRoleActionPerformed
-
-    private void txtSearchManageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchManageKeyTyped
-
-    }//GEN-LAST:event_txtSearchManageKeyTyped
 
     private void tblDetailsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailsTableMouseClicked
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
@@ -972,9 +1452,9 @@ public class CreateAccount extends javax.swing.JFrame {
                 con.close();
                 st.close();
 
-                DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-                model.setRowCount(0);
-                fillTable();
+                ShowUsers();
+                fillCombo();
+                fillReps();
 
             } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -983,87 +1463,55 @@ public class CreateAccount extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnUpdateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnUpdateKeyPressed
-        /*if (tblDetailsTable.getSelectedRow() == -1) {
-            if (tblDetailsTable.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Table is empty");
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "You must select a row");
-            }
-        }
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-
-        model.setValueAt(txtUserIDMan.getText(), tblDetailsTable.getSelectedRow(), 0);
-        model.setValueAt(txtUserNameMan.getText(), tblDetailsTable.getSelectedRow(), 1);
-        model.setValueAt(txtEmailMan.getText(), tblDetailsTable.getSelectedRow(), 2);
-        model.setValueAt(txtNICMan.getText(), tblDetailsTable.getSelectedRow(), 3);
-        model.setValueAt(txtPasswordMan.getText(), tblDetailsTable.getSelectedRow(), 4);*/
-    }//GEN-LAST:event_btnUpdateKeyPressed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+        String search = txtSearchManage.getText();
+        String roleFilter = cmbRoleFilter.getSelectedItem().toString();
+
+        if (search.equals("")) {
+            JOptionPane.showMessageDialog(null, "Search field is empty!");
+        }
+        ArrayList<UserModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         model.setRowCount(0);
-        String search = txtSearchManage.getText();
-        String[] results = new String[6];
-        String roleFilter = cmbRoleFilter.getSelectedItem().toString();
-        String query = "";
 
-        if ((search.equals("")) || (search.equals(null))) {
-            query = "select * from user_tab;";
-        }
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getUserID();
+            row[1] = list.get(i).getUserName();
+            row[2] = list.get(i).getEmail();
+            row[3] = list.get(i).getNic();
+            row[4] = list.get(i).getPassword();
+            row[5] = list.get(i).getRole();
 
-        if (roleFilter.equalsIgnoreCase("NONE")) {
-            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" + search + "%';";
-            try {
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("userID");
-                    results[1] = rs.getString("userName");
-                    results[2] = rs.getString("email");
-                    results[3] = rs.getString("nic");
-                    results[4] = rs.getString("password");
-                    results[5] = rs.getString("role");
-
-                    model.addRow(results);
+            if (roleFilter.equalsIgnoreCase("NONE")) {
+                if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
+                    model.addRow(row);
                 }
-                con.close();
-                st.close();
-                rs.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-        } else {
-            query = "SELECT * FROM user_tab WHERE CONCAT(userName,email) LIKE '%" + search + "%' AND role='" + roleFilter + "';";
-            try {
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("userID");
-                    results[1] = rs.getString("userName");
-                    results[2] = rs.getString("email");
-                    results[3] = rs.getString("nic");
-                    results[4] = rs.getString("password");
-                    results[5] = rs.getString("role");
-
-                    model.addRow(results);
+            if (roleFilter.equalsIgnoreCase("ADMIN")) {
+                if (list.get(i).getRole().equals("ADMIN")) {
+                    if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
+                        model.addRow(row);
+                    }
                 }
-                con.close();
-                st.close();
-                rs.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
+            }
+            if (roleFilter.equalsIgnoreCase("STOCK CONTROLLER")) {
+                if (list.get(i).getRole().equals("STOCK CONTROLLER")) {
+                    if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
+                        model.addRow(row);
+                    }
+                }
+            }
+            if (roleFilter.equalsIgnoreCase("SALES MANAGER")) {
+                if (list.get(i).getRole().equals("SALES MANAGER")) {
+                    if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
+                        model.addRow(row);
+                    }
+                }
             }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
         // TODO add your handling code here:
@@ -1090,54 +1538,328 @@ public class CreateAccount extends javax.swing.JFrame {
     private void cmbRoleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleFilterActionPerformed
 
         String roleFilter = cmbRoleFilter.getSelectedItem().toString();
-        String[] results = new String[6];
-        String query = "";
 
-        if (roleFilter.equalsIgnoreCase("NONE")) {
-            query = "SELECT * FROM user_tab;";
-        }
-
-        if (roleFilter.equalsIgnoreCase("ADMIN")) {
-            query = "SELECT * FROM user_tab WHERE role='ADMIN';";
-        }
-
-        if (roleFilter.equalsIgnoreCase("STOCK CONTROLLER")) {
-            query = "SELECT * FROM user_tab WHERE role='STOCK CONTROLLER';";
-        }
-
-        if (roleFilter.equalsIgnoreCase("SALES MANAGER")) {
-            query = "SELECT * FROM user_tab WHERE role='SALES MANAGER';";
-        }
-
+        ArrayList<UserModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         model.setRowCount(0);
 
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getUserID();
+            row[1] = list.get(i).getUserName();
+            row[2] = list.get(i).getEmail();
+            row[3] = list.get(i).getNic();
+            row[4] = list.get(i).getPassword();
+            row[5] = list.get(i).getRole();
 
-            while (rs.next()) {
-                results[0] = rs.getString("userID");
-                results[1] = rs.getString("userName");
-                results[2] = rs.getString("email");
-                results[3] = rs.getString("nic");
-                results[4] = rs.getString("password");
-                results[5] = rs.getString("role");
-
-                model.addRow(results);
+            if (roleFilter.equalsIgnoreCase("NONE")) {
+                model.addRow(row);
             }
-            con.close();
-            st.close();
-            rs.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+
+            if (roleFilter.equalsIgnoreCase("ADMIN")) {
+                if (list.get(i).getRole().equalsIgnoreCase("ADMIN")) {
+                    model.addRow(row);
+                }
+            }
+
+            if (roleFilter.equalsIgnoreCase("STOCK CONTROLLER")) {
+                if (list.get(i).getRole().equalsIgnoreCase("STOCK CONTROLLER")) {
+                    model.addRow(row);
+                }
+            }
+
+            if (roleFilter.equalsIgnoreCase("SALES MANAGER")) {
+                if (list.get(i).getRole().equalsIgnoreCase("SALES MANAGER")) {
+                    model.addRow(row);
+                }
+            }
         }
     }//GEN-LAST:event_cmbRoleFilterActionPerformed
 
-    private void cmbRoleManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleManActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmbRoleManActionPerformed
+        boolean phonebool = false;
+        boolean targetbool = false;
+        String name = txtrepName.getText();
+        String phone = txtrepPhone.getText();
+        String region = cmbrepRegion.getSelectedItem().toString();
+        String targetval = txtrepTarget.getText();
+        double target;
+
+        if (name.equals("") || phone.equals("") || targetval.equals("")) {
+            JOptionPane.showMessageDialog(null, "Fill in the blank fields!");
+        } else {
+
+            try {
+
+                target = Double.parseDouble(targetval);
+                targetbool = true;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid target value entered!");
+            }
+
+            try {
+                int phn = Integer.parseInt(phone);
+                if (phone.length() == 10) {
+                    phonebool = true;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid phone number entered!");
+            }
+
+            if (targetbool == true && phonebool == true) {
+
+                String query = "INSERT INTO reps_tab(repName,repPhone,repRegion,repTarget) VALUES('" + name + "','" + phone + "','" + region + "'," + Double.parseDouble(targetval) + ")";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    int execute = st.executeUpdate(query);
+
+                    con.close();
+                    st.close();
+                    ShowReps();
+                    fillReps();
+
+                    txtrepName.setText("");
+                    txtrepPhone.setText("");
+                    txtrepTarget.setText("");
+                    cmbrepRegion.setSelectedIndex(0);
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error!");
+                }
+
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+
+        if (tblReps.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a row to delete!");
+        } else {
+
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are sure you want to delete?", "Delete item", dialogButton);
+
+            if (dialogResult == 0) {
+                DefaultTableModel model = (DefaultTableModel) tblReps.getModel();
+                String repID = model.getValueAt(tblReps.getSelectedRow(), 0).toString();
+
+                String query = "DELETE FROM reps_tab WHERE repID = " + repID + ";";
+//                String query2 = "DELETE FROM salesItems_tab WHERE repID = " + repID + ";";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+//                    Statement st2 = con.createStatement();
+//                    int execute2 = st2.executeUpdate(query2);
+                    int execute = st.executeUpdate(query);
+
+                    ShowReps();
+                    fillReps();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void tblRepsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRepsMouseClicked
+        // TODO add your handling code here:
+
+        int row = tblReps.getSelectedRow();
+
+        txtrepName.setText(tblReps.getValueAt(row, 1).toString());
+        txtrepPhone.setText(tblReps.getValueAt(row, 2).toString());
+        cmbrepRegion.setSelectedItem(tblReps.getValueAt(row, 3).toString());
+        txtrepTarget.setText(tblReps.getValueAt(row, 4).toString());
+
+    }//GEN-LAST:event_tblRepsMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        boolean phonebool = false;
+        boolean targetbool = false;
+        String name = txtrepName.getText();
+        String phone = txtrepPhone.getText();
+        String region = cmbrepRegion.getSelectedItem().toString();
+        String targetval = txtrepTarget.getText();
+        double target;
+
+        if (tblReps.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a product to update!");
+
+        } else {
+
+            if (name.equals("") || phone.equals("") || targetval.equals("")) {
+                JOptionPane.showMessageDialog(null, "Fill in the blank fields!");
+            } else {
+
+                try {
+
+                    target = Double.parseDouble(targetval);
+                    targetbool = true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid target value entered!");
+                }
+
+                try {
+                    int phn = Integer.parseInt(phone);
+                    if (phone.length() == 10) {
+                        phonebool = true;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid phone number entered!");
+                }
+
+                if (targetbool == true && phonebool == true) {
+
+                    String query = "update reps_tab set repName = '" + name + "', repPhone = '" + phone + "', repRegion = '" + region + "', repTarget = " + Double.parseDouble(targetval) + " where repID = " + Integer.parseInt(tblReps.getValueAt(tblReps.getSelectedRow(), 0).toString()) + " ";
+                    try {
+                        Connection con = dbConnect.getConnection();
+                        Statement st = con.createStatement();
+                        int execute = st.executeUpdate(query);
+
+                        con.close();
+                        st.close();
+                        ShowReps();
+                        fillReps();
+
+                        txtrepName.setText("");
+                        txtrepPhone.setText("");
+                        txtrepTarget.setText("");
+                        cmbrepRegion.setSelectedIndex(0);
+
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error!");
+                    }
+
+                }
+
+            }
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void ManagerscmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManagerscmbActionPerformed
+        // TODO add your handling code here:
+        if (RepModel.control == true) {
+            try {
+                Connection con = dbConnect.getConnection();
+                String query1 = "select repName from assigned_tab where manName = '" + Managerscmb.getSelectedItem().toString() + "' ";
+                DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
+                model.setRowCount(0);
+                ResultSet rs;
+                PreparedStatement pst = con.prepareStatement(query1);
+                rs = pst.executeQuery();
+
+                Object[] row = new Object[1];
+                while (rs.next()) {
+                    row[0] = rs.getString("repName");
+
+                    model.addRow(row);
+                }
+                con.close();
+                pst.close();
+                rs.close();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        } else {
+
+        }
+    }//GEN-LAST:event_ManagerscmbActionPerformed
+
+    private void ManagerscmbPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_ManagerscmbPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+        RepModel.control = true;
+    }//GEN-LAST:event_ManagerscmbPopupMenuWillBecomeVisible
+
+    private void ManagerscmbPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_ManagerscmbPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        RepModel.control = false;
+    }//GEN-LAST:event_ManagerscmbPopupMenuWillBecomeInvisible
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        Managerscmb.setSelectedIndex(0);
+        DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
+        model.setRowCount(0);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTableAvailable.getModel();
+        String manName = Managerscmb.getSelectedItem().toString();
+        int count = jTableAssigned.getRowCount();
+        Object[] row = new Object[1];
+        if (jTableAvailable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Select a sales representative to assign!");
+        } else if (Managerscmb.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(null, "Select a Manager");
+        } else {
+
+            if (count < 3) {
+                String repName = jTableAvailable.getValueAt(jTableAvailable.getSelectedRow(), 0).toString();
+                row[0] = repName;
+                model.addRow(row);
+                String query = "INSERT INTO assigned_tab(manName,repName) VALUES('" + manName + "','" + repName + "') ON DUPLICATE KEY UPDATE repName = '" + repName + "';";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    int execute = st.executeUpdate(query);
+                    fillReps();
+
+                    con.close();
+                    st.close();
+
+                } catch (SQLException e) {
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Max has Reached");
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) jTableAvailable.getModel();
+        String manName = Managerscmb.getSelectedItem().toString();
+        int count = jTableAssigned.getRowCount();
+
+        if (jTableAssigned.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Select a sales representative to remove!");
+        } else if (Managerscmb.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(null, "Select a Manager");
+        } else {
+
+            String repName = jTableAssigned.getValueAt(jTableAssigned.getSelectedRow(), 0).toString();
+
+            String query = "DELETE FROM assigned_tab where repName = '" + repName + "';";
+            try {
+                Connection con = dbConnect.getConnection();
+                Statement st = con.createStatement();
+                int execute = st.executeUpdate(query);
+                fillReps();
+                model.removeRow(jTableAssigned.getSelectedRow());
+                con.close();
+                st.close();
+
+            } catch (SQLException e) {
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1177,6 +1899,7 @@ public class CreateAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Managerscmb;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnCreate;
@@ -1186,39 +1909,70 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbRole;
     private javax.swing.JComboBox<String> cmbRoleFilter;
     private javax.swing.JComboBox<String> cmbRoleMan;
+    private javax.swing.JComboBox<String> cmbrepFilter;
+    private javax.swing.JComboBox<String> cmbrepRegion;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JTable jTableAssigned;
+    private javax.swing.JTable jTableAvailable;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblProducts;
     private javax.swing.JLabel lblPurchase;
@@ -1226,6 +1980,7 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblUser;
     private javax.swing.JTable tblDetailsTable;
+    public static javax.swing.JTable tblReps;
     private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailMan;
@@ -1237,6 +1992,10 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JTextField txtUserIDMan;
     private javax.swing.JTextField txtUserName;
     private javax.swing.JTextField txtUserNameMan;
+    private javax.swing.JTextField txtrepName;
+    private javax.swing.JTextField txtrepPhone;
+    private javax.swing.JTextField txtrepSearch;
+    private javax.swing.JTextField txtrepTarget;
     // End of variables declaration//GEN-END:variables
 
     private String txtUserID() {
