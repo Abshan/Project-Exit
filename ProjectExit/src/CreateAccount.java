@@ -26,6 +26,7 @@ public class CreateAccount extends javax.swing.JFrame {
      * Creates new form createAccount
      */
     DatabaseConnection dbConnect = new DatabaseConnection();
+    public String temprepName = "";
 
     public CreateAccount() {
         initComponents();
@@ -190,7 +191,6 @@ public class CreateAccount extends javax.swing.JFrame {
         lblSales = new javax.swing.JLabel();
         lblStock = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -279,10 +279,13 @@ public class CreateAccount extends javax.swing.JFrame {
         cmbrepFilter = new javax.swing.JComboBox<>();
         txtrepSearch = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         jTextField3.setText("jTextField3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
@@ -296,6 +299,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 lblUserKeyPressed(evt);
             }
         });
+        jPanel3.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 96, 86, -1));
 
         lblProducts.setText("PRODUCTS");
         lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -304,6 +308,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 lblProductsMouseClicked(evt);
             }
         });
+        jPanel3.add(lblProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 136, 86, -1));
 
         lblPurchase.setText("PURCHASE");
         lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -312,6 +317,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 lblPurchaseMouseClicked(evt);
             }
         });
+        jPanel3.add(lblPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 176, 86, -1));
 
         lblSales.setText("SALES");
         lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -320,6 +326,7 @@ public class CreateAccount extends javax.swing.JFrame {
                 lblSalesMouseClicked(evt);
             }
         });
+        jPanel3.add(lblSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 216, 86, -1));
 
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -328,51 +335,10 @@ public class CreateAccount extends javax.swing.JFrame {
                 lblStockMouseClicked(evt);
             }
         });
+        jPanel3.add(lblStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 256, 86, -1));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
-
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPurchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(lblUser)
-                .addGap(18, 18, 18)
-                .addComponent(lblProducts)
-                .addGap(18, 18, 18)
-                .addComponent(lblPurchase)
-                .addGap(18, 18, 18)
-                .addComponent(lblSales)
-                .addGap(18, 18, 18)
-                .addComponent(lblStock)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
-                .addComponent(jButton7)
-                .addContainerGap())
-        );
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 25, 98, 39));
 
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1176,13 +1142,22 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("MANAGE SALES REPS", jPanel1);
 
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lgoutS.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, Short.MAX_VALUE))
         );
@@ -1191,7 +1166,9 @@ public class CreateAccount extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1671,7 +1648,12 @@ public class CreateAccount extends javax.swing.JFrame {
     private void tblRepsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRepsMouseClicked
         // TODO add your handling code here:
 
+        Managerscmb.setSelectedIndex(0);
+        DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
+        model.setRowCount(0);
+
         int row = tblReps.getSelectedRow();
+        temprepName = tblReps.getValueAt(row, 1).toString();
 
         txtrepName.setText(tblReps.getValueAt(row, 1).toString());
         txtrepPhone.setText(tblReps.getValueAt(row, 2).toString());
@@ -1691,7 +1673,7 @@ public class CreateAccount extends javax.swing.JFrame {
         double target;
 
         if (tblReps.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Select a product to update!");
+            JOptionPane.showMessageDialog(rootPane, "Select a row to update!");
 
         } else {
 
@@ -1718,7 +1700,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
                 if (targetbool == true && phonebool == true) {
 
-                    String query = "update reps_tab set repName = '" + name + "', repPhone = '" + phone + "', repRegion = '" + region + "', repTarget = " + Double.parseDouble(targetval) + " where repID = " + Integer.parseInt(tblReps.getValueAt(tblReps.getSelectedRow(), 0).toString()) + " ";
+                    String query = "UPDATE reps_tab a INNER JOIN assigned_tab b ON (a.repName = b.repName) SET a.repName = '" + name + "', a.repPhone = '" + phone + "', a.repRegion = '" + region + "', a.repTarget = " + Double.parseDouble(targetval) + ", b.repName = '" + name + "' WHERE a.repID = " + Integer.parseInt(tblReps.getValueAt(tblReps.getSelectedRow(), 0).toString()) + " AND b.repName = '" + temprepName + "';";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -1728,6 +1710,7 @@ public class CreateAccount extends javax.swing.JFrame {
                         st.close();
                         ShowReps();
                         fillReps();
+                        temprepName = "";
 
                         txtrepName.setText("");
                         txtrepPhone.setText("");
