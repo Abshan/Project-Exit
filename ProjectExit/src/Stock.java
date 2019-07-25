@@ -3,10 +3,14 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,41 +27,63 @@ public class Stock extends javax.swing.JFrame {
      * Creates new form Stock
      */
     public Stock() {
+
         initComponents();
         fillTable();
+//        RenderTable();
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();
-    
-    public void fillTable(){
-        
+    StockView viewStock = new StockView();
+
+    public void fillTable() {
+
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
-        String query = "select * from stocks_tab";
-        String[] results = new String[6];
-        
-        
+        String query = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodID;";
+        String[] results = new String[4];
+
         try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("batchNo");
-                results[1] = rs.getString("prodID");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("manfDate");
-                results[4] = rs.getString("expDate");
-                results[5] = rs.getString("quantity");
-
-                model.addRow(results);
+            Statement st;
+            ResultSet rs;
+            try (Connection con = dbConnect.getConnection()) {
+                st = con.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("prodName");
+                    results[2] = rs.getString("total");
+                    
+                    if (Integer.parseInt(rs.getString("total")) < 500 && Integer.parseInt(rs.getString("total")) > 0) {
+                        results[3] = "Low In Stock";
+                    }
+                    if (Integer.parseInt(rs.getString("total")) > 500) {
+                        results[3] = "In Stock";
+                    }
+                    
+                    model.addRow(results);
+                }
             }
-            
-            con.close();
             st.close();
             rs.close();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void RenderTable() {
+        DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
+        int count = model.getRowCount();
+        TableCellRenderer renderer = new DefaultTableCellRenderer();
+        tblViewStock.prepareRenderer(renderer, ERROR, count);
+
+        for (int i = 0; i < count; i++) {
+            int x = Integer.parseInt(model.getValueAt(i, 2).toString());
+            if (x < 65) {
+                model.setValueAt("asd", i, 3);
+            } else {
+                model.setValueAt("dsf", i, 3);
+            }
         }
     }
 
@@ -109,6 +135,7 @@ public class Stock extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         drpFilter = new javax.swing.JComboBox<>();
         btnSearch1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
@@ -370,18 +397,21 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "BATCH NO.", "PRODUCT ID", "PRODUCT NAME", "EXP DATE", "MANF DATE", "QUANTITY"
+                "PRODUCT ID", "PRODUCT NAME", "TOTAL QUANTITY", "STATUS"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblViewStock.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblViewStock);
 
         jLabel7.setText("SEARCH:");
-
-        txtSearchStock.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSearchStockKeyTyped(evt);
-            }
-        });
 
         jLabel8.setText("FILTER BY:");
 
@@ -400,26 +430,37 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("VIEW");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(50, 50, 50))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,8 +474,10 @@ public class Stock extends javax.swing.JFrame {
                         .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnSearch1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -514,7 +557,6 @@ public class Stock extends javax.swing.JFrame {
     private void drpFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drpFilterActionPerformed
         // TODO add your handling code here:
 
-        
         String query = "";
         String filter = drpFilter.getSelectedItem().toString();
 
@@ -541,37 +583,35 @@ public class Stock extends javax.swing.JFrame {
         if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
             query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
         }
-        
-        
+
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
         model.setRowCount(0);
 
         String[] results = new String[6];
 
         try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("batchNo");
-                results[1] = rs.getString("prodID");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("manfDate");
-                results[4] = rs.getString("expDate");
-                results[5] = rs.getString("quantity");
-
-                model.addRow(results);
+            Statement st;
+            ResultSet rs;
+            try (Connection con = dbConnect.getConnection()) {
+                st = con.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    results[0] = rs.getString("batchNo");
+                    results[1] = rs.getString("prodID");
+                    results[2] = rs.getString("prodName");
+                    results[3] = rs.getString("manfDate");
+                    results[4] = rs.getString("expDate");
+                    results[5] = rs.getString("quantity");
+                    
+                    model.addRow(results);
+                }
             }
-            
-            con.close();
             st.close();
             rs.close();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-                                              
 
 
     }//GEN-LAST:event_drpFilterActionPerformed
@@ -617,10 +657,6 @@ public class Stock extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lblSalesMouseClicked
 
-    private void txtSearchStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStockKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchStockKeyTyped
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int pop = JOptionPane.YES_NO_OPTION;
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", pop);
@@ -640,62 +676,54 @@ public class Stock extends javax.swing.JFrame {
         String query = "";
         String filter = drpFilter.getSelectedItem().toString();
 
-         if(search.equals("")||search.equals(null)){
-            if(filter.equalsIgnoreCase("NONE"))
-            {
+        if (search.equals("") || search.equals(null)) {
+            if (filter.equalsIgnoreCase("NONE")) {
                 query = "SELECT * FROM stocks_tab;";
             }
-            
-            if(filter.equalsIgnoreCase("LOW IN STOCK"))
-            {
+
+            if (filter.equalsIgnoreCase("LOW IN STOCK")) {
                 query = "SELECT * FROM stocks_tab WHERE quantity<30;";
             }
-            
-            if(filter.equalsIgnoreCase("HIGHEST TO LOWEST"))
-            {
+
+            if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
                 query = "SELECT * FROM stocks_tab ORDER BY quantity DESC;";
             }
-            
-            if(filter.equalsIgnoreCase("LOWEST TO HIGHEST"))
-            {
+
+            if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
                 query = "SELECT * FROM stocks_tab ORDER BY quantity;";
             }
-            
-            if(filter.equalsIgnoreCase("NEWEST TO OLDEST"))
-            {
+
+            if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
                 query = "SELECT * FROM stocks_tab ORDER BY manfDate;";
             }
-            
-            if(filter.equalsIgnoreCase("OLDEST TO NEWEST"))
-            {
+
+            if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
                 query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
             }
-        }
-        else
-        {
-        if (filter.equalsIgnoreCase("NONE")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
-        }
+        } else {
+            if (filter.equalsIgnoreCase("NONE")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
+            }
 
-        if (filter.equalsIgnoreCase("LOW IN STOCK")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
-        }
+            if (filter.equalsIgnoreCase("LOW IN STOCK")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
+            }
 
-        if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
-        }
+            if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
+            }
 
-        if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
-        }
+            if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
+            }
 
-        if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
-        }
+            if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
+            }
 
-        if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
-            query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
-        }
+            if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
+                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
+            }
         }
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
         model.setRowCount(0);
@@ -703,22 +731,22 @@ public class Stock extends javax.swing.JFrame {
         String[] results = new String[6];
 
         try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                results[0] = rs.getString("batchNo");
-                results[1] = rs.getString("prodID");
-                results[2] = rs.getString("prodName");
-                results[3] = rs.getString("manfDate");
-                results[4] = rs.getString("expDate");
-                results[5] = rs.getString("quantity");
-
-                model.addRow(results);
+            Statement st;
+            ResultSet rs;
+            try (Connection con = dbConnect.getConnection()) {
+                st = con.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    results[0] = rs.getString("batchNo");
+                    results[1] = rs.getString("prodID");
+                    results[2] = rs.getString("prodName");
+                    results[3] = rs.getString("manfDate");
+                    results[4] = rs.getString("expDate");
+                    results[5] = rs.getString("quantity");
+                    
+                    model.addRow(results);
+                }
             }
-            
-            con.close();
             st.close();
             rs.close();
 
@@ -726,6 +754,50 @@ public class Stock extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnSearch1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        int column = 0;
+
+        if (tblViewStock.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select the Product you want to view");
+        } else {
+            int row = tblViewStock.getSelectedRow();
+            String id = tblViewStock.getModel().getValueAt(row, column).toString();
+            String query = "select * from stocks_tab where prodID = '" + id + "'";
+            DefaultTableModel model = (DefaultTableModel) StockView.jTableStockView.getModel();
+            model.setRowCount(0);
+
+            try {
+                try (Connection con = dbConnect.getConnection()) {
+                    ResultSet rs;
+                    try (Statement st = con.createStatement()) {
+                        rs = st.executeQuery(query);
+                        String[] results = new String[6];
+                        while (rs.next()) {
+                            results[0] = rs.getString("batchNo");
+                            results[1] = rs.getString("prodID");
+                            results[2] = rs.getString("prodName");
+                            results[3] = rs.getString("manfDate");
+                            results[4] = rs.getString("expDate");
+                            results[5] = rs.getString("quantity");
+                            
+                            model.addRow(results);
+                        }
+                    }
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Some Error Occured!");
+            }
+
+        }
+
+        viewStock.setVisible(true);
+        viewStock.pack();
+        viewStock.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -766,6 +838,7 @@ public class Stock extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch1;
     private javax.swing.JComboBox<String> drpFilter;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel17;
@@ -802,7 +875,7 @@ public class Stock extends javax.swing.JFrame {
     private javax.swing.JLabel lblPurchase;
     private javax.swing.JLabel lblSales;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JTable tblViewStock;
+    public static javax.swing.JTable tblViewStock;
     private javax.swing.JTextField txtSearchStock;
     // End of variables declaration//GEN-END:variables
 }

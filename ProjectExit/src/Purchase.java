@@ -312,8 +312,6 @@ public final class Purchase extends javax.swing.JFrame {
 
         jLabel9.setText("P.O. NUMBER:");
 
-        pn.setEditable(false);
-
         jLabel7.setText("PURCHASE DATE:");
 
         jTable9.setModel(new javax.swing.table.DefaultTableModel(
@@ -847,7 +845,7 @@ public final class Purchase extends javax.swing.JFrame {
 
         try {
             pno = Integer.parseInt(pid);
-            if (pno > 10000 && pno < 1000000) {
+            if (pno > 9999 && pno < 1000000) {
                 p = pno;
                 pval = true;
             }
@@ -901,7 +899,7 @@ public final class Purchase extends javax.swing.JFrame {
                                 double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
 
                                 String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
-                                String Query3 = "INSERT INTO stocks_tab (batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES(" + batchNO + ", " + pId + ", '" + itemName + "', '" + manfDate + "','" + expDate + "'," + quantity + ")";// ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
+                                String Query3 = "INSERT INTO stocks_tab (batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES('" + batchNO + "', " + pId + ", '" + itemName + "', '" + manfDate + "','" + expDate + "'," + quantity + ")";// ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
 
                                 int execute2 = st1.executeUpdate(Query2);
                                 int execute3 = st.executeUpdate(Query3);
@@ -1102,7 +1100,13 @@ public final class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No values in the database");
         }
         val = id + 1;
-        pn.setText(val + "");
+        if (val != 1) {
+            pn.setText(val + "");
+        } else {
+            val = 10000;
+            pn.setText(val + "");
+        }
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed

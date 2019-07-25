@@ -36,9 +36,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         try {
             Connection con = dbConnect.getConnection();
-            String qury = "select * from products_tab";
+            String query = "select prodName from products_tab";
             ResultSet rs;
-            PreparedStatement pst = con.prepareStatement(qury);
+            PreparedStatement pst = con.prepareStatement(query);
             rs = pst.executeQuery();
 
             while (rs.next()) {

@@ -1401,6 +1401,7 @@ public class Sales extends javax.swing.JFrame {
                     if (tblCreateSO.getRowCount() != 0) {
                         Statement st = con.createStatement();
                         String query = "INSERT INTO sales_tab(orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                        String delQuery = "CALL delete_empty();";
                         int execute = st.executeUpdate(query);
 
                         for (int row = 0; row < rows; row++) {
@@ -1413,9 +1414,13 @@ public class Sales extends javax.swing.JFrame {
                             double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
 
                             String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
+                            String Query3 = "UPDATE stocks_tab SET quantity = quantity - " + qty + " where batchNo = " + Integer.parseInt(batchNum) + "; ";
                             int execute2 = st.executeUpdate(Query2);
+                            int execute3 = st.executeUpdate(Query3);
 
                         }
+
+                        int execute4 = st.executeUpdate(delQuery);
 
                         JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
                         ShowSales();
@@ -1627,12 +1632,8 @@ public class Sales extends javax.swing.JFrame {
                 String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
 
                 String query = "DELETE FROM sales_tab WHERE soNumber=" + SONum + ";";
-                String query2 = "DELETE FROM salesItems_tab WHERE soNumber=" + SONum + ";";
                 try {
-
                     Statement st = con.createStatement();
-                    Statement st2 = con.createStatement();
-                    int execute2 = st2.executeUpdate(query2);
                     int execute = st.executeUpdate(query);
 
                     model.removeRow(tblReviewSales.getSelectedRow());
@@ -1640,15 +1641,12 @@ public class Sales extends javax.swing.JFrame {
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-
             }
-
         }
-
     }//GEN-LAST:event_btnDeleteSalesActionPerformed
 
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
-        
+
         Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formated = df.format(today);
@@ -1969,8 +1967,12 @@ public class Sales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No values in the database");
         }
         val = id + 1;
-        txtSONumber.setText(val + "");
-
+        if (val != 1) {
+            txtSONumber.setText(val + "");
+        } else {
+            val = 10001;
+            txtSONumber.setText(val + "");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cmbFilterSaleRep2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRep2ActionPerformed
@@ -2164,7 +2166,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbFilterSalesManActionPerformed
 
     private void btnClearFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFiltersActionPerformed
-        
+
         dpFrom.setDate(null);
         dpTo.setDate(null);
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();

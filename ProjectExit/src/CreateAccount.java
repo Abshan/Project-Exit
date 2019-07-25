@@ -40,7 +40,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         try {
             Connection con = dbConnect.getConnection();
-            String query1 = "select repName from reps_tab where repName NOT IN (select repName from assigned_tab);";
+            String query1 = "select repName from reps_tab where repID NOT IN (select repID from assigned_tab);";
             DefaultTableModel model = (DefaultTableModel) jTableAvailable.getModel();
             model.setRowCount(0);
             ResultSet rs;
@@ -172,6 +172,52 @@ public class CreateAccount extends javax.swing.JFrame {
 
             model.addRow(row);
         }
+    }
+    
+    public int getRepID(String name){
+        
+        int id = 0;
+
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select repID from reps_tab where repName = '"+ name +"';";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                id = rs.getInt("repID");
+            }
+            con.close();
+            statement.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No values in the database");
+        }
+        return id;
+    }
+    
+    public int getManID(String name){
+        
+        int id = 0;
+
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select userID from user_tab where userName = '"+ name +"';";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                id = rs.getInt("userID");
+            }
+            con.close();
+            statement.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No values in the database");
+        }
+        return id;
     }
 
     /**
@@ -1628,12 +1674,10 @@ public class CreateAccount extends javax.swing.JFrame {
                 String repID = model.getValueAt(tblReps.getSelectedRow(), 0).toString();
 
                 String query = "DELETE FROM reps_tab WHERE repID = " + repID + ";";
-//                String query2 = "DELETE FROM salesItems_tab WHERE repID = " + repID + ";";
+
                 try {
                     Connection con = dbConnect.getConnection();
                     Statement st = con.createStatement();
-//                    Statement st2 = con.createStatement();
-//                    int execute2 = st2.executeUpdate(query2);
                     int execute = st.executeUpdate(query);
 
                     ShowReps();
@@ -1700,7 +1744,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
                 if (targetbool == true && phonebool == true) {
 
-                    String query = "UPDATE reps_tab a INNER JOIN assigned_tab b ON (a.repName = b.repName) SET a.repName = '" + name + "', a.repPhone = '" + phone + "', a.repRegion = '" + region + "', a.repTarget = " + Double.parseDouble(targetval) + ", b.repName = '" + name + "' WHERE a.repID = " + Integer.parseInt(tblReps.getValueAt(tblReps.getSelectedRow(), 0).toString()) + " AND b.repName = '" + temprepName + "';";
+                    String query = "UPDATE reps_tab  SET repName = '" + name + "', repPhone = '" + phone + "', repRegion = '" + region + "', repTarget = " + Double.parseDouble(targetval) + ";";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -1733,7 +1777,8 @@ public class CreateAccount extends javax.swing.JFrame {
         if (RepModel.control == true) {
             try {
                 Connection con = dbConnect.getConnection();
-                String query1 = "select repName from assigned_tab where manName = '" + Managerscmb.getSelectedItem().toString() + "' ";
+                int manID = getManID(Managerscmb.getSelectedItem().toString());
+                String query1 = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = "+ manID +";";
                 DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
                 model.setRowCount(0);
                 ResultSet rs;
@@ -1792,7 +1837,9 @@ public class CreateAccount extends javax.swing.JFrame {
                 String repName = jTableAvailable.getValueAt(jTableAvailable.getSelectedRow(), 0).toString();
                 row[0] = repName;
                 model.addRow(row);
-                String query = "INSERT INTO assigned_tab(manName,repName) VALUES('" + manName + "','" + repName + "') ON DUPLICATE KEY UPDATE repName = '" + repName + "';";
+                int repID = getRepID(repName);
+                int manID = getManID(manName);
+                String query = "INSERT INTO assigned_tab(repID,manID) VALUES(" + repID + "," + manID + ");";
                 try {
                     Connection con = dbConnect.getConnection();
                     Statement st = con.createStatement();
@@ -1825,8 +1872,8 @@ public class CreateAccount extends javax.swing.JFrame {
         } else {
 
             String repName = jTableAssigned.getValueAt(jTableAssigned.getSelectedRow(), 0).toString();
-
-            String query = "DELETE FROM assigned_tab where repName = '" + repName + "';";
+            int repID = getRepID(repName);
+            String query = "DELETE FROM assigned_tab where repID = " + repID + ";";
             try {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
