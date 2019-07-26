@@ -285,6 +285,7 @@ public class Stock extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -293,6 +294,7 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        lblProducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProducts.setText("PRODUCTS");
         lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -301,6 +303,7 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        lblPurchase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchase.setText("PURCHASE");
         lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -309,6 +312,7 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        lblSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSales.setText("SALES");
         lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblSales.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -317,6 +321,7 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("STOCK");
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
 

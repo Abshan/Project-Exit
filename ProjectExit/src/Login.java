@@ -21,10 +21,6 @@ import java.sql.Statement;
  */
 public class Login extends javax.swing.JFrame {
 
-    Connection conn = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-
     /**
      * Creates new form NewJFrame
      */
@@ -65,11 +61,6 @@ public class Login extends javax.swing.JFrame {
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
-            }
-        });
-        btnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnLoginKeyPressed(evt);
             }
         });
 
@@ -162,81 +153,23 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String Email = txtEmailLogin.getText();
         String Password = txtPasswordlogin.getText();
-        String[] results = new String[3];
 
-        String query = "select email, password, role from user_tab where email='" + Email + "';";
-        try {
-            Connection con = dbConnect.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            if (rs.next()) {
-                results[0] = rs.getString("email");
-                results[1] = rs.getString("password");
-                results[2] = rs.getString("role");
-
-            }
-
-            con.close();
-            st.close();
-            rs.close();
-            if ((txtPasswordlogin.getText().equals(Password))) {
-                UserModel.loginName = results[0];
-                UserModel.userRole = results[2];
-
-                if (UserModel.userRole.equals("ADMIN")) {
-                    CreateAccount frame = new CreateAccount();
-                    frame.setVisible(true);
-                    this.dispose();
-
-                }
-                if (UserModel.userRole.equals("STOCK CONTROLLER")) {
-                    Stock frame = new Stock();
-                    frame.setVisible(true);
-                    this.dispose();
-                }
-                if (UserModel.userRole.equals("SALES MANAGER")) {
-                    Sales frame = new Sales();
-                    frame.setVisible(true);
-                    this.dispose();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid Email and Password.");
-        }
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
-        ForgotPassword frame = new ForgotPassword();
-        frame.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnChangePasswordActionPerformed
-
-    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String Email = txtEmailLogin.getText();
-            String Password = txtPasswordlogin.getText();
-            String[] results = new String[3];
-
-            String query = "select email, password, role from user_tab where email='" + Email + "';";
+        String query = "select userID, role, userName from user_tab where email=? and password=?";
+        if (txtEmailLogin.getText().equals("") || txtPasswordlogin.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Fill in the blank fields");
+        } else {
             try {
                 Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-                if (rs.next()) {
-                    results[0] = rs.getString("email");
-                    results[1] = rs.getString("password");
-                    results[2] = rs.getString("role");
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setString(1, Email);
+                pst.setString(2, Password);
+                ResultSet rs = pst.executeQuery();
 
-                }
-                con.close();
-                st.close();
-                rs.close();
-                if ((txtPasswordlogin.getText().equals(Password))) {
-                    UserModel.loginName = results[0];
-                    UserModel.userRole = results[2];
+                if (rs.next()) {
+
+                    UserModel.loginName = rs.getString("userName");
+                    UserModel.userRole = rs.getString("role");
+                    UserModel.UserID = rs.getInt("userID");
 
                     if (UserModel.userRole.equals("ADMIN")) {
                         CreateAccount frame = new CreateAccount();
@@ -255,16 +188,24 @@ public class Login extends javax.swing.JFrame {
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "User email and password does not match!");
                 }
 
+                con.close();
+                pst.close();
+                rs.close();
+
             } catch (HeadlessException | SQLException e) {
-                JOptionPane.showMessageDialog(null, "Invalid Username or Password");
+                JOptionPane.showMessageDialog(null, "Check your internet connection!");
             }
         }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
-
-    }//GEN-LAST:event_btnLoginKeyPressed
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        ForgotPassword frame = new ForgotPassword();
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void txtPasswordloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordloginMouseClicked
         txtPasswordlogin.setText("");

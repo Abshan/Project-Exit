@@ -12,6 +12,7 @@ import Models.DatabaseConnection;
 import Models.SalesModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,6 +43,8 @@ public class Sales extends javax.swing.JFrame {
         initComponents();
         ShowSales();
         ShowReviewSales();
+        fillreps();
+        txtUser.setText(UserModel.loginName);
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
 
@@ -171,6 +174,34 @@ public class Sales extends javax.swing.JFrame {
         return total;
     }
 
+    public void fillreps() {
+        try {
+            ResultSet rs;
+            PreparedStatement pst;
+            cmbSalesRep.removeAllItems();
+            String query = "";
+            if (UserModel.userRole.equals("SALES MANAGER")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = " + UserModel.UserID + ";";
+            }
+            if (UserModel.userRole.equals("ADMIN")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID;";
+            }
+            try (Connection con = dbConnect.getConnection()) {
+
+                pst = con.prepareStatement(query);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    cmbSalesRep.addItem(rs.getString("repName"));
+                }
+            }
+            pst.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -298,6 +329,7 @@ public class Sales extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -306,6 +338,7 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+        lblProducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProducts.setText("PRODUCTS");
         lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -314,6 +347,7 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+        lblPurchase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchase.setText("PURCHASE");
         lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -322,9 +356,11 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("SALES");
         jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 51), null, null));
 
+        lblStock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -419,9 +455,7 @@ public class Sales extends javax.swing.JFrame {
         jLabel8.setText("ORDER CREATED BY:");
 
         txtUser.setEditable(false);
-        txtUser.setText("Salesjid");
 
-        cmbSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbSalesRep.setSelectedIndex(-1);
 
         tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
@@ -1164,10 +1198,8 @@ public class Sales extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(6, 6, 6))
+                    .addComponent(jLabel27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

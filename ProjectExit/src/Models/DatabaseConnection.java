@@ -7,6 +7,7 @@ package Models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,7 +28,7 @@ public class DatabaseConnection {
             Connection con = DriverManager.getConnection(jdbcUrl, username, password);
             return con;
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
 
             JOptionPane.showMessageDialog(null, "Connection to the internet has been terminated!");
             return null;

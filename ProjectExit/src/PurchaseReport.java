@@ -214,40 +214,25 @@ public class PurchaseReport extends javax.swing.JFrame {
 
         if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() == null) {
             query = "select * from purchase_tab ";
-        } else {
-            ;
         }
 
+        if (query != "") {
+            try {
+                InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\purchaseReport.jrxml"));
+                JasperDesign jd = JRXmlLoader.load(in);
+                String sql = query;
+                JRDesignQuery newQuery = new JRDesignQuery();
+                newQuery.setText(sql);
+                jd.setQuery(newQuery);
+                JasperReport jr = JasperCompileManager.compileReport(jd);
+                JasperPrint j = JasperFillManager.fillReport(jr, null, con);
+                JasperViewer jv = new JasperViewer(j, false);
+                jv.viewReport(j, false);
+                con.close();
 
-        /* if (date1 != null && date2 != null) {
-            String query = "select * from purchase_tab where purchaseDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-        }
-
-        if (date1 != null && date2 == null) {
-            String query = "select * from purchase_tab where purchaseDate > '" + date1 + "' ";
-        }
-
-        if (date1 == null && date2 != null) {
-            String query = "select * from purchase_tab where purchaseDate < '" + date2 + "' ";
-        }*/
-        
-        if(query != ""){
-        try {
-            InputStream in = new FileInputStream(new File("C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\purchaseReport.jrxml"));
-            JasperDesign jd = JRXmlLoader.load(in);
-            String sql = query;
-            JRDesignQuery newQuery = new JRDesignQuery();
-            newQuery.setText(sql);
-            jd.setQuery(newQuery);
-            JasperReport jr = JasperCompileManager.compileReport(jd);
-            JasperPrint j = JasperFillManager.fillReport(jr, null, con);
-            JasperViewer jv = new JasperViewer(j, false);
-            jv.viewReport(j, false);
-            con.close();
-
-        } catch (FileNotFoundException | SQLException | JRException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No Records to be printed");
+            }
         }
 
 
@@ -258,13 +243,7 @@ public class PurchaseReport extends javax.swing.JFrame {
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
 
-        /*LocalDate date = LocalDate.now().minusDays(365);
-        JOptionPane.showMessageDialog(null, date);*/
 
- /*Date d = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate= dateFormat.format(d);
-        JOptionPane.showMessageDialog(null, formattedDate);*/
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

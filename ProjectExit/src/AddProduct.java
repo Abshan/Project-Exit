@@ -644,6 +644,7 @@ public class AddProduct extends javax.swing.JFrame {
             .addComponent(jTabbedPane1)
         );
 
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -652,6 +653,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("PRODUCTS");
         jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -660,6 +662,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        lblPurchase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchase.setText("PURCHASE");
         lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -668,6 +671,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        lblSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSales.setText("SALES");
         lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblSales.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -685,6 +689,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        lblStock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1129,7 +1134,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         Connection con = dbConnect.getConnection();
         try {
-            InputStream in = new FileInputStream(new File("C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\productsReport.jrxml"));
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\productReport.jrxml"));
             JasperDesign jd = JRXmlLoader.load(in);
             String sql = "select * from products_tab";
             JRDesignQuery newQuery = new JRDesignQuery();

@@ -173,15 +173,15 @@ public class CreateAccount extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
-    
-    public int getRepID(String name){
-        
+
+    public int getRepID(String name) {
+
         int id = 0;
 
         try {
             Connection con = dbConnect.getConnection();
 
-            String query = "select repID from reps_tab where repName = '"+ name +"';";
+            String query = "select repID from reps_tab where repName = '" + name + "';";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
@@ -196,15 +196,15 @@ public class CreateAccount extends javax.swing.JFrame {
         }
         return id;
     }
-    
-    public int getManID(String name){
-        
+
+    public int getManID(String name) {
+
         int id = 0;
 
         try {
             Connection con = dbConnect.getConnection();
 
-            String query = "select userID from user_tab where userName = '"+ name +"';";
+            String query = "select userID from user_tab where userName = '" + name + "';";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
@@ -333,6 +333,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
         lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -347,6 +348,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jPanel3.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 96, 86, -1));
 
+        lblProducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProducts.setText("PRODUCTS");
         lblProducts.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -356,6 +358,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jPanel3.add(lblProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 136, 86, -1));
 
+        lblPurchase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchase.setText("PURCHASE");
         lblPurchase.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -365,6 +368,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jPanel3.add(lblPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 176, 86, -1));
 
+        lblSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSales.setText("SALES");
         lblSales.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblSales.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -374,6 +378,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jPanel3.add(lblSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 216, 86, -1));
 
+        lblStock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStock.setText("STOCK");
         lblStock.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblStock.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1778,7 +1783,7 @@ public class CreateAccount extends javax.swing.JFrame {
             try {
                 Connection con = dbConnect.getConnection();
                 int manID = getManID(Managerscmb.getSelectedItem().toString());
-                String query1 = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = "+ manID +";";
+                String query1 = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = " + manID + ";";
                 DefaultTableModel model = (DefaultTableModel) jTableAssigned.getModel();
                 model.setRowCount(0);
                 ResultSet rs;
@@ -1798,8 +1803,6 @@ public class CreateAccount extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
-        } else {
-
         }
     }//GEN-LAST:event_ManagerscmbActionPerformed
 
