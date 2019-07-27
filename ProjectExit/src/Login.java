@@ -4,11 +4,9 @@ import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.HeadlessException;
-import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +15,7 @@ import java.sql.Statement;
  */
 /**
  *
- * @author it16350342
+ * @author
  */
 public class Login extends javax.swing.JFrame {
 
@@ -159,39 +157,39 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Fill in the blank fields");
         } else {
             try {
-                Connection con = dbConnect.getConnection();
-                PreparedStatement pst = con.prepareStatement(query);
-                pst.setString(1, Email);
-                pst.setString(2, Password);
-                ResultSet rs = pst.executeQuery();
+                PreparedStatement pst;
+                ResultSet rs;
+                try (Connection con = dbConnect.getConnection()) {
+                    pst = con.prepareStatement(query);
+                    pst.setString(1, Email);
+                    pst.setString(2, Password);
+                    rs = pst.executeQuery();
+                    if (rs.next()) {
 
-                if (rs.next()) {
+                        UserModel.loginName = rs.getString("userName");
+                        UserModel.userRole = rs.getString("role");
+                        UserModel.UserID = rs.getInt("userID");
 
-                    UserModel.loginName = rs.getString("userName");
-                    UserModel.userRole = rs.getString("role");
-                    UserModel.UserID = rs.getInt("userID");
+                        if (UserModel.userRole.equals("ADMIN")) {
+                            CreateAccount frame = new CreateAccount();
+                            frame.setVisible(true);
+                            this.dispose();
+                        }
+                        if (UserModel.userRole.equals("STOCK CONTROLLER")) {
+                            Stock frame = new Stock();
+                            frame.setVisible(true);
+                            this.dispose();
+                        }
+                        if (UserModel.userRole.equals("SALES MANAGER")) {
+                            Sales frame = new Sales();
+                            frame.setVisible(true);
+                            this.dispose();
+                        }
 
-                    if (UserModel.userRole.equals("ADMIN")) {
-                        CreateAccount frame = new CreateAccount();
-                        frame.setVisible(true);
-                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "User email and password does not match!");
                     }
-                    if (UserModel.userRole.equals("STOCK CONTROLLER")) {
-                        Stock frame = new Stock();
-                        frame.setVisible(true);
-                        this.dispose();
-                    }
-                    if (UserModel.userRole.equals("SALES MANAGER")) {
-                        Sales frame = new Sales();
-                        frame.setVisible(true);
-                        this.dispose();
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "User email and password does not match!");
                 }
-
-                con.close();
                 pst.close();
                 rs.close();
 
