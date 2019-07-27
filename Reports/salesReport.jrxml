@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salesReport" language="groovy" pageWidth="950" pageHeight="595" orientation="Landscape" columnWidth="910" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="562905a8-2e8c-44ca-8b5b-7ad505d30187">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select * from sales_tab;]]>
+	</queryString>
+	<field name="soNumber" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="orderedDate" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customerName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customerPhone" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reqDate" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="salesRep" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="region" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="orderCreatedBy" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="orderStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<image>
+				<reportElement x="660" y="0" width="250" height="54" uuid="112343f0-8919-418a-9311-3110ca4dfb46"/>
+				<imageExpression><![CDATA["AUXANO-Logo3.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="da012d46-98a1-4727-a997-f85c758306b9"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALES REPORT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="909" height="1" forecolor="#EC6502" uuid="c7df76d8-631c-48bf-9add-a2aea30b03eb"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="810" y="0" width="100" height="20" uuid="7e07c8e0-a175-4b72-9189-e58d276ee343"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="71" height="20" uuid="bbde3509-aa42-4951-ac5a-a48887f752ce"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.O Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="100" height="20" uuid="c37cfb6a-fcd4-43de-b58e-e8c50895ade3"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="0" width="93" height="20" uuid="b752e1a0-ed63-452e-b643-16d5c4ecdd2d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Requested Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="0" width="83" height="20" uuid="adbd7abd-ed32-4b22-9a30-0733f4d5a767"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sales Rep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="0" width="59" height="20" uuid="d9e1a184-a043-4604-bc0c-91ab6260cc9e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Region]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="593" y="0" width="106" height="20" uuid="317ba38b-f0fa-4c83-82b7-21e7e9e91905"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="716" y="0" width="114" height="20" uuid="155464f2-06e1-4d85-99bb-8a1b7c5f66ad"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="0" width="79" height="20" uuid="56c795b0-a51c-4a00-b5f6-d63b8fe6fe9c"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="0" width="89" height="20" uuid="038bc075-12d6-4af4-baf5-81e363fa5c81"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordered Date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="71" height="20" uuid="141df8ab-aa0e-46fa-b469-f2f37498b09d"/>
+				<textFieldExpression><![CDATA[$F{soNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="100" height="20" uuid="c8371f23-1676-4887-9903-0f555a3dad69"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="0" width="93" height="20" uuid="087326e0-5e32-4a1f-9369-4071c218f171"/>
+				<textFieldExpression><![CDATA[$F{reqDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="0" width="83" height="20" uuid="f4663f40-5fbb-46f0-a5e9-4f2319320937"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{salesRep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="524" y="0" width="59" height="20" uuid="fa34ce8e-4bc2-45d0-ba7e-cda23821a964"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{region}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="593" y="0" width="106" height="20" uuid="2594cc86-af13-4fb2-9f68-a386333ea24b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{orderCreatedBy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="716" y="0" width="114" height="20" uuid="d858f032-e208-44fc-a03e-25f06bcc905f"/>
+				<textFieldExpression><![CDATA[$F{orderStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="830" y="0" width="79" height="20" uuid="6f12a5f9-5d81-4667-a41c-520af7988279"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="89" height="20" uuid="75ce3374-3090-45ba-b069-b2592fbc6489"/>
+				<textFieldExpression><![CDATA[$F{orderedDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="34" width="909" height="20" uuid="7b1b0f18-9f8c-465b-be5a-4c481cf5db0f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="23" width="909" height="1" forecolor="#EC6502" uuid="94f8b2eb-0995-4fd3-89aa-b40760b38850"/>
+				<graphicElement>
+					<pen lineWidth="2.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

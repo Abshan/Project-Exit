@@ -364,9 +364,9 @@ public class SalesReport extends javax.swing.JFrame {
 
         if (result == true) {
             try {
-                InputStream in = new FileInputStream(new File("C:\\Users\\Illyas\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\salesReport.jrxml"));
+                InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\salesReport.jrxml"));
                 JasperDesign jd = JRXmlLoader.load(in);
-                String sql = query;
+                String sql = "select * from sales_tab";
                 JRDesignQuery newQuery = new JRDesignQuery();
                 newQuery.setText(sql);
                 jd.setQuery(newQuery);

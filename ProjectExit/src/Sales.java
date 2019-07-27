@@ -1374,7 +1374,7 @@ public class Sales extends javax.swing.JFrame {
 
         try {
             soNum = Integer.parseInt(soNumber);
-            if ((soNum > 10000) && (soNum < 1000000)) {
+            if ((soNum > 9999) && (soNum < 1000000)) {
                 soNo = true;
             }
         } catch (NumberFormatException e) {
@@ -2002,7 +2002,7 @@ public class Sales extends javax.swing.JFrame {
         if (val != 1) {
             txtSONumber.setText(val + "");
         } else {
-            val = 10001;
+            val = 10000;
             txtSONumber.setText(val + "");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
