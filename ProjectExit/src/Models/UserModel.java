@@ -19,6 +19,8 @@ public class UserModel {
     private String role;
     public static String loginName;
     public static String userRole;
+    public static String userNic;
+    public static String name;
     public static int UserID;
 
     public UserModel(int userID, String userName, String email, String nic, String password, String role) {

@@ -844,7 +844,7 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="btnClear">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="CLEAR"/>
+                        <Property name="text" type="java.lang.String" value="RESET"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
@@ -1506,15 +1506,19 @@
                     <Component class="javax.swing.JComboBox" name="cmbrepFilter">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="5">
-                            <StringItem index="0" value="CENTRAL"/>
-                            <StringItem index="1" value="EAST"/>
-                            <StringItem index="2" value="SOUTH"/>
-                            <StringItem index="3" value="WEST"/>
-                            <StringItem index="4" value="NORTH"/>
+                          <StringArray count="6">
+                            <StringItem index="0" value=" "/>
+                            <StringItem index="1" value="CENTRAL"/>
+                            <StringItem index="2" value="EAST"/>
+                            <StringItem index="3" value="SOUTH"/>
+                            <StringItem index="4" value="WEST"/>
+                            <StringItem index="5" value="NORTH"/>
                           </StringArray>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbrepFilterActionPerformed"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -1525,6 +1529,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="SEARCH"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

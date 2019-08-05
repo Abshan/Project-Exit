@@ -136,11 +136,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 y1FocusLost(evt);
             }
         });
-        y1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                y1ActionPerformed(evt);
-            }
-        });
 
         y2.setText("YYYY");
         y2.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -149,11 +144,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 y2FocusLost(evt);
-            }
-        });
-        y2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                y2ActionPerformed(evt);
             }
         });
 
@@ -168,11 +158,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 m1FocusLost(evt);
-            }
-        });
-        m1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m1ActionPerformed(evt);
             }
         });
 
@@ -546,14 +531,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void m1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_m1ActionPerformed
-
-    private void y2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_y2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_y2ActionPerformed
-
     private void y1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_y1FocusGained
         // TODO add your handling code here:
         if (y1.getText().trim().toLowerCase().equals("yyyy")) {
@@ -637,10 +614,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             d2.setText("DD");
         }
     }//GEN-LAST:event_d2FocusLost
-
-    private void y1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_y1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_y1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -636,7 +636,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblDetailsTable);
 
-        btnClear.setText("CLEAR");
+        btnClear.setText("RESET");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
@@ -1021,9 +1021,19 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel26.setText("FILTER BY REGION:");
 
-        cmbrepFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CENTRAL", "EAST", "SOUTH", "WEST", "NORTH" }));
+        cmbrepFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "CENTRAL", "EAST", "SOUTH", "WEST", "NORTH" }));
+        cmbrepFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbrepFilterActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("SEARCH");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -1498,45 +1508,32 @@ public class CreateAccount extends javax.swing.JFrame {
 
         if (search.equals("")) {
             JOptionPane.showMessageDialog(null, "Search field is empty!");
-        }
-        ArrayList<UserModel> list = getOrderList();
-        DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
-        model.setRowCount(0);
+        } else {
+            ArrayList<UserModel> list = getOrderList();
+            DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
+            model.setRowCount(0);
 
-        Object[] row = new Object[6];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getUserID();
-            row[1] = list.get(i).getUserName();
-            row[2] = list.get(i).getEmail();
-            row[3] = list.get(i).getNic();
-            row[4] = list.get(i).getPassword();
-            row[5] = list.get(i).getRole();
+            Object[] row = new Object[6];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getUserID();
+                row[1] = list.get(i).getUserName();
+                row[2] = list.get(i).getEmail();
+                row[3] = list.get(i).getNic();
+                row[4] = list.get(i).getPassword();
+                row[5] = list.get(i).getRole();
 
-            if (roleFilter.equalsIgnoreCase("NONE")) {
-                if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
-                    model.addRow(row);
-                }
-            }
-            if (roleFilter.equalsIgnoreCase("ADMIN")) {
-                if (list.get(i).getRole().equals("ADMIN")) {
+                if (roleFilter.equalsIgnoreCase("NONE")) {
                     if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
                         model.addRow(row);
                     }
                 }
-            }
-            if (roleFilter.equalsIgnoreCase("STOCK CONTROLLER")) {
-                if (list.get(i).getRole().equals("STOCK CONTROLLER")) {
+
+                if (list.get(i).getRole().equals(roleFilter)) {
                     if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
                         model.addRow(row);
                     }
                 }
-            }
-            if (roleFilter.equalsIgnoreCase("SALES MANAGER")) {
-                if (list.get(i).getRole().equals("SALES MANAGER")) {
-                    if (list.get(i).getUserName().contains(search) || list.get(i).getEmail().contains(search)) {
-                        model.addRow(row);
-                    }
-                }
+
             }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -1576,7 +1573,6 @@ public class CreateAccount extends javax.swing.JFrame {
         ArrayList<UserModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblDetailsTable.getModel();
         model.setRowCount(0);
-        
 
         Object[] row = new Object[6];
         for (int i = 0; i < list.size(); i++) {
@@ -1900,6 +1896,70 @@ public class CreateAccount extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cmbrepFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbrepFilterActionPerformed
+        // TODO add your handling code here:
+        String filter = cmbrepFilter.getSelectedItem().toString();
+        ArrayList<RepModel> list = getRepList();
+        DefaultTableModel model = (DefaultTableModel) tblReps.getModel();
+        model.setRowCount(0);
+
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getRepID();
+            row[1] = list.get(i).getRepName();
+            row[2] = list.get(i).getRepPhone();
+            row[3] = list.get(i).getRepRegion();
+            row[4] = list.get(i).getRepTarget();
+
+            if (filter.equals(" ")) {
+                model.addRow(row);
+            }
+
+            if (list.get(i).getRepRegion().equals(filter)) {
+                model.addRow(row);
+            }
+
+        }
+
+    }//GEN-LAST:event_cmbrepFilterActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        String search = txtrepSearch.getText();
+        String filter = cmbrepFilter.getSelectedItem().toString();
+
+        if (search.equals("")) {
+            JOptionPane.showMessageDialog(null, "Search field is empty!");
+        } else {
+            ArrayList<RepModel> list = getRepList();
+            DefaultTableModel model = (DefaultTableModel) tblReps.getModel();
+            model.setRowCount(0);
+
+            Object[] row = new Object[6];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getRepID();
+                row[1] = list.get(i).getRepName();
+                row[2] = list.get(i).getRepPhone();
+                row[3] = list.get(i).getRepRegion();
+                row[4] = list.get(i).getRepTarget();
+
+                if (filter.equals(" ")) {
+                    if (list.get(i).getRepName().contains(search)) {
+                        model.addRow(row);
+                    }
+                }
+
+                if (list.get(i).getRepRegion().equals(filter)) {
+                    if (list.get(i).getRepName().contains(search)) {
+                        model.addRow(row);
+                    }
+                }
+
+            }
+        }
+
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1603,14 +1603,7 @@ public class Sales extends javax.swing.JFrame {
             editItems.txtItemName.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 1).toString());
             editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 3).toString());
             editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
-//            editItems.d1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(0, 2));
-//            editItems.m1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(3, 5));
-//            editItems.y1.setText(model.getValueAt(jTable9.getSelectedRow(), 2).toString().substring(6, 10));
-//
-//            editItems.d2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(0, 2));
-//            editItems.m2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(3, 5));
-//            editItems.y2.setText(model.getValueAt(jTable9.getSelectedRow(), 3).toString().substring(6, 10));
-//            editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
+
 
             editItems.setVisible(true);
             editItems.pack();
@@ -1694,7 +1687,6 @@ public class Sales extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
 
-//            viewItems..setText(num);
             viewItems.setVisible(true);
             viewItems.pack();
             viewItems.setLocationRelativeTo(null);

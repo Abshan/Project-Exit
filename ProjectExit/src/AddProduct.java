@@ -1001,6 +1001,7 @@ public class AddProduct extends javax.swing.JFrame {
                         txtSize.setText("");
                         rdoCosmetics.setSelected(false);
                         rdoDrugs.setSelected(false);
+
                     } catch (HeadlessException | SQLException e) {
                         JOptionPane.showMessageDialog(null, e);
                     }
