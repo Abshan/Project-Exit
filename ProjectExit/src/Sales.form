@@ -1176,13 +1176,7 @@
                         <Component class="javax.swing.JComboBox" name="cmbSearchSalesRep">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="5">
-                                <StringItem index="0" value="NONE"/>
-                                <StringItem index="1" value="JUGATH"/>
-                                <StringItem index="2" value="NAMAL"/>
-                                <StringItem index="3" value="SILVA"/>
-                                <StringItem index="4" value="JONE"/>
-                              </StringArray>
+                              <StringArray count="0"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -1579,10 +1573,7 @@
                             <Component class="javax.swing.JComboBox" name="cmbFilterSalesMan">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="2">
-                                    <StringItem index="0" value="NONE"/>
-                                    <StringItem index="1" value="Salesjid"/>
-                                  </StringArray>
+                                  <StringArray count="0"/>
                                 </Property>
                               </Properties>
                               <Events>
@@ -1625,13 +1616,7 @@
                             <Component class="javax.swing.JComboBox" name="cmbFilterSaleRep2">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="5">
-                                    <StringItem index="0" value="NONE"/>
-                                    <StringItem index="1" value="JUGATH"/>
-                                    <StringItem index="2" value="NAMAL"/>
-                                    <StringItem index="3" value="SILVA"/>
-                                    <StringItem index="4" value="JONE"/>
-                                  </StringArray>
+                                  <StringArray count="0"/>
                                 </Property>
                               </Properties>
                               <Events>

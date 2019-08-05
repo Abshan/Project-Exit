@@ -44,6 +44,9 @@ public class Sales extends javax.swing.JFrame {
         ShowSales();
         ShowReviewSales();
         fillreps();
+        fillReviewreps();
+        fillViewreps();
+        fillViewmans();
         txtUser.setText(UserModel.loginName);
         lblQtySum.setText(Integer.toString(getTotalQuantity()));
         lblTotalAmt.setText(Integer.toString(getTotalAmount()));
@@ -91,6 +94,7 @@ public class Sales extends javax.swing.JFrame {
         ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
         model.setRowCount(0);
+        String login = UserModel.loginName;
 
         Object[] row = new Object[7];
         for (int i = 0; i < list.size(); i++) {
@@ -102,7 +106,10 @@ public class Sales extends javax.swing.JFrame {
             row[5] = list.get(i).getTotal();
             row[6] = list.get(i).getStatus();
 
-            model.addRow(row);
+            if (UserModel.userRole.equals("SALES MANAGER")) {
+                model.addRow(row);
+            }
+
         }
     }
 
@@ -199,6 +206,95 @@ public class Sales extends javax.swing.JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void fillReviewreps() {
+        try {
+            ResultSet rs;
+            PreparedStatement pst;
+            cmbSearchSalesRep.removeAllItems();
+            cmbSearchSalesRep.addItem("NONE");
+            String query = "";
+            if (UserModel.userRole.equals("SALES MANAGER")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = " + UserModel.UserID + ";";
+            }
+            if (UserModel.userRole.equals("ADMIN")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID;";
+            }
+            try (Connection con = dbConnect.getConnection()) {
+
+                pst = con.prepareStatement(query);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    cmbSearchSalesRep.addItem(rs.getString("repName"));
+                }
+            }
+            pst.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void fillViewreps() {
+        try {
+            ResultSet rs;
+            PreparedStatement pst;
+            cmbFilterSaleRep2.removeAllItems();
+            cmbFilterSaleRep2.addItem("NONE");
+            String query = "";
+            if (UserModel.userRole.equals("SALES MANAGER")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = " + UserModel.UserID + ";";
+            }
+            if (UserModel.userRole.equals("ADMIN")) {
+                query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID;";
+            }
+            try (Connection con = dbConnect.getConnection()) {
+
+                pst = con.prepareStatement(query);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    cmbFilterSaleRep2.addItem(rs.getString("repName"));
+                }
+            }
+            pst.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void fillViewmans() {
+        if (UserModel.userRole.equals("SALES MANAGER")) {
+            cmbFilterSalesMan.removeAllItems();
+            cmbFilterSalesMan.addItem(UserModel.loginName);
+        } else {
+
+            try {
+                ResultSet rs;
+                PreparedStatement pst;
+                cmbFilterSalesMan.removeAllItems();
+                String query = "";
+                cmbFilterSalesMan.addItem("NONE");
+                query = "select userName from user_tab where role = 'SALES MANAGER' ";
+
+                try (Connection con = dbConnect.getConnection()) {
+
+                    pst = con.prepareStatement(query);
+                    rs = pst.executeQuery();
+                    while (rs.next()) {
+                        cmbFilterSalesMan.addItem(rs.getString("userName"));
+                    }
+                }
+                pst.close();
+                rs.close();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
@@ -455,8 +551,6 @@ public class Sales extends javax.swing.JFrame {
         jLabel8.setText("ORDER CREATED BY:");
 
         txtUser.setEditable(false);
-
-        cmbSalesRep.setSelectedIndex(-1);
 
         tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -838,7 +932,6 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel17.setText("SALES REP:");
 
-        cmbSearchSalesRep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbSearchSalesRep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbSearchSalesRepActionPerformed(evt);
@@ -1077,7 +1170,6 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        cmbFilterSalesMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "Salesjid" }));
         cmbFilterSalesMan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbFilterSalesManActionPerformed(evt);
@@ -1095,7 +1187,6 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel35.setText("SALES REP:");
 
-        cmbFilterSaleRep2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "JUGATH", "NAMAL", "SILVA", "JONE" }));
         cmbFilterSaleRep2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbFilterSaleRep2ActionPerformed(evt);
@@ -1712,7 +1803,7 @@ public class Sales extends javax.swing.JFrame {
                     row[5] = list.get(i).getTotal();
                     row[6] = list.get(i).getStatus();
 
-                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+                    pDate = sdf.parse(list.get(i).getReqDate());
 
                     if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
                         model.addRow(row);
@@ -1877,7 +1968,7 @@ public class Sales extends javax.swing.JFrame {
                     row[7] = list.get(i).getStatus();
                     row[8] = list.get(i).getTotal();
 
-                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+                    pDate = sdf.parse(list.get(i).getReqDate());
 
                     if (from.compareTo(pDate) <= 0 && dpTo2.getDate() == null) {
                         model.addRow(row);
@@ -1935,7 +2026,7 @@ public class Sales extends javax.swing.JFrame {
                     row[7] = list.get(i).getStatus();
                     row[8] = list.get(i).getTotal();
 
-                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+                    pDate = sdf.parse(list.get(i).getReqDate());
 
                     if (to.compareTo(pDate) >= 0 && dpFrom2.getDate() == null) {
                         model.addRow(row);
@@ -1972,11 +2063,22 @@ public class Sales extends javax.swing.JFrame {
             row[5] = list.get(i).getTotal();
             row[6] = list.get(i).getStatus();
 
-            if (list.get(i).getRepName().equals(rep)) {
+            if (rep.equals("NONE") && UserModel.userRole.equals("SALES MANAGER") && UserModel.loginName.equals(list.get(i).getOrderCreator())) {
+                model.addRow(row);
+            }
+
+            if (rep.equals("NONE") && UserModel.userRole.equals("ADMIN")) {
+                model.addRow(row);
+            }
+
+            if (list.get(i).getRepName().equals(rep) && UserModel.userRole.equals("ADMIN")) {
+                model.addRow(row);
+            }
+
+            if (list.get(i).getRepName().equals(rep) && UserModel.userRole.equals("SALES MANAGER")) {
                 model.addRow(row);
             }
         }
-
 
     }//GEN-LAST:event_cmbSearchSalesRepActionPerformed
 
@@ -2010,190 +2112,91 @@ public class Sales extends javax.swing.JFrame {
     private void cmbFilterSaleRep2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSaleRep2ActionPerformed
         // TODO add your handling code here:
 
-        Connection con = dbConnect.getConnection();
-        searchCmb4 = (String) cmbFilterSaleRep2.getSelectedItem();
-//        if (search == "") {
-//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
-//        }
+        String repName = cmbFilterSaleRep2.getSelectedItem().toString();
+        ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[9];
-        if (searchCmb4 != "NONE") {
-            String query = "SELECT * FROM sales_tab WHERE CONCAT(salesRep) LIKE '%" + searchCmb4 + "%';";
-            try {
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getRegion();
+            row[7] = list.get(i).getStatus();
+            row[8] = list.get(i).getTotal();
 
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("soNumber");
-                    results[1] = rs.getString("orderedDate");
-                    results[2] = rs.getString("reqDate");
-                    results[3] = rs.getString("customerName");
-                    results[4] = rs.getString("orderCreatedBy");
-                    results[5] = rs.getString("salesRep");
-                    results[6] = rs.getString("region");
-                    results[7] = rs.getString("orderStatus");
-                    results[8] = rs.getString("total");
-
-                    model.addRow(results);
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (repName.equals("NONE")) {
+                model.addRow(row);
             }
-        } else {
-            model.setRowCount(0);
-            String[] results2 = new String[9];
-
-            String query = "SELECT * FROM sales_tab";
-            try {
-                Statement st = con.createStatement();
-                ResultSet rs2 = st.executeQuery(query);
-                while (rs2.next()) {
-                    results2[0] = rs2.getString("soNumber");
-                    results2[1] = rs2.getString("orderedDate");
-                    results2[2] = rs2.getString("reqDate");
-                    results2[3] = rs2.getString("customerName");
-                    results2[4] = rs2.getString("orderCreatedBy");
-                    results2[5] = rs2.getString("salesRep");
-                    results2[6] = rs2.getString("region");
-                    results2[7] = rs2.getString("orderStatus");
-                    results2[8] = rs2.getString("total");
-
-                    model.addRow(results2);
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (list.get(i).getRepName().equals(repName)) {
+                model.addRow(row);
             }
+
         }
 
     }//GEN-LAST:event_cmbFilterSaleRep2ActionPerformed
 
     private void cmbFilerStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilerStatusActionPerformed
         // TODO add your handling code here:
-        Connection con = dbConnect.getConnection();
-        searchCmb2 = (String) cmbFilerStatus.getSelectedItem();
-
+        String status = cmbFilerStatus.getSelectedItem().toString();
+        ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[9];
-        if (searchCmb2 != "NONE") {
-            String query = "SELECT * FROM sales_tab WHERE CONCAT(orderStatus) LIKE '%" + searchCmb2 + "%';";
-            try {
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getRegion();
+            row[7] = list.get(i).getStatus();
+            row[8] = list.get(i).getTotal();
 
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("soNumber");
-                    results[1] = rs.getString("orderedDate");
-                    results[2] = rs.getString("reqDate");
-                    results[3] = rs.getString("customerName");
-                    results[4] = rs.getString("orderCreatedBy");
-                    results[5] = rs.getString("salesRep");
-                    results[6] = rs.getString("region");
-                    results[7] = rs.getString("orderStatus");
-                    results[8] = rs.getString("total");
-
-                    model.addRow(results);
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (status.equals("NONE")) {
+                model.addRow(row);
             }
-        } else {
-            model.setRowCount(0);
-            String[] results2 = new String[9];
-
-            String query = "SELECT * FROM sales_tab";
-            try {
-                Statement st = con.createStatement();
-                ResultSet rs2 = st.executeQuery(query);
-                while (rs2.next()) {
-                    results2[0] = rs2.getString("soNumber");
-                    results2[1] = rs2.getString("orderedDate");
-                    results2[2] = rs2.getString("reqDate");
-                    results2[3] = rs2.getString("customerName");
-                    results2[4] = rs2.getString("orderCreatedBy");
-                    results2[5] = rs2.getString("salesRep");
-                    results2[6] = rs2.getString("region");
-                    results2[7] = rs2.getString("orderStatus");
-                    results2[8] = rs2.getString("total");
-
-                    model.addRow(results2);
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (list.get(i).getStatus().equals(status)) {
+                model.addRow(row);
             }
+
         }
-
 
     }//GEN-LAST:event_cmbFilerStatusActionPerformed
 
     private void cmbFilterSalesManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterSalesManActionPerformed
         // TODO add your handling code here:
-        Connection con = dbConnect.getConnection();
-        searchCmb3 = (String) cmbFilterSalesMan.getSelectedItem();
-//        if (search == "") {
-//            JOptionPane.showMessageDialog(rootPane, "Search box empty!");
-//        }
+        String manName = cmbFilterSalesMan.getSelectedItem().toString();
+        ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) tblViewSalesOrders.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[9];
-        if (searchCmb3 != "NONE") {
-            String query = "SELECT * FROM sales_tab WHERE CONCAT(orderCreatedBy) LIKE '%" + searchCmb3 + "%';";
-            try {
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSONo();
+            row[1] = list.get(i).getOrderDate();
+            row[2] = list.get(i).getReqDate();
+            row[3] = list.get(i).getCusName();
+            row[4] = list.get(i).getOrderCreator();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getRegion();
+            row[7] = list.get(i).getStatus();
+            row[8] = list.get(i).getTotal();
 
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("soNumber");
-                    results[1] = rs.getString("orderedDate");
-                    results[2] = rs.getString("reqDate");
-                    results[3] = rs.getString("customerName");
-                    results[4] = rs.getString("orderCreatedBy");
-                    results[5] = rs.getString("salesRep");
-                    results[6] = rs.getString("region");
-                    results[7] = rs.getString("orderStatus");
-                    results[8] = rs.getString("total");
-
-                    model.addRow(results);
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (manName.equals("NONE")) {
+                model.addRow(row);
             }
-        } else {
-            model.setRowCount(0);
-            String[] results2 = new String[9];
-
-            String query = "SELECT * FROM sales_tab";
-            try {
-                Statement st = con.createStatement();
-                ResultSet rs2 = st.executeQuery(query);
-                while (rs2.next()) {
-                    results2[0] = rs2.getString("soNumber");
-                    results2[1] = rs2.getString("orderedDate");
-                    results2[2] = rs2.getString("reqDate");
-                    results2[3] = rs2.getString("customerName");
-                    results2[4] = rs2.getString("orderCreatedBy");
-                    results2[5] = rs2.getString("salesRep");
-                    results2[6] = rs2.getString("region");
-                    results2[7] = rs2.getString("orderStatus");
-                    results2[8] = rs2.getString("total");
-
-                    model.addRow(results2);
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problem Connectinf to DB");
+            if (list.get(i).getOrderCreator().equals(manName)) {
+                model.addRow(row);
             }
+
         }
-
 
     }//GEN-LAST:event_cmbFilterSalesManActionPerformed
 
