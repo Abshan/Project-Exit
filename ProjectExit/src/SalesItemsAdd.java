@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,10 +41,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             ResultSet rs;
             PreparedStatement pst = con.prepareStatement(query);
             rs = pst.executeQuery();
+            txtItemName.removeAllItems();
+            txtItemName.addItem("");
 
             while (rs.next()) {
-                String itemName = rs.getString("prodName");
-                txtItemName.addItem(itemName);
+                txtItemName.addItem(rs.getString("prodName"));
 
             }
 
@@ -57,22 +59,16 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         if ((txtItemName.getSelectedIndex() != -1)) {
             try {
                 Connection con = dbConnect.getConnection();
-//            String qury = "select batchNo from stocks_tab where prodName ='" + item + "'";
-//            ResultSet rs;
-//            PreparedStatement pst = con.prepareStatement(qury);
-//            rs = pst.executeQuery();
-//
-//            while (rs.next()) {
-//                String batNo = rs.getString("batchNo");
-//                txtBatchNo.addItem(batNo);
-//            }
+
                 String query = "select batchNo from stocks_tab where prodName =? ";
                 PreparedStatement pst = con.prepareStatement(query);
                 pst.setString(1, txtItemName.getSelectedItem().toString());
                 ResultSet rs = pst.executeQuery();
+
                 while (rs.next()) {
-                    String batNo = rs.getString("batchNo");
-                    txtBatchNo.addItem(batNo);
+
+                    txtBatchNo.addItem(rs.getString("batchNo"));
+
                 }
                 pst.close();
                 rs.close();
@@ -87,13 +83,13 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     public String getQuantity(String batchNo) {
 
-        String quant="";
+        String quant = "";
 
         try {
             Connection con = dbConnect.getConnection();
             String query = "select quantity from stocks_tab where batchNo =? ";
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, (String)txtBatchNo.getSelectedItem());
+            pst.setString(1, (String) txtBatchNo.getSelectedItem());
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 quant = rs.getString("quantity");
@@ -156,10 +152,14 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("ADD ITEM"));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 36, -1, -1));
 
         jLabel2.setText("BATCH NO:");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, -1, -1));
 
         jLabel3.setText("ITEM NAME:");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, -1, -1));
 
         btnSave.setText("SAVE");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -172,8 +172,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 btnSaveKeyPressed(evt);
             }
         });
+        jPanel3.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 82, -1));
 
         jLabel9.setText("QUANTITY:");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, -1, -1));
+        jPanel3.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, 202, -1));
 
         btnCancek.setText("CANCEL");
         btnCancek.addActionListener(new java.awt.event.ActionListener() {
@@ -181,120 +184,52 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 btnCancekActionPerformed(evt);
             }
         });
+        jPanel3.add(btnCancek, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 340, 82, -1));
 
         txtItemName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtItemNameActionPerformed(evt);
             }
         });
+        jPanel3.add(txtItemName, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 202, -1));
 
         cmbRateSel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MRP", "WSP" }));
+        jPanel3.add(cmbRateSel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 71, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/AUXANO-Logo2.png"))); // NOI18N
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 24, 104, 48));
+        jPanel3.add(lblErrBatNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 202, -1, -1));
+        jPanel3.add(lblErrQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 254, -1, -1));
+        jPanel3.add(lblErrItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 147, -1, -1));
 
         txtBatchNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBatchNoActionPerformed(evt);
             }
         });
+        jPanel3.add(txtBatchNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, 202, -1));
 
-        lblQuant0.setText("Available units :");
+        lblQuant0.setText("Units Available:");
+        jPanel3.add(lblQuant0, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 166, -1, 30));
 
         lblQuant.setText("jLabel6");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel9))
-                        .addGap(43, 43, 43)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtQuantity)
-                            .addComponent(txtItemName, 0, 202, Short.MAX_VALUE)
-                            .addComponent(txtBatchNo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(lblQuant0)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblQuant))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(lblErrItem)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblErrQuantity)
-                            .addComponent(lblErrBatNo))))
-                .addContainerGap(155, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(75, 75, 75)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbRateSel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblErrItem))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblErrBatNo)
-                    .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblQuant0)
-                    .addComponent(lblQuant))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblErrQuantity))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancek, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
-        );
+        jPanel3.add(lblQuant, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 166, -1, 30));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -302,14 +237,14 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         pack();
@@ -324,11 +259,10 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
 
         String batchNo = (String) txtBatchNo.getSelectedItem();
-        //String itemName = txtItemName.getSelectedItem().toString();
         String rateSel = cmbRateSel.getSelectedItem().toString();
         String quantity = txtQuantity.getText();
         String quant = lblQuant.getText().toString();
-        
+
         int pid = 0;
         int realpid = 0;
 
@@ -343,7 +277,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         try {
             quan = Integer.parseInt(quantity);
             quantchk = Integer.parseInt(quant);
-             if ((quan > 0)) {
+            if ((quan > 0)) {
                 qVal = true;
                 lblErrQuantity.setText("");
             }
@@ -375,19 +309,18 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         if (rateSel == "MRP") {
             try {
-                Connection con = dbConnect.getConnection();
-
-                String query = "select mrp, prodID from products_tab where prodName =? ";
-                PreparedStatement pst = con.prepareStatement(query);
-                pst.setString(1, txtItemName.getSelectedItem().toString());
-                ResultSet rs = pst.executeQuery();
-                if (rs.next()) {
-                    pid = rs.getInt("mrp");
-                    realpid = rs.getInt("prodID");
+                try (Connection con = dbConnect.getConnection()) {
+                    String query = "select mrp, prodID from products_tab where prodName =? ";
+                    PreparedStatement pst = con.prepareStatement(query);
+                    pst.setString(1, txtItemName.getSelectedItem().toString());
+                    ResultSet rs = pst.executeQuery();
+                    if (rs.next()) {
+                        pid = rs.getInt("mrp");
+                        realpid = rs.getInt("prodID");
+                    }
+                    pst.close();
+                    rs.close();
                 }
-                pst.close();
-                rs.close();
-                con.close();
             } catch (SQLException e) {
             }
         } else {
@@ -416,16 +349,15 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             if ((getValidation(txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem().toString()))) {
                 JOptionPane.showMessageDialog(null, "Select Different BatchNo!");
             } else if (qVal == true && bVal == true) {
-                
-                if ((quan > quantchk)){
-                JOptionPane.showMessageDialog(null, "Quantity exceeding stock availability!");
-            } else {
-                model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem(), txtQuantity.getText(),
-                    pid, subT});
 
-                dispose();
+                if ((quan > quantchk)) {
+                    JOptionPane.showMessageDialog(null, "Quantity exceeding stock availability!");
+                } else {
+                    model.addRow(new Object[]{realpid, txtItemName.getSelectedItem().toString(), txtBatchNo.getSelectedItem(), txtQuantity.getText(),
+                        pid, subT});
+
+                    dispose();
                 }
-//            JOptionPane.showMessageDialog(rootPane, "Added!");
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
             }
@@ -446,7 +378,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
     private void txtBatchNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBatchNoActionPerformed
         // TODO add your handling code here:
 
-        lblQuant.setText(getQuantity((String)txtBatchNo.getSelectedItem()));
+        lblQuant.setText(getQuantity((String) txtBatchNo.getSelectedItem()));
         lblQuant0.setVisible(true);
         lblQuant.setVisible(true);
 
