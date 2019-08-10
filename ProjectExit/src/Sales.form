@@ -1296,12 +1296,12 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel23" alignment="0" min="-2" pref="291" max="-2" attributes="0"/>
-                                      <Component id="jPanel19" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jPanel16" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jPanel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                                  <EmptySpace pref="18" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1343,7 +1343,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                       <Component id="jLabel24" min="-2" pref="269" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="783" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1373,41 +1373,45 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jButton8" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="jScrollPane6" min="-2" pref="908" max="-2" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="dpFrom2" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="dpTo2" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <Component id="jButton8" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="dpFrom2" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="dpTo2" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="cmbFilterSaleRep2" max="32767" attributes="0"/>
-                                                      <Component id="cmbFilerStatus" max="32767" attributes="0"/>
-                                                      <Component id="cmbFilterSalesMan" max="32767" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="cmbFilterSaleRep2" max="32767" attributes="0"/>
+                                                  <Component id="cmbFilerStatus" max="32767" attributes="0"/>
+                                                  <Component id="cmbFilterSalesMan" min="-2" pref="263" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace pref="42" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane6" min="-2" pref="957" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace pref="91" max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1458,13 +1462,13 @@
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                       <Table columnCount="9" rowCount="0">
                                         <Column editable="false" title="S.O. NUMBER" type="java.lang.Object"/>
-                                        <Column editable="false" title="ORDERED DATE" type="java.lang.Object"/>
+                                        <Column editable="false" title="ORD DATE" type="java.lang.Object"/>
                                         <Column editable="false" title="REQ DATE" type="java.lang.Object"/>
                                         <Column editable="false" title="CUS NAME" type="java.lang.Object"/>
                                         <Column editable="false" title="SALES MAN" type="java.lang.Object"/>
                                         <Column editable="false" title="SALES REP" type="java.lang.Object"/>
                                         <Column editable="false" title="REGION" type="java.lang.Object"/>
-                                        <Column editable="false" title="ORDER STATUS" type="java.lang.Object"/>
+                                        <Column editable="false" title="ORD STATUS" type="java.lang.Object"/>
                                         <Column editable="false" title="TOTAL" type="java.lang.Object"/>
                                       </Table>
                                     </Property>
@@ -1475,7 +1479,7 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
@@ -1485,12 +1489,12 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>

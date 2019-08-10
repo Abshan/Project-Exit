@@ -11,10 +11,12 @@ import Models.UserModel;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -656,11 +658,6 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("PRODUCTS");
         jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
 
         lblPurchase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchase.setText("PURCHASE");
@@ -1147,7 +1144,7 @@ public class AddProduct extends javax.swing.JFrame {
             jv.viewReport(j, false);
             con.close();
 
-        } catch (Exception e) {
+        } catch (FileNotFoundException | SQLException | JRException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnGenerateProdListActionPerformed
@@ -1165,10 +1162,6 @@ public class AddProduct extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void cmbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryActionPerformed
         // TODO add your handling code here:

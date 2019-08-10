@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -177,50 +179,55 @@ public class PurchaseReport extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         Connection con = dbConnect.getConnection();
-        String d1;
-        String d2;
+
+        Date today = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formated = df.format(today);
+        String d1 = df.format(jXDatePicker1.getDate());
+        String d2 = df.format(jXDatePicker2.getDate());
+        Date current, from, to;
         String query = "";
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null) {
-            d1 = df.format(jXDatePicker1.getDate());
-            d2 = df.format(jXDatePicker2.getDate());
-            if (jXDatePicker1.getDate().before(jXDatePicker2.getDate())) {
-                query = "select * from purchase_tab where purchaseDate BETWEEN '" + d1 + "' AND '" + d2 + "' ";
-            } else {
-
-                JOptionPane.showMessageDialog(null, "First date is set after second date!");
-
-            }
-        } else {
-            d1 = null;
-            d2 = null;
-        }
-
-        if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null) {
-            d1 = df.format(jXDatePicker1.getDate());
-            query = "select * from purchase_tab where purchaseDate > '" + d1 + "' ";
-        } else {
-            d1 = null;
-        }
-
-        if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() != null) {
-            d2 = df.format(jXDatePicker1.getDate());
-            query = "select * from purchase_tab where purchaseDate < '" + d2 + "' ";
-        } else {
-            d2 = null;
-        }
-
         if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() == null) {
-            query = "select * from purchase_tab ";
+            query = "select * from purchase_tab;";
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null) {
+
+            try {
+                from = sdf.parse(d1);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0) {
+                    query = "select * from purchase_tab where purchaseDate > '" + d1 + "' ";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Starting date is not valid!");
+                }
+
+            } catch (ParseException e) {
+            }
+
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null) {
+
+            try {
+                from = sdf.parse(d1);
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0 && from.compareTo(to) <= 0 && to.compareTo(current) <= 0) {
+                    query = query = "select * from purchase_tab where purchaseDate BETWEEN '" + d1 + "' AND '" + d2 + "' ";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
         }
 
-        if (query != "") {
+        if (!query.equals("")) {
             try {
                 InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\purchaseReport.jrxml"));
                 JasperDesign jd = JRXmlLoader.load(in);
-                String sql = "select * from purchase_tab;";
+                String sql = query;
                 JRDesignQuery newQuery = new JRDesignQuery();
                 newQuery.setText(sql);
                 jd.setQuery(newQuery);
@@ -230,7 +237,7 @@ public class PurchaseReport extends javax.swing.JFrame {
                 jv.viewReport(j, false);
                 con.close();
 
-            } catch (Exception e) {
+            } catch (FileNotFoundException | SQLException | JRException e) {
                 JOptionPane.showMessageDialog(null, "No Records to be printed");
             }
         }
@@ -242,7 +249,6 @@ public class PurchaseReport extends javax.swing.JFrame {
         // TODO add your handling code here:
         jXDatePicker1.setDate(null);
         jXDatePicker2.setDate(null);
-
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

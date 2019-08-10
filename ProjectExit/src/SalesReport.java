@@ -5,9 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -35,52 +39,62 @@ public class SalesReport extends javax.swing.JFrame {
      */
     public SalesReport() {
         initComponents();
+        fillMans();
+        //fillReps();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();
-    
-    /*public void fillCombo() {
+
+    public void fillReps(String name) {
+        try {
+            ResultSet rs;
+            PreparedStatement pst;
+            sp.removeAllItems();
+            //sp.addItem("NONE");
+            String query = "select a.repName from reps_tab a, assigned_tab b  where a.repID = b.repID and b.manID = (select userID from user_tab where userName = '" + name + "');";
+
+            try (Connection con = dbConnect.getConnection()) {
+
+                pst = con.prepareStatement(query);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    sp.addItem(rs.getString("repName"));
+                }
+            }
+            pst.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void fillMans() {
 
         try {
-            Connection con = dbConnect.getConnection();
-            String query1 = "select * from sales_tab";
             ResultSet rs;
-            PreparedStatement pst = con.prepareStatement(query1);
-            rs = pst.executeQuery();
+            PreparedStatement pst;
+            sm.removeAllItems();
+            //sm.addItem("NONE");
+            String query = "select userName from user_tab where role = 'SALES MANAGER' ";
 
-            while (rs.next()) {
-                String itemN = rs.getString("prodName");
-                sm.addItem(itemN);
+            try (Connection con = dbConnect.getConnection()) {
+
+                pst = con.prepareStatement(query);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    sm.addItem(rs.getString("userName"));
+                }
             }
+            pst.close();
+            rs.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
 
     }
-    
-    public void fillCombo1() {
-
-        try {
-            Connection con = dbConnect.getConnection();
-            String query1 = "select * from sales_tab";
-            ResultSet rs;
-            PreparedStatement pst = con.prepareStatement(query1);
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                String itemN = rs.getString("prodName");
-                sp.addItem(itemN);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-    }*/
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,9 +108,9 @@ public class SalesReport extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        d1 = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        d2 = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel4 = new javax.swing.JLabel();
         sm = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -118,11 +132,13 @@ public class SalesReport extends javax.swing.JFrame {
 
         jLabel4.setText("SALES MANAGER:");
 
-        sm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
+        sm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("SALES REP:");
-
-        sp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
 
         jButton1.setText("GENERATE REPORT");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +168,7 @@ public class SalesReport extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 453, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
@@ -160,7 +176,7 @@ public class SalesReport extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 63, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,12 +192,12 @@ public class SalesReport extends javax.swing.JFrame {
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jLabel2)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addGap(18, 18, 18)
+                                                .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(error, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
@@ -200,9 +216,9 @@ public class SalesReport extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(d2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(error))
                 .addGap(7, 7, 7)
                 .addComponent(jLabel3)
@@ -257,116 +273,246 @@ public class SalesReport extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         Connection con = dbConnect.getConnection();
+
+        Date today = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formated = df.format(today);
+
         String man = sm.getSelectedItem().toString();
         String rep = sp.getSelectedItem().toString();
-        String date1;
-        String date2;
-        boolean result = false;
-
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String d1 = df.format(jXDatePicker1.getDate());
+        String d2 = df.format(jXDatePicker2.getDate());
+        Date current, from, to;
 
         String query = "";
 
-        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab";
-            result = true;
-        }
+        if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() == null && man.equals("NONE") && rep.equals("NONE")) {
+            query = "";
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null && man.equals("NONE") && rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                current = sdf.parse(formated);
 
-        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "'";
-            result = true;
-        }
-        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "'";
-            result = true;
-        }
-        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderCreatedBy = '" + man + "'";
-            result = true;
-        }
+                if (from.compareTo(current) <= 0) {
+                    query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Starting date is not valid!");
+                }
 
-        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
-            date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate > '" + date1 + "'";
-            result = true;
-        }
-        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
-            date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate < '" + date2 + "'";
-            result = true;
-        }
-        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
-            date1 = df.format(d1.getDate());
-            date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
-                error.setText("INVALID");
-                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null && !man.equals("NONE") && rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0) {
+                    query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Starting date is not valid!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null && !man.equals("NONE") && !rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0) {
+                    query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Starting date is not valid!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null && man.equals("NONE") && rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0 && from.compareTo(to) <= 0 && to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null && !man.equals("NONE") && rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0 && from.compareTo(to) <= 0 && to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null && !man.equals("NONE") && !rep.equals("NONE")) {
+            try {
+                from = sdf.parse(d1);
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (from.compareTo(current) <= 0 && from.compareTo(to) <= 0 && to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() != null && man.equals("NONE") && rep.equals("NONE")) {
+            try {
+
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() != null && !man.equals("NONE") && rep.equals("NONE")) {
+            try {
+
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
+            }
+        } else if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() != null && !man.equals("NONE") && !rep.equals("NONE")) {
+            try {
+
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (to.compareTo(current) <= 0) {
+                    query = query = "";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select valid Dates!");
+                }
+
+            } catch (ParseException e) {
             }
         }
 
-        if (d1.getDate() != null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
-            date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate > '" + date1 + "'";
-            result = true;
-        }
-        if (d1.getDate() == null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
-            date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate < '" + date2 + "'";
-            result = true;
-        }
-        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
-            date1 = df.format(d1.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate > '" + date1 + "'";
-            result = true;
-        }
-        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
-            date2 = df.format(d2.getDate());
-            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate < '" + date2 + "'";
-            result = true;
-        }
-
-        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
-            date1 = df.format(d1.getDate());
-            date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
-                error.setText("INVALID");
-                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
-            }
-        }
-        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
-            date1 = df.format(d1.getDate());
-            date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
-                error.setText("INVALID");
-                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
-            }
-        }
-        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
-            date1 = df.format(d1.getDate());
-            date2 = df.format(d2.getDate());
-            if (d1.getDate().before(d2.getDate())) {
-                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
-                result = true;
-            } else {
-                error.setText("INVALID");
-                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
-            }
-        }
-
-        if (result == true) {
+//        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab";
+//            result = true;
+//        }
+//
+//        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() == null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() == null && d2.getDate() == null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderCreatedBy = '" + man + "'";
+//            result = true;
+//        }
+//
+//        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && rep.equals("ALL")) {
+//            date1 = df.format(d1.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate > '" + date1 + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
+//            date2 = df.format(d2.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate < '" + date2 + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && rep.equals("ALL")) {
+//            date1 = df.format(d1.getDate());
+//            date2 = df.format(d2.getDate());
+//            if (d1.getDate().before(d2.getDate())) {
+//                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+//                result = true;
+//            } else {
+//                error.setText("INVALID");
+//                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+//            }
+//        }
+//
+//        if (d1.getDate() != null && d2.getDate() == null && !(man.equals("ALL")) && rep.equals("ALL")) {
+//            date1 = df.format(d1.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate > '" + date1 + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() == null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
+//            date2 = df.format(d2.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate < '" + date2 + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() != null && d2.getDate() == null && man.equals("ALL") && !(rep.equals("ALL"))) {
+//            date1 = df.format(d1.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate > '" + date1 + "'";
+//            result = true;
+//        }
+//        if (d1.getDate() == null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
+//            date2 = df.format(d2.getDate());
+//            query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate < '" + date2 + "'";
+//            result = true;
+//        }
+//
+//        if (d1.getDate() != null && d2.getDate() != null && man.equals("ALL") && !(rep.equals("ALL"))) {
+//            date1 = df.format(d1.getDate());
+//            date2 = df.format(d2.getDate());
+//            if (d1.getDate().before(d2.getDate())) {
+//                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+//                result = true;
+//            } else {
+//                error.setText("INVALID");
+//                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+//            }
+//        }
+//        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && rep.equals("ALL")) {
+//            date1 = df.format(d1.getDate());
+//            date2 = df.format(d2.getDate());
+//            if (d1.getDate().before(d2.getDate())) {
+//                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+//                result = true;
+//            } else {
+//                error.setText("INVALID");
+//                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+//            }
+//        }
+//        if (d1.getDate() != null && d2.getDate() != null && !(man.equals("ALL")) && !(rep.equals("ALL"))) {
+//            date1 = df.format(d1.getDate());
+//            date2 = df.format(d2.getDate());
+//            if (d1.getDate().before(d2.getDate())) {
+//                query = "select soNumber, orderedDate, reqDate, customerName, orderCreatedBy, salesRep, region, total, orderStatus from sales_tab where orderCreatedBy = '" + man + "' AND salesRep = '" + rep + "' AND orderedDate BETWEEN '" + date1 + "' AND '" + date2 + "' ";
+//                result = true;
+//            } else {
+//                error.setText("INVALID");
+//                JOptionPane.showMessageDialog(null, "Date 1 is set after Date 2");
+//            }
+//        }
+        if (!query.equals("")) {
             try {
                 InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\salesReport.jrxml"));
                 JasperDesign jd = JRXmlLoader.load(in);
-                String sql = "select * from sales_tab";
+                String sql = query;
                 JRDesignQuery newQuery = new JRDesignQuery();
                 newQuery.setText(sql);
                 jd.setQuery(newQuery);
@@ -375,14 +521,12 @@ public class SalesReport extends javax.swing.JFrame {
                 JasperViewer jv = new JasperViewer(j, false);
                 jv.viewReport(j, false);
                 con.close();
-                result = false;
                 error.setText("");
                 query = "";
-                d1.setDate(null);
-                d2.setDate(null);
+                jXDatePicker1.setDate(null);
+                jXDatePicker2.setDate(null);
                 sm.setSelectedIndex(0);
                 sp.setSelectedIndex(0);
-                con.close();
 
             } catch (FileNotFoundException | SQLException | JRException e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -392,13 +536,18 @@ public class SalesReport extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        d1.setDate(null);
-        d2.setDate(null);
+        jXDatePicker1.setDate(null);
+        jXDatePicker2.setDate(null);
         sm.setSelectedIndex(0);
         sp.setSelectedIndex(0);
         error.setText("");
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void smActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smActionPerformed
+        // TODO add your handling code here:
+        fillReps(sm.getSelectedItem().toString());
+    }//GEN-LAST:event_smActionPerformed
 
     /**
      * @param args the command line arguments
@@ -437,8 +586,6 @@ public class SalesReport extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXDatePicker d1;
-    private org.jdesktop.swingx.JXDatePicker d2;
     private javax.swing.JLabel error;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -451,6 +598,8 @@ public class SalesReport extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
     private javax.swing.JComboBox<String> sm;
     private javax.swing.JComboBox<String> sp;
     // End of variables declaration//GEN-END:variables

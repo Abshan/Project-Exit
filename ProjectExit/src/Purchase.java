@@ -212,11 +212,6 @@ public final class Purchase extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("PURCHASE");
         jLabel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
 
         lblSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSales.setText("SALES");
@@ -869,7 +864,6 @@ public final class Purchase extends javax.swing.JFrame {
         }
 
         if (pn.getText().equals("")) {
-            //poerror.setText("*invalid");
             JOptionPane.showMessageDialog(null, "P.O Number field is empty");
         }
 
@@ -1220,10 +1214,6 @@ public final class Purchase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         int pop = JOptionPane.YES_NO_OPTION;

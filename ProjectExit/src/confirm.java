@@ -192,6 +192,8 @@ public class confirm extends javax.swing.JFrame {
         String query = "select userName, nic from user_tab where email=? and nic=?";
         if (email.equals("") || nic.equals("")) {
             JOptionPane.showMessageDialog(null, "Fill in the empty fields!");
+        } else if (!(usrEmail.getText().matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))){
+            JOptionPane.showMessageDialog(null, "Email format is not valid!");
         } else {
             try {
                 PreparedStatement pst;

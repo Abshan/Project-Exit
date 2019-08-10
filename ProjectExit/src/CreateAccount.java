@@ -336,16 +336,6 @@ public class CreateAccount extends javax.swing.JFrame {
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
         lblUser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 102, 0), null, null));
-        lblUser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblUserMouseClicked(evt);
-            }
-        });
-        lblUser.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                lblUserKeyPressed(evt);
-            }
-        });
         jPanel3.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 96, 86, -1));
 
         lblProducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1538,14 +1528,6 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblUserMouseClicked
-
-    private void lblUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblUserKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblUserKeyPressed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int pop = JOptionPane.YES_NO_OPTION;
