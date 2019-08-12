@@ -52,14 +52,14 @@ public class Stock extends javax.swing.JFrame {
                     results[0] = rs.getString("prodID");
                     results[1] = rs.getString("prodName");
                     results[2] = rs.getString("total");
-                    
-                    if (Integer.parseInt(rs.getString("total")) < 500 && Integer.parseInt(rs.getString("total")) > 0) {
+
+                    if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
                         results[3] = "Low In Stock";
                     }
-                    if (Integer.parseInt(rs.getString("total")) > 500) {
+                    if (Integer.parseInt(rs.getString("total")) > 250) {
                         results[3] = "In Stock";
                     }
-                    
+
                     model.addRow(results);
                 }
             }
@@ -129,7 +129,35 @@ public class Stock extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblViewStock = new javax.swing.JTable();
+        tblViewStock = new javax.swing.JTable()
+        {
+            @Override
+
+            public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){
+                Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);
+
+                Object value = getModel().getValueAt(rowIndex,columnIndex);
+
+                if(columnIndex == 3){
+
+                    if(value.equals("Low In Stock"))
+                    {
+                        componenet.setForeground(Color.RED);
+                    }
+
+                    if(value.equals("In Stock"))
+                    {
+                        componenet.setForeground(Color.GREEN);
+                    }
+
+                }else{
+                    componenet.setForeground(Color.black);
+                }
+                return componenet;
+            }
+
+        }
+        ;
         jLabel7 = new javax.swing.JLabel();
         txtSearchStock = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -397,6 +425,12 @@ public class Stock extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
+
         tblViewStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -417,6 +451,12 @@ public class Stock extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblViewStock);
 
         jLabel7.setText("SEARCH:");
+
+        txtSearchStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtSearchStockMouseClicked(evt);
+            }
+        });
 
         jLabel8.setText("FILTER BY:");
 
@@ -607,7 +647,7 @@ public class Stock extends javax.swing.JFrame {
                     results[3] = rs.getString("manfDate");
                     results[4] = rs.getString("expDate");
                     results[5] = rs.getString("quantity");
-                    
+
                     model.addRow(results);
                 }
             }
@@ -748,7 +788,7 @@ public class Stock extends javax.swing.JFrame {
                     results[3] = rs.getString("manfDate");
                     results[4] = rs.getString("expDate");
                     results[5] = rs.getString("quantity");
-                    
+
                     model.addRow(results);
                 }
             }
@@ -787,11 +827,15 @@ public class Stock extends javax.swing.JFrame {
                             results[3] = rs.getString("manfDate");
                             results[4] = rs.getString("expDate");
                             results[5] = rs.getString("quantity");
-                            
+
                             model.addRow(results);
                         }
                     }
                     rs.close();
+
+                    viewStock.setVisible(true);
+                    viewStock.pack();
+                    viewStock.setLocationRelativeTo(null);
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Some Error Occured!");
@@ -799,10 +843,18 @@ public class Stock extends javax.swing.JFrame {
 
         }
 
-        viewStock.setVisible(true);
-        viewStock.pack();
-        viewStock.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        // TODO add your handling code here:
+        tblViewStock.clearSelection();
+    }//GEN-LAST:event_jPanel6MouseClicked
+
+    private void txtSearchStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSearchStockMouseClicked
+        // TODO add your handling code here:
+        tblViewStock.clearSelection();
+    }//GEN-LAST:event_txtSearchStockMouseClicked
 
     /**
      * @param args the command line arguments

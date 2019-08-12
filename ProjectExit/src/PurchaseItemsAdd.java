@@ -2,6 +2,7 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,6 +122,12 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
 
         jLabel9.setText("QUANTITY:");
 
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+        });
+
         d1error.setForeground(new java.awt.Color(0, 0, 0));
 
         d2error.setForeground(new java.awt.Color(0, 0, 0));
@@ -136,6 +143,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 y1FocusLost(evt);
             }
         });
+        y1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                y1KeyTyped(evt);
+            }
+        });
 
         y2.setText("YYYY");
         y2.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -144,6 +156,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 y2FocusLost(evt);
+            }
+        });
+        y2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                y2KeyTyped(evt);
             }
         });
 
@@ -160,6 +177,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 m1FocusLost(evt);
             }
         });
+        m1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                m1KeyTyped(evt);
+            }
+        });
 
         m2.setText("MM");
         m2.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -168,6 +190,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 m2FocusLost(evt);
+            }
+        });
+        m2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                m2KeyTyped(evt);
             }
         });
 
@@ -184,6 +211,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 d1FocusLost(evt);
             }
         });
+        d1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                d1KeyTyped(evt);
+            }
+        });
 
         d2.setText("DD");
         d2.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -194,8 +226,19 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                 d2FocusLost(evt);
             }
         });
+        d2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                d2KeyTyped(evt);
+            }
+        });
 
         jLabel7.setText("UNIT PRICE:");
+
+        pr.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prKeyPressed(evt);
+            }
+        });
 
         berror.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -395,7 +438,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
         int pid = 0;
         double price = 0;
         int quan = 0;
-        int bat = 0;
         boolean datVal1 = false;
         boolean datVal2 = false;
         boolean qVal = false;
@@ -412,14 +454,11 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             qerror.setText("*invalid");
         }
 
-        try {
-            bat = Integer.parseInt(batchNo);
-            if (bat > 999 && bat < 10000000) {
-                bVal = true;
-                berror.setText("");
-            }
-        } catch (NumberFormatException e) {
+        if (jTextField1.getText().equals("")) {
             berror.setText("*invalid");
+        } else {
+            bVal = true;
+            berror.setText("");
         }
 
         try {
@@ -509,7 +548,6 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
                     jTextField3.getText(), Unit, price * quan});
 
                 dispose();
-                JOptionPane.showMessageDialog(rootPane, "Added");
 
             } else {
 
@@ -614,6 +652,68 @@ public class PurchaseItemsAdd extends javax.swing.JFrame {
             d2.setText("DD");
         }
     }//GEN-LAST:event_d2FocusLost
+
+    private void y1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_y1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (y1.getText().length() >= 3 && c != KeyEvent.VK_BACK_SPACE) {
+            m1.requestFocus();
+        }
+    }//GEN-LAST:event_y1KeyTyped
+
+    private void m1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (m1.getText().length() >= 1 && c != KeyEvent.VK_BACK_SPACE) {
+            d1.requestFocus();
+        }
+    }//GEN-LAST:event_m1KeyTyped
+
+    private void d1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_d1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (d1.getText().length() >= 1 && c != KeyEvent.VK_BACK_SPACE) {
+            y2.requestFocus();
+        }
+    }//GEN-LAST:event_d1KeyTyped
+
+    private void y2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_y2KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (y2.getText().length() >= 3 && c != KeyEvent.VK_BACK_SPACE) {
+            m2.requestFocus();
+        }
+    }//GEN-LAST:event_y2KeyTyped
+
+    private void m2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m2KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (m2.getText().length() >= 1 && c != KeyEvent.VK_BACK_SPACE) {
+            d2.requestFocus();
+        }
+    }//GEN-LAST:event_m2KeyTyped
+
+    private void d2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_d2KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (d2.getText().length() >= 1 && c != KeyEvent.VK_BACK_SPACE) {
+            jTextField3.requestFocus();
+        }
+    }//GEN-LAST:event_d2KeyTyped
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            pr.requestFocus();
+        }
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void prKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            jTextField3.requestFocus();
+        }
+    }//GEN-LAST:event_prKeyPressed
 
     /**
      * @param args the command line arguments

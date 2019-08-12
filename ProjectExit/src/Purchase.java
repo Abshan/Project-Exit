@@ -35,6 +35,7 @@ public final class Purchase extends javax.swing.JFrame {
 
     public Purchase() {
         initComponents();
+        jPanel1.setVisible(false);
 
         ShowPurchases();
 
@@ -146,6 +147,9 @@ public final class Purchase extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
@@ -169,6 +173,7 @@ public final class Purchase extends javax.swing.JFrame {
         purerror = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -280,6 +285,38 @@ public final class Purchase extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addContainerGap())
         );
+
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "MESSAGES"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setShowHorizontalLines(false);
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 260, 530));
+
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 280, 550));
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
@@ -494,29 +531,19 @@ public final class Purchase extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
+        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 91, -1, -1));
+
         jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel30.setText("CREATE PURCHASE ORDER");
+        jPanel4.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 36, -1, 49));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel30)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(89, 89, 89))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closed-envelope.png"))); // NOI18N
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1126, 6, -1, 35));
 
         jTabbedPane1.addTab("CREATE PURCHASE ORDER", jPanel4);
 
@@ -888,7 +915,7 @@ public final class Purchase extends javax.swing.JFrame {
 
                             for (int row = 0; row < rows; row++) {
 
-                                int batchNO = Integer.parseInt(jTable9.getValueAt(row, 0).toString());
+                                String batchNO = jTable9.getValueAt(row, 0).toString();
                                 int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
                                 String itemName = jTable9.getValueAt(row, 2).toString();
                                 String manfDate = jTable9.getValueAt(row, 3).toString();
@@ -1230,6 +1257,15 @@ public final class Purchase extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        if(jPanel1.isVisible()){
+            jPanel1.setVisible(false);
+        }else{
+            jPanel1.setVisible(true);
+        }
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1286,6 +1322,7 @@ public final class Purchase extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;
@@ -1302,6 +1339,7 @@ public final class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1311,9 +1349,11 @@ public final class Purchase extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     public static javax.swing.JTable jTable8;
     public static javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField1;

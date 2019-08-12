@@ -109,6 +109,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="txtEmailLogin">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailLoginKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -144,7 +147,6 @@
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtPasswordlogin">
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtPasswordloginMouseClicked"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordloginKeyPressed"/>
           </Events>
         </Component>

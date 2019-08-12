@@ -9,6 +9,7 @@ import Models.DatabaseConnection;
 import Models.ProductModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -203,13 +204,37 @@ public class AddProduct extends javax.swing.JFrame {
 
         jPanel6.setPreferredSize(new java.awt.Dimension(1045, 475));
 
+        txtBrandName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBrandNameKeyPressed(evt);
+            }
+        });
+
         jLabel15.setText("BRAND NAME: ");
 
         jLabel31.setText("PRODUCT NAME:");
 
+        txtProductName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtProductNameKeyPressed(evt);
+            }
+        });
+
+        txtWholesalePrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtWholesalePriceKeyPressed(evt);
+            }
+        });
+
         jLabel32.setText("WHOLESALE PRICE:");
 
         jLabel33.setText("MAXIMUM RETAIL PRICE:");
+
+        txtMRP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMRPKeyPressed(evt);
+            }
+        });
 
         jLabel34.setText("SIZE");
 
@@ -230,6 +255,12 @@ public class AddProduct extends javax.swing.JFrame {
         jLabel35.setBackground(new java.awt.Color(102, 102, 102));
         jLabel35.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel35.setText("PRODUCT CATEGORY");
+
+        txtSize.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSizeKeyPressed(evt);
+            }
+        });
 
         rdoDrugs.setText("Drugs");
 
@@ -1197,6 +1228,47 @@ public class AddProduct extends javax.swing.JFrame {
         }
         txtSearch.setText("");
     }//GEN-LAST:event_cmbCategoryActionPerformed
+
+    private void txtBrandNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBrandNameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtProductName.requestFocus();
+        }
+    }//GEN-LAST:event_txtBrandNameKeyPressed
+
+    private void txtProductNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductNameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtBrandName.requestFocus();
+        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtWholesalePrice.requestFocus();
+        }
+    }//GEN-LAST:event_txtProductNameKeyPressed
+
+    private void txtWholesalePriceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtWholesalePriceKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtProductName.requestFocus();
+        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtMRP.requestFocus();
+        }
+    }//GEN-LAST:event_txtWholesalePriceKeyPressed
+
+    private void txtMRPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMRPKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtWholesalePrice.requestFocus();
+        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtSize.requestFocus();
+        }
+    }//GEN-LAST:event_txtMRPKeyPressed
+
+    private void txtSizeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSizeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtMRP.requestFocus();
+        }
+    }//GEN-LAST:event_txtSizeKeyPressed
 
     /**
      * @param args the command line arguments

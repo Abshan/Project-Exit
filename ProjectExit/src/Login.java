@@ -53,6 +53,12 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("LOGIN PAGE"));
 
+        txtEmailLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailLoginKeyPressed(evt);
+            }
+        });
+
         jLabel1.setText("Email:");
 
         jLabel2.setText("Password:");
@@ -73,11 +79,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        txtPasswordlogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtPasswordloginMouseClicked(evt);
-            }
-        });
         txtPasswordlogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPasswordloginKeyPressed(evt);
@@ -219,10 +220,6 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
-    private void txtPasswordloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordloginMouseClicked
-        txtPasswordlogin.setText("");
-    }//GEN-LAST:event_txtPasswordloginMouseClicked
-
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         confirm frame = new confirm();
         frame.setVisible(true);
@@ -232,6 +229,7 @@ public class Login extends javax.swing.JFrame {
     private void txtPasswordloginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordloginKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
             String Email = txtEmailLogin.getText();
             String Password = txtPasswordlogin.getText();
 
@@ -282,8 +280,17 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Check your internet connection!");
                 }
             }
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtEmailLogin.requestFocus();
         }
     }//GEN-LAST:event_txtPasswordloginKeyPressed
+
+    private void txtEmailLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailLoginKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtPasswordlogin.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailLoginKeyPressed
 
     /**
      * @param args the command line arguments

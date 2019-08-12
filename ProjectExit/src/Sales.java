@@ -640,66 +640,6 @@ public class Sales extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel33)
-                    .addComponent(jLabel34))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCustomerPhone)
-                    .addComponent(txtCustomerName)
-                    .addComponent(txtSONumber, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dpReqDate, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrorCP)
-                            .addComponent(lblErrorRD)
-                            .addComponent(lblErrorCN)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblErrorSON)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addGap(62, 62, 62))
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jLabel31)
-                                    .addGap(133, 133, 133)))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(87, 87, 87)))
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUser)
-                            .addComponent(cmbRegion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblErrorSR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblErrorR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblErrorOS))
-                .addGap(48, 48, 48))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnDeleteTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -716,6 +656,69 @@ public class Sales extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(103, 103, 103))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel34))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCustomerPhone)
+                            .addComponent(txtCustomerName)
+                            .addComponent(txtSONumber, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblErrorCP)
+                                    .addComponent(lblErrorRD)
+                                    .addComponent(lblErrorCN)))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblErrorSON)))
+                        .addGap(78, 78, 78)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                            .addComponent(jLabel8)
+                                            .addGap(62, 62, 62))
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                            .addComponent(jLabel31)
+                                            .addGap(133, 133, 133)))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addGap(87, 87, 87)))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cmbSalesRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtUser)
+                                    .addComponent(cmbRegion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDeleteTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEditTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAddTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblErrorSR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorOS))
+                        .addGap(48, 48, 48))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -742,27 +745,31 @@ public class Sales extends javax.swing.JFrame {
                             .addComponent(lblErrorOS)
                             .addComponent(cmbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(lblErrorSON)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblErrorCN)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblErrorCP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblErrorRD))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtSONumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblErrorSON)))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrorCN))
+                            .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel33)
-                            .addComponent(txtCustomerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrorCP))
+                            .addComponent(txtCustomerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel34)
-                            .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrorRD))))
+                            .addComponent(dpReqDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -792,11 +799,10 @@ public class Sales extends javax.swing.JFrame {
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel22)
-                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
         jPanel15Layout.setVerticalGroup(
@@ -866,6 +872,12 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
+
         tblReviewSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -884,15 +896,6 @@ public class Sales extends javax.swing.JFrame {
         });
         tblReviewSales.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(tblReviewSales);
-        if (tblReviewSales.getColumnModel().getColumnCount() > 0) {
-            tblReviewSales.getColumnModel().getColumn(0).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(1).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(2).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(3).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(4).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(5).setResizable(false);
-            tblReviewSales.getColumnModel().getColumn(6).setResizable(false);
-        }
 
         jLabel12.setText("SEARCH:");
 
@@ -963,45 +966,44 @@ public class Sales extends javax.swing.JFrame {
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(45, 45, 45)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnUpdateSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDeleteSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dpFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dpTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(114, 114, 114))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                .addComponent(btnUpdateSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnDeleteSales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(13, 13, 13)))
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel18Layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dpFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dpTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel12))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel18Layout.createSequentialGroup()
+                                        .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel18Layout.createSequentialGroup()
+                                        .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnClearFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnViewTab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel12))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(txtSearchSONum, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnClearFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(82, 82, 82))))
+                        .addComponent(btnViewTab))))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1022,14 +1024,13 @@ public class Sales extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(cmbSearchSalesRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClearFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addGap(44, 44, 44)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                         .addGap(18, 18, 18))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(58, 58, 58)
                         .addComponent(btnViewTab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1044,10 +1045,10 @@ public class Sales extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -1115,6 +1116,12 @@ public class Sales extends javax.swing.JFrame {
                 .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
 
         tblViewSalesOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1609,7 +1616,6 @@ public class Sales extends javax.swing.JFrame {
             editItems.txtQuantity.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 3).toString());
             editItems.txtBatchNo.setText(model.getValueAt(tblCreateSO.getSelectedRow(), 2).toString());
 
-
             editItems.setVisible(true);
             editItems.pack();
             editItems.setLocationRelativeTo(null);
@@ -1767,113 +1773,120 @@ public class Sales extends javax.swing.JFrame {
 
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
 
-        Date today = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formated = df.format(today);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date pd1 = dpFrom.getDate();
+        if (dpFrom.getDate() == null) {
 
-        String date1 = "";
-        String date2 = "";
-        Date current, from, pDate, to;
-        try {
+        } else {
+            Date today = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formated = df.format(today);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date pd1 = dpFrom.getDate();
 
-            date1 = df.format(pd1);
-            from = sdf.parse(date1);
-            current = sdf.parse(formated);
+            String date1 = "";
+            String date2 = "";
+            Date current, from, pDate, to;
+            try {
 
-            if (from.before(current)) {
-                JOptionPane.showMessageDialog(null, "Select a proper date!");
-            } else {
+                date1 = df.format(pd1);
+                from = sdf.parse(date1);
+                current = sdf.parse(formated);
 
-                ArrayList<SalesModel> list = getOrderList();
-                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-                model.setRowCount(0);
+                if (from.after(current)) {
+                    JOptionPane.showMessageDialog(null, "Select a proper date!");
+                } else {
 
-                Object[] row = new Object[7];
-                for (int i = 0; i < list.size(); i++) {
-                    row[0] = list.get(i).getSONo();
-                    row[1] = list.get(i).getOrderDate();
-                    row[2] = list.get(i).getReqDate();
-                    row[3] = list.get(i).getCusName();
-                    row[4] = list.get(i).getOrderCreator();
-                    row[5] = list.get(i).getTotal();
-                    row[6] = list.get(i).getStatus();
+                    ArrayList<SalesModel> list = getOrderList();
+                    DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                    model.setRowCount(0);
 
-                    pDate = sdf.parse(list.get(i).getReqDate());
+                    Object[] row = new Object[7];
+                    for (int i = 0; i < list.size(); i++) {
+                        row[0] = list.get(i).getSONo();
+                        row[1] = list.get(i).getOrderDate();
+                        row[2] = list.get(i).getReqDate();
+                        row[3] = list.get(i).getCusName();
+                        row[4] = list.get(i).getOrderCreator();
+                        row[5] = list.get(i).getTotal();
+                        row[6] = list.get(i).getStatus();
 
-                    if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
-                        model.addRow(row);
-                    }
+                        pDate = sdf.parse(list.get(i).getReqDate());
 
-                    if (from.compareTo(pDate) <= 0 && dpTo.getDate() != null) {
-                        date2 = df.format(dpTo.getDate());
-                        to = sdf.parse(date2);
-                        if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
+                        if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
                             model.addRow(row);
+                        }
+
+                        if (from.compareTo(pDate) <= 0 && dpTo.getDate() != null) {
+                            date2 = df.format(dpTo.getDate());
+                            to = sdf.parse(date2);
+                            if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
+                                model.addRow(row);
+                            }
                         }
                     }
                 }
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, ex);
         }
 
     }//GEN-LAST:event_dpFromActionPerformed
 
     private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
         // TODO add your handling code here:
+        if (dpTo.getDate() == null) {
 
-        Date today = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formated = df.format(today);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date pd2 = dpTo.getDate();
+        } else {
+            Date today = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formated = df.format(today);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date pd2 = dpTo.getDate();
 
-        String date2 = "";
-        String date1 = "";
-        Date current, from, pDate, to;
-        try {
+            String date2 = "";
+            String date1 = "";
+            Date current, from, pDate, to;
+            try {
 
-            date2 = df.format(pd2);
-            to = sdf.parse(date2);
-            current = sdf.parse(formated);
+                date2 = df.format(pd2);
+                to = sdf.parse(date2);
+                current = sdf.parse(formated);
 
-            if (to.before(current)) {
-                JOptionPane.showMessageDialog(null, "Select a proper date!");
-            } else {
+                if (to.before(current)) {
+                    JOptionPane.showMessageDialog(null, "Select a proper date!");
+                } else {
 
-                ArrayList<SalesModel> list = getOrderList();
-                DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-                model.setRowCount(0);
+                    ArrayList<SalesModel> list = getOrderList();
+                    DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
+                    model.setRowCount(0);
 
-                Object[] row = new Object[7];
-                for (int i = 0; i < list.size(); i++) {
-                    row[0] = list.get(i).getSONo();
-                    row[1] = list.get(i).getOrderDate();
-                    row[2] = list.get(i).getReqDate();
-                    row[3] = list.get(i).getCusName();
-                    row[4] = list.get(i).getOrderCreator();
-                    row[5] = list.get(i).getTotal();
-                    row[6] = list.get(i).getStatus();
+                    Object[] row = new Object[7];
+                    for (int i = 0; i < list.size(); i++) {
+                        row[0] = list.get(i).getSONo();
+                        row[1] = list.get(i).getOrderDate();
+                        row[2] = list.get(i).getReqDate();
+                        row[3] = list.get(i).getCusName();
+                        row[4] = list.get(i).getOrderCreator();
+                        row[5] = list.get(i).getTotal();
+                        row[6] = list.get(i).getStatus();
 
-                    pDate = sdf.parse(list.get(i).getReqDate().toString());
+                        pDate = sdf.parse(list.get(i).getReqDate().toString());
 
-                    if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
-                        model.addRow(row);
-                    }
-
-                    if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
-                        date1 = df.format(dpFrom.getDate());
-                        from = sdf.parse(date1);
-                        if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                        if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
                             model.addRow(row);
+                        }
+
+                        if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
+                            date1 = df.format(dpFrom.getDate());
+                            from = sdf.parse(date1);
+                            if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                                model.addRow(row);
+                            }
                         }
                     }
                 }
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_dpToActionPerformed
 
@@ -1967,6 +1980,10 @@ public class Sales extends javax.swing.JFrame {
 
                     pDate = sdf.parse(list.get(i).getReqDate());
 
+                    if (dpFrom2.getDate() == null && dpTo2.getDate() == null) {
+                        model.addRow(row);
+                    }
+
                     if (from.compareTo(pDate) <= 0 && dpTo2.getDate() == null) {
                         model.addRow(row);
                     }
@@ -2024,6 +2041,10 @@ public class Sales extends javax.swing.JFrame {
                     row[8] = list.get(i).getTotal();
 
                     pDate = sdf.parse(list.get(i).getReqDate());
+
+                    if (dpFrom2.getDate() == null && dpTo2.getDate() == null) {
+                        model.addRow(row);
+                    }
 
                     if (to.compareTo(pDate) >= 0 && dpFrom2.getDate() == null) {
                         model.addRow(row);
@@ -2201,12 +2222,20 @@ public class Sales extends javax.swing.JFrame {
 
         dpFrom.setDate(null);
         dpTo.setDate(null);
-        DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
-        model.setRowCount(0);
         cmbSearchSalesRep.setSelectedIndex(0);
         txtSearchSONum.setText("");
         ShowReviewSales();
     }//GEN-LAST:event_btnClearFiltersActionPerformed
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        // TODO add your handling code here:
+        tblReviewSales.clearSelection();
+    }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        // TODO add your handling code here:
+        tblViewSalesOrders.clearSelection();
+    }//GEN-LAST:event_jPanel19MouseClicked
 
     /**
      * @param args the command line arguments

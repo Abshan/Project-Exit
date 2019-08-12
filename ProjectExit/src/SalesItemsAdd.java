@@ -37,7 +37,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         try {
             Connection con = dbConnect.getConnection();
-            String query = "select prodName from products_tab";
+            String query = "select distinct(p.prodName) from products_tab p, stocks_tab s where p.prodName = s.prodName and quantity > 0";
             ResultSet rs;
             PreparedStatement pst = con.prepareStatement(query);
             rs = pst.executeQuery();
@@ -48,6 +48,9 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 txtItemName.addItem(rs.getString("prodName"));
 
             }
+            con.close();
+            rs.close();
+            pst.close();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -55,28 +58,47 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     }
 
-    public void getBatchNo(String item) {
-        if ((txtItemName.getSelectedIndex() != -1)) {
-            try {
-                Connection con = dbConnect.getConnection();
+    public boolean checkIf(String baString) {
 
-                String query = "select batchNo from stocks_tab where prodName =? ";
-                PreparedStatement pst = con.prepareStatement(query);
-                pst.setString(1, txtItemName.getSelectedItem().toString());
-                ResultSet rs = pst.executeQuery();
+        int count = Sales.tblCreateSO.getModel().getRowCount();
+        boolean chk = false;
 
-                while (rs.next()) {
-
-                    txtBatchNo.addItem(rs.getString("batchNo"));
-
+        if (count != 0) {
+            for (int i = 0; i < count; i++) {
+                String name = Sales.tblCreateSO.getModel().getValueAt(i, 2).toString();
+                if (name.equals(baString)) {
+                    chk = true;
                 }
-                pst.close();
-                rs.close();
-                con.close();
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
+        }
+        return chk;
+
+    }
+
+    public void getBatchNo(String item) {
+
+        try {
+            Connection con = dbConnect.getConnection();
+
+            String query = "select batchNo from stocks_tab where prodName =? ";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, item);
+            ResultSet rs = pst.executeQuery();
+            txtBatchNo.removeAllItems();
+
+            while (rs.next()) {
+
+                if (!checkIf(rs.getString("batchNo"))) {
+                    txtBatchNo.addItem(rs.getString("batchNo"));
+                }
+
+            }
+            pst.close();
+            rs.close();
+            con.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
         }
 
     }
@@ -258,7 +280,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) Sales.tblCreateSO.getModel();
 
-        String batchNo = (String) txtBatchNo.getSelectedItem();
+        String batchNo = txtBatchNo.getSelectedItem().toString();
         String rateSel = cmbRateSel.getSelectedItem().toString();
         String quantity = txtQuantity.getText();
         String quant = lblQuant.getText().toString();
@@ -270,7 +292,6 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         int subT = 0;
         int quan = 0;
         int quantchk = 0;
-        int bat = 0;
         boolean qVal = false;
         boolean bVal = false;
 
@@ -285,14 +306,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             lblErrQuantity.setText("*invalid");
         }
 
-        try {
-            bat = Integer.parseInt(batchNo);
-            if (bat > 100 && bat < 1000000) {
-                bVal = true;
-                lblErrBatNo.setText("");
-            }
-        } catch (NumberFormatException e) {
-            lblErrBatNo.setText("*invalid");
+        if (txtBatchNo.getSelectedItem() == null) {
+            lblErrBatNo.setText("*No Stock Available");
+        } else {
+            bVal = true;
+            lblErrBatNo.setText("");
         }
 
         if (txtItemName.getSelectedIndex() == -1) {
@@ -307,7 +325,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
             lblErrBatNo.setText("");
         }
 
-        if (rateSel == "MRP") {
+        if (rateSel.equals("MRP")) {
             try {
                 try (Connection con = dbConnect.getConnection()) {
                     String query = "select mrp, prodID from products_tab where prodName =? ";
@@ -370,7 +388,6 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     private void btnCancekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancekActionPerformed
         // TODO add your handling code here:
-
         this.dispose();
 
     }//GEN-LAST:event_btnCancekActionPerformed
@@ -386,13 +403,11 @@ public class SalesItemsAdd extends javax.swing.JFrame {
 
     private void txtItemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtItemNameActionPerformed
         // TODO add your handling code here:
-        int itemCount = txtBatchNo.getItemCount();
-
-        for (int i = 0; i < itemCount; i++) {
-            txtBatchNo.removeItemAt(0);
+        if (txtItemName.getSelectedIndex() == -1) {
+            txtBatchNo.removeAllItems();
+        } else {
+            getBatchNo((String) txtItemName.getSelectedItem());
         }
-        getBatchNo((String) txtItemName.getSelectedItem());
-
     }//GEN-LAST:event_txtItemNameActionPerformed
 
     /**

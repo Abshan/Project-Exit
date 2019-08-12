@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
 import Models.RepModel;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -414,13 +415,37 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyPressed(evt);
+            }
+        });
+
         jLabel15.setText("USER NAME:");
 
         jLabel31.setText("EMAIL");
 
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+        });
+
+        txtNIC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNICKeyPressed(evt);
+            }
+        });
+
         jLabel32.setText("NIC NUMBER:");
 
         jLabel33.setText("PASSWORD:");
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         jLabel34.setText("CONFIRM PASSWORD:");
 
@@ -435,6 +460,12 @@ public class CreateAccount extends javax.swing.JFrame {
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
+            }
+        });
+
+        txtConfirmPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtConfirmPasswordKeyPressed(evt);
             }
         });
 
@@ -1943,6 +1974,47 @@ public class CreateAccount extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void txtUserNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtEmail.requestFocus();
+        }
+    }//GEN-LAST:event_txtUserNameKeyPressed
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtUserName.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtNIC.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
+
+    private void txtNICKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNICKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtEmail.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtNICKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtNIC.requestFocus();
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtConfirmPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtConfirmPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmPasswordKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtConfirmPasswordKeyPressed
 
     /**
      * @param args the command line arguments

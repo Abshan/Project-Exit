@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -64,6 +65,18 @@ public class ForgotPassword extends javax.swing.JFrame {
         jLabel2.setText("CHANGE YOUR PASSWORD");
 
         jLabel3.setText("Use at least eight charachters with a mix of numbers, uppercase and lowercase letters");
+
+        txtNewPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNewPasswordKeyPressed(evt);
+            }
+        });
+
+        txtConfirmPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtConfirmPasswordKeyPressed(evt);
+            }
+        });
 
         btnChangePasswordFP.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnChangePasswordFP.setText("Change Password");
@@ -234,6 +247,20 @@ public class ForgotPassword extends javax.swing.JFrame {
         frame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtNewPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewPasswordKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            txtConfirmPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtNewPasswordKeyPressed
+
+    private void txtConfirmPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmPasswordKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtNewPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtConfirmPasswordKeyPressed
 
     /**
      * @param args the command line arguments

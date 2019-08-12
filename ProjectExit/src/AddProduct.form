@@ -303,6 +303,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtBrandName">
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBrandNameKeyPressed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel15">
                           <Properties>
@@ -315,8 +318,14 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtProductName">
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtProductNameKeyPressed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtWholesalePrice">
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtWholesalePriceKeyPressed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel32">
                           <Properties>
@@ -329,6 +338,9 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtMRP">
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMRPKeyPressed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel34">
                           <Properties>
@@ -363,6 +375,9 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtSize">
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSizeKeyPressed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JRadioButton" name="rdoDrugs">
                           <Properties>

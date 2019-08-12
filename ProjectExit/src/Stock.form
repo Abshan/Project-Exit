@@ -560,6 +560,9 @@
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel6">
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel6MouseClicked"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -661,6 +664,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;&#xa;    public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){&#xa;        Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);&#xa;&#xa;        Object value = getModel().getValueAt(rowIndex,columnIndex);&#xa;&#xa;        if(columnIndex == 3){&#xa;&#xa;            if(value.equals(&quot;Low In Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.RED);&#xa;            }&#xa;&#xa;            if(value.equals(&quot;In Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.GREEN);&#xa;            }&#xa;&#xa;        }else{&#xa;            componenet.setForeground(Color.black);&#xa;        }&#xa;        return componenet;&#xa;    }&#xa;&#xa;}&#xa;"/>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                           </AuxValues>
                         </Component>
@@ -672,6 +676,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtSearchStock">
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtSearchStockMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
                       <Properties>
