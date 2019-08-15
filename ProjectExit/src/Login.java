@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,11 +25,37 @@ public class Login extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public Login() {
+        checkAdmin();
         initComponents();
         this.setLocationRelativeTo(null);
+        checkAdmin();
+        
+        
 
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
+
+    public void checkAdmin() {
+
+        String query = "select * from user_tab where role = 'ADMIN';";
+
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                
+            }else{
+                CreateAdmin frame = new CreateAdmin();
+                frame.setVisible(true);
+                this.dispose();
+                
+            } 
+        } catch (Exception e) {
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -325,6 +352,7 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run() {
                 new Login().setVisible(true);
+                
             }
         });
     }

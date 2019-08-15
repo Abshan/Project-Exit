@@ -219,12 +219,12 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="-2" pref="212" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="btnAddProduct" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="208" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
                                           <Component id="btnCancel" min="-2" pref="116" max="-2" attributes="0"/>
+                                          <EmptySpace pref="204" max="32767" attributes="0"/>
+                                          <Component id="btnAddProduct" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -242,7 +242,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="38" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
                                       <Component id="rdoDrugs" min="-2" max="-2" attributes="0"/>

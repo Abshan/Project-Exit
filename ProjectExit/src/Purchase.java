@@ -18,8 +18,12 @@ import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -38,6 +42,11 @@ public final class Purchase extends javax.swing.JFrame {
         jPanel1.setVisible(false);
 
         ShowPurchases();
+        ShowVals();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
         jTable9.getModel().addTableModelListener(new TableModelListener() {
 
@@ -133,6 +142,37 @@ public final class Purchase extends javax.swing.JFrame {
         }
     }
 
+    public void ShowVals() {
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String query = "select message from message_tab;";
+        model.setRowCount(0);
+
+        try {
+            Statement statement;
+            ResultSet rs;
+            try (Connection con = dbConnect.getConnection()) {
+                statement = con.createStatement();
+                rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    model.addRow(new String[]{
+                        "<html>" + rs.getString("message") + " stock is running low, please reorder now.<br><br>", "<html><u><font color=blue>Close</font></u></html>"});
+                }
+            }
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+
+        }
+
+        if (jTable1.getRowCount() > 0) {
+            jLabel2.setText(jTable1.getRowCount() + " New Messages Available");
+        } else {
+            jLabel2.setText("No New Messages Available");
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -148,8 +188,9 @@ public final class Purchase extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
@@ -289,34 +330,58 @@ public final class Purchase extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "MESSAGES"
+                "", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setShowHorizontalLines(false);
-        jScrollPane1.setViewportView(jTable1);
+        jTable1.setRowHeight(50);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(170);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(1);
+        }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 260, 530));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
-        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 280, 550));
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 280, 550));
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
@@ -1132,7 +1197,7 @@ public final class Purchase extends javax.swing.JFrame {
             val = 10000;
             pn.setText(val + "");
         }
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
@@ -1259,12 +1324,41 @@ public final class Purchase extends javax.swing.JFrame {
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        if(jPanel1.isVisible()){
+        if (jPanel1.isVisible()) {
             jPanel1.setVisible(false);
-        }else{
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closed-envelope.png")));
+        } else {
             jPanel1.setVisible(true);
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/open-envelop.png")));
         }
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String val = model.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        String filter1 = val.replace("<html>", "");
+        String product = filter1.replace(" stock is running low, please reorder now.<br><br>", "");
+
+
+        String query = "DELETE FROM message_tab WHERE message = '" + product + "';";
+
+        try {
+            Connection con = dbConnect.getConnection();
+            Statement st = con.createStatement();
+            int execute = st.executeUpdate(query);
+            model.removeRow(jTable1.getSelectedRow());
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        if (jTable1.getRowCount() == 0) {
+            jLabel2.setText("No New Messages Available");
+        } else {
+            jLabel2.setText(jTable1.getRowCount() + " Messages Available");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1325,6 +1419,7 @@ public final class Purchase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1349,8 +1444,8 @@ public final class Purchase extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;

@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Illyas
@@ -26,7 +25,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-    
+
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     /**
@@ -62,6 +61,8 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         jLabel2.setText("BATCH NO:");
 
         jLabel3.setText("ITEM NAME:");
+
+        txtBatchNo.setEditable(false);
 
         txtItemName.setEditable(false);
 
@@ -115,7 +116,11 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtBatchNo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnCanecl, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -125,12 +130,6 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                             .addComponent(lblErrBatNo)
                             .addComponent(lblErrQuantity))))
                 .addContainerGap(173, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCanecl, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,11 +157,11 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblErrQuantity))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCanecl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                .addGap(80, 80, 80))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -208,7 +207,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         String quantity = txtQuantity.getText();
         int pid = 0;
         int realpid = 0;
-        
+
         double price = 0;
         int subT = 0;
         int quan = 0;
@@ -218,24 +217,23 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
         try {
             quan = Integer.parseInt(quantity);
-            if(quan>0){
-            qVal = true;
-            lblErrQuantity.setText("");
+            if (quan > 0) {
+                qVal = true;
+                lblErrQuantity.setText("");
             }
         } catch (NumberFormatException e) {
             lblErrQuantity.setText("*invalid");
         }
 
         try {
-            bat = Integer.parseInt(batchNo);
-            if(bat>100  &&  bat < 1000000){
-            bVal = true;
-            lblErrBatNo.setText("");
+
+            if (!batchNo.equals("")) {
+                bVal = true;
+                lblErrBatNo.setText("");
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             lblErrBatNo.setText("*invalid");
         }
-        
 
         if (rateSel == "MRP") {
             try {
@@ -264,11 +262,14 @@ public class SalesItemsEdit extends javax.swing.JFrame {
                     pid = rs.getInt("wsp");
                     realpid = rs.getInt("prodID");
                 }
+                con.close();
+                rs.close();
+                pst.close();
             } catch (SQLException e) {
             }
-            
+
         }
-        
+
         if (qVal == true && bVal == true) {
             subT = pid * quan;   //quantity
         }
@@ -281,10 +282,6 @@ public class SalesItemsEdit extends javax.swing.JFrame {
             ((DefaultTableModel) Sales.tblCreateSO.getModel()).setValueAt(subT, index, 5);
 
             dispose();
-            
-            JOptionPane.showMessageDialog(rootPane, "Updated!");
-
-            
 
         } else {
 
@@ -300,9 +297,9 @@ public class SalesItemsEdit extends javax.swing.JFrame {
 
     private void btnCaneclActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaneclActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_btnCaneclActionPerformed
 
     /**

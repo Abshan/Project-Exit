@@ -194,7 +194,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 btnSaveKeyPressed(evt);
             }
         });
-        jPanel3.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 82, -1));
+        jPanel3.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 82, -1));
 
         jLabel9.setText("QUANTITY:");
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, -1, -1));
@@ -206,7 +206,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
                 btnCancekActionPerformed(evt);
             }
         });
-        jPanel3.add(btnCancek, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 340, 82, -1));
+        jPanel3.add(btnCancek, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 82, -1));
 
         txtItemName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

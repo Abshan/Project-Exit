@@ -30,7 +30,6 @@ public class Stock extends javax.swing.JFrame {
 
         initComponents();
         fillTable();
-//        RenderTable();
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -39,7 +38,7 @@ public class Stock extends javax.swing.JFrame {
     public void fillTable() {
 
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
-        String query = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodID;";
+        String query = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodName, prodID;";
         String[] results = new String[4];
 
         try {
@@ -53,10 +52,10 @@ public class Stock extends javax.swing.JFrame {
                     results[1] = rs.getString("prodName");
                     results[2] = rs.getString("total");
 
-                    if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
+                    if (Integer.parseInt(rs.getString("total")) > 0 && Integer.parseInt(rs.getString("total")) < 250) {
                         results[3] = "Low In Stock";
                     }
-                    if (Integer.parseInt(rs.getString("total")) > 250) {
+                    if (Integer.parseInt(rs.getString("total")) >= 250) {
                         results[3] = "In Stock";
                     }
 
@@ -68,22 +67,6 @@ public class Stock extends javax.swing.JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
-        }
-    }
-
-    public void RenderTable() {
-        DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
-        int count = model.getRowCount();
-        TableCellRenderer renderer = new DefaultTableCellRenderer();
-        tblViewStock.prepareRenderer(renderer, ERROR, count);
-
-        for (int i = 0; i < count; i++) {
-            int x = Integer.parseInt(model.getValueAt(i, 2).toString());
-            if (x < 65) {
-                model.setValueAt("asd", i, 3);
-            } else {
-                model.setValueAt("dsf", i, 3);
-            }
         }
     }
 
@@ -460,7 +443,7 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel8.setText("FILTER BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "LOW IN STOCK", "HIGHEST TO LOWEST", "LOWEST TO HIGHEST", "NEWEST TO OLDEST", "OLDEST TO NEWEST" }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "IN STOCK", "LOW IN STOCK" }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -602,37 +585,13 @@ public class Stock extends javax.swing.JFrame {
     private void drpFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drpFilterActionPerformed
         // TODO add your handling code here:
 
-        String query = "";
+        String query = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodName, prodID;";
         String filter = drpFilter.getSelectedItem().toString();
-
-        if (filter.equalsIgnoreCase("NONE")) {
-            query = "SELECT * FROM stocks_tab;";
-        }
-
-        if (filter.equalsIgnoreCase("LOW IN STOCK")) {
-            query = "SELECT * FROM stocks_tab WHERE quantity<30;";
-        }
-
-        if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
-            query = "SELECT * FROM stocks_tab ORDER BY quantity DESC;";
-        }
-
-        if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
-            query = "SELECT * FROM stocks_tab ORDER BY quantity;";
-        }
-
-        if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
-            query = "SELECT * FROM stocks_tab ORDER BY manfDate;";
-        }
-
-        if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
-            query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
-        }
 
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
         model.setRowCount(0);
 
-        String[] results = new String[6];
+        String[] results = new String[4];
 
         try {
             Statement st;
@@ -641,14 +600,35 @@ public class Stock extends javax.swing.JFrame {
                 st = con.createStatement();
                 rs = st.executeQuery(query);
                 while (rs.next()) {
-                    results[0] = rs.getString("batchNo");
-                    results[1] = rs.getString("prodID");
-                    results[2] = rs.getString("prodName");
-                    results[3] = rs.getString("manfDate");
-                    results[4] = rs.getString("expDate");
-                    results[5] = rs.getString("quantity");
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("prodName");
+                    results[2] = rs.getString("total");
 
-                    model.addRow(results);
+                    if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
+                        results[3] = "Low In Stock";
+                    }
+                    if (Integer.parseInt(rs.getString("total")) > 250) {
+                        results[3] = "In Stock";
+                    }
+
+                    switch (filter) {
+                        case "NONE":
+                            model.addRow(results);
+                            break;
+                        case "IN STOCK":
+                            if (results[3].equals("In Stock")) {
+                                model.addRow(results);
+                            }
+                            break;
+                        case "LOW IN STOCK":
+                            if (results[3].equals("Low In Stock")) {
+                                model.addRow(results);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
             }
             st.close();
@@ -672,7 +652,7 @@ public class Stock extends javax.swing.JFrame {
     }//GEN-LAST:event_lblUserMouseClicked
 
     private void lblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProductsMouseClicked
-        if ((UserModel.userRole.equals("STOCK CONTOLLER")) || (UserModel.userRole.equals("ADMIN"))) {
+        if ((UserModel.userRole.equals("STOCK CONTROLLER")) || (UserModel.userRole.equals("ADMIN"))) {
             AddProduct frame = new AddProduct();
             frame.setVisible(true);
             this.dispose();
@@ -718,58 +698,9 @@ public class Stock extends javax.swing.JFrame {
 
     private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed
         String search = txtSearchStock.getText();
-        String query = "";
+        String query = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodName, prodID;";
         String filter = drpFilter.getSelectedItem().toString();
 
-        if (search.equals("") || search.equals(null)) {
-            if (filter.equalsIgnoreCase("NONE")) {
-                query = "SELECT * FROM stocks_tab;";
-            }
-
-            if (filter.equalsIgnoreCase("LOW IN STOCK")) {
-                query = "SELECT * FROM stocks_tab WHERE quantity<30;";
-            }
-
-            if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
-                query = "SELECT * FROM stocks_tab ORDER BY quantity DESC;";
-            }
-
-            if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
-                query = "SELECT * FROM stocks_tab ORDER BY quantity;";
-            }
-
-            if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
-                query = "SELECT * FROM stocks_tab ORDER BY manfDate;";
-            }
-
-            if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
-                query = "SELECT * FROM stocks_tab ORDER BY manfDate DESC;";
-            }
-        } else {
-            if (filter.equalsIgnoreCase("NONE")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%';";
-            }
-
-            if (filter.equalsIgnoreCase("LOW IN STOCK")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' AND quantity<30';";
-            }
-
-            if (filter.equalsIgnoreCase("HIGHEST TO LOWEST")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity DESC;";
-            }
-
-            if (filter.equalsIgnoreCase("LOWEST TO HIGHEST")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY quantity;";
-            }
-
-            if (filter.equalsIgnoreCase("NEWEST TO OLDEST")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate;";
-            }
-
-            if (filter.equalsIgnoreCase("OLDEST TO NEWEST")) {
-                query = "SELECT * FROM stocks_tab WHERE prodName LIKE '%" + search + "%' ORDER BY expDate DESC;";
-            }
-        }
         DefaultTableModel model = (DefaultTableModel) tblViewStock.getModel();
         model.setRowCount(0);
 
@@ -782,14 +713,49 @@ public class Stock extends javax.swing.JFrame {
                 st = con.createStatement();
                 rs = st.executeQuery(query);
                 while (rs.next()) {
-                    results[0] = rs.getString("batchNo");
-                    results[1] = rs.getString("prodID");
-                    results[2] = rs.getString("prodName");
-                    results[3] = rs.getString("manfDate");
-                    results[4] = rs.getString("expDate");
-                    results[5] = rs.getString("quantity");
+                    results[0] = rs.getString("prodID");
+                    results[1] = rs.getString("prodName");
+                    results[2] = rs.getString("total");
 
-                    model.addRow(results);
+                    if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
+                        results[3] = "Low In Stock";
+                    }
+                    if (Integer.parseInt(rs.getString("total")) > 250) {
+                        results[3] = "In Stock";
+                    }
+
+                    switch (filter) {
+                        case "NONE":
+                            if (search.equals("")) {
+                                model.addRow(results);
+                            } else {
+                                if (results[1].contains(search) || results[0].contains(search)) {
+                                    model.addRow(results);
+                                }
+                            }
+                            break;
+                        case "IN STOCK":
+                            if (results[3].equals("In Stock")) {
+                                if (!search.equals("")) {
+                                    if (results[1].contains(search) || results[0].contains(search)) {
+                                        model.addRow(results);
+                                    }
+                                }
+                            }
+                            break;
+                        case "LOW IN STOCK":
+                            if (results[3].equals("Low In Stock")) {
+                                if (!search.equals("")) {
+                                    if (results[1].contains(search) || results[0].contains(search)) {
+                                        model.addRow(results);
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
             }
             st.close();
@@ -806,7 +772,7 @@ public class Stock extends javax.swing.JFrame {
         int column = 0;
 
         if (tblViewStock.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Select the Product you want to view");
+            JOptionPane.showMessageDialog(rootPane, "Select the product you want to view.");
         } else {
             int row = tblViewStock.getSelectedRow();
             String id = tblViewStock.getModel().getValueAt(row, column).toString();
@@ -832,6 +798,7 @@ public class Stock extends javax.swing.JFrame {
                         }
                     }
                     rs.close();
+                    con.close();
 
                     viewStock.setVisible(true);
                     viewStock.pack();
