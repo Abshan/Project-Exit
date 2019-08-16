@@ -179,7 +179,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Enter your &apos;User Name&apos; and &apos;Date of Birth&apos; below"/>
+                    <Property name="text" type="java.lang.String" value="Enter your &apos;User Email&apos; and &apos;NIC Number&apos; below"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">

@@ -582,8 +582,8 @@
                                                       </Group>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="txtMRP1" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
                                                           <Component id="txtWholesalePrice1" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
+                                                          <Component id="txtMRP1" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
                                                           <Component id="drpCategory" min="-2" pref="223" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
@@ -634,12 +634,12 @@
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtWholesalePrice1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtMRP1" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtMRP1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtWholesalePrice1" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
@@ -699,9 +699,9 @@
                             <Property name="text" type="java.lang.String" value="MAXIMUM RETAIL PRICE:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="txtWholesalePrice1">
-                        </Component>
                         <Component class="javax.swing.JTextField" name="txtMRP1">
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtWholesalePrice1">
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel43">
                           <Properties>
@@ -735,13 +735,13 @@
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="7" rowCount="0">
-                                    <Column editable="true" title="PRODUCT ID" type="java.lang.Object"/>
-                                    <Column editable="true" title="BRAND NAME" type="java.lang.Object"/>
-                                    <Column editable="true" title="PRODUCT NAME" type="java.lang.Object"/>
-                                    <Column editable="true" title="SIZE" type="java.lang.Object"/>
-                                    <Column editable="true" title="MRP" type="java.lang.Object"/>
-                                    <Column editable="true" title="WSP" type="java.lang.Object"/>
-                                    <Column editable="true" title="CATEGORY" type="java.lang.Object"/>
+                                    <Column editable="false" title="PRODUCT ID" type="java.lang.Object"/>
+                                    <Column editable="false" title="BRAND NAME" type="java.lang.Object"/>
+                                    <Column editable="false" title="PRODUCT NAME" type="java.lang.Object"/>
+                                    <Column editable="false" title="SIZE" type="java.lang.Object"/>
+                                    <Column editable="false" title="MRP" type="java.lang.Object"/>
+                                    <Column editable="false" title="WSP" type="java.lang.Object"/>
+                                    <Column editable="false" title="CATEGORY" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

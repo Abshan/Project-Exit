@@ -70,6 +70,12 @@ public class PurchaseReport extends javax.swing.JFrame {
 
         jLabel1.setText("DATE:");
 
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("TO");
 
         jButton1.setText("GENERATE REPORT");
@@ -183,22 +189,24 @@ public class PurchaseReport extends javax.swing.JFrame {
         Date today = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formated = df.format(today);
-        String d1 = df.format(jXDatePicker1.getDate());
-        String d2 = df.format(jXDatePicker2.getDate());
+        String formated = sdf.format(today);
+        String d1 = "";
+        String d2 = "";
         Date current, from, to;
         String query = "";
 
         if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() == null) {
-            query = "select * from purchase_tab;";
-        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null) {
+            query = "select a.purNo, a.vendorName, a.purchaseDate, a.amount, b.batchNo, b.prodName, b.manfDate, b.expDate, b.quantity, b.unitPrice, b.price from purchase_tab a, purchaseItems_tab b where a.purNo = b.purNo";
+        }
+        if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() == null) {
 
             try {
+                d1 = sdf.format(jXDatePicker1.getDate());
                 from = sdf.parse(d1);
                 current = sdf.parse(formated);
 
                 if (from.compareTo(current) <= 0) {
-                    query = "select * from purchase_tab where purchaseDate > '" + d1 + "' ";
+                    query = "select a.purNo, a.vendorName, a.purchaseDate, a.amount, b.batchNo, b.prodName, b.manfDate, b.expDate, b.quantity, b.unitPrice, b.price from purchase_tab a, purchaseItems_tab b where a.purNo = b.purNo AND a.purchaseDate >= '" + d1 + "';";
                 } else {
                     JOptionPane.showMessageDialog(null, "Starting date is not valid!");
                 }
@@ -206,15 +214,35 @@ public class PurchaseReport extends javax.swing.JFrame {
             } catch (ParseException e) {
             }
 
-        } else if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null) {
+        }
+        if (jXDatePicker1.getDate() == null && jXDatePicker2.getDate() != null) {
 
             try {
+                d2 = sdf.format(jXDatePicker2.getDate());
+                to = sdf.parse(d2);
+                current = sdf.parse(formated);
+
+                if (to.compareTo(current) <= 0) {
+                    query = "select a.purNo, a.vendorName, a.purchaseDate, a.amount, b.batchNo, b.prodName, b.manfDate, b.expDate, b.quantity, b.unitPrice, b.price from purchase_tab a, purchaseItems_tab b where a.purNo = b.purNo AND a.purchaseDate <= '" + d2 + "';";
+                } else {
+                    JOptionPane.showMessageDialog(null, "Starting date is not valid!");
+                }
+
+            } catch (ParseException e) {
+            }
+
+        }
+        if (jXDatePicker1.getDate() != null && jXDatePicker2.getDate() != null) {
+
+            try {
+                d1 = sdf.format(jXDatePicker1.getDate());
+                d2 = sdf.format(jXDatePicker2.getDate());
                 from = sdf.parse(d1);
                 to = sdf.parse(d2);
                 current = sdf.parse(formated);
 
                 if (from.compareTo(current) <= 0 && from.compareTo(to) <= 0 && to.compareTo(current) <= 0) {
-                    query = query = "select * from purchase_tab where purchaseDate BETWEEN '" + d1 + "' AND '" + d2 + "' ";
+                    query = "select a.purNo, a.vendorName, a.purchaseDate, a.amount, b.batchNo, b.prodName, b.manfDate, b.expDate, b.quantity, b.unitPrice, b.price from purchase_tab a, purchaseItems_tab b where a.purNo = b.purNo AND a.purchaseDate >= '" + d1 + "' AND a.purchaseDate <= '" + d2 + "';";
                 } else {
                     JOptionPane.showMessageDialog(null, "Please select valid Dates!");
                 }
@@ -223,23 +251,21 @@ public class PurchaseReport extends javax.swing.JFrame {
             }
         }
 
-        if (!query.equals("")) {
-            try {
-                InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\purchaseReport.jrxml"));
-                JasperDesign jd = JRXmlLoader.load(in);
-                String sql = query;
-                JRDesignQuery newQuery = new JRDesignQuery();
-                newQuery.setText(sql);
-                jd.setQuery(newQuery);
-                JasperReport jr = JasperCompileManager.compileReport(jd);
-                JasperPrint j = JasperFillManager.fillReport(jr, null, con);
-                JasperViewer jv = new JasperViewer(j, false);
-                jv.viewReport(j, false);
-                con.close();
+        try {
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\PurchaseReport.jrxml"));
+            JasperDesign jd = JRXmlLoader.load(in);
+            String sql = query;
+            JRDesignQuery newQuery = new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint j = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer jv = new JasperViewer(j, false);
+            jv.viewReport(j, false);
+            con.close();
 
-            } catch (FileNotFoundException | SQLException | JRException e) {
-                JOptionPane.showMessageDialog(null, "No Records to be printed");
-            }
+        } catch (FileNotFoundException | SQLException | JRException e) {
+            JOptionPane.showMessageDialog(null, "No Records!");
         }
 
 
@@ -251,6 +277,11 @@ public class PurchaseReport extends javax.swing.JFrame {
         jXDatePicker2.setDate(null);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        // TODO add your handling code here:
+        jXDatePicker2.setDate(null);
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
     /**
      * @param args the command line arguments

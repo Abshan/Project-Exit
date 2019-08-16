@@ -664,7 +664,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;&#xa;    public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){&#xa;        Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);&#xa;&#xa;        Object value = getModel().getValueAt(rowIndex,columnIndex);&#xa;&#xa;        if(columnIndex == 3){&#xa;&#xa;            if(value.equals(&quot;Low In Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.RED);&#xa;            }&#xa;&#xa;            if(value.equals(&quot;In Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.GREEN);&#xa;            }&#xa;&#xa;        }else{&#xa;            componenet.setForeground(Color.black);&#xa;        }&#xa;        return componenet;&#xa;    }&#xa;&#xa;}&#xa;"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;&#xa;    public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){&#xa;        Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);&#xa;&#xa;        Object value = getModel().getValueAt(rowIndex,columnIndex);&#xa;&#xa;        if(columnIndex == 3){&#xa;&#xa;            if(value.equals(&quot;Low in Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.ORANGE);&#xa;            }&#xa;&#xa;            if(value.equals(&quot;In Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.GREEN);&#xa;            }&#xa;&#xa;            if(value.equals(&quot;Out of Stock&quot;))&#xa;            {&#xa;                componenet.setForeground(Color.RED);&#xa;            }&#xa;&#xa;        }else{&#xa;            componenet.setForeground(Color.black);&#xa;        }&#xa;        return componenet;&#xa;    }&#xa;&#xa;}&#xa;"/>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                           </AuxValues>
                         </Component>
@@ -688,10 +688,11 @@
                     <Component class="javax.swing.JComboBox" name="drpFilter">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="3">
+                          <StringArray count="4">
                             <StringItem index="0" value="NONE"/>
                             <StringItem index="1" value="IN STOCK"/>
                             <StringItem index="2" value="LOW IN STOCK"/>
+                            <StringItem index="3" value="OUT OF STOCK"/>
                           </StringArray>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>

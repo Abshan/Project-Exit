@@ -62,7 +62,7 @@ public class confirm extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("CONFRIM USER ACCOUNT");
 
-        jLabel3.setText("Enter your 'User Name' and 'Date of Birth' below");
+        jLabel3.setText("Enter your 'User Email' and 'NIC Number' below");
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton1.setText("CONFIRM");

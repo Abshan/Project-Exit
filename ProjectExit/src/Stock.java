@@ -53,10 +53,14 @@ public class Stock extends javax.swing.JFrame {
                     results[2] = rs.getString("total");
 
                     if (Integer.parseInt(rs.getString("total")) > 0 && Integer.parseInt(rs.getString("total")) < 250) {
-                        results[3] = "Low In Stock";
+                        results[3] = "Low in Stock";
                     }
                     if (Integer.parseInt(rs.getString("total")) >= 250) {
                         results[3] = "In Stock";
+                    }
+
+                    if (Integer.parseInt(rs.getString("total")) == 0) {
+                        results[3] = "Out of Stock";
                     }
 
                     model.addRow(results);
@@ -123,14 +127,19 @@ public class Stock extends javax.swing.JFrame {
 
                 if(columnIndex == 3){
 
-                    if(value.equals("Low In Stock"))
+                    if(value.equals("Low in Stock"))
                     {
-                        componenet.setForeground(Color.RED);
+                        componenet.setForeground(Color.ORANGE);
                     }
 
                     if(value.equals("In Stock"))
                     {
                         componenet.setForeground(Color.GREEN);
+                    }
+
+                    if(value.equals("Out of Stock"))
+                    {
+                        componenet.setForeground(Color.RED);
                     }
 
                 }else{
@@ -443,7 +452,7 @@ public class Stock extends javax.swing.JFrame {
 
         jLabel8.setText("FILTER BY:");
 
-        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "IN STOCK", "LOW IN STOCK" }));
+        drpFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "IN STOCK", "LOW IN STOCK", "OUT OF STOCK" }));
         drpFilter.setToolTipText("");
         drpFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -605,10 +614,14 @@ public class Stock extends javax.swing.JFrame {
                     results[2] = rs.getString("total");
 
                     if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
-                        results[3] = "Low In Stock";
+                        results[3] = "Low in Stock";
                     }
-                    if (Integer.parseInt(rs.getString("total")) > 250) {
+                    if (Integer.parseInt(rs.getString("total")) >= 250) {
                         results[3] = "In Stock";
+                    }
+
+                    if (Integer.parseInt(rs.getString("total")) == 0) {
+                        results[3] = "Out of Stock";
                     }
 
                     switch (filter) {
@@ -621,7 +634,12 @@ public class Stock extends javax.swing.JFrame {
                             }
                             break;
                         case "LOW IN STOCK":
-                            if (results[3].equals("Low In Stock")) {
+                            if (results[3].equals("Low in Stock")) {
+                                model.addRow(results);
+                            }
+                            break;
+                        case "OUT OF STOCK":
+                            if (results[3].equals("Out of Stock")) {
                                 model.addRow(results);
                             }
                             break;
@@ -718,10 +736,14 @@ public class Stock extends javax.swing.JFrame {
                     results[2] = rs.getString("total");
 
                     if (Integer.parseInt(rs.getString("total")) < 250 && Integer.parseInt(rs.getString("total")) > 0) {
-                        results[3] = "Low In Stock";
+                        results[3] = "Low in Stock";
                     }
-                    if (Integer.parseInt(rs.getString("total")) > 250) {
+                    if (Integer.parseInt(rs.getString("total")) >= 250) {
                         results[3] = "In Stock";
+                    }
+
+                    if (Integer.parseInt(rs.getString("total")) == 0) {
+                        results[3] = "Out of Stock";
                     }
 
                     switch (filter) {
@@ -744,7 +766,16 @@ public class Stock extends javax.swing.JFrame {
                             }
                             break;
                         case "LOW IN STOCK":
-                            if (results[3].equals("Low In Stock")) {
+                            if (results[3].equals("Low in Stock")) {
+                                if (!search.equals("")) {
+                                    if (results[1].contains(search) || results[0].contains(search)) {
+                                        model.addRow(results);
+                                    }
+                                }
+                            }
+                            break;
+                        case "OUT OF STOCK":
+                            if (results[3].equals("Out of Stock")) {
                                 if (!search.equals("")) {
                                     if (results[1].contains(search) || results[0].contains(search)) {
                                         model.addRow(results);

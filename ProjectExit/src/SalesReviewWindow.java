@@ -293,7 +293,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         String orderStatus = (String) cmbStatus.getSelectedItem();
         String sonumb = dpReqDate.getText();
 
-        if ((reqDate != "--") && (orderStatus != "")) {
+        if (!(reqDate.equals("--")) && (!orderStatus.equals(""))) {
             
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate, index, 2);
             ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
@@ -305,18 +305,27 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
                 int execute = st.executeUpdate(query);
+                if(orderStatus.equals("CANCELLED")){
+                    String query2 = "select batchNo, quantity from salesItems_tab where soNumber = "+sonumb+"";
+                    ResultSet rs = st.executeQuery(query2);
+                                   
+                    while(rs.next()){
+                        String bchNo = rs.getString("batchNo");
+                        int quan = rs.getInt("quantity");
+                        String query3 = "UPDATE stocks_tab SET quantity = quantity + "+quan+" WHERE batchNo = '"+bchNo+"';";
+                        int execute2 = st.executeUpdate(query3);
+                    }
+                    rs.close();
+                }
                 con.close();
                 st.close();
+                
 
                 ShowReviewSales();
                 ShowSales();
-                dispose();
-
-//                JOptionPane.showMessageDialog(rootPane, "Sales Order Updated Successfully.");
-                
-
+                this.dispose();
+               
             } catch (HeadlessException | SQLException e) {
-                //JOptionPane.showMessageDialog(null, e);
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");

@@ -143,8 +143,8 @@ public class AddProduct extends javax.swing.JFrame {
         txtProductName1 = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
-        txtWholesalePrice1 = new javax.swing.JTextField();
         txtMRP1 = new javax.swing.JTextField();
+        txtWholesalePrice1 = new javax.swing.JTextField();
         jLabel43 = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -454,7 +454,15 @@ public class AddProduct extends javax.swing.JFrame {
             new String [] {
                 "PRODUCT ID", "BRAND NAME", "PRODUCT NAME", "SIZE", "MRP", "WSP", "CATEGORY"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblManageProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblManageProductMouseClicked(evt);
@@ -551,8 +559,8 @@ public class AddProduct extends javax.swing.JFrame {
                                         .addComponent(jLabel12))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtMRP1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtWholesalePrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtMRP1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(drpCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                     .addComponent(jLabel11)
@@ -589,11 +597,11 @@ public class AddProduct extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel42)
-                            .addComponent(txtWholesalePrice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMRP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel43)
-                            .addComponent(txtMRP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtWholesalePrice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(drpCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -834,47 +842,18 @@ public class AddProduct extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, e);
                         }
 
-                        DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-                        model.setRowCount(0);
-                        String search = txtSearch.getText();
-                        String[] results = new String[7];
+                        ShowProducts();
+                        txtProductID1.setText("");
+                        txtBrandName1.setText("");
+                        txtProductName1.setText("");
+                        txtMRP1.setText("");
+                        txtWholesalePrice1.setText("");
+                        txtSize1.setText("");
+                        txtSearch.setText("");
+                        cmbCategory.setSelectedIndex(0);
 
-                        String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-                        try {
-                            Connection con = dbConnect.getConnection();
-                            Statement st = con.createStatement();
-                            ResultSet rs = st.executeQuery(query1);
+                        JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
 
-                            while (rs.next()) {
-                                results[0] = rs.getString("prodID");
-                                results[1] = rs.getString("brandName");
-                                results[2] = rs.getString("prodName");
-                                results[3] = rs.getString("size");
-                                results[4] = rs.getString("mrp");
-                                results[5] = rs.getString("wsp");
-                                results[6] = rs.getString("category");
-
-                                model.addRow(results);
-                            }
-
-                            con.close();
-                            st.close();
-                            rs.close();
-                            /* model.setRowCount(0);
-                        fillTable();*/
-                            txtProductID1.setText(" ");
-                            txtBrandName1.setText(" ");
-                            txtProductName1.setText(" ");
-                            txtWholesalePrice1.setText(" ");
-                            txtMRP1.setText(" ");
-                            txtSize1.setText(" ");
-                            txtSearch.setText(" ");
-
-                            JOptionPane.showMessageDialog(rootPane, "Product Updated Successfully.");
-
-                        } catch (HeadlessException | SQLException e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
                     }
                 }
             } else {
@@ -885,10 +864,7 @@ public class AddProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        //String ProdID = txtProductID1.getText();
 
-        /*if (ProdID.equals("") || (ProdID.equals(null))) {
-            JOptionPane.showMessageDialog(rootPane, "Please select a record to delete.");*/
         if (tblManageProduct.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the product you want to delete!");
         } else {
@@ -906,68 +882,39 @@ public class AddProduct extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
+            ShowProducts();
+            txtProductID1.setText("");
+            txtBrandName1.setText("");
+            txtProductName1.setText("");
+            txtMRP1.setText("");
+            txtWholesalePrice1.setText("");
+            txtSize1.setText("");
+            txtSearch.setText("");
+            cmbCategory.setSelectedIndex(0);
 
-            DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
-            model.setRowCount(0);
-            String search = txtSearch.getText();
-            String[] results = new String[7];
-
-            String query1 = "SELECT * FROM products_tab WHERE CONCAT(brandName,prodName) LIKE '%" + search + "%';";
-            try {
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query1);
-
-                while (rs.next()) {
-                    results[0] = rs.getString("prodID");
-                    results[1] = rs.getString("brandName");
-                    results[2] = rs.getString("prodName");
-                    results[3] = rs.getString("size");
-                    results[4] = rs.getString("mrp");
-                    results[5] = rs.getString("wsp");
-                    results[6] = rs.getString("category");
-
-                    model.addRow(results);
-                }
-
-                con.close();
-                st.close();
-                rs.close();
-                txtProductID1.setText(" ");
-                txtBrandName1.setText(" ");
-                txtProductName1.setText(" ");
-                txtWholesalePrice1.setText(" ");
-                txtMRP1.setText(" ");
-                txtSize1.setText(" ");
-                txtSearch.setText(" ");
-
-                JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
+            JOptionPane.showMessageDialog(rootPane, "Product Deleted Successfully.");
 
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        txtBrandName.setText(" ");
-        txtProductName.setText(" ");
-        txtWholesalePrice.setText(" ");
-        txtMRP.setText(" ");
-        txtSize.setText(" ");
+        txtBrandName.setText("");
+        txtProductName.setText("");
+        txtWholesalePrice.setText("");
+        txtMRP.setText("");
+        txtSize.setText("");
         rdoCosmetics.setSelected(false);
         rdoDrugs.setSelected(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        txtProductID1.setText(" ");
-        txtBrandName1.setText(" ");
-        txtProductName1.setText(" ");
-        txtWholesalePrice1.setText(" ");
-        txtMRP1.setText(" ");
-        txtSize1.setText(" ");
-        txtSearch.setText(" ");
+        txtProductID1.setText("");
+        txtBrandName1.setText("");
+        txtProductName1.setText("");
+        txtMRP1.setText("");
+        txtWholesalePrice1.setText("");
+        txtSize1.setText("");
+        txtSearch.setText("");
         DefaultTableModel model = (DefaultTableModel) tblManageProduct.getModel();
         cmbCategory.setSelectedIndex(0);
     }//GEN-LAST:event_btnClearActionPerformed
@@ -1011,7 +958,7 @@ public class AddProduct extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Enter correct values for numerical data.");
                 } else if (result == true) {
                     String query;
-                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + Size + "'," + WSP + "," + MRP + ",'" + Category + "')";
+                    query = "INSERT INTO products_tab(brandName,prodName,size,mrp,wsp,category) VALUES('" + BrandName + "','" + ProductName + "','" + Size + "'," + MRP + "," + WSP + ",'" + Category + "')";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -1096,8 +1043,8 @@ public class AddProduct extends javax.swing.JFrame {
         txtBrandName1.setText(tblManageProduct.getValueAt(row, 1).toString());
         txtProductName1.setText(tblManageProduct.getValueAt(row, 2).toString());
         txtSize1.setText(tblManageProduct.getValueAt(row, 3).toString());
-        txtWholesalePrice1.setText(tblManageProduct.getValueAt(row, 4).toString());
-        txtMRP1.setText(tblManageProduct.getValueAt(row, 5).toString());
+        txtMRP1.setText(tblManageProduct.getValueAt(row, 4).toString());
+        txtWholesalePrice1.setText(tblManageProduct.getValueAt(row, 5).toString());
         drpCategory.setSelectedItem(cat);
 
     }//GEN-LAST:event_tblManageProductMouseClicked
@@ -1163,7 +1110,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         Connection con = dbConnect.getConnection();
         try {
-            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\Reports\\productReport.jrxml"));
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\ProductReport.jrxml"));
             JasperDesign jd = JRXmlLoader.load(in);
             String sql = "select * from products_tab";
             JRDesignQuery newQuery = new JRDesignQuery();
@@ -1240,7 +1187,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             txtBrandName.requestFocus();
-        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
             txtWholesalePrice.requestFocus();
         }
     }//GEN-LAST:event_txtProductNameKeyPressed
@@ -1249,7 +1196,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             txtProductName.requestFocus();
-        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
             txtMRP.requestFocus();
         }
     }//GEN-LAST:event_txtWholesalePriceKeyPressed
@@ -1258,7 +1205,7 @@ public class AddProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             txtWholesalePrice.requestFocus();
-        }else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
             txtSize.requestFocus();
         }
     }//GEN-LAST:event_txtMRPKeyPressed

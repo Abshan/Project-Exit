@@ -545,7 +545,7 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -568,10 +568,10 @@ public class CreateAccount extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel30)
-                        .addGap(0, 883, Short.MAX_VALUE))
-                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 881, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -649,7 +649,15 @@ public class CreateAccount extends javax.swing.JFrame {
             new String [] {
                 "USER ID", "USER NAME", "EMAIL", "NIC NUMBER", "PASSWORD", "ROLE"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblDetailsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDetailsTableMouseClicked(evt);
@@ -657,7 +665,7 @@ public class CreateAccount extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblDetailsTable);
 
-        btnClear.setText("RESET");
+        btnClear.setText("CLEAR");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
@@ -1485,34 +1493,39 @@ public class CreateAccount extends javax.swing.JFrame {
         if (tblDetailsTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Select the product you want to delete!");
         } else {
-            int row = tblDetailsTable.getSelectedRow();
-            int pid = Integer.parseInt(tblDetailsTable.getValueAt(row, 0).toString());
 
-            String query = "DELETE FROM user_tab WHERE userID=" + pid + ";";
-            try {
-                Connection con = dbConnect.getConnection();
-                Statement st = con.createStatement();
-                int execute = st.executeUpdate(query);
+            int pop = JOptionPane.YES_NO_OPTION;
+            int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "", pop);
+            if (result == 0) {
+                int row = tblDetailsTable.getSelectedRow();
+                int pid = Integer.parseInt(tblDetailsTable.getValueAt(row, 0).toString());
 
-                txtEmailMan.setText("");
-                txtNICMan.setText("");
-                txtUserIDMan.setText("");
-                txtSearchManage.setText("");
-                txtUserNameMan.setText("");
-                txtPasswordMan.setText("");
+                String query = "DELETE FROM user_tab WHERE userID=" + pid + ";";
+                try {
+                    Connection con = dbConnect.getConnection();
+                    Statement st = con.createStatement();
+                    int execute = st.executeUpdate(query);
 
-                JOptionPane.showMessageDialog(rootPane, "Deleted Successfully");
-                con.close();
-                st.close();
+                    txtEmailMan.setText("");
+                    txtNICMan.setText("");
+                    txtUserIDMan.setText("");
+                    txtSearchManage.setText("");
+                    txtUserNameMan.setText("");
+                    txtPasswordMan.setText("");
 
-                ShowUsers();
-                fillCombo();
-                fillReps();
+                    JOptionPane.showMessageDialog(rootPane, "Deleted Successfully");
+                    con.close();
+                    st.close();
 
-            } catch (HeadlessException | SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
+                    ShowUsers();
+                    fillCombo();
+                    fillReps();
+
+                } catch (HeadlessException | SQLException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+
             }
-
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
