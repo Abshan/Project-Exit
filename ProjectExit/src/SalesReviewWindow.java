@@ -152,6 +152,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" Auxano PVT LTD.");
+        setResizable(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("UPDATE SALES ORDER"));
 

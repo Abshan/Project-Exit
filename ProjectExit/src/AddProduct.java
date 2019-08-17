@@ -177,6 +177,7 @@ public class AddProduct extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(" Auxano PVT LTD.");
+        setResizable(false);
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         jPanel15.setPreferredSize(new java.awt.Dimension(1095, 585));
