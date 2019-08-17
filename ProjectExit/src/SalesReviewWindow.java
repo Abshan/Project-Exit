@@ -4,6 +4,7 @@ import Models.SalesModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +35,9 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
     public SalesReviewWindow() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         lblErrorOS.setVisible(false);
@@ -146,7 +151,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         btnCanecl = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("UPDATE SALES ORDER"));
 

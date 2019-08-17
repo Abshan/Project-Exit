@@ -1,11 +1,13 @@
 
 import Models.DatabaseConnection;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +28,9 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
     //Purchase tblValues = new Purchase();
     public PurchaseItemsEdit() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -76,7 +81,7 @@ public class PurchaseItemsEdit extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("EDIT ITEM"));
 

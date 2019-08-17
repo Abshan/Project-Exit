@@ -11,6 +11,7 @@ import Models.DatabaseConnection;
 import Models.RepModel;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +32,9 @@ public class CreateAccount extends javax.swing.JFrame {
 
     public CreateAccount() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         ShowUsers();
         ShowReps();
         fillCombo();
@@ -330,7 +334,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jTextField3.setText("jTextField3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

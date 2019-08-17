@@ -5,11 +5,13 @@ import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,6 +30,9 @@ public class ForgotPassword extends javax.swing.JFrame {
     public ForgotPassword() {
 
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         txtName.setText(UserModel.name);
 
     }
@@ -58,7 +63,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         txtName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("FORGOT PASSWORD"));
 

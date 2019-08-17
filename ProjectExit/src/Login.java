@@ -5,10 +5,12 @@ import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,10 +29,11 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         checkAdmin();
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         this.setLocationRelativeTo(null);
         checkAdmin();
-        
-        
 
     }
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -39,19 +42,18 @@ public class Login extends javax.swing.JFrame {
 
         String query = "select * from user_tab where role = 'ADMIN';";
 
-
         try {
             Connection con = dbConnect.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                
-            }else{
+
+            } else {
                 CreateAdmin frame = new CreateAdmin();
                 frame.setVisible(true);
                 this.dispose();
-                
-            } 
+
+            }
         } catch (Exception e) {
         }
 
@@ -77,7 +79,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("LOGIN PAGE"));
 
@@ -353,7 +355,7 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run() {
                 new Login().setVisible(true);
-                
+
             }
         });
     }

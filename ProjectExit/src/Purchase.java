@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public final class Purchase extends javax.swing.JFrame {
 
     public Purchase() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         jPanel1.setVisible(false);
 
         ShowPurchases();
@@ -241,7 +245,7 @@ public final class Purchase extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");

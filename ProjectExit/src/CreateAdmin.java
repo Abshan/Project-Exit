@@ -1,10 +1,12 @@
 
 import Models.DatabaseConnection;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /*
@@ -23,6 +25,9 @@ public class CreateAdmin extends javax.swing.JFrame {
      */
     public CreateAdmin() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         this.setLocationRelativeTo(null);
     }
 
@@ -51,7 +56,7 @@ public class CreateAdmin extends javax.swing.JFrame {
         txtPasswordlogin = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("CREATE ADMIN"));
 

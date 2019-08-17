@@ -2,10 +2,12 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +25,9 @@ public class SalesItemsEdit extends javax.swing.JFrame {
      */
     public SalesItemsEdit() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -55,7 +60,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         lblErrItem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("EDIT ITEM"));
 

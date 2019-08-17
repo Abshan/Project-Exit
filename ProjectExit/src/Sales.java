@@ -12,6 +12,7 @@ import Models.DatabaseConnection;
 import Models.SalesModel;
 import Models.UserModel;
 import java.awt.HeadlessException;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -41,6 +43,9 @@ public class Sales extends javax.swing.JFrame {
 
     public Sales() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         ShowSales();
         ShowReviewSales();
         fillreps();
@@ -430,7 +435,7 @@ public class Sales extends javax.swing.JFrame {
         jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
@@ -561,6 +566,12 @@ public class Sales extends javax.swing.JFrame {
 
         txtUser.setEditable(false);
 
+        cmbSalesRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSalesRepActionPerformed(evt);
+            }
+        });
+
         tblCreateSO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -607,8 +618,7 @@ public class Sales extends javax.swing.JFrame {
 
         jLabel31.setText("REGION:");
 
-        cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH", "EAST", "WEST" }));
-        cmbRegion.setSelectedIndex(-1);
+        cmbRegion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTH", "SOUTH", "EAST", "WEST", "CENTRAL" }));
 
         btnAddTab.setText("ADD");
         btnAddTab.addActionListener(new java.awt.event.ActionListener() {
@@ -2244,6 +2254,40 @@ public class Sales extends javax.swing.JFrame {
 
         tblViewSalesOrders.clearSelection();
     }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void cmbSalesRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSalesRepActionPerformed
+        // TODO add your handling code here:
+        if (cmbSalesRep.getSelectedIndex() != -1) {
+            Connection con = dbConnect.getConnection();
+            String query = "select repRegion from reps_tab where repName = '" + cmbSalesRep.getSelectedItem().toString() + "'";
+
+            try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    String region = rs.getString("repRegion");
+
+                    if (region.equals("NORTH")) {
+                        cmbRegion.setSelectedIndex(0);
+                    }
+                    if (region.equals("SOUTH")) {
+                        cmbRegion.setSelectedIndex(1);
+                    }
+                    if (region.equals("EAST")) {
+                        cmbRegion.setSelectedIndex(2);
+                    }
+                    if (region.equals("WEST")) {
+                        cmbRegion.setSelectedIndex(3);
+                    }
+                    if (region.equals("CENTRAL")) {
+                        cmbRegion.setSelectedIndex(4);
+                    }
+
+                }
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_cmbSalesRepActionPerformed
 
     /**
      * @param args the command line arguments

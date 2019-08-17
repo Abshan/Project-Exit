@@ -1,4 +1,6 @@
 
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +22,9 @@ public class SalesItemsView extends javax.swing.JFrame {
      */
     public SalesItemsView() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         tblViewSalesOrder.getModel().addTableModelListener(new TableModelListener() {
@@ -87,7 +92,7 @@ public class SalesItemsView extends javax.swing.JFrame {
         lblOrderStatus = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("SALES ORDER VIEW"));
 

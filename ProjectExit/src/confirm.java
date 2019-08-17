@@ -5,12 +5,14 @@ import javax.swing.JOptionPane;
 import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,6 +30,9 @@ public class confirm extends javax.swing.JFrame {
      */
     public confirm() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
     }
 
     DatabaseConnection dbConnect = new DatabaseConnection();
@@ -56,7 +61,7 @@ public class confirm extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("CONFIRM ACCOUNT"));
 

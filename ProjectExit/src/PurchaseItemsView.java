@@ -1,6 +1,8 @@
 
 import javax.swing.table.DefaultTableModel;
 import Models.DatabaseConnection;
+import java.net.URL;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,6 +20,9 @@ public class PurchaseItemsView extends javax.swing.JFrame {
      */
     public PurchaseItemsView() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
     }
@@ -51,7 +56,7 @@ public class PurchaseItemsView extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("PURCHASE ORDER VIEW"));
 

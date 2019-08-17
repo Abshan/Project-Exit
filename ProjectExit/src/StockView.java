@@ -1,4 +1,6 @@
 
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -18,6 +20,9 @@ public class StockView extends javax.swing.JFrame {
      */
     public StockView() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -40,7 +45,7 @@ public class StockView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("STOCK VIEW"));
 

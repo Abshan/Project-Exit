@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +41,9 @@ public class AddProduct extends javax.swing.JFrame {
 
     public AddProduct() {
         initComponents();
+        URL iconURL = getClass().getResource("Images/AUXANO ICON 20.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
         ButtonGroup ProductType = new ButtonGroup();
         ProductType.add(rdoCosmetics);
         ProductType.add(rdoDrugs);
@@ -172,7 +176,7 @@ public class AddProduct extends javax.swing.JFrame {
         lblStock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("AUXANO PVT LTD");
+        setTitle(" Auxano PVT LTD.");
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         jPanel15.setPreferredSize(new java.awt.Dimension(1095, 585));
