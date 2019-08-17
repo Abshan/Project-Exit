@@ -1,12 +1,17 @@
 
 import Models.DatabaseConnection;
 import Models.SalesModel;
+import Models.UserModel;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,9 +29,8 @@ public class SalesReviewWindow extends javax.swing.JFrame {
     /**
      * Creates new form SalesReviewWindow
      */
-    
     DatabaseConnection dbConnect = new DatabaseConnection();
-    
+
     public SalesReviewWindow() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -35,7 +39,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         lblErrorRD.setVisible(false);
         dpReqDate.setVisible(false);
     }
-    
+
     public ArrayList<SalesModel> getOrderList() {
 
         ArrayList<SalesModel> orderList = new ArrayList<SalesModel>();
@@ -67,21 +71,30 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         ArrayList<SalesModel> list = getOrderList();
         DefaultTableModel model = (DefaultTableModel) Sales.tblReviewSales.getModel();
         model.setRowCount(0);
+        String login = UserModel.loginName;
 
-        Object[] row = new Object[7];
+        Object[] row = new Object[8];
         for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).getSONo();
             row[1] = list.get(i).getOrderDate();
             row[2] = list.get(i).getReqDate();
             row[3] = list.get(i).getCusName();
             row[4] = list.get(i).getOrderCreator();
-            row[5] = list.get(i).getTotal();
-            row[6] = list.get(i).getStatus();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getTotal();
+            row[7] = list.get(i).getStatus();
 
-            model.addRow(row);
+            if (UserModel.userRole.equals("SALES MANAGER")) {
+                if (list.get(i).getOrderCreator().equals(login)) {
+                    model.addRow(row);
+                }
+            }
+            if (UserModel.userRole.equals("ADMIN")) {
+                model.addRow(row);
+            }
         }
     }
-    
+
     public void ShowSales() {
 
         ArrayList<SalesModel> list = getOrderList();
@@ -124,15 +137,16 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         dpReqDate = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         m1 = new javax.swing.JTextField();
-        d1 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         y1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        d1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         btnCanecl = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("UPDATE SALES ORDER"));
 
@@ -158,10 +172,21 @@ public class SalesReviewWindow extends javax.swing.JFrame {
 
         jLabel8.setText("-");
 
+        m1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                m1KeyTyped(evt);
+            }
+        });
+
+        y1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                y1KeyTyped(evt);
+            }
+        });
+
         jLabel7.setText("-");
 
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("DD-MM-YYYY");
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AWAITING FULFILLMENT", "COMPLETED", "CANCELLED" }));
 
@@ -197,7 +222,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,7 +230,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel8)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(cmbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,9 +257,9 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(y1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
                     .addComponent(jLabel6))
@@ -257,14 +282,14 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(21, 21, 21)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,7 +304,7 @@ public class SalesReviewWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
         pack();
@@ -292,12 +317,30 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         String reqDate = y1.getText() + "-" + m1.getText() + "-" + d1.getText();
         String orderStatus = (String) cmbStatus.getSelectedItem();
         String sonumb = dpReqDate.getText();
+        boolean day = false;
 
-        if (!(reqDate.equals("--")) && (!orderStatus.equals(""))) {
-            
-            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate, index, 2);
-            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
+        Date today = new Date();
+        Date d, current;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formated = sdf.format(today);
 
+        try {
+            current = sdf.parse(formated);
+            d = sdf.parse(reqDate);
+            if (d.compareTo(current) >= 0) {
+                day = true;
+                jLabel6.setText("");
+            } else {
+                jLabel6.setText("Invalid");
+            }
+        } catch (Exception e) {
+            jLabel6.setText("Invalid");
+        }
+
+        if ((day == true) && (!orderStatus.equals(""))) {
+
+//            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(reqDate, index, 2);
+//            ((DefaultTableModel) Sales.tblReviewSales.getModel()).setValueAt(orderStatus, index, 6);
             String query = "UPDATE sales_tab SET orderStatus='" + orderStatus + "',reqDate='" + reqDate + "' WHERE soNumber=" + sonumb + ";";
 
             try {
@@ -305,28 +348,27 @@ public class SalesReviewWindow extends javax.swing.JFrame {
                 Connection con = dbConnect.getConnection();
                 Statement st = con.createStatement();
                 int execute = st.executeUpdate(query);
-                if(orderStatus.equals("CANCELLED")){
-                    String query2 = "select batchNo, quantity from salesItems_tab where soNumber = "+sonumb+"";
+                if (orderStatus.equals("CANCELLED")) {
+                    String query2 = "select batchNo, quantity from salesItems_tab where soNumber = " + sonumb + "";
                     ResultSet rs = st.executeQuery(query2);
-                                   
-                    while(rs.next()){
+
+                    while (rs.next()) {
                         String bchNo = rs.getString("batchNo");
                         int quan = rs.getInt("quantity");
-                        String query3 = "UPDATE stocks_tab SET quantity = quantity + "+quan+" WHERE batchNo = '"+bchNo+"';";
+                        String query3 = "UPDATE stocks_tab SET quantity = quantity + " + quan + " WHERE batchNo = '" + bchNo + "';";
                         int execute2 = st.executeUpdate(query3);
                     }
                     rs.close();
                 }
-                con.close();
-                st.close();
-                
-
                 ShowReviewSales();
                 ShowSales();
-                this.dispose();
-               
+                con.close();
+                st.close();
+                dispose();
+
             } catch (HeadlessException | SQLException e) {
             }
+
         } else {
             JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
         }
@@ -344,6 +386,22 @@ public class SalesReviewWindow extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_btnCaneclActionPerformed
+
+    private void y1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_y1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (y1.getText().length() >= 3 && c != KeyEvent.VK_BACK_SPACE) {
+            m1.requestFocus();
+        }
+    }//GEN-LAST:event_y1KeyTyped
+
+    private void m1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (m1.getText().length() >= 1 && c != KeyEvent.VK_BACK_SPACE) {
+            d1.requestFocus();
+        }
+    }//GEN-LAST:event_m1KeyTyped
 
     /**
      * @param args the command line arguments

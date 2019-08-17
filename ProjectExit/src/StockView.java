@@ -40,6 +40,7 @@ public class StockView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("STOCK VIEW"));
 

@@ -41,6 +41,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="AUXANO PVT LTD"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -1059,18 +1060,24 @@
                             <Component class="javax.swing.JTable" name="tblReviewSales">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="7" rowCount="0">
+                                  <Table columnCount="8" rowCount="0">
                                     <Column editable="false" title="S.O. NUMBER" type="java.lang.Object"/>
                                     <Column editable="false" title="ORDER DATE" type="java.lang.Object"/>
                                     <Column editable="false" title="REQUIRED DATE" type="java.lang.Object"/>
                                     <Column editable="false" title="CUSTOMER" type="java.lang.Object"/>
-                                    <Column editable="false" title="SALES MANAGER" type="java.lang.Object"/>
+                                    <Column editable="false" title="SALES MAN" type="java.lang.Object"/>
+                                    <Column editable="false" title="SALES REP" type="java.lang.Object"/>
                                     <Column editable="false" title="TOTAL" type="java.lang.Object"/>
                                     <Column editable="false" title="STATUS" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                   <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor/>

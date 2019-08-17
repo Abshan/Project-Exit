@@ -96,17 +96,23 @@ public class Sales extends javax.swing.JFrame {
         model.setRowCount(0);
         String login = UserModel.loginName;
 
-        Object[] row = new Object[7];
+        Object[] row = new Object[8];
         for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).getSONo();
             row[1] = list.get(i).getOrderDate();
             row[2] = list.get(i).getReqDate();
             row[3] = list.get(i).getCusName();
             row[4] = list.get(i).getOrderCreator();
-            row[5] = list.get(i).getTotal();
-            row[6] = list.get(i).getStatus();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getTotal();
+            row[7] = list.get(i).getStatus();
 
             if (UserModel.userRole.equals("SALES MANAGER")) {
+                if (list.get(i).getOrderCreator().equals(login)) {
+                    model.addRow(row);
+                }
+            }
+            if (UserModel.userRole.equals("ADMIN")) {
                 model.addRow(row);
             }
 
@@ -424,6 +430,7 @@ public class Sales extends javax.swing.JFrame {
         jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
@@ -885,11 +892,11 @@ public class Sales extends javax.swing.JFrame {
 
             },
             new String [] {
-                "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MANAGER", "TOTAL", "STATUS"
+                "S.O. NUMBER", "ORDER DATE", "REQUIRED DATE", "CUSTOMER", "SALES MAN", "SALES REP", "TOTAL", "STATUS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1446,7 +1453,7 @@ public class Sales extends javax.swing.JFrame {
         String region = (String) cmbRegion.getSelectedItem();
         String orderStatus = (String) cmbOrderStatus.getSelectedItem();
         String orderCreatedBy = txtUser.getText();
-        Date reqDate = dpReqDate.getDate();
+        Date reqDate;
 
         Date soDate = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -1458,6 +1465,7 @@ public class Sales extends javax.swing.JFrame {
 
         Date requiredDate, ordDate;
         try {
+            reqDate = dpReqDate.getDate();
             rd = sdf.format(reqDate);
             requiredDate = sdf.parse(rd);
             ordDate = sdf.parse(orderDate);
@@ -1554,10 +1562,9 @@ public class Sales extends javax.swing.JFrame {
                             int execute3 = st.executeUpdate(Query3);
 
                         }
-                        
+
                         int execute5 = st.executeUpdate(messageQuery);
                         int execute6 = st.executeUpdate(messageQuery2);
-                        
 
                         JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
                         ShowSales();
@@ -1659,8 +1666,9 @@ public class Sales extends javax.swing.JFrame {
             viewItems.lblRequiredDate.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 2).toString());
             viewItems.lblCustomerName.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 3).toString());
             viewItems.lblSalesManager.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 4).toString());
-            viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 5).toString());
-            viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString());
+            viewItems.lblSalesRep.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 5).toString());
+            viewItems.lblSum.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 6).toString());
+            viewItems.lblOrderStatus.setText(model.getValueAt(tblReviewSales.getSelectedRow(), 7).toString());
 
             String SONum = model.getValueAt(Sales.tblReviewSales.getSelectedRow(), 0).toString();
 
@@ -1675,7 +1683,7 @@ public class Sales extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery(query);
                 ResultSet rs2 = st2.executeQuery(query2);
                 if (rs2.next()) {
-                    viewItems.lblSalesRep.setText(rs2.getString("salesRep"));
+
                     viewItems.lblRegion.setText(rs2.getString("region"));
                     viewItems.lblCustomerPhone.setText(rs2.getString("customerPhone"));
                 }
@@ -1774,7 +1782,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteSalesActionPerformed
 
     private void dpFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFromActionPerformed
-
+        dpTo.setDate(null);
         if (dpFrom.getDate() == null) {
 
         } else {
@@ -1801,29 +1809,27 @@ public class Sales extends javax.swing.JFrame {
                     DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
                     model.setRowCount(0);
 
-                    Object[] row = new Object[7];
+                    Object[] row = new Object[8];
                     for (int i = 0; i < list.size(); i++) {
                         row[0] = list.get(i).getSONo();
                         row[1] = list.get(i).getOrderDate();
                         row[2] = list.get(i).getReqDate();
                         row[3] = list.get(i).getCusName();
                         row[4] = list.get(i).getOrderCreator();
-                        row[5] = list.get(i).getTotal();
-                        row[6] = list.get(i).getStatus();
+                        row[5] = list.get(i).getRepName();
+                        row[6] = list.get(i).getTotal();
+                        row[7] = list.get(i).getStatus();
 
                         pDate = sdf.parse(list.get(i).getReqDate());
+
+                        if (dpFrom.getDate() == null && dpTo.getDate() == null) {
+                            model.addRow(row);
+                        }
 
                         if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
                             model.addRow(row);
                         }
 
-                        if (from.compareTo(pDate) <= 0 && dpTo.getDate() != null) {
-                            date2 = df.format(dpTo.getDate());
-                            to = sdf.parse(date2);
-                            if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
-                                model.addRow(row);
-                            }
-                        }
                     }
                 }
             } catch (ParseException ex) {
@@ -1861,15 +1867,16 @@ public class Sales extends javax.swing.JFrame {
                     DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
                     model.setRowCount(0);
 
-                    Object[] row = new Object[7];
+                    Object[] row = new Object[8];
                     for (int i = 0; i < list.size(); i++) {
                         row[0] = list.get(i).getSONo();
                         row[1] = list.get(i).getOrderDate();
                         row[2] = list.get(i).getReqDate();
                         row[3] = list.get(i).getCusName();
                         row[4] = list.get(i).getOrderCreator();
-                        row[5] = list.get(i).getTotal();
-                        row[6] = list.get(i).getStatus();
+                        row[5] = list.get(i).getRepName();
+                        row[6] = list.get(i).getTotal();
+                        row[7] = list.get(i).getStatus();
 
                         pDate = sdf.parse(list.get(i).getReqDate().toString());
 
@@ -1902,15 +1909,16 @@ public class Sales extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tblReviewSales.getModel();
             model.setRowCount(0);
 
-            Object[] row = new Object[7];
+            Object[] row = new Object[8];
             for (int i = 0; i < list.size(); i++) {
                 row[0] = list.get(i).getSONo();
                 row[1] = list.get(i).getOrderDate();
                 row[2] = list.get(i).getReqDate();
                 row[3] = list.get(i).getCusName();
                 row[4] = list.get(i).getOrderCreator();
-                row[5] = list.get(i).getTotal();
-                row[6] = list.get(i).getStatus();
+                row[5] = list.get(i).getRepName();
+                row[6] = list.get(i).getTotal();
+                row[7] = list.get(i).getStatus();
 
                 if (list.get(i).getSONo() == Integer.parseInt(num)) {
                     model.addRow(row);
@@ -1945,6 +1953,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void dpFrom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpFrom2ActionPerformed
+        dpTo2.setDate(null);
         Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formated = df.format(today);
@@ -1983,10 +1992,6 @@ public class Sales extends javax.swing.JFrame {
                     pDate = sdf.parse(list.get(i).getReqDate());
 
                     if (dpFrom2.getDate() == null && dpTo2.getDate() == null) {
-                        model.addRow(row);
-                    }
-
-                    if (from.compareTo(pDate) <= 0 && dpTo2.getDate() == null) {
                         model.addRow(row);
                     }
 
@@ -2073,15 +2078,16 @@ public class Sales extends javax.swing.JFrame {
         model.setRowCount(0);
         String rep = cmbSearchSalesRep.getSelectedItem().toString();
 
-        Object[] row = new Object[7];
+        Object[] row = new Object[8];
         for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).getSONo();
             row[1] = list.get(i).getOrderDate();
             row[2] = list.get(i).getReqDate();
             row[3] = list.get(i).getCusName();
             row[4] = list.get(i).getOrderCreator();
-            row[5] = list.get(i).getTotal();
-            row[6] = list.get(i).getStatus();
+            row[5] = list.get(i).getRepName();
+            row[6] = list.get(i).getTotal();
+            row[7] = list.get(i).getStatus();
 
             if (rep.equals("NONE") && UserModel.userRole.equals("SALES MANAGER") && UserModel.loginName.equals(list.get(i).getOrderCreator())) {
                 model.addRow(row);
@@ -2230,7 +2236,7 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearFiltersActionPerformed
 
     private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
-        
+
         tblReviewSales.clearSelection();
     }//GEN-LAST:event_jPanel18MouseClicked
 

@@ -87,6 +87,7 @@ public class SalesItemsView extends javax.swing.JFrame {
         lblOrderStatus = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("SALES ORDER VIEW"));
 

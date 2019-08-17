@@ -51,6 +51,7 @@ public class CreateAdmin extends javax.swing.JFrame {
         txtPasswordlogin = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("CREATE ADMIN"));
 

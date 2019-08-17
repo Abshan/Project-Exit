@@ -55,6 +55,7 @@ public class SalesItemsEdit extends javax.swing.JFrame {
         lblErrItem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("EDIT ITEM"));
 

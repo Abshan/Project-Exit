@@ -172,6 +172,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         lblQuant = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("ADD ITEM"));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

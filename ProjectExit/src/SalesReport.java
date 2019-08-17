@@ -123,6 +123,7 @@ public class SalesReport extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("SALES REPORT"));
 

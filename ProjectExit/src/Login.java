@@ -77,6 +77,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("LOGIN PAGE"));
 

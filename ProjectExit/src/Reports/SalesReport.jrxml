@@ -51,6 +51,9 @@
 	<variable name="multiply" class="java.lang.Double" resetType="Group" resetGroup="salesGrp" incrementType="Column" calculation="Sum">
 		<variableExpression><![CDATA[new Double($F{unitPrice}.doubleValue() * $F{quantity}.doubleValue())]]></variableExpression>
 	</variable>
+	<variable name="TotalToatal" class="java.lang.Double" incrementType="Group" incrementGroup="salesGrp" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
 	<group name="salesGrp">
 		<groupExpression><![CDATA[$F{soNumber}]]></groupExpression>
 		<groupHeader>
@@ -160,7 +163,7 @@
 				<textField>
 					<reportElement x="703" y="20" width="100" height="20" uuid="87bdde0e-be3d-41f1-86db-bf71e326d108"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{total} ]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="1" y="40" width="802" height="20" backcolor="#CCCCCC" uuid="9255f5cc-711b-4303-ab76-ae70fc6f83ba"/>
@@ -257,12 +260,31 @@
 			<textField pattern="">
 				<reportElement x="703" y="0" width="100" height="13" uuid="6d528c37-1ed6-4fdc-954e-99838f02b9e5"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$V{multiply} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{multiply}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="46" splitType="Stretch"/>
+		<band height="46" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="12" width="801" height="1" uuid="a301e52c-52de-42f7-a246-fe25ec65b27f"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="13" width="100" height="20" uuid="7824751d-a44f-4c2e-8978-b29254482d55"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Amount]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="702" y="13" width="100" height="20" uuid="02e4f784-4ff8-4739-8b2b-4fd2b0750c5a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalToatal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="33" width="801" height="1" uuid="c13b86d8-3e9b-4962-a45f-d9c7cdd5b9d8"/>
+			</line>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">

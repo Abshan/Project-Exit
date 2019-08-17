@@ -330,6 +330,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jTextField3.setText("jTextField3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

@@ -5,12 +5,25 @@ import Models.DatabaseConnection;
 import Models.UserModel;
 import java.awt.Color;
 import java.awt.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -156,6 +169,7 @@ public class Stock extends javax.swing.JFrame {
         drpFilter = new javax.swing.JComboBox<>();
         btnSearch1 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
@@ -304,6 +318,7 @@ public class Stock extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
@@ -474,29 +489,36 @@ public class Stock extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("GENERATE STOCK REPORT");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(drpFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtSearchStock, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(50, 50, 50))
         );
         jPanel6Layout.setVerticalGroup(
@@ -513,7 +535,9 @@ public class Stock extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(7, 7, 7))
         );
 
@@ -807,7 +831,7 @@ public class Stock extends javax.swing.JFrame {
         } else {
             int row = tblViewStock.getSelectedRow();
             String id = tblViewStock.getModel().getValueAt(row, column).toString();
-            String query = "select * from stocks_tab where prodID = '" + id + "'";
+            String query = "select * from stocks_tab where prodID = '" + id + "' AND quantity > 0 ORDER BY quantity DESC";
             DefaultTableModel model = (DefaultTableModel) StockView.jTableStockView.getModel();
             model.setRowCount(0);
 
@@ -854,6 +878,26 @@ public class Stock extends javax.swing.JFrame {
         tblViewStock.clearSelection();
     }//GEN-LAST:event_txtSearchStockMouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Connection con = dbConnect.getConnection();
+        try {
+            InputStream in = new FileInputStream(new File("C:\\Users\\User\\Documents\\GitHub\\Project-Exit\\ProjectExit\\src\\Reports\\StockReport.jrxml"));
+            JasperDesign jd = JRXmlLoader.load(in);
+            String sql = "select prodID, prodName, sum(quantity) as total from stocks_tab group by prodName, prodID;";
+            JRDesignQuery newQuery = new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint j = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer jv = new JasperViewer(j, false);
+            jv.viewReport(j, false);
+            con.close();
+        }catch(FileNotFoundException | SQLException | JRException e){
+            JOptionPane.showMessageDialog(null, "No records found!");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -895,6 +939,7 @@ public class Stock extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> drpFilter;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel20;

@@ -241,6 +241,7 @@ public final class Purchase extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUXANO PVT LTD");
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("USER");
@@ -935,7 +936,7 @@ public final class Purchase extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
         Connection con = dbConnect.getConnection();
-        Date dat = pd.getDate();                                                //Getting the date from the date picker
+        Date dat;                                                //Getting the date from the date picker
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
         String date = "";                                                       //Assigning the date format to the selected Date
 
@@ -957,6 +958,7 @@ public final class Purchase extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date1, current;
         try {
+            dat = pd.getDate();
             date = df.format(dat);
             date1 = sdf.parse(date);
             current = sdf.parse(formattedDate);
@@ -1033,7 +1035,7 @@ public final class Purchase extends javax.swing.JFrame {
                                 int execute3 = st.executeUpdate(Query3);
                             }
 
-                            JOptionPane.showMessageDialog(null, "Succefully Created");
+                            JOptionPane.showMessageDialog(null, "Successfully Created");
 
                             pn.setText("");
                             vn.setText("");
@@ -1239,17 +1241,18 @@ public final class Purchase extends javax.swing.JFrame {
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
 
+        jXDatePicker2.setDate(null);
         Date today = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formated = df.format(today);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date pd1 = jXDatePicker1.getDate();
+        Date pd1;
 
         String date1 = "";
         String date2 = "";
         Date current, from, pDate, to;
         try {
-
+            pd1 = jXDatePicker1.getDate();
             date1 = df.format(pd1);
             from = sdf.parse(date1);
             current = sdf.parse(formated);
@@ -1270,16 +1273,8 @@ public final class Purchase extends javax.swing.JFrame {
 
                     pDate = sdf.parse(list.get(i).getPurchaseDate().toString());
 
-                    if (from.compareTo(pDate) <= 0 && jXDatePicker2.getDate() == null) {
+                    if (from.compareTo(pDate) <= 0) {
                         model.addRow(row);
-                    }
-
-                    if (from.compareTo(pDate) <= 0 && jXDatePicker2.getDate() != null) {
-                        date2 = df.format(jXDatePicker2.getDate());
-                        to = sdf.parse(date2);
-                        if (from.compareTo(to) <= 0 && to.compareTo(from) > 0 && to.compareTo(pDate) > 0) {
-                            model.addRow(row);
-                        }
                     }
 
                 }
@@ -1297,14 +1292,14 @@ public final class Purchase extends javax.swing.JFrame {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formated = df.format(today);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date pd2 = jXDatePicker2.getDate();
+        Date pd2;
 
         String date2 = "";
         String date1 = "";
 
         Date current, from, pDate, to;
         try {
-
+            pd2 = jXDatePicker2.getDate();
             date2 = df.format(pd2);
             to = sdf.parse(date2);
             current = sdf.parse(formated);
@@ -1330,7 +1325,7 @@ public final class Purchase extends javax.swing.JFrame {
                     }
 
                     if (to.compareTo(pDate) >= 0 && jXDatePicker1.getDate() != null) {
-                        date1 = df.format(jXDatePicker1.getDate());
+                        date1 = sdf.format(jXDatePicker1.getDate());
                         from = sdf.parse(date1);
                         if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
                             model.addRow(row);
@@ -1376,11 +1371,11 @@ public final class Purchase extends javax.swing.JFrame {
         String val = model.getValueAt(jTable1.getSelectedRow(), 0).toString();
         String product = "";
         String filter = "";
-        
-        if(val.contains("stock is running low, please reorder now.")){
+
+        if (val.contains("stock is running low, please reorder now.")) {
             filter = val.replace("<html>", "");
             product = filter.replace(" stock is running low, please reorder now.<br><br>", "");
-        }else{
+        } else {
             filter = val.replace("<html><font color=red>", "");
             product = filter.replace(" is out of stock, please reorder now.</font><br><br>", "");
         }
