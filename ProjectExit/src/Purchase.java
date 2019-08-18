@@ -680,6 +680,12 @@ public final class Purchase extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel22MouseClicked(evt);
+            }
+        });
+
         jTable8.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -939,130 +945,133 @@ public final class Purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        Connection con = dbConnect.getConnection();
-        Date dat;                                                //Getting the date from the date picker
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
-        String date = "";                                                       //Assigning the date format to the selected Date
-
-        double Sum = getSum();
-        int pno, p = 0;
-
-        int rows = jTable9.getRowCount();
-        String pid = pn.getText();
-        String ven = vn.getText();
-        String v = "";
-        boolean dval = false;
-        boolean pval = false;
-        boolean vVal = false;
-
-        Date d = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(d);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1, current;
-        try {
-            dat = pd.getDate();
-            date = df.format(dat);
-            date1 = sdf.parse(date);
-            current = sdf.parse(formattedDate);
-            if ((date1.after(current)) && (date1.before(current))) {
-
-                purerror.setText("*invalid");
-            } else {
-                purerror.setText("");
-                dval = true;
-            }
-
-        } catch (ParseException ex) {
-            purerror.setText("*invalid");
-        }
-
-        try {
-            pno = Integer.parseInt(pid);
-            if (pno > 9999 && pno < 1000000) {
-                p = pno;
-                pval = true;
-            }
-
-        } catch (NumberFormatException e) {
-            purerror.setText("*invalid");
-        }
-
-        if (vn.getText().equals("")) {
-            venerror.setText("*invalid");
-        } else if (!(vn.getText().matches("[a-zA-Z ]*"))) {
-            venerror.setText("*invalid");
+        if (pd.getDate() == null || pn.getText().equals("") || vn.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Form is incomplete");
         } else {
-            venerror.setText("");
-            vVal = true;
-        }
+            Connection con = dbConnect.getConnection();
+            Date dat;                                                //Getting the date from the date picker
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");                     //Date Format setter
+            String date = "";                                                       //Assigning the date format to the selected Date
 
-        if (pn.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "P.O Number field is empty");
-        }
+            double Sum = getSum();
+            int pno, p = 0;
 
-        if (!(pn.getText().equals("")) && !(vn.getText().equals("")) && !(pd.getDate() == null)) {
+            int rows = jTable9.getRowCount();
+            String pid = pn.getText();
+            String ven = vn.getText();
+            String v = "";
+            boolean dval = false;
+            boolean pval = false;
+            boolean vVal = false;
 
-            if (getValidation(p)) {
-                JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
-            } else {
+            Date d = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(d);
 
-                if (pval == true && dval == true && vVal == true) {
-                    try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1, current;
+            try {
+                dat = pd.getDate();
+                date = df.format(dat);
+                date1 = sdf.parse(date);
+                current = sdf.parse(formattedDate);
+                if ((date1.after(current)) && (date1.before(current))) {
 
-                        if (jTable9.getRowCount() != 0) {
-
-                            Statement st;
-                            Statement st1;
-                            st = con.createStatement();
-                            st1 = con.createStatement();
-
-                            String Query = "INSERT INTO purchase_tab(vendorName, purchaseDate, amount)VALUES('" + ven + "','" + date + "'," + Sum + ")";
-                            int execute = st.executeUpdate(Query);
-
-                            for (int row = 0; row < rows; row++) {
-
-                                String batchNO = jTable9.getValueAt(row, 0).toString();
-                                int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
-                                String itemName = jTable9.getValueAt(row, 2).toString();
-                                String manfDate = jTable9.getValueAt(row, 3).toString();
-                                String expDate = jTable9.getValueAt(row, 4).toString();
-                                int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
-                                double unitp = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
-                                double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
-
-                                String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
-                                String Query3 = "INSERT INTO stocks_tab (batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES('" + batchNO + "', " + pId + ", '" + itemName + "', '" + manfDate + "','" + expDate + "'," + quantity + ")";// ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
-
-                                int execute2 = st1.executeUpdate(Query2);
-                                int execute3 = st.executeUpdate(Query3);
-                            }
-
-                            JOptionPane.showMessageDialog(null, "Successfully Created");
-
-                            pn.setText("");
-                            vn.setText("");
-                            pd.setDate(null);
-                            DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
-                            model.setRowCount(0);
-                            ShowPurchases();
-                            st.close();
-                            st1.close();
-                            con.close();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No Items Added");
-                        }
-                    } catch (HeadlessException | NumberFormatException | SQLException e) {
-                        JOptionPane.showMessageDialog(null, e);
-                    }
+                    purerror.setText("*invalid");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Enter correct values");
+                    purerror.setText("");
+                    dval = true;
                 }
+
+            } catch (ParseException ex) {
+                purerror.setText("*invalid");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Fill in the blanks");
+
+            try {
+                pno = Integer.parseInt(pid);
+                if (pno > 9999 && pno < 1000000) {
+                    p = pno;
+                    pval = true;
+                }
+
+            } catch (NumberFormatException e) {
+                purerror.setText("*invalid");
+            }
+
+            if (vn.getText().equals("")) {
+                venerror.setText("*invalid");
+            } else if (!(vn.getText().matches("[a-zA-Z ]*"))) {
+                venerror.setText("*invalid");
+            } else {
+                venerror.setText("");
+                vVal = true;
+            }
+
+            if (pn.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "P.O Number field is empty");
+            }
+
+            if (!(pn.getText().equals("")) && !(vn.getText().equals("")) && !(pd.getDate() == null)) {
+
+                if (getValidation(p)) {
+                    JOptionPane.showMessageDialog(null, "Purchase Order Number Already Exists!");
+                } else {
+
+                    if (pval == true && dval == true && vVal == true) {
+                        try {
+
+                            if (jTable9.getRowCount() != 0) {
+
+                                Statement st;
+                                Statement st1;
+                                st = con.createStatement();
+                                st1 = con.createStatement();
+
+                                String Query = "INSERT INTO purchase_tab(vendorName, purchaseDate, amount)VALUES('" + ven + "','" + date + "'," + Sum + ")";
+                                int execute = st.executeUpdate(Query);
+
+                                for (int row = 0; row < rows; row++) {
+
+                                    String batchNO = jTable9.getValueAt(row, 0).toString();
+                                    int pId = Integer.parseInt(jTable9.getValueAt(row, 1).toString());
+                                    String itemName = jTable9.getValueAt(row, 2).toString();
+                                    String manfDate = jTable9.getValueAt(row, 3).toString();
+                                    String expDate = jTable9.getValueAt(row, 4).toString();
+                                    int quantity = Integer.parseInt(jTable9.getValueAt(row, 5).toString());
+                                    double unitp = Double.parseDouble(jTable9.getValueAt(row, 6).toString());
+                                    double price = Double.parseDouble(jTable9.getValueAt(row, 7).toString());
+
+                                    String Query2 = "INSERT INTO purchaseItems_tab(purNo, batchNo, prodID, prodName, manfDate, expDate, quantity, unitPrice, price) VALUES(" + p + ",'" + batchNO + "'," + pId + ",'" + itemName + "','" + manfDate + "','" + expDate + "'," + quantity + "," + unitp + "," + price + ")";
+                                    String Query3 = "INSERT INTO stocks_tab (batchNo, prodID, prodName, manfDate, expDate, quantity) VALUES('" + batchNO + "', " + pId + ", '" + itemName + "', '" + manfDate + "','" + expDate + "'," + quantity + ")";// ON DUPLICATE KEY UPDATE  quantity = quantity + " + quantity + " ";
+
+                                    int execute2 = st1.executeUpdate(Query2);
+                                    int execute3 = st.executeUpdate(Query3);
+                                }
+
+                                JOptionPane.showMessageDialog(null, "Successfully Created");
+
+                                pn.setText("");
+                                vn.setText("");
+                                pd.setDate(null);
+                                DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
+                                model.setRowCount(0);
+                                ShowPurchases();
+                                st.close();
+                                st1.close();
+                                con.close();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No Items Added");
+                            }
+                        } catch (HeadlessException | NumberFormatException | SQLException e) {
+                            JOptionPane.showMessageDialog(null, e);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Enter correct values");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Fill in the blanks");
+            }
         }
 
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -1278,7 +1287,7 @@ public final class Purchase extends javax.swing.JFrame {
 
                     pDate = sdf.parse(list.get(i).getPurchaseDate().toString());
 
-                    if (from.compareTo(pDate) <= 0) {
+                    if (pDate.compareTo(from) >= 0) {
                         model.addRow(row);
                     }
 
@@ -1325,15 +1334,17 @@ public final class Purchase extends javax.swing.JFrame {
 
                     pDate = sdf.parse(list.get(i).getPurchaseDate().toString());
 
-                    if (to.compareTo(pDate) >= 0 && jXDatePicker1.getDate() == null) {
+                    if (pDate.compareTo(to) <= 0 && jXDatePicker1.getDate() == null) {
                         model.addRow(row);
                     }
 
-                    if (to.compareTo(pDate) >= 0 && jXDatePicker1.getDate() != null) {
+                    if (pDate.compareTo(to) <= 0 && jXDatePicker1.getDate() != null) {
                         date1 = sdf.format(jXDatePicker1.getDate());
                         from = sdf.parse(date1);
-                        if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                        if (to.compareTo(from) >= 0 && pDate.compareTo(from) >= 0 && from.before(current)) {
                             model.addRow(row);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Select proper dates!");
                         }
                     }
 
@@ -1403,6 +1414,11 @@ public final class Purchase extends javax.swing.JFrame {
             jLabel2.setText(jTable1.getRowCount() + " Messages Available");
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jPanel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel22MouseClicked
+        // TODO add your handling code here:
+        jTable8.clearSelection();
+    }//GEN-LAST:event_jPanel22MouseClicked
 
     /**
      * @param args the command line arguments

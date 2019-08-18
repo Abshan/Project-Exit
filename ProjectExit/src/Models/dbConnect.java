@@ -14,17 +14,15 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class DatabaseConnection {
-    
+public class dbConnect {
     public Connection getConnection() {
         String username = "root";
         String password = "root";
 
-//        String jdbcUrl = "jdbc:mysql://34.93.16.197:3306/projectexit_db";
-        String jdbcUrl = "jdbc:mysql://localhost:3306/projectexit_db";
+        String jdbcUrl = "jdbc:mysql://34.93.16.197:3306/projectexit_db";
+
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(jdbcUrl, username, password);
             return con;
 
@@ -34,5 +32,4 @@ public class DatabaseConnection {
             return null;
         }
     }
-    
 }

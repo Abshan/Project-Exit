@@ -1448,159 +1448,162 @@ public class Sales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-
-        Connection con = dbConnect.getConnection();
-
-        int soNum;
-        int cusPho;
-        boolean soNo = false;
-        boolean cusPno = false;
-        boolean reqDat = false;
-
-        String soNumber = txtSONumber.getText();
-        String customerName = txtCustomerName.getText();
-        String customerPhone = txtCustomerPhone.getText();
-        String salesRep = (String) cmbSalesRep.getSelectedItem();
-        String region = (String) cmbRegion.getSelectedItem();
-        String orderStatus = (String) cmbOrderStatus.getSelectedItem();
-        String orderCreatedBy = txtUser.getText();
-        Date reqDate;
-
-        Date soDate = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String orderDate = df.format(soDate);
-        String rd = "";
-        String r = "";
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date requiredDate, ordDate;
-        try {
-            reqDate = dpReqDate.getDate();
-            rd = sdf.format(reqDate);
-            requiredDate = sdf.parse(rd);
-            ordDate = sdf.parse(orderDate);
-
-            if (requiredDate.before(ordDate)) {
-                lblErrorRD.setText("*invalid");
-            } else {
-                r = rd;
-                lblErrorRD.setText("");
-                reqDat = true;
-            }
-
-        } catch (ParseException e) {
-            lblErrorRD.setText("*invalid");
-        }
-
-        try {
-            soNum = Integer.parseInt(soNumber);
-            if ((soNum > 9999) && (soNum < 1000000)) {
-                soNo = true;
-            }
-        } catch (NumberFormatException e) {
-        }
-        try {
-            cusPho = Integer.parseInt(soNumber);
-            if (customerPhone.length() == 10) {
-                cusPno = true;
-                lblErrorCP.setText("");
-            } else {
-                lblErrorCP.setText("*invalid");
-            }
-        } catch (NumberFormatException e) {
-            lblErrorCP.setText("*invalid");
-        }
-
-        if (cmbSalesRep.getSelectedIndex() == -1) {
-            lblErrorSR.setText("*invalid");
+        if (txtSONumber.getText().equals("") || txtCustomerName.getText().equals("") || txtCustomerPhone.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Form is incomplete");
         } else {
-            lblErrorSR.setText("");
-        }
+            Connection con = dbConnect.getConnection();
 
-        if (cmbRegion.getSelectedIndex() == -1) {
-            lblErrorR.setText("*invalid");
-        } else {
-            lblErrorR.setText("");
-        }
+            int soNum;
+            int cusPho;
+            boolean soNo = false;
+            boolean cusPno = false;
+            boolean reqDat = false;
 
-        if (cmbOrderStatus.getSelectedIndex() == -1) {
-            lblErrorOS.setText("*invalid");
-        } else {
-            lblErrorOS.setText("");
-        }
+            String soNumber = txtSONumber.getText();
+            String customerName = txtCustomerName.getText();
+            String customerPhone = txtCustomerPhone.getText();
+            String salesRep = (String) cmbSalesRep.getSelectedItem();
+            String region = (String) cmbRegion.getSelectedItem();
+            String orderStatus = (String) cmbOrderStatus.getSelectedItem();
+            String orderCreatedBy = txtUser.getText();
+            Date reqDate;
 
-        if (txtCustomerName.getText().equals("")) {
-            lblErrorCN.setText("*invalid");
-        } else {
-            lblErrorCN.setText("");
-        }
+            Date soDate = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String orderDate = df.format(soDate);
+            String rd = "";
+            String r = "";
 
-        String total = lblTotalAmt.getText();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        if (!(txtSONumber.getText().equals("")) && !(txtCustomerName.getText().equals("")) && !(txtCustomerPhone.getText().equals("")) && !(cmbSalesRep.getSelectedIndex() == -1)
-                && !(cmbRegion.getSelectedIndex() == -1) && !(cmbOrderStatus.getSelectedIndex() == -1) && !(dpReqDate.getDate() == null)) {
+            Date requiredDate, ordDate;
+            try {
+                reqDate = dpReqDate.getDate();
+                rd = sdf.format(reqDate);
+                requiredDate = sdf.parse(rd);
+                ordDate = sdf.parse(orderDate);
 
-            int rows = tblCreateSO.getRowCount();
-
-            if ((getValidation(Integer.parseInt(soNumber)))) {
-
-                JOptionPane.showMessageDialog(null, "SO Number Already Exists!");
-
-            } else if ((soNo == true) && (cusPno == true) && (reqDat == true)) {
-
-                try {
-
-                    if (tblCreateSO.getRowCount() != 0) {
-                        Statement st = con.createStatement();
-                        String query = "INSERT INTO sales_tab(orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
-                        String messageQuery = "CALL generate_messages();";
-                        String messageQuery2 = "CALL generate_emptyStockMessages();";
-                        int execute = st.executeUpdate(query);
-
-                        for (int row = 0; row < rows; row++) {
-
-                            String itemCode = tblCreateSO.getValueAt(row, 0).toString();
-                            String itemName = tblCreateSO.getValueAt(row, 1).toString();
-                            String batchNum = tblCreateSO.getValueAt(row, 2).toString();
-                            int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
-                            double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
-                            double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
-
-                            String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
-                            String Query3 = "UPDATE stocks_tab SET quantity = quantity - " + qty + " where batchNo = '" + batchNum + "'; ";
-                            int execute2 = st.executeUpdate(Query2);
-                            int execute3 = st.executeUpdate(Query3);
-
-                        }
-
-                        int execute5 = st.executeUpdate(messageQuery);
-                        int execute6 = st.executeUpdate(messageQuery2);
-
-                        JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
-                        ShowSales();
-                        ShowReviewSales();
-                        txtSONumber.setText("");
-                        txtCustomerName.setText("");
-                        txtCustomerPhone.setText("");
-                        cmbOrderStatus.setSelectedIndex(-1);
-                        cmbRegion.setSelectedIndex(-1);
-                        cmbSalesRep.setSelectedIndex(-1);
-                        dpReqDate.setDate(null);
-                        DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
-                        model.setRowCount(0);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No Items Added");
-                    }
-                } catch (HeadlessException | NumberFormatException | SQLException e) {
-                    JOptionPane.showMessageDialog(null, e);
+                if (requiredDate.before(ordDate)) {
+                    JOptionPane.showMessageDialog(null, "Select a proper date!");
+                } else {
+                    r = rd;
+                    lblErrorRD.setText("");
+                    reqDat = true;
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
+
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
             }
 
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
+            try {
+                soNum = Integer.parseInt(soNumber);
+                if ((soNum > 9999) && (soNum < 1000000)) {
+                    soNo = true;
+                }
+            } catch (NumberFormatException e) {
+            }
+            try {
+                cusPho = Integer.parseInt(soNumber);
+                if (customerPhone.length() == 10) {
+                    cusPno = true;
+                    lblErrorCP.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Phone number entered is not valid!");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Select a proper date!");
+            }
+
+            if (cmbSalesRep.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Sales rep is not selected!");
+            } else {
+                lblErrorSR.setText("");
+            }
+
+            if (cmbRegion.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Region is not selected");
+            } else {
+                lblErrorR.setText("");
+            }
+
+            if (cmbOrderStatus.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Status is not selected");
+            } else {
+                lblErrorOS.setText("");
+            }
+
+            if (txtCustomerName.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Customer name field is empty");
+            } else {
+                lblErrorCN.setText("");
+            }
+
+            String total = lblTotalAmt.getText();
+
+            if (!(txtSONumber.getText().equals("")) && !(txtCustomerName.getText().equals("")) && !(txtCustomerPhone.getText().equals("")) && !(cmbSalesRep.getSelectedIndex() == -1)
+                    && !(cmbRegion.getSelectedIndex() == -1) && !(cmbOrderStatus.getSelectedIndex() == -1) && !(dpReqDate.getDate() == null)) {
+
+                int rows = tblCreateSO.getRowCount();
+
+                if ((getValidation(Integer.parseInt(soNumber)))) {
+
+                    JOptionPane.showMessageDialog(null, "SO Number Already Exists!");
+
+                } else if ((soNo == true) && (cusPno == true) && (reqDat == true)) {
+
+                    try {
+
+                        if (tblCreateSO.getRowCount() != 0) {
+                            Statement st = con.createStatement();
+                            String query = "INSERT INTO sales_tab(orderedDate,customerName,customerPhone,reqDate,salesRep,region,orderCreatedBy,orderStatus,total) VALUES('" + orderDate + "','" + customerName + "','" + customerPhone + "','" + r + "','" + salesRep + "','" + region + "','" + orderCreatedBy + "','" + orderStatus + "','" + total + "')";
+                            String messageQuery = "CALL generate_messages();";
+                            String messageQuery2 = "CALL generate_emptyStockMessages();";
+                            int execute = st.executeUpdate(query);
+
+                            for (int row = 0; row < rows; row++) {
+
+                                String itemCode = tblCreateSO.getValueAt(row, 0).toString();
+                                String itemName = tblCreateSO.getValueAt(row, 1).toString();
+                                String batchNum = tblCreateSO.getValueAt(row, 2).toString();
+                                int qty = Integer.parseInt(tblCreateSO.getValueAt(row, 3).toString());
+                                double rate = Double.parseDouble(tblCreateSO.getValueAt(row, 4).toString());
+                                double subt = Double.parseDouble(tblCreateSO.getValueAt(row, 5).toString());
+
+                                String Query2 = "INSERT INTO salesItems_tab(soNumber, prodID, prodName, batchNo, unitPrice, quantity) VALUES('" + soNumber + "','" + itemCode + "','" + itemName + "','" + batchNum + "','" + rate + "','" + qty + "')";
+                                String Query3 = "UPDATE stocks_tab SET quantity = quantity - " + qty + " where batchNo = '" + batchNum + "'; ";
+                                int execute2 = st.executeUpdate(Query2);
+                                int execute3 = st.executeUpdate(Query3);
+
+                            }
+
+                            int execute5 = st.executeUpdate(messageQuery);
+                            int execute6 = st.executeUpdate(messageQuery2);
+
+                            JOptionPane.showMessageDialog(rootPane, "Sales order recorded!");
+                            ShowSales();
+                            ShowReviewSales();
+                            txtSONumber.setText("");
+                            txtCustomerName.setText("");
+                            txtCustomerPhone.setText("");
+                            cmbOrderStatus.setSelectedIndex(-1);
+                            cmbRegion.setSelectedIndex(-1);
+                            cmbSalesRep.setSelectedIndex(-1);
+                            dpReqDate.setDate(null);
+                            DefaultTableModel model = (DefaultTableModel) tblCreateSO.getModel();
+                            model.setRowCount(0);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No Items Added");
+                        }
+                    } catch (HeadlessException | NumberFormatException | SQLException e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Enter Correct Values!");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Fill in the blanks");
+            }
         }
 
 
@@ -1833,14 +1836,21 @@ public class Sales extends javax.swing.JFrame {
 
                         pDate = sdf.parse(list.get(i).getReqDate());
 
-                        if (dpFrom.getDate() == null && dpTo.getDate() == null) {
-                            model.addRow(row);
+                        if (UserModel.userRole.equals("ADMIN")) {
+
+                            if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
+                                model.addRow(row);
+                            }
                         }
 
-                        if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
-                            model.addRow(row);
-                        }
+                        if (UserModel.userRole.equals("SALES MANAGER")) {
 
+                            if (list.get(i).getOrderCreator().equals(UserModel.loginName)) {
+                                if (from.compareTo(pDate) <= 0 && dpTo.getDate() == null) {
+                                    model.addRow(row);
+                                }
+                            }
+                        }
                     }
                 }
             } catch (ParseException ex) {
@@ -1852,9 +1862,8 @@ public class Sales extends javax.swing.JFrame {
 
     private void dpToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dpToActionPerformed
         // TODO add your handling code here:
-        if (dpTo.getDate() == null) {
+        if (dpTo.getDate() != null) {
 
-        } else {
             Date today = new Date();
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formated = df.format(today);
@@ -1891,15 +1900,36 @@ public class Sales extends javax.swing.JFrame {
 
                         pDate = sdf.parse(list.get(i).getReqDate().toString());
 
-                        if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
-                            model.addRow(row);
+                        if (UserModel.userRole.equals("ADMIN")) {
+
+                            if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
+                                model.addRow(row);
+                            }
+
+                            if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
+                                date1 = df.format(dpFrom.getDate());
+                                from = sdf.parse(date1);
+                                if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                                    model.addRow(row);
+                                }
+                            }
                         }
 
-                        if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
-                            date1 = df.format(dpFrom.getDate());
-                            from = sdf.parse(date1);
-                            if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
-                                model.addRow(row);
+                        if (UserModel.userRole.equals("SALES MANAGER")) {
+
+                            if (list.get(i).getOrderCreator().equals(UserModel.loginName)) {
+
+                                if (to.compareTo(pDate) >= 0 && dpFrom.getDate() == null) {
+                                    model.addRow(row);
+                                }
+
+                                if (to.compareTo(pDate) >= 0 && dpFrom.getDate() != null) {
+                                    date1 = df.format(dpFrom.getDate());
+                                    from = sdf.parse(date1);
+                                    if (to.compareTo(from) >= 0 && from.compareTo(pDate) <= 0) {
+                                        model.addRow(row);
+                                    }
+                                }
                             }
                         }
                     }

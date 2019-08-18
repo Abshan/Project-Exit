@@ -85,7 +85,7 @@ public class SalesItemsAdd extends javax.swing.JFrame {
         try {
             Connection con = dbConnect.getConnection();
 
-            String query = "select batchNo from stocks_tab where prodName =? and quantity > 0;";
+            String query = "select batchNo from stocks_tab where prodName =? and quantity > 0 ORDER BY quantity DESC;";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, item);
             ResultSet rs = pst.executeQuery();

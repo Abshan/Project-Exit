@@ -422,6 +422,11 @@ public class AddProduct extends javax.swing.JFrame {
         );
 
         jPanel18.setPreferredSize(new java.awt.Dimension(1045, 475));
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
 
         jLabel10.setText("PRODUCT ID:");
 
@@ -1222,6 +1227,18 @@ public class AddProduct extends javax.swing.JFrame {
             txtMRP.requestFocus();
         }
     }//GEN-LAST:event_txtSizeKeyPressed
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        // TODO add your handling code here:
+        tblManageProduct.clearSelection();
+        txtProductID1.setText("");
+        txtBrandName1.setText("");
+        txtProductName1.setText("");
+        txtMRP1.setText("");
+        txtWholesalePrice1.setText("");
+        txtSize1.setText("");
+        txtSearch.setText("");
+    }//GEN-LAST:event_jPanel18MouseClicked
 
     /**
      * @param args the command line arguments

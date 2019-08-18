@@ -619,6 +619,12 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
+
         jLabel10.setText("USER ID:");
 
         txtUserIDMan.setEditable(false);
@@ -695,7 +701,7 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLER" }));
+        cmbRoleMan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALES MANAGER", "STOCK CONTROLLER" }));
 
         jLabel12.setText("ROLE:");
 
@@ -757,14 +763,14 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnClear)
-                        .addGap(47, 47, 47))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addComponent(btnClear)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(47, 47, 47))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -898,6 +904,12 @@ public class CreateAccount extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addContainerGap())
         );
+
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
 
         jTableAvailable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1619,8 +1631,8 @@ public class CreateAccount extends javax.swing.JFrame {
                 }
             }
 
-            if (roleFilter.equalsIgnoreCase("STOCK CONTROLLER")) {
-                if (list.get(i).getRole().equalsIgnoreCase("STOCK CONTROLLER")) {
+            if (roleFilter.equalsIgnoreCase("STOCK CONTROLER")) {
+                if (list.get(i).getRole().equalsIgnoreCase("STOCK CONTROLER")) {
                     model.addRow(row);
                 }
             }
@@ -1754,6 +1766,8 @@ public class CreateAccount extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Select a row to update!");
 
         } else {
+            DefaultTableModel model = (DefaultTableModel) tblReps.getModel();
+            String id = model.getValueAt(tblReps.getSelectedRow(), 0).toString();
 
             if (name.equals("") || phone.equals("") || targetval.equals("")) {
                 JOptionPane.showMessageDialog(null, "Fill in the blank fields!");
@@ -1778,7 +1792,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
                 if (targetbool == true && phonebool == true) {
 
-                    String query = "UPDATE reps_tab  SET repName = '" + name + "', repPhone = '" + phone + "', repRegion = '" + region + "', repTarget = " + Double.parseDouble(targetval) + ";";
+                    String query = "UPDATE reps_tab  SET repName = '" + name + "', repPhone = '" + phone + "', repRegion = '" + region + "', repTarget = " + Double.parseDouble(targetval) + " where repID = '"+id+"';";
                     try {
                         Connection con = dbConnect.getConnection();
                         Statement st = con.createStatement();
@@ -2027,6 +2041,26 @@ public class CreateAccount extends javax.swing.JFrame {
             txtPassword.requestFocus();
         }
     }//GEN-LAST:event_txtConfirmPasswordKeyPressed
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        // TODO add your handling code here
+        tblDetailsTable.clearSelection();
+        txtEmailMan.setText("");
+        txtNICMan.setText("");
+        txtUserIDMan.setText("");
+        txtSearchManage.setText("");
+        txtUserNameMan.setText("");
+        txtPasswordMan.setText("");
+    }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        // TODO add your handling code here:
+        tblReps.clearSelection();
+        txtrepName.setText("");
+        txtrepPhone.setText("");
+        txtrepTarget.setText("");
+        cmbrepRegion.setSelectedIndex(0);
+    }//GEN-LAST:event_jPanel19MouseClicked
 
     /**
      * @param args the command line arguments
