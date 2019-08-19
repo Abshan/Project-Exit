@@ -268,6 +268,7 @@ public class AddProduct extends javax.swing.JFrame {
             }
         });
 
+        rdoDrugs.setSelected(true);
         rdoDrugs.setText("Drugs");
 
         rdoCosmetics.setText("Cosmetics");

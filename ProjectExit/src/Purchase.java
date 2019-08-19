@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -338,6 +337,12 @@ public final class Purchase extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
+
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -416,6 +421,12 @@ public final class Purchase extends javax.swing.JFrame {
                 .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         jLabel15.setText("VENDOR NAME:");
 
@@ -1419,6 +1430,28 @@ public final class Purchase extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTable8.clearSelection();
     }//GEN-LAST:event_jPanel22MouseClicked
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        // TODO add your handling code here:
+        pn.setText("");
+        vn.setText("");
+        pd.setDate(null);
+        if (jPanel1.isVisible()) {
+            jPanel1.setVisible(false);
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closed-envelope.png")));
+        }
+    }//GEN-LAST:event_jPanel6MouseClicked
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        // TODO add your handling code here:
+        pn.setText("");
+        vn.setText("");
+        pd.setDate(null);
+        if (jPanel1.isVisible()) {
+            jPanel1.setVisible(false);
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closed-envelope.png")));
+        }
+    }//GEN-LAST:event_jPanel4MouseClicked
 
     /**
      * @param args the command line arguments
