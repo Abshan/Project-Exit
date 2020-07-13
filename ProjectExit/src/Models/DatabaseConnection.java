@@ -20,10 +20,6 @@ public class DatabaseConnection {
         String username = "root";
         String password = "root";
 
-        /*String username = "admin_auxano";
-        String password = "auxpvt";
-         */
-
         String jdbcUrl = "jdbc:mysql://localhost:3306/projectexit_db";
         try {
 
