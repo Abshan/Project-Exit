@@ -23,10 +23,10 @@ public class DatabaseConnection {
         /*String username = "admin_auxano";
         String password = "auxpvt";
          */
-//        String jdbcUrl = "jdbc:mysql://34.93.16.197:3306/auxano_db";
+
         String jdbcUrl = "jdbc:mysql://localhost:3306/projectexit_db";
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(jdbcUrl, username, password);
             return con;
